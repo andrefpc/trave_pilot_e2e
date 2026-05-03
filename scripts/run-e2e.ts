@@ -108,12 +108,15 @@ function flowsPath(section: string | null): string {
   return dir;
 }
 
-function runMaestro(target: Target, flowsDir: string): { ok: boolean; junitPath: string } {
+type RunOutcome = 'pass' | 'fail' | 'no-flows';
+
+function runMaestro(target: Target, flowsDir: string): { outcome: RunOutcome; junitPath: string } {
   const reportDir = path.join(ROOT, 'results', target.platform);
   fs.mkdirSync(reportDir, { recursive: true });
   const junitPath = path.join(reportDir, 'report.xml');
   const debugDir = path.join(reportDir, 'debug');
   fs.rmSync(debugDir, { recursive: true, force: true });
+  fs.rmSync(junitPath, { force: true });
 
   const args = [
     'test',
@@ -133,7 +136,14 @@ function runMaestro(target: Target, flowsDir: string): { ok: boolean; junitPath:
 
   console.log(`\n→ maestro ${target.platform} (${target.device}) v${target.appVersion}`);
   const result = spawnSync('maestro', args, { stdio: 'inherit', cwd: ROOT });
-  return { ok: result.status === 0, junitPath };
+
+  // Maestro skips writing report.xml when no flows match the include/exclude
+  // tag filter. Treat that as a no-op (no flows to run is a config state, not
+  // a failure) so the orchestrator exits 0 once Wave 1 implementations land.
+  if (!fs.existsSync(junitPath)) {
+    return { outcome: 'no-flows', junitPath };
+  }
+  return { outcome: result.status === 0 ? 'pass' : 'fail', junitPath };
 }
 
 async function reportResults(target: Target, junitPath: string, token: string): Promise<void> {
@@ -180,19 +190,23 @@ async function main(): Promise<void> {
   const { token } = await mintAdminToken(API_BASE_URL);
   console.log(`✓ minted admin token (${token.length} chars)`);
 
-  const summary: { target: Target; ok: boolean }[] = [];
+  const summary: { target: Target; outcome: RunOutcome }[] = [];
   for (const t of targets) {
-    const { ok, junitPath } = runMaestro(t, flowsDir);
-    summary.push({ target: t, ok });
-    await reportResults(t, junitPath, token);
+    const { outcome, junitPath } = runMaestro(t, flowsDir);
+    summary.push({ target: t, outcome });
+    if (outcome === 'no-flows') {
+      console.log(`  ⊘ no runnable flows (all tagged needs-implementation/archived)`);
+    } else {
+      await reportResults(t, junitPath, token);
+    }
   }
 
   console.log('\n=== summary ===');
   for (const s of summary) {
-    const status = s.ok ? '✓ pass' : '✗ fail';
-    console.log(`  ${status}  ${s.target.platform} (${s.target.device}) v${s.target.appVersion}`);
+    const icon = s.outcome === 'pass' ? '✓ pass' : s.outcome === 'fail' ? '✗ fail' : '⊘ no flows';
+    console.log(`  ${icon}  ${s.target.platform} (${s.target.device}) v${s.target.appVersion}`);
   }
-  const anyFail = summary.some((s) => !s.ok);
+  const anyFail = summary.some((s) => s.outcome === 'fail');
   process.exit(anyFail ? 1 : 0);
 }
 
