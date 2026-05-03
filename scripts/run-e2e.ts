@@ -128,7 +128,7 @@ function runMaestro(target: Target, flowsDir: string): { outcome: RunOutcome; ju
     '--format', 'junit',
     '--output', junitPath,
     '--debug-output', debugDir,
-    '--exclude-tags=needs-implementation,archived',
+    '--exclude-tags=needs-implementation,archived,helper',
     flowsDir,
   ];
   if (target.platform === 'android') args.unshift('--device', target.device);
@@ -162,7 +162,7 @@ async function reportResults(target: Target, junitPath: string, token: string): 
     },
   );
   if (result.status !== 0) {
-    console.error(`! report-results failed for ${target.platform}; matrix may be out of sync.`);
+    console.warn(`! report-results failed for ${target.platform}; matrix may be out of sync.`);
   }
 }
 

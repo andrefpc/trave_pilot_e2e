@@ -1,4 +1,5 @@
 appId: ${APP_ID}
+tags: [helper]
 ---
 - runScript:
     file: ../../scripts/maestro-reset.js

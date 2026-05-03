@@ -1,4 +1,5 @@
 appId: ${APP_ID}
+tags: [helper]
 ---
 # Reusable: open the password sign-in sheet from Welcome and sign in as the
 # default free-tier e2e user. Override TEST_EMAIL / TEST_PASSWORD via --env to

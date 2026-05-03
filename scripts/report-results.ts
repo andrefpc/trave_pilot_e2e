@@ -138,7 +138,7 @@ async function findOrRegisterAppVersion(
   version: string,
   build: string | undefined,
   register: boolean,
-): Promise<string> {
+): Promise<string | null> {
   const url = new URL(`${baseUrl}/api/v1/admin/app-versions`);
   url.searchParams.set('platform', platform);
   url.searchParams.set('search', version);
@@ -153,27 +153,30 @@ async function findOrRegisterAppVersion(
       `no app_version found for ${platform} ${version}; pass --register to create it on first sight`,
     );
   }
-  // Registration goes through the existing capture-app-context middleware: a
-  // single authenticated request with X-App-Version + X-App-Platform headers
-  // upserts the row. Easiest: hit /health with those headers (anonymous-safe).
-  const reg = await fetch(`${baseUrl}/health`, {
-    method: 'GET',
+  // The capture-app-context middleware only writes AppVersion rows for
+  // authenticated user requests, so /health won't materialize one. Fall back
+  // to a real authenticated touch — any /api/v1/admin/* GET works.
+  await fetch(`${baseUrl}/api/v1/admin/test-cases?per_page=1`, {
     headers: {
+      Authorization: `Bearer ${token}`,
       'X-App-Version': version,
       'X-App-Platform': platform,
       ...(build ? { 'X-App-Build': build } : {}),
     },
   });
-  if (!reg.ok) throw new Error(`failed to register app version: ${reg.status}`);
-  // Fetch again — the middleware writes async; small retry loop.
   for (let i = 0; i < 5; i += 1) {
-    await new Promise((r) => setTimeout(r, 250));
+    await new Promise((r) => setTimeout(r, 400));
     const again = await fetch(url, { headers: { Authorization: `Bearer ${token}` } });
     const list = AppVersionListResponse.parse(await again.json());
     const found = list.items.find((v) => v.version === version);
     if (found) return found.id;
   }
-  throw new Error(`registered app version did not materialize for ${platform} ${version}`);
+  // Soft-fail: don't crash the reporter — we still want to print the local
+  // pass/fail summary even if the dashboard can't be updated.
+  console.warn(
+    `! app_version ${platform} ${version} could not be registered; skipping matrix push.`,
+  );
+  return null;
 }
 
 async function postRun(
@@ -219,31 +222,52 @@ async function main(): Promise<void> {
     build,
     args.register,
   );
+  if (!appVersionId) {
+    console.log('local results (matrix not updated):');
+    for (const r of results) console.log(`  ${r.status === 'pass' ? '✓' : '✗'} ${r.code} → ${r.status}`);
+    const passCount = results.filter((r) => r.status === 'pass').length;
+    console.log(`done: ${passCount}/${results.length} passed (no matrix push)`);
+    return;
+  }
 
+  // Batch the PUTs N at a time so 400 results don't take 400 round-trips.
+  const CONCURRENCY = 10;
+  const queue = results.slice();
   let posted = 0;
   let skipped = 0;
-  for (const r of results) {
-    const tcId = codeToId.get(r.code);
-    if (!tcId) {
-      console.warn(`  ? ${r.code}: no matching test case in dashboard, skipping`);
-      skipped += 1;
-      continue;
+  let failed = 0;
+
+  async function worker(): Promise<void> {
+    while (queue.length) {
+      const r = queue.shift()!;
+      const tcId = codeToId.get(r.code);
+      if (!tcId) {
+        skipped += 1;
+        continue;
+      }
+      const body = {
+        test_case_id: tcId,
+        platform: args.platform,
+        status: r.status,
+        notes: r.notes,
+      };
+      if (args.dryRun) {
+        posted += 1;
+        continue;
+      }
+      try {
+        await postRun(baseUrl, token, appVersionId, body);
+        posted += 1;
+      } catch (err) {
+        failed += 1;
+        console.warn(`  ! ${r.code}: ${err instanceof Error ? err.message : String(err)}`);
+      }
     }
-    const body = {
-      test_case_id: tcId,
-      platform: args.platform,
-      status: r.status,
-      notes: r.notes,
-    };
-    if (args.dryRun) {
-      console.log(`  [dry] ${r.code} → ${r.status}`);
-    } else {
-      await postRun(baseUrl, token, appVersionId, body);
-      console.log(`  ✓ ${r.code} → ${r.status}`);
-    }
-    posted += 1;
   }
-  console.log(`done: posted=${posted} skipped=${skipped}`);
+
+  const workers = Array.from({ length: Math.min(CONCURRENCY, results.length) }, () => worker());
+  await Promise.all(workers);
+  console.log(`done: posted=${posted} skipped=${skipped} failed=${failed}`);
 }
 
 main().catch((err) => {

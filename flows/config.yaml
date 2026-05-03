@@ -1,0 +1,9 @@
+# Maestro workspace config — tells `maestro test flows/` to recurse into
+# every section subdirectory. Without this, Maestro only picks up YAMLs
+# directly under flows/ (none) and reports "no flows".
+#
+# The common/ folder holds reusable building blocks invoked via runFlow,
+# not standalone tests, so it's excluded.
+flows:
+  - "**/*.yaml"
+  - "!common/**"
