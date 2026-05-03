@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: SHR-03
-tags: [needs-implementation, sharing, p0]
+tags: [sharing, p0]
 ---
 # >>> dashboard-meta
 # SHR-03 — Picking a permission and tapping Share invokes the native Android share chooser with the plan URL
@@ -12,7 +12,20 @@ tags: [needs-implementation, sharing, p0]
 # 3. Verify a backend POST /share-link returns a URL and the system share chooser appears with that URL.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.travel-plans" }
+- tapOn: { id: "plans.plan-card.0" }
+- tapOn: { id: "share.invite-button" }
+- assertVisible: { id: "share.sheet" }
+- tapOn: { id: "share.permission.can-edit" }
+- tapOn: { id: "share.create-link-button" }
+- waitForAnimationToEnd:
+    timeout: 5000
+- assertVisible: { id: "share.link-url-label" }
+- assertVisible: { id: "share.system-chooser" }

@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: SET-07
-tags: [needs-implementation, settings, p0]
+tags: [settings, p0]
 ---
 # >>> dashboard-meta
 # SET-07 — Toggling Notifications off on Settings stops all subsequent notifications from firing
@@ -12,7 +12,27 @@ tags: [needs-implementation, settings, p0]
 # 3. Wait — verify no notification appears in the tray.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
+# Maestro can't actually wait a minute and inspect the system tray reliably
+# in CI. The dev/QA build exposes a "schedule test reminder in 5s" debug
+# action and a "last delivered notification" inspector row. With
+# notifications off, the inspector should show no delivery.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.profile" }
+- tapOn: { id: "profile.settings-link" }
+- tapOn: { id: "settings.notifications-row" }
+- assertVisible: { id: "settings.notifications.title" }
+- tapOn: { id: "settings.notifications-toggle" }
+- assertVisible: { id: "settings.notifications-toggle.off-marker" }
+- scrollUntilVisible:
+    element: { id: "settings.notifications.debug.schedule-test-reminder-button" }
+    direction: DOWN
+- tapOn: { id: "settings.notifications.debug.schedule-test-reminder-button" }
+- waitForAnimationToEnd:
+    timeout: 8000
+- assertVisible: { id: "settings.notifications.debug.last-delivered.empty-marker" }

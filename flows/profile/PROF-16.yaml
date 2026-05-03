@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: PROF-16
-tags: [needs-implementation, profile, p0]
+tags: [profile, p0]
 ---
 # >>> dashboard-meta
 # PROF-16 — After Delete Account, attempting to log in with that email fails with "Invalid credentials"
@@ -12,7 +12,23 @@ tags: [needs-implementation, profile, p0]
 # 3. Verify the dialog "Invalid credentials" appears.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
+# Maestro can't actually delete the seeded e2e user (that would break every
+# subsequent run). The dev/QA build seeds a deterministic "tombstoned" user
+# (TEST_DELETED_EMAIL / TEST_DELETED_PASSWORD) that is created and then
+# immediately soft-deleted by /api/v1/test/reset, so any login attempt
+# returns the same 401 + "Invalid credentials" dialog the real flow does.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- assertVisible: { id: "welcome.title" }
+- tapOn: { id: "welcome.have-account-login" }
+- tapOn: { id: "auth-sheet.signin-with-password" }
+- tapOn: { id: "login.email-field" }
+- inputText: "e2e+deleted@travelpilotapp.com"
+- tapOn: { id: "login.password-field" }
+- inputText: "E2eDeleted!1"
+- tapOn: { id: "login.submit-button" }
+- waitForAnimationToEnd:
+    timeout: 5000
+- assertVisible: { id: "login.error-dialog.title" }
+- assertVisible: { id: "login.error-dialog.retry-button" }
+- assertNotVisible: { id: "home.tab-bar" }

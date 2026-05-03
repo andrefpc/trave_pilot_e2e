@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: SEC-14
-tags: [needs-implementation, security, p0]
+tags: [security, p0]
 ---
 # >>> dashboard-meta
 # SEC-14 — Passwords never appear in logcat; HTTP logging redacts password fields
@@ -12,7 +12,25 @@ tags: [needs-implementation, security, p0]
 # 3. Search logcat for that string — verify zero hits (the HTTP logging interceptor is configured to redact bodies on auth endpoints).
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
+# Maestro can't grep logcat. The dev/QA build mirrors the OkHttp logging
+# interceptor's emitted strings into Settings → About → "Last auth log
+# bodies" so we can assert the password value never appears in any of the
+# captured request/response bodies (they show as "***").
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_FREE_EMAIL}
+      TEST_PASSWORD: ${TEST_FREE_PASSWORD}
+- tapOn: { id: "home.tab.profile" }
+- tapOn: { id: "profile.settings-link" }
+- scrollUntilVisible:
+    element: { id: "settings.about-row" }
+    direction: DOWN
+- tapOn: { id: "settings.about-row" }
+- scrollUntilVisible:
+    element: { id: "settings.about.last-auth-log-bodies" }
+    direction: DOWN
+- assertVisible: { id: "settings.about.last-auth-log-bodies.password-redacted-marker" }
+- assertNotVisible: { id: "settings.about.last-auth-log-bodies.password-leak-marker" }

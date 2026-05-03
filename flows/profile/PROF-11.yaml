@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: PROF-11
-tags: [needs-implementation, profile, p1]
+tags: [profile, p1]
 ---
 # >>> dashboard-meta
 # PROF-11 — A premium user on Profile sees a "You are Premium" badge instead of the upgrade card
@@ -12,7 +12,15 @@ tags: [needs-implementation, profile, p1]
 # 3. Verify "You are Premium" badge is present and the Unlock Premium card is hidden.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.profile" }
+- assertVisible: { id: "profile.title" }
+- assertVisible: { id: "profile.premium-badge" }
+- assertNotVisible: { id: "profile.unlock-premium-card" }
+- assertNotVisible: { id: "profile.upgrade-to-premium-button" }

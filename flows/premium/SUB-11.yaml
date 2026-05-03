@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: SUB-11
-tags: [needs-implementation, premium, p1]
+tags: [premium, p1]
 ---
 # >>> dashboard-meta
 # SUB-11 — A Google Play renewal webhook updates the server, then GET /subscriptions/me returns the new expiry
@@ -12,7 +12,19 @@ tags: [needs-implementation, premium, p1]
 # 3. Verify the new expiry date is returned.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
+# Drives the sandbox renewal webhook via the devtools "Simulate Renewal"
+# action; the resulting expiry date is surfaced on Profile/Manage.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.profile" }
+- tapOn: { id: "subscription.devtools.simulate-renewal" }
+- waitForAnimationToEnd:
+    timeout: 8000
+- tapOn: { id: "profile.manage-subscription-button" }
+- assertVisible: { id: "subscription.manage.expiry-label" }
+- assertVisible: { id: "subscription.manage.renewed-snackbar" }

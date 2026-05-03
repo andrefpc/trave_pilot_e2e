@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: ITE-13
-tags: [needs-implementation, edit, p1]
+tags: [edit, p1]
 ---
 # >>> dashboard-meta
 # ITE-13 — Tapping "Replace with another Stop" on Edit Stop opens search and swaps the stop's place
@@ -12,7 +12,27 @@ tags: [needs-implementation, edit, p1]
 # 3. Pick a new place — verify the stop's title/photo updates to the new place.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.travel-plans" }
+- tapOn: { id: "plans.plan-card.0" }
+- tapOn: { id: "itinerary.toolbar.rearrange-button" }
+- assertVisible: { id: "itinerary-edit.screen" }
+- tapOn: { id: "itinerary-edit.stop.0.edit-button" }
+- assertVisible: { id: "itinerary-edit.edit-stop-sheet" }
+- tapOn: { id: "itinerary-edit.edit-stop-sheet.replace-button" }
+- assertVisible: { id: "place-search.sheet" }
+- tapOn: { id: "place-search.input" }
+- inputText: "park"
+- waitForAnimationToEnd:
+    timeout: 3000
+- tapOn: { id: "place-search.result.0" }
+- waitForAnimationToEnd:
+    timeout: 5000
+- assertVisible: { id: "itinerary-edit.snackbar.replaced" }
+- assertVisible: { id: "itinerary-edit.stop.0.title-label" }

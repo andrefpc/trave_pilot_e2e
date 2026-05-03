@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: ITE-17
-tags: [needs-implementation, edit, p2]
+tags: [edit, p2]
 ---
 # >>> dashboard-meta
 # ITE-17 — When replacing a stop, a preview appears with Confirm/Cancel before the change is committed
@@ -12,7 +12,30 @@ tags: [needs-implementation, edit, p2]
 # 3. Tap Cancel — original stop is unchanged.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.travel-plans" }
+- tapOn: { id: "plans.plan-card.0" }
+- tapOn: { id: "itinerary.toolbar.rearrange-button" }
+- assertVisible: { id: "itinerary-edit.stop.0.title-label" }
+- tapOn: { id: "itinerary-edit.stop.0.edit-button" }
+- tapOn: { id: "itinerary-edit.edit-stop-sheet.replace-button" }
+- assertVisible: { id: "place-search.sheet" }
+- tapOn: { id: "place-search.input" }
+- inputText: "museum"
+- waitForAnimationToEnd:
+    timeout: 3000
+- tapOn: { id: "place-search.result.0" }
+- assertVisible: { id: "itinerary-edit.replace-preview-sheet" }
+- assertVisible: { id: "itinerary-edit.replace-preview-sheet.photo" }
+- assertVisible: { id: "itinerary-edit.replace-preview-sheet.name" }
+- assertVisible: { id: "itinerary-edit.replace-preview-sheet.hours" }
+- assertVisible: { id: "itinerary-edit.replace-preview-sheet.confirm-button" }
+- tapOn: { id: "itinerary-edit.replace-preview-sheet.cancel-button" }
+- assertNotVisible: { id: "itinerary-edit.replace-preview-sheet" }
+- assertVisible: { id: "itinerary-edit.stop.0.title-label" }

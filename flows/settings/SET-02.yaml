@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: SET-02
-tags: [needs-implementation, settings, p1]
+tags: [settings, p1]
 ---
 # >>> dashboard-meta
 # SET-02 — Switching distance unit between km and miles updates all distance displays and saves via PUT /users/me/preferences
@@ -12,7 +12,21 @@ tags: [needs-implementation, settings, p1]
 # 3. Verify a PUT /users/me/preferences fires saving the change.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.profile" }
+- tapOn: { id: "profile.settings-link" }
+- tapOn: { id: "settings.distance-unit-row" }
+- tapOn: { id: "settings.distance-unit.option.miles" }
+- assertVisible: { id: "settings.distance-unit.miles-marker" }
+- pressKey: "back"
+- tapOn: { id: "home.tab.home" }
+- tapOn: { id: "home.day-card.0" }
+- assertVisible: { id: "itinerary-day.title" }
+- assertVisible: { id: "itinerary-day.stop.0" }
+- assertVisible: { id: "itinerary-day.distance-unit.miles-marker" }

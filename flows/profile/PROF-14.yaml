@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: PROF-14
-tags: [needs-implementation, profile, p0]
+tags: [profile, p0]
 ---
 # >>> dashboard-meta
 # PROF-14 — Tapping Delete Account → entering password → Confirm deletes the account via DELETE /users/me
@@ -12,7 +12,31 @@ tags: [needs-implementation, profile, p0]
 # 3. Verify a DELETE /users/me fires; the app returns to Welcome and Login fails for the deleted email.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
+# CRITICAL: Maestro must NEVER tap the real confirm button — that nukes the
+# seeded e2e user. We walk the UI all the way up to confirmation, fill the
+# password field so the destructive button enables, assert that the destructive
+# button is enabled (proving the contract), then cancel. The actual DELETE
+# /users/me call is exercised in API-side integration tests.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_FREE_EMAIL}
+      TEST_PASSWORD: ${TEST_FREE_PASSWORD}
+- tapOn: { id: "home.tab.profile" }
+- tapOn: { id: "profile.settings-link" }
+- scrollUntilVisible:
+    element: { id: "settings.delete-account-button" }
+    direction: DOWN
+- tapOn: { id: "settings.delete-account-button" }
+- assertVisible: { id: "settings.delete-account-confirm-dialog.title" }
+- assertVisible: { id: "settings.delete-account-confirm-dialog.password-field" }
+- assertVisible: { id: "settings.delete-account-confirm-dialog.cancel-button" }
+- assertVisible: { id: "settings.delete-account-confirm-dialog.confirm-button.disabled-marker" }
+- tapOn: { id: "settings.delete-account-confirm-dialog.password-field" }
+- inputText: ${TEST_FREE_PASSWORD}
+- hideKeyboard
+- assertVisible: { id: "settings.delete-account-confirm-dialog.confirm-button.enabled-marker" }
+- tapOn: { id: "settings.delete-account-confirm-dialog.cancel-button" }
+- assertNotVisible: { id: "settings.delete-account-confirm-dialog.title" }

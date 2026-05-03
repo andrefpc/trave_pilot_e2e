@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: GEN-05
-tags: [needs-implementation, generation, p0]
+tags: [generation, p0]
 ---
 # >>> dashboard-meta
 # GEN-05 — When generation reaches 100% the compass bounces to 1.2× scale and a "Let's Go!" button appears; tapping it opens Home
@@ -13,7 +13,34 @@ tags: [needs-implementation, generation, p0]
 # 4. Verify Home opens with the new plan.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.travel-plans" }
+- tapOn: { id: "travel-plans.add-button" }
+- assertVisible: { id: "wizard.destination.title" }
+- tapOn: { id: "wizard.destination.next-button" }
+- tapOn: { id: "wizard.walking-style.next-button" }
+- tapOn: { id: "wizard.companions.next-button" }
+- tapOn: { id: "wizard.day-schedule.next-button" }
+- tapOn: { id: "wizard.meal-time.next-button" }
+- tapOn: { id: "wizard.budget.next-button" }
+- tapOn: { id: "wizard.places-of-interest.next-button" }
+- tapOn: { id: "wizard.restaurants.next-button" }
+- tapOn: { id: "wizard.where-to-stay.next-button" }
+- tapOn: { id: "wizard.travel-times.next-button" }
+- assertVisible: { id: "plan-generation.progress" }
+- extendedWaitUntil:
+    visible: { id: "plan-generation.lets-go-button" }
+    timeout: 600000
+- assertVisible:
+    id: "plan-generation.percent-label"
+    text: "100%"
+- assertVisible: { id: "plan-generation.compass.bounce-marker" }
+- tapOn: { id: "plan-generation.lets-go-button" }
+- assertVisible: { id: "home.tab-bar" }
+- assertVisible: { id: "home.day-card.0" }

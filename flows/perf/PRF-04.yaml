@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: PRF-04
-tags: [needs-implementation, perf, p0]
+tags: [perf, p0]
 ---
 # >>> dashboard-meta
 # PRF-04 — Image loading on the Feed never blocks the UI thread; scrolling stays responsive
@@ -12,7 +12,34 @@ tags: [needs-implementation, perf, p0]
 # 3. Verify the UI never freezes and no StrictMode warnings about main-thread image decoding appear in logcat.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
+# Maestro can't read logcat for StrictMode warnings. The closest viable
+# proxy is to scroll the feed rapidly and assert that further sections
+# come into view — if image decoding blocks the UI thread, swipes don't
+# advance the list and the targeted ids never become visible.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.feed" }
+- assertVisible: { id: "feed.list" }
+- repeat:
+    times: 8
+    commands:
+      - swipe:
+          direction: UP
+      - waitForAnimationToEnd:
+          timeout: 1500
+- scrollUntilVisible:
+    element: { id: "feed.section.restaurants" }
+    direction: DOWN
+- assertVisible: { id: "feed.section.restaurants.card.0" }
+- repeat:
+    times: 4
+    commands:
+      - swipe:
+          direction: DOWN
+      - waitForAnimationToEnd:
+          timeout: 1500

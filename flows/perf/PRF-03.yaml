@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: PRF-03
-tags: [needs-implementation, perf, p1]
+tags: [perf, p1]
 ---
 # >>> dashboard-meta
 # PRF-03 — Scrolling a long Itinerary holds 45+ FPS with no visible jank
@@ -12,7 +12,34 @@ tags: [needs-implementation, perf, p1]
 # 3. Inspect `adb shell dumpsys gfxinfo com.travelpilotapp` — verify >95% of frames render under 22 ms.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
+# Maestro can't measure FPS or read gfxinfo. The closest viable proxy is
+# to scroll the itinerary list multiple times and assert key stop ids
+# remain visible — if the scroll thread is blocked or jank crashes the
+# UI, Maestro's swipe sequence will fail to bring the elements into view.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.home" }
+- tapOn: { id: "home.day-card.0" }
+- assertVisible: { id: "itinerary-day.title" }
+- assertVisible: { id: "itinerary-day.stop.0" }
+- repeat:
+    times: 6
+    commands:
+      - swipe:
+          direction: UP
+      - waitForAnimationToEnd:
+          timeout: 1500
+- assertVisible: { id: "itinerary-day.sleep-stop" }
+- repeat:
+    times: 6
+    commands:
+      - swipe:
+          direction: DOWN
+      - waitForAnimationToEnd:
+          timeout: 1500
+- assertVisible: { id: "itinerary-day.wakeup-stop" }

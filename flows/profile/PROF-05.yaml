@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: PROF-05
-tags: [needs-implementation, profile, p1]
+tags: [profile, p1]
 ---
 # >>> dashboard-meta
 # PROF-05 — Editing the email; if the new email is taken, a 409 conflict is shown inline
@@ -12,7 +12,24 @@ tags: [needs-implementation, profile, p1]
 # 3. Verify a PATCH /users/me returns 409 and an inline error like "Email already exists" is shown.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
+# We sign in as the free seeded user and try to change the email to the
+# premium seeded user's email — guaranteed to collide.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_FREE_EMAIL}
+      TEST_PASSWORD: ${TEST_FREE_PASSWORD}
+- tapOn: { id: "home.tab.profile" }
+- tapOn: { id: "profile.edit-button" }
+- assertVisible: { id: "profile.edit.title" }
+- tapOn: { id: "profile.edit.email-field" }
+- eraseText
+- inputText: ${TEST_PREMIUM_EMAIL}
+- hideKeyboard
+- tapOn: { id: "profile.edit.save-button" }
+- waitForAnimationToEnd:
+    timeout: 5000
+- assertVisible: { id: "profile.edit.email-field.error" }
+- assertVisible: { id: "profile.edit.title" }

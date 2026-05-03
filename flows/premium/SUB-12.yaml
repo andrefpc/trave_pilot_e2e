@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: SUB-12
-tags: [needs-implementation, premium, p0]
+tags: [premium, p0]
 ---
 # >>> dashboard-meta
 # SUB-12 — A 403 from a premium-only endpoint reactively opens the Premium bottom sheet
@@ -12,7 +12,19 @@ tags: [needs-implementation, premium, p0]
 # 3. Verify the Premium bottom sheet appears automatically.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_FREE_EMAIL}
+      TEST_PASSWORD: ${TEST_FREE_PASSWORD}
+- tapOn: { id: "home.tab.travel-plans" }
+- tapOn: { id: "plans.plan-card.0" }
+- assertVisible: { id: "itinerary.screen" }
+- tapOn: { id: "share.invite-button" }
+- waitForAnimationToEnd:
+    timeout: 5000
+- assertVisible: { id: "premium.bottom-sheet" }
+- assertVisible: { id: "premium.bottom-sheet.title" }
+- assertVisible: { id: "premium.bottom-sheet.cta" }

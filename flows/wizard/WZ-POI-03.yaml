@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: WZ-POI-03
-tags: [needs-implementation, wizard, p2]
+tags: [wizard, p2]
 ---
 # >>> dashboard-meta
 # WZ-POI-03 — Tapping a selected place on Places of Interest deselects it
@@ -12,7 +12,13 @@ tags: [needs-implementation, wizard, p2]
 # 3. Verify it becomes deselected (no longer highlighted).
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- assertVisible: { id: "welcome.title" }
+- tapOn: { id: "welcome.create-plan-button" }
+- runFlow: ./_walk_to_poi.yaml
+- assertVisible: { id: "wizard.places-of-interest.title" }
+- tapOn: { id: "wizard.places-of-interest.place.0" }
+- assertVisible: { id: "wizard.places-of-interest.place.0.selected-marker" }
+- tapOn: { id: "wizard.places-of-interest.place.0" }
+- assertNotVisible: { id: "wizard.places-of-interest.place.0.selected-marker" }

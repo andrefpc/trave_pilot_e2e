@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: PROF-09
-tags: [needs-implementation, profile, p0]
+tags: [profile, p0]
 ---
 # >>> dashboard-meta
 # PROF-09 — Change Password validates the new password with the same six rule check boxes as Register
@@ -11,7 +11,31 @@ tags: [needs-implementation, profile, p0]
 # 2. Verify the same six rules display below and update in real time as the password meets each.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_FREE_EMAIL}
+      TEST_PASSWORD: ${TEST_FREE_PASSWORD}
+- tapOn: { id: "home.tab.profile" }
+- tapOn: { id: "profile.settings-link" }
+- tapOn: { id: "settings.change-password-row" }
+- assertVisible: { id: "settings.change-password.title" }
+- tapOn: { id: "settings.change-password.new-password-field" }
+- inputText: "abc"
+- assertVisible: { id: "settings.change-password.rule.length.unmet-marker" }
+- assertVisible: { id: "settings.change-password.rule.uppercase.unmet-marker" }
+- assertVisible: { id: "settings.change-password.rule.lowercase.met-marker" }
+- assertVisible: { id: "settings.change-password.rule.number.unmet-marker" }
+- assertVisible: { id: "settings.change-password.rule.special.unmet-marker" }
+- eraseText
+- inputText: "E2eRotated!2"
+- assertVisible: { id: "settings.change-password.rule.length.met-marker" }
+- assertVisible: { id: "settings.change-password.rule.uppercase.met-marker" }
+- assertVisible: { id: "settings.change-password.rule.lowercase.met-marker" }
+- assertVisible: { id: "settings.change-password.rule.number.met-marker" }
+- assertVisible: { id: "settings.change-password.rule.special.met-marker" }
+- tapOn: { id: "settings.change-password.confirm-password-field" }
+- inputText: "E2eRotated!2"
+- assertVisible: { id: "settings.change-password.rule.match.met-marker" }

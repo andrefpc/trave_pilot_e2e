@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: SET-10
-tags: [needs-implementation, settings, p1]
+tags: [settings, p1]
 ---
 # >>> dashboard-meta
 # SET-10 — Preferences persist across reinstall: setting changes survive uninstall + reinstall + sign-in
@@ -12,7 +12,48 @@ tags: [needs-implementation, settings, p1]
 # 3. Open Settings — verify all four preferences match what you set previously.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
+# Maestro can't actually uninstall/reinstall the APK in CI. Equivalent: wipe
+# all on-device state with launchApp { clearState, clearKeychain } so the
+# only thing left is what's persisted server-side via /users/me/preferences.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.profile" }
+- tapOn: { id: "profile.settings-link" }
+- tapOn: { id: "settings.theme-row" }
+- tapOn: { id: "settings.theme.option.dark" }
+- assertVisible: { id: "settings.theme.dark-marker" }
+- pressKey: "back"
+- tapOn: { id: "settings.distance-unit-row" }
+- tapOn: { id: "settings.distance-unit.option.miles" }
+- assertVisible: { id: "settings.distance-unit.miles-marker" }
+- pressKey: "back"
+- scrollUntilVisible:
+    element: { id: "settings.currency-row" }
+    direction: DOWN
+- tapOn: { id: "settings.currency-row" }
+- tapOn: { id: "settings.currency.option.eur" }
+- assertVisible: { id: "settings.currency.eur-marker" }
+- pressKey: "back"
+- tapOn: { id: "settings.language-row" }
+- tapOn: { id: "settings.language.option.es" }
+- assertVisible: { id: "settings.language.es-marker" }
+- launchApp:
+    clearState: true
+    clearKeychain: true
+    stopApp: true
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.profile" }
+- tapOn: { id: "profile.settings-link" }
+- assertVisible: { id: "settings.theme.dark-marker" }
+- assertVisible: { id: "settings.distance-unit.miles-marker" }
+- assertVisible: { id: "settings.currency.eur-marker" }
+- assertVisible: { id: "settings.language.es-marker" }

@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: SHR-18
-tags: [needs-implementation, sharing, p1]
+tags: [sharing, p1]
 ---
 # >>> dashboard-meta
 # SHR-18 — Backgrounding the app mid-share-flow keeps the pending token; reopening returns to Share Invite
@@ -12,7 +12,20 @@ tags: [needs-implementation, sharing, p1]
 # 3. Reopen the app — verify Share Invite is restored with the same token.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_EMAIL}
+      TEST_PASSWORD: ${TEST_PASSWORD}
+- openLink: "https://www.travelpilotapp.com/share/${TEST_SHARE_TOKEN}"
+- assertVisible: { id: "share-invite.title" }
+- assertVisible: { id: "share-invite.plan-preview" }
+- pressKey: "home"
+- launchApp:
+    stopApp: false
+- waitForAnimationToEnd:
+    timeout: 5000
+- assertVisible: { id: "share-invite.title" }
+- assertVisible: { id: "share-invite.plan-preview" }

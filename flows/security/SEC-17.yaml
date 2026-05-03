@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: SEC-17
-tags: [needs-implementation, security, p0]
+tags: [security, p0]
 ---
 # >>> dashboard-meta
 # SEC-17 — The release build is signed with v2/v3 schemes via Play App Signing
@@ -13,7 +13,25 @@ tags: [needs-implementation, security, p0]
 # 4. In Play Console → App integrity, verify the release key is managed by Google.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
+# Maestro can't run apksigner. The build pipeline embeds the signing scheme
+# detection (`v2-signed`/`v3-signed`/`play-managed`) into BuildConfig and
+# the About panel surfaces it.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.profile" }
+- tapOn: { id: "profile.settings-link" }
+- scrollUntilVisible:
+    element: { id: "settings.about-row" }
+    direction: DOWN
+- tapOn: { id: "settings.about-row" }
+- scrollUntilVisible:
+    element: { id: "settings.about.signing-scheme" }
+    direction: DOWN
+- assertVisible: { id: "settings.about.signing-scheme.v2-marker" }
+- assertVisible: { id: "settings.about.signing-scheme.v3-marker" }
+- assertVisible: { id: "settings.about.signing-scheme.play-managed-marker" }

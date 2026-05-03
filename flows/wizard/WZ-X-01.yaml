@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: WZ-X-01
-tags: [needs-implementation, wizard, p1]
+tags: [wizard, p1]
 ---
 # >>> dashboard-meta
 # WZ-X-01 — Backgrounding mid-wizard for ~30 s and returning resumes on the same step with the same data
@@ -13,7 +13,32 @@ tags: [needs-implementation, wizard, p1]
 # 4. Verify Companions reopens with Adults=2, Children=1 still set.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- assertVisible: { id: "welcome.title" }
+- tapOn: { id: "welcome.create-plan-button" }
+- runFlow: ../common/_wizard_fill_destination.yaml
+- assertVisible: { id: "wizard.walking-style.title" }
+- tapOn: { id: "wizard.walking-style.option.moderate" }
+- tapOn: { id: "wizard.walking-style.next-button" }
+- assertVisible: { id: "wizard.companions.title" }
+- tapOn: { id: "wizard.companions.adults.plus" }
+- tapOn: { id: "wizard.companions.children.plus" }
+- assertVisible:
+    id: "wizard.companions.adults.value"
+    text: "2"
+- assertVisible:
+    id: "wizard.companions.children.value"
+    text: "1"
+- pressKey: "home"
+- waitForAnimationToEnd:
+    timeout: 5000
+- launchApp:
+    stopApp: false
+- assertVisible: { id: "wizard.companions.title" }
+- assertVisible:
+    id: "wizard.companions.adults.value"
+    text: "2"
+- assertVisible:
+    id: "wizard.companions.children.value"
+    text: "1"

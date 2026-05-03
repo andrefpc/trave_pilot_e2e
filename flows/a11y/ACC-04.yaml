@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: ACC-04
-tags: [needs-implementation, a11y, p1]
+tags: [a11y, p1]
 ---
 # >>> dashboard-meta
 # ACC-04 — Setting system font scale to 200% (largest) does not truncate or break any layout
@@ -12,7 +12,34 @@ tags: [needs-implementation, a11y, p1]
 # 3. Verify no text is clipped, no buttons disappear, no layouts overflow.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
+# Maestro can't drive OS-level font-scale settings. We instead use the
+# in-app "Large text" toggle (which honours the same font scaling pipeline
+# as the OS font scale) and assert that key screens still render their
+# critical ids — i.e. nothing is hidden or clipped off-screen.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.profile" }
+- tapOn: { id: "profile.settings-button" }
+- assertVisible: { id: "settings.title" }
+- scrollUntilVisible:
+    element: { id: "settings.large-text-toggle" }
+    direction: DOWN
+- tapOn: { id: "settings.large-text-toggle" }
+- assertVisible: { id: "settings.large-text-toggle.on-marker" }
+- pressKey: "back"
+- assertVisible: { id: "profile.title" }
+- assertVisible: { id: "profile.user-name" }
+- assertVisible: { id: "profile.settings-button" }
+- assertVisible: { id: "profile.logout-button" }
+- tapOn: { id: "home.tab.home" }
+- assertVisible: { id: "home.plan-header" }
+- assertVisible: { id: "home.day-card.0" }
+- tapOn: { id: "home.day-card.0" }
+- assertVisible: { id: "itinerary-day.title" }
+- assertVisible: { id: "itinerary-day.stop.0" }
+- assertVisible: { id: "itinerary-day.edit-button" }

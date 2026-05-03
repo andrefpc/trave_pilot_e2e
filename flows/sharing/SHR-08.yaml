@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: SHR-08
-tags: [needs-implementation, sharing, p0]
+tags: [sharing, p0]
 ---
 # >>> dashboard-meta
 # SHR-08 — Tapping a travelpilot://share/<token> custom-scheme link opens the Share Invite screen
@@ -12,7 +12,16 @@ tags: [needs-implementation, sharing, p0]
 # 3. Verify Travel Pilot opens to Share Invite with the plan preview.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- openLink: "travelpilot://share/${TEST_SHARE_TOKEN}"
+- waitForAnimationToEnd:
+    timeout: 5000
+- assertVisible: { id: "share-invite.title" }
+- assertVisible: { id: "share-invite.plan-preview" }
+- assertVisible: { id: "share-invite.add-plan-button" }

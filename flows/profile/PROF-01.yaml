@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: PROF-01
-tags: [needs-implementation, profile, p0]
+tags: [profile, p0]
 ---
 # >>> dashboard-meta
 # PROF-01 — Profile shows the user's avatar, name and email loaded from GET /users/me
@@ -12,7 +12,17 @@ tags: [needs-implementation, profile, p0]
 # 3. Verify the header shows the avatar image, the user's name and the email address.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_FREE_EMAIL}
+      TEST_PASSWORD: ${TEST_FREE_PASSWORD}
+- tapOn: { id: "home.tab.profile" }
+- assertVisible: { id: "profile.title" }
+- assertVisible: { id: "profile.avatar" }
+- assertVisible: { id: "profile.name" }
+- assertVisible:
+    id: "profile.email"
+    text: ${TEST_FREE_EMAIL}

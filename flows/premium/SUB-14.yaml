@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: SUB-14
-tags: [needs-implementation, premium, p0]
+tags: [premium, p0]
 ---
 # >>> dashboard-meta
 # SUB-14 — If the network drops mid-purchase but Play already charged, Restore Purchases recovers premium
@@ -13,7 +13,24 @@ tags: [needs-implementation, premium, p0]
 # 4. Verify the receipt is re-verified and premium is granted.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
+# Drives the "charged but unverified" state via the devtools
+# "Simulate Pending Receipt" toggle, which leaves a queryable Play purchase
+# without a server-side subscription. Restore Purchases reconciles it.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_FREE_EMAIL}
+      TEST_PASSWORD: ${TEST_FREE_PASSWORD}
+- tapOn: { id: "home.tab.profile" }
+- tapOn: { id: "profile.unlock-premium-button" }
+- assertVisible: { id: "premium.bottom-sheet.title" }
+- tapOn: { id: "subscription.devtools.simulate-pending-receipt" }
+- tapOn: { id: "premium.bottom-sheet.close-button" }
+- assertVisible: { id: "profile.unlock-premium-button" }
+- tapOn: { id: "profile.restore-purchases-button" }
+- waitForAnimationToEnd:
+    timeout: 10000
+- assertVisible: { id: "subscription.restore-success-snackbar" }
+- assertVisible: { id: "profile.premium-badge" }

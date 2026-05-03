@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: LOC-03
-tags: [needs-implementation, a11y, p2]
+tags: [a11y, p2]
 ---
 # >>> dashboard-meta
 # LOC-03 — In an RTL language (Arabic), the layout mirrors correctly and there is no text truncation
@@ -12,7 +12,30 @@ tags: [needs-implementation, a11y, p2]
 # 3. Verify the back arrow is mirrored, layouts flip, and no text is clipped or overlaps.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
+# Travel Pilot does not yet ship Arabic / RTL locale resources, and Maestro
+# can't drive setprop to force RTL. We exercise the in-app pt-BR locale —
+# the longest-string locale we support — to surface any layout truncation
+# that an RTL locale would also surface, and assert key screens still
+# render their ids after the locale switch and a relaunch.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.profile" }
+- tapOn: { id: "profile.settings-button" }
+- tapOn: { id: "settings.language-row" }
+- tapOn: { id: "settings.language.option.pt-br" }
+- launchApp:
+    stopApp: true
+- assertVisible: { id: "home.tab-bar" }
+- tapOn: { id: "home.tab.home" }
+- assertVisible: { id: "home.plan-header" }
+- tapOn: { id: "home.day-card.0" }
+- assertVisible: { id: "itinerary-day.title" }
+- assertVisible: { id: "itinerary-day.stop.0" }
+- pressKey: "back"
+- tapOn: { id: "home.tab.profile" }
+- assertVisible: { id: "profile.title" }

@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: ITE-15
-tags: [needs-implementation, edit, p1]
+tags: [edit, p1]
 ---
 # >>> dashboard-meta
 # ITE-15 — If premium expires while editing, the next save returns 403 → paywall opens but local edits are not lost
@@ -12,7 +12,31 @@ tags: [needs-implementation, edit, p1]
 # 3. Tap Save — verify 403, the Premium bottom sheet opens, and the unsaved local changes remain on screen.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
+# Uses the test-only "Force Expire Premium" devtools toggle to flip the cached
+# subscription state to expired without touching billing.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.travel-plans" }
+- tapOn: { id: "plans.plan-card.0" }
+- tapOn: { id: "itinerary.toolbar.rearrange-button" }
+- assertVisible: { id: "itinerary-edit.screen" }
+- swipe:
+    from: { id: "itinerary-edit.stop.0.drag-handle" }
+    direction: DOWN
+    duration: 1500
+- waitForAnimationToEnd:
+    timeout: 3000
+- assertVisible: { id: "itinerary-edit.unsaved-indicator" }
+- tapOn: { id: "subscription.devtools.force-expire" }
+- tapOn: { id: "itinerary-edit.save-button" }
+- waitForAnimationToEnd:
+    timeout: 5000
+- assertVisible: { id: "premium.bottom-sheet" }
+- tapOn: { id: "premium.bottom-sheet.close-button" }
+- assertVisible: { id: "itinerary-edit.screen" }
+- assertVisible: { id: "itinerary-edit.unsaved-indicator" }

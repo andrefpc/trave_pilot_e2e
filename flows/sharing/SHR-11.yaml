@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: SHR-11
-tags: [needs-implementation, sharing, p1]
+tags: [sharing, p1]
 ---
 # >>> dashboard-meta
 # SHR-11 — Tapping Add Travel Plan with an invalid/expired token shows "This share link is invalid or expired"
@@ -12,7 +12,16 @@ tags: [needs-implementation, sharing, p1]
 # 3. Verify an error dialog "This share link is invalid or expired" appears.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_EMAIL}
+      TEST_PASSWORD: ${TEST_PASSWORD}
+- openLink: "travelpilot://share/garbage"
+- waitForAnimationToEnd:
+    timeout: 5000
+- assertVisible: { id: "share.invalid-link-screen.title" }
+- assertVisible: { id: "share.invalid-link-screen.message" }
+- assertVisible: { id: "share.invalid-link-screen.go-home-button" }

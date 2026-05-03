@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: MAP-04
-tags: [needs-implementation, map, p1]
+tags: [map, p1]
 ---
 # >>> dashboard-meta
 # MAP-04 — Tapping a country/city marker opens a detail sheet with information
@@ -11,7 +11,23 @@ tags: [needs-implementation, map, p1]
 # 2. Verify a Country Detail sheet appears with city/country info.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.travel-map" }
+- assertVisible: { id: "map.world-view" }
+- assertVisible: { id: "map.country-pin.LX" }
+- tapOn: { id: "map.country-pin.LX" }
+- waitForAnimationToEnd:
+    timeout: 5000
+- assertVisible: { id: "map.country-detail-sheet.title" }
+- assertVisible: { id: "map.country-detail-sheet.country-name" }
+- assertVisible: { id: "map.country-detail-sheet.cities-list" }
+- assertVisible: { id: "map.country-detail-sheet.cities-list.0" }
+- tapOn: { id: "map.country-detail-sheet.close-button" }
+- assertNotVisible: { id: "map.country-detail-sheet.title" }
+- assertVisible: { id: "map.world-view" }

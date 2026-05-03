@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: WZ-WTS-01
-tags: [needs-implementation, wizard, p0]
+tags: [wizard, p0]
 ---
 # >>> dashboard-meta
 # WZ-WTS-01 — Where to Stay shows one section per destination city with 5+ hotel cards each
@@ -11,7 +11,29 @@ tags: [needs-implementation, wizard, p0]
 # 2. Verify there is one section per city; each section lists at least 5 hotel cards with name, photo and rating.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- assertVisible: { id: "welcome.title" }
+- tapOn: { id: "welcome.create-plan-button" }
+- runFlow: ./_walk_to_wts.yaml
+- assertVisible: { id: "wizard.where-to-stay.title" }
+- assertVisible: { id: "wizard.where-to-stay.city-section.0" }
+- assertVisible: { id: "wizard.where-to-stay.city-section.0.title" }
+- assertVisible: { id: "wizard.where-to-stay.city-section.0.hotel-card.0" }
+- assertVisible: { id: "wizard.where-to-stay.city-section.0.hotel-card.0.name" }
+- assertVisible: { id: "wizard.where-to-stay.city-section.0.hotel-card.0.photo" }
+- assertVisible: { id: "wizard.where-to-stay.city-section.0.hotel-card.0.rating" }
+- scrollUntilVisible:
+    element: { id: "wizard.where-to-stay.city-section.0.hotel-card.4" }
+    direction: DOWN
+- assertVisible: { id: "wizard.where-to-stay.city-section.0.hotel-card.4" }
+- scrollUntilVisible:
+    element: { id: "wizard.where-to-stay.city-section.1" }
+    direction: DOWN
+- assertVisible: { id: "wizard.where-to-stay.city-section.1.title" }
+- assertVisible: { id: "wizard.where-to-stay.city-section.1.hotel-card.0" }
+- assertVisible: { id: "wizard.where-to-stay.city-section.1.hotel-card.0.name" }
+- scrollUntilVisible:
+    element: { id: "wizard.where-to-stay.city-section.1.hotel-card.4" }
+    direction: DOWN
+- assertVisible: { id: "wizard.where-to-stay.city-section.1.hotel-card.4" }

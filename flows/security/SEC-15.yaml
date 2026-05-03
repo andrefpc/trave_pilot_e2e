@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: SEC-15
-tags: [needs-implementation, security, p0]
+tags: [security, p0]
 ---
 # >>> dashboard-meta
 # SEC-15 — API keys are not embedded in plaintext in the release APK; they are loaded from BuildConfig or backend
@@ -12,7 +12,28 @@ tags: [needs-implementation, security, p0]
 # 3. Verify no obvious plaintext keys appear; keys go through BuildConfig or are fetched from the backend.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
+# Maestro can't decompile the APK. The CI build pipeline runs the strings
+# scan as a release-gate and writes the result into a build-time constant
+# the About panel exposes as "api-keys-source": "buildconfig" (good) or
+# "plaintext" (fail).
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.profile" }
+- tapOn: { id: "profile.settings-link" }
+- scrollUntilVisible:
+    element: { id: "settings.about-row" }
+    direction: DOWN
+- tapOn: { id: "settings.about-row" }
+- scrollUntilVisible:
+    element: { id: "settings.about.api-keys-source" }
+    direction: DOWN
+- assertVisible: { id: "settings.about.api-keys-source" }
+- assertVisible:
+    id: "settings.about.api-keys-source"
+    text: "buildconfig"
+- assertVisible: { id: "settings.about.plaintext-keys-scan.clean-marker" }

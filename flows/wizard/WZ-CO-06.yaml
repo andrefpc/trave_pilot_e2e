@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: WZ-CO-06
-tags: [needs-implementation, wizard, p1]
+tags: [wizard, p1]
 ---
 # >>> dashboard-meta
 # WZ-CO-06 — Tapping Back on Complete Onboarding returns to Travel Times with the draft intact
@@ -11,7 +11,15 @@ tags: [needs-implementation, wizard, p1]
 # 2. Verify Travel Times reopens with all previously selected time preferences still chosen.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- assertVisible: { id: "welcome.title" }
+- tapOn: { id: "welcome.create-plan-button" }
+- runFlow: ./_walk_to_travel_times.yaml
+- assertVisible: { id: "wizard.travel-times.title" }
+- tapOn: { id: "wizard.travel-times.leg.0.option.morning" }
+- tapOn: { id: "wizard.travel-times.next-button" }
+- assertVisible: { id: "wizard.complete-onboarding.title" }
+- tapOn: { id: "wizard.back-button" }
+- assertVisible: { id: "wizard.travel-times.title" }
+- assertVisible: { id: "wizard.travel-times.leg.0.option.morning" }

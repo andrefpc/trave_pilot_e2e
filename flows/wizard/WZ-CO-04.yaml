@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: WZ-CO-04
-tags: [needs-implementation, wizard, p0]
+tags: [wizard, p0]
 ---
 # >>> dashboard-meta
 # WZ-CO-04 — On Complete Onboarding, tapping Login then signing in returns to Plan Generation for the draft
@@ -12,7 +12,29 @@ tags: [needs-implementation, wizard, p0]
 # 3. Verify the app navigates to Plan Generation for the draft you were building (not Home).
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- assertVisible: { id: "welcome.title" }
+- tapOn: { id: "welcome.create-plan-button" }
+- assertVisible: { id: "wizard.destination.title" }
+- tapOn: { id: "wizard.destination.next-button" }
+- tapOn: { id: "wizard.walking-style.next-button" }
+- tapOn: { id: "wizard.companions.next-button" }
+- tapOn: { id: "wizard.day-schedule.next-button" }
+- tapOn: { id: "wizard.meal-time.next-button" }
+- tapOn: { id: "wizard.budget.next-button" }
+- tapOn: { id: "wizard.places-of-interest.next-button" }
+- tapOn: { id: "wizard.restaurants.next-button" }
+- tapOn: { id: "wizard.where-to-stay.next-button" }
+- tapOn: { id: "wizard.travel-times.next-button" }
+- assertVisible: { id: "wizard.complete-onboarding.title" }
+- tapOn: { id: "wizard.complete-onboarding.login-button" }
+- assertVisible: { id: "login.title" }
+- tapOn: { id: "login.email-field" }
+- inputText: ${TEST_PREMIUM_EMAIL}
+- tapOn: { id: "login.password-field" }
+- inputText: ${TEST_PREMIUM_PASSWORD}
+- hideKeyboard
+- tapOn: { id: "login.submit-button" }
+- assertVisible: { id: "plan-generation.progress" }
+- assertNotVisible: { id: "home.tab-bar" }

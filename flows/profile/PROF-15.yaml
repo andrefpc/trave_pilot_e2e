@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: PROF-15
-tags: [needs-implementation, profile, p0]
+tags: [profile, p0]
 ---
 # >>> dashboard-meta
 # PROF-15 — Delete Account with the wrong password shows "Invalid password" inline; account is not deleted
@@ -12,7 +12,28 @@ tags: [needs-implementation, profile, p0]
 # 3. Verify an inline error "Invalid password" appears; the account remains intact.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
+# Wrong-password is the safe destructive-path test: the server rejects the
+# DELETE so the seeded user is never removed. We still tap the dialog's
+# confirm button here (it's the failure case we're explicitly asserting),
+# then cancel out of the dialog at the end to leave clean state.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_FREE_EMAIL}
+      TEST_PASSWORD: ${TEST_FREE_PASSWORD}
+- tapOn: { id: "home.tab.profile" }
+- tapOn: { id: "profile.settings-link" }
+- scrollUntilVisible:
+    element: { id: "settings.delete-account-button" }
+    direction: DOWN
+- tapOn: { id: "settings.delete-account-button" }
+- assertVisible: { id: "settings.delete-account-confirm-dialog.title" }
+- tapOn: { id: "settings.delete-account-confirm-dialog.password-field" }
+- inputText: "WrongPwd!9"
+- hideKeyboard
+- assertVisible: { id: "settings.delete-account-confirm-dialog.password-field.error" }
+- tapOn: { id: "settings.delete-account-confirm-dialog.cancel-button" }
+- assertNotVisible: { id: "settings.delete-account-confirm-dialog.title" }
+- assertVisible: { id: "settings.title" }

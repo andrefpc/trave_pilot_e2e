@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: RD-05
-tags: [needs-implementation, reorder, p2]
+tags: [reorder, p2]
 ---
 # >>> dashboard-meta
 # RD-05 — For a single-day plan, Reorder Days is disabled or hidden because there is nothing to reorder
@@ -12,7 +12,15 @@ tags: [needs-implementation, reorder, p2]
 # 3. Verify the reorder-days icon is greyed out, hidden, or shows an info message when tapped.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.travel-plans" }
+- tapOn: { id: "plans.plan-card.single-day" }
+- assertVisible: { id: "itinerary.screen" }
+- assertVisible: { id: "itinerary.toolbar.reorder-days-button.disabled-marker" }
+- assertNotVisible: { id: "reorder-days.screen" }

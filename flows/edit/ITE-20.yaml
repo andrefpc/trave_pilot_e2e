@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: ITE-20
-tags: [needs-implementation, edit, p1]
+tags: [edit, p1]
 ---
 # >>> dashboard-meta
 # ITE-20 — On a Place Detail, "Add Photo" opens the picker and the chosen image becomes a milestone for that place
@@ -12,7 +12,24 @@ tags: [needs-implementation, edit, p1]
 # 3. Verify a POST /milestones fires and the photo appears in the place's gallery.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
+# Driven via the in-app photo picker stub which auto-selects the seeded
+# milestone image so we never invoke the system gallery.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.travel-plans" }
+- tapOn: { id: "plans.plan-card.0" }
+- assertVisible: { id: "itinerary.screen" }
+- tapOn: { id: "itinerary-day.stop.0" }
+- assertVisible: { id: "place-detail.screen" }
+- tapOn: { id: "place-detail.add-photo-button" }
+- assertVisible: { id: "place-detail.photo-picker.sheet" }
+- tapOn: { id: "place-detail.photo-picker.confirm-button" }
+- waitForAnimationToEnd:
+    timeout: 10000
+- assertVisible: { id: "place-detail.milestone-snackbar.added" }
+- assertVisible: { id: "place-detail.gallery.milestone.0" }

@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: SET-05
-tags: [needs-implementation, settings, p1]
+tags: [settings, p1]
 ---
 # >>> dashboard-meta
 # SET-05 — Switching preferred currency on Settings updates price displays app-wide
@@ -11,7 +11,27 @@ tags: [needs-implementation, settings, p1]
 # 2. Open Hotels / Tickets and verify prices display in € (where supported).
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.profile" }
+- tapOn: { id: "profile.settings-link" }
+- scrollUntilVisible:
+    element: { id: "settings.currency-row" }
+    direction: DOWN
+- tapOn: { id: "settings.currency-row" }
+- tapOn: { id: "settings.currency.option.eur" }
+- assertVisible: { id: "settings.currency.eur-marker" }
+- pressKey: "back"
+- tapOn: { id: "home.tab.tickets" }
+- waitForAnimationToEnd:
+    timeout: 5000
+- assertVisible: { id: "tickets.currency.eur-marker" }
+- tapOn: { id: "home.tab.flights" }
+- waitForAnimationToEnd:
+    timeout: 5000
+- assertVisible: { id: "flights.currency.eur-marker" }

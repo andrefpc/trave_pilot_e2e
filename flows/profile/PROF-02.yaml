@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: PROF-02
-tags: [needs-implementation, profile, p1]
+tags: [profile, p1]
 ---
 # >>> dashboard-meta
 # PROF-02 — Tapping the avatar on Profile opens the photo picker (or Gallery)
@@ -11,7 +11,18 @@ tags: [needs-implementation, profile, p1]
 # 2. Verify a photo picker or the Gallery screen opens to choose a new image.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_FREE_EMAIL}
+      TEST_PASSWORD: ${TEST_FREE_PASSWORD}
+- tapOn: { id: "home.tab.profile" }
+- assertVisible: { id: "profile.avatar" }
+- tapOn: { id: "profile.avatar" }
+- waitForAnimationToEnd:
+    timeout: 5000
+- assertVisible: { id: "profile.avatar.photo-picker" }
+- tapOn: { id: "profile.avatar.photo-picker.cancel-button" }
+- assertVisible: { id: "profile.title" }

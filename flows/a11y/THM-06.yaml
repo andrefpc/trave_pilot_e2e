@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: THM-06
-tags: [needs-implementation, a11y, p1]
+tags: [a11y, p1]
 ---
 # >>> dashboard-meta
 # THM-06 — The Share card uses theme-aware glass colours; in dark mode it is dark/translucent, not white
@@ -12,7 +12,27 @@ tags: [needs-implementation, a11y, p1]
 # 3. Verify the glass background is dark/translucent (not a hardcoded white panel) and text remains readable.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
+# Maestro can't sample pixel colors. We flip the in-app Theme to Dark,
+# open the share sheet from the plan detail screen, and assert the share
+# sheet renders its `theme.dark-marker` id — which the mobile teams render
+# only when the resolved glass surface is dark/translucent (not white).
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.profile" }
+- tapOn: { id: "profile.settings-button" }
+- tapOn: { id: "settings.theme-row" }
+- tapOn: { id: "settings.theme.option.dark" }
+- launchApp:
+    stopApp: true
+- tapOn: { id: "home.tab.travel-plans" }
+- assertVisible: { id: "travel-plans.theme.dark-marker" }
+- tapOn: { id: "plans.plan-card.0" }
+- assertVisible: { id: "plan-detail.share-button" }
+- tapOn: { id: "plan-detail.share-button" }
+- assertVisible: { id: "plan-detail.share-sheet" }
+- assertVisible: { id: "plan-detail.share-sheet.theme.dark-marker" }

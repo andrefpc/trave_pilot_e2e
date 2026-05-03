@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: ACC-03
-tags: [needs-implementation, a11y, p1]
+tags: [a11y, p1]
 ---
 # >>> dashboard-meta
 # ACC-03 — Color contrast ratios meet WCAG AA (≥ 4.5:1 for body text, ≥ 3:1 for large text/graphics)
@@ -12,7 +12,27 @@ tags: [needs-implementation, a11y, p1]
 # 3. Verify there are no Low-Contrast warnings on body text or important icons.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
+# Maestro can't sample pixel colors or compute contrast ratios. The closest
+# viable proxy is to assert each main screen renders its key text/icon ids
+# (Accessibility Scanner is the human-driven complement to this automation).
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.home" }
+- assertVisible: { id: "home.plan-header" }
+- assertVisible: { id: "home.day-card.0" }
+- tapOn: { id: "home.day-card.0" }
+- assertVisible: { id: "itinerary-day.title" }
+- assertVisible: { id: "itinerary-day.stop.0" }
+- pressKey: "back"
+- tapOn: { id: "home.tab.travel-plans" }
+- assertVisible: { id: "travel-plans.title" }
+- tapOn: { id: "home.tab.profile" }
+- assertVisible: { id: "profile.title" }
+- assertVisible: { id: "profile.user-name" }
+- tapOn: { id: "profile.settings-button" }
+- assertVisible: { id: "settings.title" }

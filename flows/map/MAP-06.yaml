@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: MAP-06
-tags: [needs-implementation, map, p2]
+tags: [map, p2]
 ---
 # >>> dashboard-meta
 # MAP-06 — A user with no plans on Travel Map sees an empty state with a Create-Plan hint
@@ -12,7 +12,20 @@ tags: [needs-implementation, map, p2]
 # 3. Verify an empty state ("Start exploring!" or similar) with a CTA to create a plan.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
+# The free seed user is intentionally created with zero plans by
+# /api/v1/test/reset, so signing in as them gives the empty-state path.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_FREE_EMAIL}
+      TEST_PASSWORD: ${TEST_FREE_PASSWORD}
+- tapOn: { id: "home.tab.travel-map" }
+- assertVisible: { id: "map.title" }
+- assertVisible: { id: "map.empty-state" }
+- assertVisible: { id: "map.empty-state.message" }
+- assertVisible: { id: "map.empty-state.create-plan-button" }
+- assertNotVisible: { id: "map.country-pin.LX" }
+- tapOn: { id: "map.empty-state.create-plan-button" }
+- assertVisible: { id: "wizard.destination.title" }

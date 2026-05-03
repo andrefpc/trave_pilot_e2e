@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: SHR-17
-tags: [needs-implementation, sharing, p1]
+tags: [sharing, p1]
 ---
 # >>> dashboard-meta
 # SHR-17 — A user with shared plans sees them in a "Shared with me" list, paginated
@@ -12,7 +12,20 @@ tags: [needs-implementation, sharing, p1]
 # 3. Verify all joined plans are listed and pagination works for >10 plans.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
+# Uses a seed account that already has 11+ accepted shared plans so we can
+# scroll the "Shared with me" list past the first page.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_MANY_SHARES_EMAIL}
+      TEST_PASSWORD: ${TEST_MANY_SHARES_PASSWORD}
+- tapOn: { id: "home.tab.travel-plans" }
+- assertVisible: { id: "travel-plans.title" }
+- assertVisible: { id: "travel-plans.shared-section.title" }
+- assertVisible: { id: "travel-plans.shared-section.card.0" }
+- scrollUntilVisible:
+    element: { id: "travel-plans.shared-section.card.10" }
+    direction: DOWN
+- assertVisible: { id: "travel-plans.shared-section.card.10" }

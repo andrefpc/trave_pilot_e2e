@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: THM-02
-tags: [needs-implementation, a11y, p0]
+tags: [a11y, p0]
 ---
 # >>> dashboard-meta
 # THM-02 — Dark mode renders every screen with dark backgrounds and light, readable text — no white panels
@@ -12,7 +12,31 @@ tags: [needs-implementation, a11y, p0]
 # 3. Verify dark backgrounds, light text, no white-on-white panels or buttons.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
+# Maestro can't drive `adb shell cmd uimode`. We use the in-app Theme
+# override (Dark) and rely on the per-screen `theme.dark-marker` ids
+# the mobile teams render only when the resolved theme is dark.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.profile" }
+- tapOn: { id: "profile.settings-button" }
+- tapOn: { id: "settings.theme-row" }
+- tapOn: { id: "settings.theme.option.dark" }
+- launchApp:
+    stopApp: true
+- assertVisible: { id: "home.tab-bar" }
+- tapOn: { id: "home.tab.home" }
+- assertVisible: { id: "home.theme.dark-marker" }
+- tapOn: { id: "home.day-card.0" }
+- assertVisible: { id: "itinerary-day.theme.dark-marker" }
+- pressKey: "back"
+- tapOn: { id: "home.tab.travel-plans" }
+- assertVisible: { id: "travel-plans.theme.dark-marker" }
+- tapOn: { id: "home.tab.profile" }
+- assertVisible: { id: "profile.theme.dark-marker" }
+- tapOn: { id: "profile.settings-button" }
+- assertVisible: { id: "settings.theme.dark-marker" }

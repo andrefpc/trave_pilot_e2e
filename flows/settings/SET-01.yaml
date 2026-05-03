@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: SET-01
-tags: [needs-implementation, settings, p0]
+tags: [settings, p0]
 ---
 # >>> dashboard-meta
 # SET-01 — Switching the theme (Light/Dark/System) on Settings re-themes the app immediately and persists
@@ -13,7 +13,27 @@ tags: [needs-implementation, settings, p0]
 # 4. Force-stop and relaunch the app — verify Dark is still active.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_FREE_EMAIL}
+      TEST_PASSWORD: ${TEST_FREE_PASSWORD}
+- tapOn: { id: "home.tab.profile" }
+- tapOn: { id: "profile.settings-link" }
+- assertVisible: { id: "settings.title" }
+- tapOn: { id: "settings.theme-row" }
+- tapOn: { id: "settings.theme.option.dark" }
+- assertVisible: { id: "settings.theme.dark-marker" }
+- pressKey: "back"
+- tapOn: { id: "home.tab.home" }
+- assertVisible: { id: "home.theme.dark-marker" }
+- tapOn: { id: "home.tab.travel-plans" }
+- assertVisible: { id: "travel-plans.theme.dark-marker" }
+- launchApp:
+    stopApp: true
+- tapOn: { id: "home.tab.profile" }
+- assertVisible: { id: "profile.theme.dark-marker" }
+- tapOn: { id: "profile.settings-link" }
+- assertVisible: { id: "settings.theme.dark-marker" }

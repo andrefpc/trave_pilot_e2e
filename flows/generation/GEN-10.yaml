@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: GEN-10
-tags: [needs-implementation, generation, p0]
+tags: [generation, p0]
 ---
 # >>> dashboard-meta
 # GEN-10 — A free user attempting to regenerate an itinerary gets 403 and the Premium paywall opens
@@ -12,7 +12,21 @@ tags: [needs-implementation, generation, p0]
 # 3. Verify the request returns 403 and the Premium bottom sheet opens.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_FREE_EMAIL}
+      TEST_PASSWORD: ${TEST_FREE_PASSWORD}
+- assertVisible: { id: "home.tab-bar" }
+- tapOn: { id: "home.tab.home" }
+- assertVisible: { id: "home.plan-header" }
+- tapOn: { id: "home.plan-header" }
+- scrollUntilVisible:
+    element: { id: "plan-detail.regenerate-button" }
+    direction: DOWN
+- tapOn: { id: "plan-detail.regenerate-button" }
+- assertVisible: { id: "premium.bottom-sheet.title" }
+- assertVisible: { id: "premium.bottom-sheet.cta" }
+- assertNotVisible: { id: "plan-generation.progress" }

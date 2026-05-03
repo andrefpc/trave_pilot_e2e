@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: RD-04
-tags: [needs-implementation, reorder, p1]
+tags: [reorder, p1]
 ---
 # >>> dashboard-meta
 # RD-04 — On Reorder Days, each card shows day number, city, departure date and stop count
@@ -12,7 +12,19 @@ tags: [needs-implementation, reorder, p1]
 # 3. Verify it shows the day label, city, the day's date, and how many stops are scheduled.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.travel-plans" }
+- tapOn: { id: "plans.plan-card.0" }
+- tapOn: { id: "itinerary.toolbar.reorder-days-button" }
+- assertVisible: { id: "reorder-days.screen" }
+- assertVisible: { id: "reorder-days.day-card.0" }
+- assertVisible: { id: "reorder-days.day-card.0.label" }
+- assertVisible: { id: "reorder-days.day-card.0.city-label" }
+- assertVisible: { id: "reorder-days.day-card.0.date-label" }
+- assertVisible: { id: "reorder-days.day-card.0.stop-count-label" }

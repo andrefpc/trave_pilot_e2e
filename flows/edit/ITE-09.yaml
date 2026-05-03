@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: ITE-09
-tags: [needs-implementation, edit, p1]
+tags: [edit, p1]
 ---
 # >>> dashboard-meta
 # ITE-09 — On Edit Stop, setting arrival later than departure shows a server-side validation error
@@ -12,7 +12,29 @@ tags: [needs-implementation, edit, p1]
 # 3. Verify a backend error like "Time change conflicts with another stop" appears (request rejected).
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.travel-plans" }
+- tapOn: { id: "plans.plan-card.0" }
+- tapOn: { id: "itinerary.toolbar.rearrange-button" }
+- assertVisible: { id: "itinerary-edit.screen" }
+- tapOn: { id: "itinerary-edit.stop.0.edit-button" }
+- assertVisible: { id: "itinerary-edit.edit-stop-sheet" }
+- tapOn: { id: "itinerary-edit.edit-stop-sheet.arrival-time-field" }
+- tapOn: { id: "itinerary-edit.time-picker.hour.14" }
+- tapOn: { id: "itinerary-edit.time-picker.minute.00" }
+- tapOn: { id: "itinerary-edit.time-picker.ok-button" }
+- tapOn: { id: "itinerary-edit.edit-stop-sheet.departure-time-field" }
+- tapOn: { id: "itinerary-edit.time-picker.hour.13" }
+- tapOn: { id: "itinerary-edit.time-picker.minute.00" }
+- tapOn: { id: "itinerary-edit.time-picker.ok-button" }
+- tapOn: { id: "itinerary-edit.edit-stop-sheet.save-button" }
+- waitForAnimationToEnd:
+    timeout: 5000
+- assertVisible: { id: "itinerary-edit.edit-stop-sheet.error-banner" }
+- assertVisible: { id: "itinerary-edit.edit-stop-sheet" }

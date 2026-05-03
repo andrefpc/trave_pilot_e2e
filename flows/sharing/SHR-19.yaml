@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: SHR-19
-tags: [needs-implementation, sharing, p1]
+tags: [sharing, p1]
 ---
 # >>> dashboard-meta
 # SHR-19 — In dark mode, the share card uses theme-aware "glass" colours (no hardcoded white panels)
@@ -12,7 +12,27 @@ tags: [needs-implementation, sharing, p1]
 # 3. Verify the bottom-sheet background and text use dark theme colours; no white-on-white text or panel.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
+# Maestro can't drive the system Quick Settings shade. Use the in-app Theme
+# override (same theme.dark-marker hooks) to flip dark mode before opening
+# the Share sheet.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.profile" }
+- tapOn: { id: "profile.settings-button" }
+- tapOn: { id: "settings.theme-row" }
+- tapOn: { id: "settings.theme.option.dark" }
+- pressKey: "back"
+- assertVisible: { id: "profile.theme.dark-marker" }
+- tapOn: { id: "home.tab.travel-plans" }
+- tapOn: { id: "plans.plan-card.0" }
+- tapOn: { id: "share.invite-button" }
+- assertVisible: { id: "share.sheet" }
+- assertVisible: { id: "share.sheet.theme.dark-marker" }
+- assertVisible: { id: "share.permission.can-edit" }
+- assertVisible: { id: "share.permission.read-only" }
+- assertVisible: { id: "share.create-link-button" }

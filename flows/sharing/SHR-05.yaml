@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: SHR-05
-tags: [needs-implementation, sharing, p1]
+tags: [sharing, p1]
 ---
 # >>> dashboard-meta
 # SHR-05 — Re-opening Share on the same plan returns the previously generated link instead of a new one
@@ -12,7 +12,27 @@ tags: [needs-implementation, sharing, p1]
 # 3. Verify the same URL/token is shown — GET /share-link is reused, no new link is generated.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
+# The sheet exposes `share.link-reused-marker` on the second open (set by
+# the cached GET /share-link path), so we don't have to compare URL strings.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.travel-plans" }
+- tapOn: { id: "plans.plan-card.0" }
+- tapOn: { id: "share.invite-button" }
+- assertVisible: { id: "share.sheet" }
+- tapOn: { id: "share.permission.can-edit" }
+- tapOn: { id: "share.create-link-button" }
+- waitForAnimationToEnd:
+    timeout: 5000
+- assertVisible: { id: "share.link-url-label" }
+- pressKey: "back"
+- assertVisible: { id: "itinerary.screen" }
+- tapOn: { id: "share.invite-button" }
+- assertVisible: { id: "share.sheet" }
+- assertVisible: { id: "share.link-url-label" }
+- assertVisible: { id: "share.link-reused-marker" }

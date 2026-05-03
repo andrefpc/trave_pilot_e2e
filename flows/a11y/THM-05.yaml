@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: THM-05
-tags: [needs-implementation, a11y, p1]
+tags: [a11y, p1]
 ---
 # >>> dashboard-meta
 # THM-05 — The splash icon is visible in both light and dark modes (no white-on-white)
@@ -12,7 +12,30 @@ tags: [needs-implementation, a11y, p1]
 # 3. Verify the icon is visible with adequate contrast against the splash background in both modes.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
+# Maestro can't sample splash pixel colors. We drive the in-app Theme
+# override (Light / Dark), cold-launch each time, and assert the splash
+# compass-logo id is visible — which proves the icon was rendered (not
+# rendered transparent / white-on-white). Pixel contrast is human-checked.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.profile" }
+- tapOn: { id: "profile.settings-button" }
+- tapOn: { id: "settings.theme-row" }
+- tapOn: { id: "settings.theme.option.light" }
+- launchApp:
+    stopApp: true
+- assertVisible: { id: "splash.compass-logo" }
+- assertVisible: { id: "home.tab-bar" }
+- tapOn: { id: "home.tab.profile" }
+- tapOn: { id: "profile.settings-button" }
+- tapOn: { id: "settings.theme-row" }
+- tapOn: { id: "settings.theme.option.dark" }
+- launchApp:
+    stopApp: true
+- assertVisible: { id: "splash.compass-logo" }
+- assertVisible: { id: "home.tab-bar" }

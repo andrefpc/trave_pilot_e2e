@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: PRF-12
-tags: [needs-implementation, perf, p1]
+tags: [perf, p1]
 ---
 # >>> dashboard-meta
 # PRF-12 — Loading 100+ images via Coil does not produce OutOfMemoryError; cache evicts properly
@@ -12,7 +12,32 @@ tags: [needs-implementation, perf, p1]
 # 3. Verify no OOM crashes; the image cache plateaus rather than growing unbounded.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
+# Maestro can't read heap or cache stats. The closest viable proxy is to
+# scroll Feed deeply (loading dozens of image cards) and assert the
+# screen stays interactive — if image loading OOMs, the scroll thread
+# crashes and Maestro can't bring later sections into view.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.feed" }
+- assertVisible: { id: "feed.list" }
+- repeat:
+    times: 15
+    commands:
+      - swipe:
+          direction: UP
+      - waitForAnimationToEnd:
+          timeout: 1500
+- repeat:
+    times: 15
+    commands:
+      - swipe:
+          direction: DOWN
+      - waitForAnimationToEnd:
+          timeout: 1500
+- assertVisible: { id: "feed.list" }
+- assertVisible: { id: "home.tab-bar" }

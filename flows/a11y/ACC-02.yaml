@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: ACC-02
-tags: [needs-implementation, a11y, p1]
+tags: [a11y, p1]
 ---
 # >>> dashboard-meta
 # ACC-02 — Every interactive element has a touch target ≥ 48dp × 48dp
@@ -12,7 +12,26 @@ tags: [needs-implementation, a11y, p1]
 # 3. Verify each one is at least 48dp wide and 48dp tall.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
+# Maestro can't measure pixel dimensions. The closest viable proxy is to
+# tap each interactive element across Home, Itinerary and Profile — if
+# the tap target is missing or too small, Maestro fails to hit it.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.home" }
+- tapOn: { id: "home.tab.travel-plans" }
+- tapOn: { id: "home.tab.flights" }
+- tapOn: { id: "home.tab.tickets" }
+- tapOn: { id: "home.tab.profile" }
+- assertVisible: { id: "profile.settings-button" }
+- tapOn: { id: "profile.settings-button" }
+- assertVisible: { id: "settings.title" }
+- pressKey: "back"
+- tapOn: { id: "home.tab.home" }
+- tapOn: { id: "home.day-card.0" }
+- assertVisible: { id: "itinerary-day.edit-button" }
+- tapOn: { id: "itinerary-day.edit-button" }

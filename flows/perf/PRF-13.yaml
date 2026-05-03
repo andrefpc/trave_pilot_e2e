@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: PRF-13
-tags: [needs-implementation, perf, p2]
+tags: [perf, p2]
 ---
 # >>> dashboard-meta
 # PRF-13 — Hilt DI graph builds in <200 ms during cold start; no DI-related delay
@@ -12,7 +12,19 @@ tags: [needs-implementation, perf, p2]
 # 3. Verify total DI construction is under ~200 ms.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
+# Maestro can't capture CPU traces. The closest viable proxy is a cold
+# launch where we assert the home tab bar appears — if Hilt graph
+# construction blocked the main thread for too long, the app would
+# Stuck on splash beyond Maestro's default visibility timeout.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- launchApp:
+    stopApp: true
+- assertVisible: { id: "splash.compass-logo" }
+- assertVisible: { id: "home.tab-bar" }
+- assertVisible: { id: "home.plan-header" }

@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: PROF-12
-tags: [needs-implementation, profile, p0]
+tags: [profile, p0]
 ---
 # >>> dashboard-meta
 # PROF-12 — Tapping Logout on Profile, then Confirm clears the session and returns to Welcome
@@ -12,7 +12,22 @@ tags: [needs-implementation, profile, p0]
 # 3. Verify the app navigates to Welcome and re-launching does not auto-sign in.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_FREE_EMAIL}
+      TEST_PASSWORD: ${TEST_FREE_PASSWORD}
+- tapOn: { id: "home.tab.profile" }
+- scrollUntilVisible:
+    element: { id: "profile.logout-button" }
+    direction: DOWN
+- tapOn: { id: "profile.logout-button" }
+- assertVisible: { id: "profile.logout-sheet.title" }
+- tapOn: { id: "profile.logout-sheet.confirm-button" }
+- assertVisible: { id: "welcome.title" }
+- launchApp:
+    stopApp: true
+- assertVisible: { id: "welcome.title" }
+- assertNotVisible: { id: "home.tab-bar" }

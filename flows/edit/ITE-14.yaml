@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: ITE-14
-tags: [needs-implementation, edit, p1]
+tags: [edit, p1]
 ---
 # >>> dashboard-meta
 # ITE-14 — On a hotel stop, tapping the hotel option opens hotel selection and switches the day's hotel on save
@@ -12,7 +12,22 @@ tags: [needs-implementation, edit, p1]
 # 3. Pick a different hotel — verify the day's hotel info updates.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.travel-plans" }
+- tapOn: { id: "plans.plan-card.0" }
+- assertVisible: { id: "itinerary.screen" }
+- tapOn: { id: "itinerary-day.hotel-stop" }
+- assertVisible: { id: "place-detail.screen" }
+- tapOn: { id: "place-detail.change-hotel-button" }
+- assertVisible: { id: "hotel-search.sheet" }
+- tapOn: { id: "hotel-search.result.1" }
+- waitForAnimationToEnd:
+    timeout: 5000
+- assertVisible: { id: "itinerary-edit.snackbar.replaced" }
+- assertVisible: { id: "itinerary-day.hotel-stop" }

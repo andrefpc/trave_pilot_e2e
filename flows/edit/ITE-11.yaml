@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: ITE-11
-tags: [needs-implementation, edit, p1]
+tags: [edit, p1]
 ---
 # >>> dashboard-meta
 # ITE-11 — Deleting the last remaining stop on a day leaves the day in an empty state without crashing
@@ -12,7 +12,26 @@ tags: [needs-implementation, edit, p1]
 # 3. Verify the app does not crash; the day shows the empty state and "Add Stop" is still usable.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
+# Uses the seeded "single-stop day" plan card, where day 1 has exactly one
+# removable stop so we can drive the empty-state assertion deterministically.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.travel-plans" }
+- tapOn: { id: "plans.plan-card.single-stop-day" }
+- tapOn: { id: "itinerary.toolbar.rearrange-button" }
+- assertVisible: { id: "itinerary-edit.screen" }
+- assertVisible: { id: "itinerary-edit.stop.0" }
+- tapOn: { id: "itinerary-edit.stop.0.edit-button" }
+- tapOn: { id: "itinerary-edit.edit-stop-sheet.remove-button" }
+- tapOn: { id: "itinerary-edit.delete-stop-dialog.confirm-button" }
+- waitForAnimationToEnd:
+    timeout: 5000
+- assertVisible: { id: "itinerary-edit.empty-state" }
+- assertVisible: { id: "itinerary-edit.add-stop-button" }
+- tapOn: { id: "itinerary-edit.add-stop-button" }
+- assertVisible: { id: "place-search.sheet" }

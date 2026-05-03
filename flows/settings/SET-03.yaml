@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: SET-03
-tags: [needs-implementation, settings, p2]
+tags: [settings, p2]
 ---
 # >>> dashboard-meta
 # SET-03 — Default walking style chosen on Settings is saved to the server preferences
@@ -11,7 +11,27 @@ tags: [needs-implementation, settings, p2]
 # 2. Verify a PUT /users/me/preferences fires and the wizard's Walking Style step pre-selects this value next time.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_FREE_EMAIL}
+      TEST_PASSWORD: ${TEST_FREE_PASSWORD}
+- tapOn: { id: "home.tab.profile" }
+- tapOn: { id: "profile.settings-link" }
+- scrollUntilVisible:
+    element: { id: "settings.default-walking-style-row" }
+    direction: DOWN
+- tapOn: { id: "settings.default-walking-style-row" }
+- tapOn: { id: "settings.default-walking-style.option.moderate" }
+- assertVisible: { id: "settings.default-walking-style.moderate-marker" }
+- pressKey: "back"
+- tapOn: { id: "home.tab.travel-plans" }
+- tapOn: { id: "travel-plans.add-button" }
+- assertVisible: { id: "wizard.destination.title" }
+- scrollUntilVisible:
+    element: { id: "wizard.walking-style.title" }
+    direction: DOWN
+- assertVisible: { id: "wizard.walking-style.option.moderate" }
+- assertVisible: { id: "wizard.walking-style.option.moderate.selected-marker" }

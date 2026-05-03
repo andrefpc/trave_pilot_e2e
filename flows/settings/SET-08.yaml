@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: SET-08
-tags: [needs-implementation, settings, p1]
+tags: [settings, p1]
 ---
 # >>> dashboard-meta
 # SET-08 — Per-type notification toggles disable specific categories (trip reminders, bookings, etc.) via PUT /notifications/preferences
@@ -13,7 +13,35 @@ tags: [needs-implementation, settings, p1]
 # 4. Re-enable Trip Reminders — schedule again — verify the notification fires.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.profile" }
+- tapOn: { id: "profile.settings-link" }
+- tapOn: { id: "settings.notifications-row" }
+- assertVisible: { id: "settings.notifications.title" }
+- tapOn: { id: "settings.notifications.trip-reminders-toggle" }
+- assertVisible: { id: "settings.notifications.trip-reminders-toggle.off-marker" }
+- scrollUntilVisible:
+    element: { id: "settings.notifications.debug.schedule-test-reminder-button" }
+    direction: DOWN
+- tapOn: { id: "settings.notifications.debug.schedule-test-reminder-button" }
+- waitForAnimationToEnd:
+    timeout: 8000
+- assertVisible: { id: "settings.notifications.debug.last-delivered.empty-marker" }
+- scrollUntilVisible:
+    element: { id: "settings.notifications.trip-reminders-toggle" }
+    direction: UP
+- tapOn: { id: "settings.notifications.trip-reminders-toggle" }
+- assertVisible: { id: "settings.notifications.trip-reminders-toggle.on-marker" }
+- scrollUntilVisible:
+    element: { id: "settings.notifications.debug.schedule-test-reminder-button" }
+    direction: DOWN
+- tapOn: { id: "settings.notifications.debug.schedule-test-reminder-button" }
+- waitForAnimationToEnd:
+    timeout: 8000
+- assertVisible: { id: "settings.notifications.debug.last-delivered.trip-reminder-marker" }

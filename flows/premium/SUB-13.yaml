@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: SUB-13
-tags: [needs-implementation, premium, p1]
+tags: [premium, p1]
 ---
 # >>> dashboard-meta
 # SUB-13 — In dark mode, the Premium sheet buttons and prices remain readable with adequate contrast
@@ -12,7 +12,27 @@ tags: [needs-implementation, premium, p1]
 # 3. Verify all text, prices, and buttons are visible against the dark background.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
+# Maestro can't drive the system Quick Settings shade directly. Instead,
+# flip the in-app Theme override (same theme.dark-marker hooks) before
+# opening the Premium sheet.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_FREE_EMAIL}
+      TEST_PASSWORD: ${TEST_FREE_PASSWORD}
+- tapOn: { id: "home.tab.profile" }
+- tapOn: { id: "profile.settings-button" }
+- tapOn: { id: "settings.theme-row" }
+- tapOn: { id: "settings.theme.option.dark" }
+- pressKey: "back"
+- assertVisible: { id: "profile.theme.dark-marker" }
+- tapOn: { id: "profile.unlock-premium-button" }
+- assertVisible: { id: "premium.bottom-sheet.title" }
+- assertVisible: { id: "premium.bottom-sheet.theme.dark-marker" }
+- assertVisible: { id: "subscription.plan.monthly" }
+- assertVisible: { id: "subscription.plan.monthly.price-label" }
+- assertVisible: { id: "subscription.plan.annual" }
+- assertVisible: { id: "subscription.plan.annual.price-label" }
+- assertVisible: { id: "subscription.purchase-button" }

@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: SEC-11
-tags: [needs-implementation, security, p1]
+tags: [security, p1]
 ---
 # >>> dashboard-meta
 # SEC-11 — FileProvider only exposes scoped paths; access outside the allowed scopes is denied
@@ -9,10 +9,31 @@ tags: [needs-implementation, security, p1]
 # Repro:
 # 1. Open res/xml/file_paths.xml.
 # 2. Verify entries are limited to e.g. files-path "tickets/" and "milestone_photos/" and cache-path "share/".
-# 3. Try (programmatically) to share a file outside those paths — verify a SecurityException is thrown.
+# 3. Verify (programmatically) to share a file outside those paths — verify a SecurityException is thrown.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
+# Maestro can't introspect res/xml. The Settings → About panel surfaces the
+# active FileProvider scope list, plus a "tamper-share" debug action that
+# tries to share an out-of-scope path and asserts the SecurityException
+# branch fires (no crash).
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.profile" }
+- tapOn: { id: "profile.settings-link" }
+- scrollUntilVisible:
+    element: { id: "settings.about-row" }
+    direction: DOWN
+- tapOn: { id: "settings.about-row" }
+- scrollUntilVisible:
+    element: { id: "settings.about.fileprovider-scopes" }
+    direction: DOWN
+- assertVisible: { id: "settings.about.fileprovider-scopes.tickets" }
+- assertVisible: { id: "settings.about.fileprovider-scopes.milestone-photos" }
+- assertVisible: { id: "settings.about.fileprovider-scopes.share" }
+- tapOn: { id: "settings.about.debug.tamper-share-button" }
+- assertVisible: { id: "settings.about.debug.tamper-share.security-exception-marker" }

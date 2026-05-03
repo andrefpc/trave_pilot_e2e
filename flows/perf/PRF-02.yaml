@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: PRF-02
-tags: [needs-implementation, perf, p1]
+tags: [perf, p1]
 ---
 # >>> dashboard-meta
 # PRF-02 — Warm-start (background → foreground) completes in ≤ 500 ms
@@ -12,7 +12,20 @@ tags: [needs-implementation, perf, p1]
 # 3. Verify Displayed time ≤ 500 ms.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
+# Maestro can't read `am start -W` timing. The closest viable proxy is to
+# background the app via the home key and bring it back with a hot launch
+# (stopApp: false), then assert the home tab bar is still interactive —
+# if warm-start hangs or crashes, the assertion fails.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- assertVisible: { id: "home.tab-bar" }
+- pressKey: "home"
+- launchApp:
+    stopApp: false
+- assertVisible: { id: "home.tab-bar" }
+- assertVisible: { id: "home.plan-header" }

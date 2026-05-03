@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: SHR-14
-tags: [needs-implementation, sharing, p1]
+tags: [sharing, p1]
 ---
 # >>> dashboard-meta
 # SHR-14 — On the share dialog (or collaborators screen), the owner sees a list of joiners with their permission
@@ -11,7 +11,19 @@ tags: [needs-implementation, sharing, p1]
 # 2. Verify each collaborator is listed with their name/avatar and permission badge (Can edit / Read only).
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.travel-plans" }
+- tapOn: { id: "plans.plan-card.shared" }
+- tapOn: { id: "share.invite-button" }
+- assertVisible: { id: "share.sheet" }
+- assertVisible: { id: "share.collaborators.list" }
+- assertVisible: { id: "share.collaborator.0" }
+- assertVisible: { id: "share.collaborator.0.name" }
+- assertVisible: { id: "share.collaborator.0.avatar" }
+- assertVisible: { id: "share.collaborator.0.permission-badge" }

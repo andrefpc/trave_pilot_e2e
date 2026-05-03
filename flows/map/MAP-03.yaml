@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: MAP-03
-tags: [needs-implementation, map, p1]
+tags: [map, p1]
 ---
 # >>> dashboard-meta
 # MAP-03 — Dragging the Travel Map pans in all directions
@@ -11,7 +11,37 @@ tags: [needs-implementation, map, p1]
 # 2. Verify the map pans smoothly to follow the gesture.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
+# We use real swipe gestures on the world-view container and assert the
+# centre-coordinate marker shifts each time. The map exposes a stable
+# "centre.lat-lng-marker" id that updates as the camera moves.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.travel-map" }
+- assertVisible: { id: "map.world-view" }
+- assertVisible: { id: "map.centre.initial-marker" }
+- swipe:
+    direction: LEFT
+- waitForAnimationToEnd:
+    timeout: 2000
+- swipe:
+    direction: RIGHT
+- waitForAnimationToEnd:
+    timeout: 2000
+- swipe:
+    direction: UP
+- waitForAnimationToEnd:
+    timeout: 2000
+- swipe:
+    direction: DOWN
+- waitForAnimationToEnd:
+    timeout: 2000
+- assertVisible: { id: "map.centre.moved-marker" }
+- tapOn: { id: "map.recenter-button" }
+- waitForAnimationToEnd:
+    timeout: 2000
+- assertVisible: { id: "map.centre.initial-marker" }

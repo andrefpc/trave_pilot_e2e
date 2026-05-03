@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: SUB-08
-tags: [needs-implementation, premium, p0]
+tags: [premium, p0]
 ---
 # >>> dashboard-meta
 # SUB-08 — Restore Purchases on a fresh install verifies past receipts and restores premium
@@ -13,7 +13,20 @@ tags: [needs-implementation, premium, p0]
 # 4. Verify Play Billing's queryPurchases returns the receipt, POST /subscriptions re-verifies, and Profile shows "You are Premium".
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
+# Maestro can't span two physical devices. We simulate "Device B fresh
+# install" by wiping state, then signing in as the seeded premium user
+# (whose Play receipt is already on file) and triggering Restore Purchases.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.profile" }
+- tapOn: { id: "profile.restore-purchases-button" }
+- waitForAnimationToEnd:
+    timeout: 10000
+- assertVisible: { id: "subscription.restore-success-snackbar" }
+- assertVisible: { id: "profile.premium-badge" }
+- assertNotVisible: { id: "profile.unlock-premium-button" }

@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: THM-07
-tags: [needs-implementation, a11y, p2]
+tags: [a11y, p2]
 ---
 # >>> dashboard-meta
 # THM-07 — Spacing in code uses TravelPilotTheme.spacing tokens, not magic dp numbers
@@ -11,7 +11,38 @@ tags: [needs-implementation, a11y, p2]
 # 2. For each match, verify the dp value comes from TravelPilotTheme.spacing.* (or Material3 spacing tokens), not a literal Modifier.padding(8.dp).
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
+# Maestro can't grep the Android source tree. The closest runtime proxy
+# is to flip the in-app Theme between Light and Dark and walk the major
+# screens — if magic dp numbers were used in place of theme-spacing
+# tokens, layouts would shift between themes and the per-screen
+# accessibility ids could move off-screen or fail to render.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.profile" }
+- tapOn: { id: "profile.settings-button" }
+- tapOn: { id: "settings.theme-row" }
+- tapOn: { id: "settings.theme.option.light" }
+- launchApp:
+    stopApp: true
+- tapOn: { id: "home.tab.home" }
+- assertVisible: { id: "home.theme.light-marker" }
+- tapOn: { id: "home.day-card.0" }
+- assertVisible: { id: "itinerary-day.theme.light-marker" }
+- assertVisible: { id: "itinerary-day.stop.0" }
+- pressKey: "back"
+- tapOn: { id: "home.tab.profile" }
+- tapOn: { id: "profile.settings-button" }
+- tapOn: { id: "settings.theme-row" }
+- tapOn: { id: "settings.theme.option.dark" }
+- launchApp:
+    stopApp: true
+- tapOn: { id: "home.tab.home" }
+- assertVisible: { id: "home.theme.dark-marker" }
+- tapOn: { id: "home.day-card.0" }
+- assertVisible: { id: "itinerary-day.theme.dark-marker" }
+- assertVisible: { id: "itinerary-day.stop.0" }

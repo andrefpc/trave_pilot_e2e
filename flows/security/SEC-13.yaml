@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: SEC-13
-tags: [needs-implementation, security, p0]
+tags: [security, p0]
 ---
 # >>> dashboard-meta
 # SEC-13 — An account is locked for 15 minutes after 5 failed login attempts (i18nKey "auth.account_locked")
@@ -12,7 +12,28 @@ tags: [needs-implementation, security, p0]
 # 3. Verify the response carries i18nKey "auth.account_locked" (Network Profiler).
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- assertVisible: { id: "welcome.title" }
+- tapOn: { id: "welcome.have-account-login" }
+- tapOn: { id: "auth-sheet.signin-with-password" }
+- assertVisible: { id: "login.title" }
+- tapOn: { id: "login.email-field" }
+- inputText: ${TEST_FREE_EMAIL}
+- tapOn: { id: "login.password-field" }
+- inputText: "WrongPwd!9"
+- hideKeyboard
+- repeat:
+    times: 5
+    commands:
+      - tapOn: { id: "login.submit-button" }
+      - waitForAnimationToEnd:
+          timeout: 5000
+      - runFlow:
+          when:
+            visible:
+              id: "login.error-dialog.retry-button"
+          commands:
+            - tapOn: { id: "login.error-dialog.retry-button" }
+- assertVisible: { id: "login.lockout-dialog.title" }
+- assertVisible: { id: "login.lockout-dialog.retry-button" }

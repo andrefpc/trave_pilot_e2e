@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: PROF-03
-tags: [needs-implementation, profile, p1]
+tags: [profile, p1]
 ---
 # >>> dashboard-meta
 # PROF-03 — Picking a new avatar uploads it via POST /users/me/avatar and the avatar updates
@@ -12,7 +12,23 @@ tags: [needs-implementation, profile, p1]
 # 3. Verify the avatar on Profile updates to the new image.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
+# The dev/QA build exposes a deterministic test photo entry in the photo
+# picker so Maestro doesn't need to drive the system Gallery.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_FREE_EMAIL}
+      TEST_PASSWORD: ${TEST_FREE_PASSWORD}
+- tapOn: { id: "home.tab.profile" }
+- tapOn: { id: "profile.avatar" }
+- waitForAnimationToEnd:
+    timeout: 5000
+- assertVisible: { id: "profile.avatar.photo-picker" }
+- tapOn: { id: "profile.avatar.photo-picker.test-photo.0" }
+- waitForAnimationToEnd:
+    timeout: 8000
+- assertVisible: { id: "profile.title" }
+- assertVisible: { id: "profile.avatar" }
+- assertVisible: { id: "profile.avatar.updated-marker" }

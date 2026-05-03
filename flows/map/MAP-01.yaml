@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: MAP-01
-tags: [needs-implementation, map, p1]
+tags: [map, p1]
 ---
 # >>> dashboard-meta
 # MAP-01 — Travel Map shows a world map with markers for visited and planned cities
@@ -12,7 +12,19 @@ tags: [needs-implementation, map, p1]
 # 3. Verify a world map renders with city markers; visited cities use a different colour from planned.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
+# The premium seed account is set up with one completed trip (Lisbon, LX)
+# and one planned trip (Paris, FR) by /api/v1/test/reset.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.travel-map" }
+- assertVisible: { id: "map.title" }
+- assertVisible: { id: "map.world-view" }
+- assertVisible: { id: "map.country-pin.LX" }
+- assertVisible: { id: "map.country-pin.LX.visited-marker" }
+- assertVisible: { id: "map.country-pin.FR" }
+- assertVisible: { id: "map.country-pin.FR.planned-marker" }

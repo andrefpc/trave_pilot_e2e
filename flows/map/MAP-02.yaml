@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: MAP-02
-tags: [needs-implementation, map, p1]
+tags: [map, p1]
 ---
 # >>> dashboard-meta
 # MAP-02 — Pinching on the Travel Map smoothly zooms in and out
@@ -12,7 +12,33 @@ tags: [needs-implementation, map, p1]
 # 3. Verify smooth zoom with no jank.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
+# Maestro doesn't expose a real pinch gesture cross-platform, so the map
+# also exposes explicit Zoom In / Zoom Out controls (driven by the same
+# ViewModel as pinch). We assert the zoom-level marker advances and rolls
+# back as expected.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.travel-map" }
+- assertVisible: { id: "map.world-view" }
+- assertVisible: { id: "map.zoom-level.world-marker" }
+- tapOn: { id: "map.zoom-in-button" }
+- waitForAnimationToEnd:
+    timeout: 3000
+- assertVisible: { id: "map.zoom-level.continent-marker" }
+- tapOn: { id: "map.zoom-in-button" }
+- waitForAnimationToEnd:
+    timeout: 3000
+- assertVisible: { id: "map.zoom-level.country-marker" }
+- tapOn: { id: "map.zoom-out-button" }
+- waitForAnimationToEnd:
+    timeout: 3000
+- assertVisible: { id: "map.zoom-level.continent-marker" }
+- tapOn: { id: "map.zoom-out-button" }
+- waitForAnimationToEnd:
+    timeout: 3000
+- assertVisible: { id: "map.zoom-level.world-marker" }

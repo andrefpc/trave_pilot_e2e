@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: WZ-R-01
-tags: [needs-implementation, wizard, p1]
+tags: [wizard, p1]
 ---
 # >>> dashboard-meta
 # WZ-R-01 — On Restaurants, picking restaurants and tapping Next sends a PATCH and opens Where to Stay
@@ -12,7 +12,20 @@ tags: [needs-implementation, wizard, p1]
 # 3. Tap Next — verify a PATCH fires saving the selection and Where to Stay opens.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- assertVisible: { id: "welcome.title" }
+- tapOn: { id: "welcome.create-plan-button" }
+- runFlow: ./_walk_to_restaurants.yaml
+- assertVisible: { id: "wizard.restaurants.title" }
+- tapOn: { id: "wizard.restaurants.search-field" }
+- inputText: "Trattoria"
+- waitForAnimationToEnd:
+    timeout: 5000
+- tapOn: { id: "wizard.restaurants.search-result.0" }
+- hideKeyboard
+- scrollUntilVisible:
+    element: { id: "wizard.restaurants.next-button" }
+    direction: DOWN
+- tapOn: { id: "wizard.restaurants.next-button" }
+- assertVisible: { id: "wizard.where-to-stay.title" }

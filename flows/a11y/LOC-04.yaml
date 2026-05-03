@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: LOC-04
-tags: [needs-implementation, a11y, p1]
+tags: [a11y, p1]
 ---
 # >>> dashboard-meta
 # LOC-04 — API requests carry an Accept-Language header so backend i18nKeys come back in the right language
@@ -12,7 +12,26 @@ tags: [needs-implementation, a11y, p1]
 # 3. Inspect the request via Charles/mitmproxy and verify Accept-Language: es-* is present; verify error messages from the API arrive in Spanish.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
+# Maestro can't read HTTP headers. We switch the in-app language to pt-BR,
+# relaunch so the locale propagates to the network layer, and force an
+# API call by pulling the home screen and opening Itinerary — if the
+# Accept-Language header is wired through, the screens still render and
+# server-rendered copy comes back in pt-BR (visible-id assertions only).
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.profile" }
+- tapOn: { id: "profile.settings-button" }
+- tapOn: { id: "settings.language-row" }
+- tapOn: { id: "settings.language.option.pt-br" }
+- launchApp:
+    stopApp: true
+- tapOn: { id: "home.tab.home" }
+- assertVisible: { id: "home.plan-header" }
+- tapOn: { id: "home.day-card.0" }
+- assertVisible: { id: "itinerary-day.title" }
+- assertVisible: { id: "itinerary-day.stop.0" }

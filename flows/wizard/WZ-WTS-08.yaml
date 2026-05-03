@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: WZ-WTS-08
-tags: [needs-implementation, wizard, p2]
+tags: [wizard, p2]
 ---
 # >>> dashboard-meta
 # WZ-WTS-08 — When the photo proxy is unreachable, hotel cards show a placeholder image with no crash
@@ -12,7 +12,21 @@ tags: [needs-implementation, wizard, p2]
 # 3. Verify hotel cards show a generic placeholder image and the screen stays interactive.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
+# The dev build exposes a fault-injection hook (`hotelPhotoProxy=blocked`)
+# that makes /proxy/google-photo return 503 for the next session, mirroring an
+# unreachable proxy without an external mitmproxy.
 - runFlow: ../common/_reset_data.yaml
-- runFlow: ../common/_open_app.yaml
+- launchApp:
+    clearState: true
+    clearKeychain: true
+    stopApp: true
+    arguments:
+      hotelPhotoProxy: "blocked"
+- assertVisible: { id: "welcome.title" }
+- tapOn: { id: "welcome.create-plan-button" }
+- runFlow: ./_walk_to_wts.yaml
+- assertVisible: { id: "wizard.where-to-stay.title" }
+- assertVisible: { id: "wizard.where-to-stay.city-section.0.hotel-card.0" }
+- assertVisible: { id: "wizard.where-to-stay.city-section.0.hotel-card.0.photo.placeholder-marker" }
+- tapOn: { id: "wizard.where-to-stay.city-section.0.hotel-card.0" }
+- assertVisible: { id: "wizard.where-to-stay.title" }

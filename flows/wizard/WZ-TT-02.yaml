@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: WZ-TT-02
-tags: [needs-implementation, wizard, p1]
+tags: [wizard, p1]
 ---
 # >>> dashboard-meta
 # WZ-TT-02 — On Travel Times, picking a time preference (e.g. Morning) for a leg saves it on Next
@@ -12,7 +12,16 @@ tags: [needs-implementation, wizard, p1]
 # 3. Tap Next — verify the preference is persisted (a PATCH fires).
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- assertVisible: { id: "welcome.title" }
+- tapOn: { id: "welcome.create-plan-button" }
+- runFlow: ./_walk_to_travel_times.yaml
+- assertVisible: { id: "wizard.travel-times.title" }
+- tapOn: { id: "wizard.travel-times.leg.0.option.morning" }
+- assertVisible: { id: "wizard.travel-times.leg.0.option.morning.selected-marker" }
+- tapOn: { id: "wizard.travel-times.next-button" }
+- assertVisible: { id: "wizard.complete-onboarding.title" }
+- tapOn: { id: "wizard.back-button" }
+- assertVisible: { id: "wizard.travel-times.title" }
+- assertVisible: { id: "wizard.travel-times.leg.0.option.morning.selected-marker" }

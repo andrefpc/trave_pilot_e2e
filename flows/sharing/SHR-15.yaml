@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: SHR-15
-tags: [needs-implementation, sharing, p1]
+tags: [sharing, p1]
 ---
 # >>> dashboard-meta
 # SHR-15 — The owner tapping Remove next to a collaborator revokes that user's access immediately
@@ -12,7 +12,22 @@ tags: [needs-implementation, sharing, p1]
 # 3. Verify a DELETE /shares/:share_id fires; the user no longer appears and loses access.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.travel-plans" }
+- tapOn: { id: "plans.plan-card.shared" }
+- tapOn: { id: "share.invite-button" }
+- assertVisible: { id: "share.sheet" }
+- assertVisible: { id: "share.collaborator.0" }
+- tapOn: { id: "share.collaborator.0.remove-button" }
+- assertVisible: { id: "share.remove-collaborator-dialog.title" }
+- tapOn: { id: "share.remove-collaborator-dialog.confirm-button" }
+- waitForAnimationToEnd:
+    timeout: 5000
+- assertVisible: { id: "share.remove-success-snackbar" }
+- assertNotVisible: { id: "share.collaborator.0.remove-button" }

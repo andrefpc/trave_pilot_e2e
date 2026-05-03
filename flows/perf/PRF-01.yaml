@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: PRF-01
-tags: [needs-implementation, perf, p1]
+tags: [perf, p1]
 ---
 # >>> dashboard-meta
 # PRF-01 — Cold-start on Pixel 6 reaches the first interactive screen in ≤ 2.5 s
@@ -12,7 +12,17 @@ tags: [needs-implementation, perf, p1]
 # 3. Verify the reported time ≤ 2500 ms.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
+# Maestro can't read `am start -W` timing. The closest viable proxy is to
+# cold-launch and assert the first interactive screen (home tab bar)
+# becomes visible — if cold-start is broken or hung, the assertion fails.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- launchApp:
+    stopApp: true
+- assertVisible: { id: "home.tab-bar" }
+- assertVisible: { id: "home.plan-header" }

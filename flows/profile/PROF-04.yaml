@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: PROF-04
-tags: [needs-implementation, profile, p1]
+tags: [profile, p1]
 ---
 # >>> dashboard-meta
 # PROF-04 — Editing the user's name on Profile (or Settings) sends PATCH /users/me and the name updates immediately
@@ -12,7 +12,24 @@ tags: [needs-implementation, profile, p1]
 # 3. Verify a PATCH /users/me fires and the new name shows on Profile.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_FREE_EMAIL}
+      TEST_PASSWORD: ${TEST_FREE_PASSWORD}
+- tapOn: { id: "home.tab.profile" }
+- tapOn: { id: "profile.edit-button" }
+- assertVisible: { id: "profile.edit.title" }
+- tapOn: { id: "profile.edit.name-field" }
+- eraseText
+- inputText: "Maestro QA"
+- hideKeyboard
+- tapOn: { id: "profile.edit.save-button" }
+- waitForAnimationToEnd:
+    timeout: 5000
+- assertVisible: { id: "profile.title" }
+- assertVisible:
+    id: "profile.name"
+    text: "Maestro QA"

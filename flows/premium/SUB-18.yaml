@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: SUB-18
-tags: [needs-implementation, premium, p1]
+tags: [premium, p1]
 ---
 # >>> dashboard-meta
 # SUB-18 — Premium bottom sheet shows only Monthly and Annual; the legacy Five-Day Pass is not present
@@ -11,7 +11,16 @@ tags: [needs-implementation, premium, p1]
 # 2. Verify exactly two plan cards (Monthly + Annual). No "5-Day Pass" appears.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_FREE_EMAIL}
+      TEST_PASSWORD: ${TEST_FREE_PASSWORD}
+- tapOn: { id: "home.tab.profile" }
+- tapOn: { id: "profile.unlock-premium-button" }
+- assertVisible: { id: "premium.bottom-sheet.title" }
+- assertVisible: { id: "subscription.plan.monthly" }
+- assertVisible: { id: "subscription.plan.annual" }
+- assertNotVisible: { id: "subscription.plan.five-day-pass" }

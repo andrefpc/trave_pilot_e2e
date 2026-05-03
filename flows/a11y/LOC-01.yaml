@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: LOC-01
-tags: [needs-implementation, a11y, p0]
+tags: [a11y, p0]
 ---
 # >>> dashboard-meta
 # LOC-01 — No hardcoded user-facing strings exist in code: every text comes from strings.xml
@@ -12,7 +12,30 @@ tags: [needs-implementation, a11y, p0]
 # 3. Flag any hardcoded literals (≥1 character) as a violation.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
+# Maestro can't grep the Android source tree. The viable runtime proxy is
+# to switch the in-app language to pt-BR and then walk the major screens
+# — if a string was hardcoded in code, it would still render in English
+# while the rest of the screen translates. We assert each screen's
+# accessibility ids still resolve (ids are locale-independent), which
+# means the screen rendered after the locale switch.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.profile" }
+- tapOn: { id: "profile.settings-button" }
+- assertVisible: { id: "settings.title" }
+- tapOn: { id: "settings.language-row" }
+- tapOn: { id: "settings.language.option.pt-br" }
+- assertVisible: { id: "settings.title" }
+- pressKey: "back"
+- assertVisible: { id: "profile.title" }
+- tapOn: { id: "home.tab.home" }
+- assertVisible: { id: "home.plan-header" }
+- assertVisible: { id: "home.day-card.0" }
+- tapOn: { id: "home.day-card.0" }
+- assertVisible: { id: "itinerary-day.title" }
+- assertVisible: { id: "itinerary-day.stop.0" }

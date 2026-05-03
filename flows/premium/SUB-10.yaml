@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: SUB-10
-tags: [needs-implementation, premium, p0]
+tags: [premium, p0]
 ---
 # >>> dashboard-meta
 # SUB-10 — When the subscription expires, premium-only features show the Premium bottom sheet again
@@ -12,7 +12,22 @@ tags: [needs-implementation, premium, p0]
 # 3. Verify the action is blocked with the Premium bottom sheet.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
+# Drives sandbox expiry via the devtools "Force Expire Premium" toggle and
+# then attempts the Rearrange premium feature to assert the gate.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.profile" }
+- tapOn: { id: "subscription.devtools.force-expire" }
+- waitForAnimationToEnd:
+    timeout: 3000
+- assertVisible: { id: "profile.unlock-premium-button" }
+- tapOn: { id: "home.tab.travel-plans" }
+- tapOn: { id: "plans.plan-card.0" }
+- tapOn: { id: "itinerary.toolbar.rearrange-button" }
+- assertVisible: { id: "premium.bottom-sheet" }
+- assertVisible: { id: "premium.bottom-sheet.cta" }

@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: GEN-12
-tags: [needs-implementation, generation, p1]
+tags: [generation, p1]
 ---
 # >>> dashboard-meta
 # GEN-12 — Backgrounding the app during Plan Generation and returning resumes polling and shows the latest progress
@@ -12,7 +12,36 @@ tags: [needs-implementation, generation, p1]
 # 3. Verify polling has resumed and the progress bar reflects the new completion state.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.travel-plans" }
+- tapOn: { id: "travel-plans.add-button" }
+- assertVisible: { id: "wizard.destination.title" }
+- tapOn: { id: "wizard.destination.next-button" }
+- tapOn: { id: "wizard.walking-style.next-button" }
+- tapOn: { id: "wizard.companions.next-button" }
+- tapOn: { id: "wizard.day-schedule.next-button" }
+- tapOn: { id: "wizard.meal-time.next-button" }
+- tapOn: { id: "wizard.budget.next-button" }
+- tapOn: { id: "wizard.places-of-interest.next-button" }
+- tapOn: { id: "wizard.restaurants.next-button" }
+- tapOn: { id: "wizard.where-to-stay.next-button" }
+- tapOn: { id: "wizard.travel-times.next-button" }
+- assertVisible: { id: "plan-generation.progress" }
+- assertVisible: { id: "plan-generation.poll-counter" }
+- pressKey: "home"
+- waitForAnimationToEnd:
+    timeout: 5000
+- launchApp:
+    stopApp: false
+- assertVisible: { id: "plan-generation.progress" }
+- extendedWaitUntil:
+    visible:
+      id: "plan-generation.poll-counter"
+      text: "5"
+    timeout: 30000

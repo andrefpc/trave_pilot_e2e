@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: SUB-16
-tags: [needs-implementation, premium, p1]
+tags: [premium, p1]
 ---
 # >>> dashboard-meta
 # SUB-16 — Buying premium on Device A is reflected in Device B after sign-in
@@ -12,7 +12,16 @@ tags: [needs-implementation, premium, p1]
 # 3. Verify Profile shows "You are Premium" immediately (after GET /subscriptions/me).
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
+# Maestro can't drive two physical devices. We simulate "Device B" by
+# wiping state and signing in as the pre-seeded premium account whose
+# subscription was provisioned out-of-band, then assert Profile state.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.profile" }
+- assertVisible: { id: "profile.premium-badge" }
+- assertNotVisible: { id: "profile.unlock-premium-button" }

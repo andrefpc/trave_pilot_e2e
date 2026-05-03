@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: SEC-12
-tags: [needs-implementation, security, p0]
+tags: [security, p0]
 ---
 # >>> dashboard-meta
 # SEC-12 — Email enumeration is prevented in Forgot Password: known and unknown emails return the same response
@@ -12,7 +12,33 @@ tags: [needs-implementation, security, p0]
 # 3. Verify both produce the same Recovery Code screen (or generic "check your email") and same backend 200 response.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- assertVisible: { id: "welcome.title" }
+- tapOn: { id: "welcome.have-account-login" }
+- tapOn: { id: "auth-sheet.signin-with-password" }
+- tapOn: { id: "login.forgot-password-link" }
+- assertVisible: { id: "forgot-password.title" }
+- tapOn: { id: "forgot-password.email-field" }
+- inputText: ${TEST_FREE_EMAIL}
+- hideKeyboard
+- tapOn: { id: "forgot-password.send-code-button" }
+- waitForAnimationToEnd:
+    timeout: 5000
+- assertVisible: { id: "recovery-code.title" }
+- assertNotVisible: { id: "forgot-password.user-not-found-dialog.title" }
+- pressKey: "back"
+- pressKey: "back"
+- assertVisible: { id: "welcome.title" }
+- tapOn: { id: "welcome.have-account-login" }
+- tapOn: { id: "auth-sheet.signin-with-password" }
+- tapOn: { id: "login.forgot-password-link" }
+- assertVisible: { id: "forgot-password.title" }
+- tapOn: { id: "forgot-password.email-field" }
+- inputText: "no-such-user-99999@travelpilotapp.com"
+- hideKeyboard
+- tapOn: { id: "forgot-password.send-code-button" }
+- waitForAnimationToEnd:
+    timeout: 5000
+- assertVisible: { id: "recovery-code.title" }
+- assertNotVisible: { id: "forgot-password.user-not-found-dialog.title" }

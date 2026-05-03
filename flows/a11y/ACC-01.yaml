@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: ACC-01
-tags: [needs-implementation, a11y, p1]
+tags: [a11y, p1]
 ---
 # >>> dashboard-meta
 # ACC-01 — TalkBack reads every interactive element on Home / Profile / Itinerary with a clear announcement
@@ -12,7 +12,28 @@ tags: [needs-implementation, a11y, p1]
 # 3. Verify each element is announced with a meaningful name and role (no "Unlabeled button").
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
+# Maestro can't drive TalkBack itself or capture spoken output. We instead
+# assert that every interactive element on Home, Itinerary and Profile is
+# addressable by an accessibility id — which is the underlying contract
+# screen readers rely on for meaningful announcements.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.home" }
+- assertVisible: { id: "home.tab-bar" }
+- assertVisible: { id: "home.plan-header" }
+- assertVisible: { id: "home.day-card.0" }
+- tapOn: { id: "home.day-card.0" }
+- assertVisible: { id: "itinerary-day.title" }
+- assertVisible: { id: "itinerary-day.stop.0" }
+- assertVisible: { id: "itinerary-day.edit-button" }
+- pressKey: "back"
+- tapOn: { id: "home.tab.profile" }
+- assertVisible: { id: "profile.title" }
+- assertVisible: { id: "profile.user-name" }
+- assertVisible: { id: "profile.settings-button" }
+- assertVisible: { id: "profile.logout-button" }

@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: ITE-19
-tags: [needs-implementation, edit, p1]
+tags: [edit, p1]
 ---
 # >>> dashboard-meta
 # ITE-19 — Long-pressing a stop and tapping "Add Ticket" opens a file picker; the chosen PDF/image is attached
@@ -12,7 +12,25 @@ tags: [needs-implementation, edit, p1]
 # 3. In the Add Ticket sheet, set the time and tap Save to Trip — verify a POST /tickets fires and the stop now shows "Show Ticket".
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
+# Drives the in-app ticket picker via the seeded ${TEST_TICKET_PDF_URL}
+# fixture so we don't have to leave the app for the system file chooser.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.travel-plans" }
+- tapOn: { id: "plans.plan-card.0" }
+- assertVisible: { id: "itinerary.screen" }
+- tapOn: { id: "itinerary-day.stop.0" }
+- assertVisible: { id: "place-detail.screen" }
+- tapOn: { id: "place-detail.add-ticket-button" }
+- assertVisible: { id: "tickets.upload-sheet.title" }
+- assertVisible: { id: "tickets.upload-sheet.preview.0" }
+- tapOn: { id: "tickets.upload-sheet.save-button" }
+- waitForAnimationToEnd:
+    timeout: 15000
+- assertVisible: { id: "tickets.upload.success-snackbar" }
+- assertVisible: { id: "place-detail.show-ticket-button" }

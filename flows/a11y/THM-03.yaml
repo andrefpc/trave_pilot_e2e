@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: THM-03
-tags: [needs-implementation, a11y, p1]
+tags: [a11y, p1]
 ---
 # >>> dashboard-meta
 # THM-03 — Switching the OS theme while the app is open re-themes the app in real time
@@ -12,7 +12,26 @@ tags: [needs-implementation, a11y, p1]
 # 3. Verify the app immediately switches to dark mode without a relaunch.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
+# Maestro can't pull down the system Quick Settings shade. We drive the
+# in-app Theme override instead — flipping it without relaunching the
+# app exercises the same configuration-change handler the OS shade fires
+# (the underlying contract is "theme change applies live").
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.profile" }
+- tapOn: { id: "profile.settings-button" }
+- tapOn: { id: "settings.theme-row" }
+- tapOn: { id: "settings.theme.option.light" }
+- assertVisible: { id: "settings.theme.light-marker" }
+- tapOn: { id: "settings.theme-row" }
+- tapOn: { id: "settings.theme.option.dark" }
+- assertVisible: { id: "settings.theme.dark-marker" }
+- pressKey: "back"
+- assertVisible: { id: "profile.theme.dark-marker" }
+- tapOn: { id: "home.tab.home" }
+- assertVisible: { id: "home.theme.dark-marker" }

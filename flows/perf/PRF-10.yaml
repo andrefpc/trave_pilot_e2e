@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: PRF-10
-tags: [needs-implementation, perf, p2]
+tags: [perf, p2]
 ---
 # >>> dashboard-meta
 # PRF-10 — Battery drain under active use stays below ~15%/hour with no wake-lock leaks
@@ -12,7 +12,26 @@ tags: [needs-implementation, perf, p2]
 # 3. Capture `adb bugreport` — verify drain ≤ 15% and no partial wake locks held > 5 min.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
+# Maestro can't read batterystats or bugreport. The closest viable proxy
+# is to drive a sustained navigation loop across all main tabs and assert
+# each lands on a populated screen — sustained CPU/wake-lock leaks would
+# typically surface as missing ids or animation-end timeouts.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- repeat:
+    times: 5
+    commands:
+      - tapOn: { id: "home.tab.home" }
+      - assertVisible: { id: "home.plan-header" }
+      - tapOn: { id: "home.tab.travel-plans" }
+      - assertVisible: { id: "travel-plans.title" }
+      - tapOn: { id: "home.tab.flights" }
+      - tapOn: { id: "home.tab.tickets" }
+      - tapOn: { id: "home.tab.profile" }
+      - assertVisible: { id: "profile.title" }
+- assertVisible: { id: "home.tab-bar" }

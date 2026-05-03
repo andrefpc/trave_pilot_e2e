@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: GEN-15
-tags: [needs-implementation, generation, p2]
+tags: [generation, p2]
 ---
 # >>> dashboard-meta
 # GEN-15 — While plan generation runs, a persistent low-priority notification "Creating your adventure" is visible in the tray
@@ -12,7 +12,27 @@ tags: [needs-implementation, generation, p2]
 # 3. Verify a persistent low-priority notification labelled "Creating your adventure" is shown until generation finishes.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.travel-plans" }
+- tapOn: { id: "travel-plans.add-button" }
+- assertVisible: { id: "wizard.destination.title" }
+- tapOn: { id: "wizard.destination.next-button" }
+- tapOn: { id: "wizard.walking-style.next-button" }
+- tapOn: { id: "wizard.companions.next-button" }
+- tapOn: { id: "wizard.day-schedule.next-button" }
+- tapOn: { id: "wizard.meal-time.next-button" }
+- tapOn: { id: "wizard.budget.next-button" }
+- tapOn: { id: "wizard.places-of-interest.next-button" }
+- tapOn: { id: "wizard.restaurants.next-button" }
+- tapOn: { id: "wizard.where-to-stay.next-button" }
+- tapOn: { id: "wizard.travel-times.next-button" }
+- assertVisible: { id: "plan-generation.progress" }
+- openNotifications
+- assertVisible: { id: "notification.plan-generation.in-progress" }
+- assertVisible: { id: "notification.plan-generation.in-progress.persistent-marker" }

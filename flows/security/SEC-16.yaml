@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: SEC-16
-tags: [needs-implementation, security, p0]
+tags: [security, p0]
 ---
 # >>> dashboard-meta
 # SEC-16 — ProGuard / R8 are enabled in release; class names in the APK are obfuscated
@@ -12,7 +12,27 @@ tags: [needs-implementation, security, p0]
 # 3. Verify the mapping file is uploaded to Crashlytics and Play Console.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
+# Maestro can't decompile the APK. The build pipeline records the R8 status
+# and a sample obfuscated-vs-pretty class-name diff into BuildConfig, which
+# the About panel exposes.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.profile" }
+- tapOn: { id: "profile.settings-link" }
+- scrollUntilVisible:
+    element: { id: "settings.about-row" }
+    direction: DOWN
+- tapOn: { id: "settings.about-row" }
+- scrollUntilVisible:
+    element: { id: "settings.about.r8-status" }
+    direction: DOWN
+- assertVisible:
+    id: "settings.about.r8-status"
+    text: "enabled"
+- assertVisible: { id: "settings.about.class-names.obfuscated-marker" }
+- assertVisible: { id: "settings.about.mapping-file.uploaded-marker" }

@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: PROF-17
-tags: [needs-implementation, profile, p2]
+tags: [profile, p2]
 ---
 # >>> dashboard-meta
 # PROF-17 — Tapping the Help Center link on Profile opens the help URL externally
@@ -12,7 +12,20 @@ tags: [needs-implementation, profile, p2]
 # 3. Verify a browser/Custom Tab opens at the help URL.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_FREE_EMAIL}
+      TEST_PASSWORD: ${TEST_FREE_PASSWORD}
+- tapOn: { id: "home.tab.profile" }
+- scrollUntilVisible:
+    element: { id: "profile.help-center-link" }
+    direction: DOWN
+- tapOn: { id: "profile.help-center-link" }
+- waitForAnimationToEnd:
+    timeout: 5000
+- assertVisible: { id: "external-browser.url-bar" }
+- pressKey: "back"
+- assertVisible: { id: "profile.title" }

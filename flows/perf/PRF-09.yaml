@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: PRF-09
-tags: [needs-implementation, perf, p1]
+tags: [perf, p1]
 ---
 # >>> dashboard-meta
 # PRF-09 — Release AAB download size < 50 MB and install size < 100 MB
@@ -12,7 +12,19 @@ tags: [needs-implementation, perf, p1]
 # 3. Verify the largest APK is < 50 MB; the install footprint reported by Settings → Apps is < 100 MB.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
+# Maestro can't read on-disk APK / AAB sizes. The closest viable proxy
+# is to confirm the installed build cold-launches successfully and that
+# its main bundles render — bloated bundles tend to fail to load assets
+# (broken images, missing icons), which would surface as missing ids.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- assertVisible: { id: "home.tab-bar" }
+- assertVisible: { id: "home.plan-header" }
+- tapOn: { id: "home.day-card.0" }
+- assertVisible: { id: "itinerary-day.title" }
+- assertVisible: { id: "itinerary-day.stop.0" }

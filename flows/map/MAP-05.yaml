@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: MAP-05
-tags: [needs-implementation, map, p2]
+tags: [map, p2]
 ---
 # >>> dashboard-meta
 # MAP-05 — Travel Map shows a stats card with counts of visited and planned cities
@@ -12,7 +12,16 @@ tags: [needs-implementation, map, p2]
 # 3. Verify it shows the user's counts: e.g. "X cities visited · Y planned".
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.travel-map" }
+- assertVisible: { id: "map.world-view" }
+- assertVisible: { id: "map.stats-card" }
+- assertVisible: { id: "map.stats-card.visited-count" }
+- assertVisible: { id: "map.stats-card.planned-count" }
+- assertVisible: { id: "map.stats-card.countries-count" }

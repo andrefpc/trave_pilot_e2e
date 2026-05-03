@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: RD-02
-tags: [needs-implementation, reorder, p0]
+tags: [reorder, p0]
 ---
 # >>> dashboard-meta
 # RD-02 — A premium user tapping Reorder Days opens the screen and dragging reorders days; saving sends PUT /reorder-days
@@ -13,7 +13,27 @@ tags: [needs-implementation, reorder, p0]
 # 4. Verify a PUT /reorder-days fires with the new day_ids array and a success snackbar appears.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.travel-plans" }
+- tapOn: { id: "plans.plan-card.0" }
+- tapOn: { id: "itinerary.toolbar.reorder-days-button" }
+- assertVisible: { id: "reorder-days.screen" }
+- assertVisible: { id: "reorder-days.day-card.0" }
+- assertVisible: { id: "reorder-days.day-card.1" }
+- swipe:
+    from: { id: "reorder-days.day-handle.0" }
+    direction: DOWN
+    duration: 1500
+- waitForAnimationToEnd:
+    timeout: 3000
+- tapOn: { id: "reorder-days.confirm-button" }
+- waitForAnimationToEnd:
+    timeout: 5000
+- assertVisible: { id: "reorder-days.snackbar.saved" }
+- assertVisible: { id: "itinerary.screen" }

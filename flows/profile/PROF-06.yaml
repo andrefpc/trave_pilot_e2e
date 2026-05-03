@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: PROF-06
-tags: [needs-implementation, profile, p2]
+tags: [profile, p2]
 ---
 # >>> dashboard-meta
 # PROF-06 — After changing the email, a verification email is sent (if implemented)
@@ -12,7 +12,26 @@ tags: [needs-implementation, profile, p2]
 # 3. Verify a verification email arrived with a confirmation link.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
+# Maestro can't read an external inbox. The dev/QA build surfaces the most
+# recently-issued verification email on Profile → Edit so we can assert it
+# was generated for the new address.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_FREE_EMAIL}
+      TEST_PASSWORD: ${TEST_FREE_PASSWORD}
+- tapOn: { id: "home.tab.profile" }
+- tapOn: { id: "profile.edit-button" }
+- tapOn: { id: "profile.edit.email-field" }
+- eraseText
+- inputText: "e2e+changed@travelpilotapp.com"
+- hideKeyboard
+- tapOn: { id: "profile.edit.save-button" }
+- waitForAnimationToEnd:
+    timeout: 5000
+- assertVisible: { id: "profile.edit.verification-sent-banner" }
+- assertVisible:
+    id: "profile.edit.verification-sent-banner.recipient"
+    text: "e2e+changed@travelpilotapp.com"

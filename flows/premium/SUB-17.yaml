@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: SUB-17
-tags: [needs-implementation, premium, p1]
+tags: [premium, p1]
 ---
 # >>> dashboard-meta
 # SUB-17 — Force-stopping the app during the Play Billing flow reconciles state on next launch via queryPurchases
@@ -12,7 +12,24 @@ tags: [needs-implementation, premium, p1]
 # 3. Reopen the app — verify queryPurchases is called and any completed purchase is verified, granting premium.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
+# Drives the "force-stop mid-purchase" path via the devtools
+# "Simulate Pending Receipt" toggle followed by a stopApp/cold-launch.
+# On relaunch, the app's startup queryPurchases reconciles the receipt.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_FREE_EMAIL}
+      TEST_PASSWORD: ${TEST_FREE_PASSWORD}
+- tapOn: { id: "home.tab.profile" }
+- tapOn: { id: "profile.unlock-premium-button" }
+- assertVisible: { id: "premium.bottom-sheet.title" }
+- tapOn: { id: "subscription.devtools.simulate-pending-receipt" }
+- launchApp:
+    stopApp: true
+- waitForAnimationToEnd:
+    timeout: 10000
+- tapOn: { id: "home.tab.profile" }
+- assertVisible: { id: "profile.premium-badge" }
+- assertNotVisible: { id: "profile.unlock-premium-button" }

@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: SHR-16
-tags: [needs-implementation, sharing, p0]
+tags: [sharing, p0]
 ---
 # >>> dashboard-meta
 # SHR-16 — A read-only joiner cannot edit the itinerary; edit controls are hidden or 403
@@ -12,7 +12,19 @@ tags: [needs-implementation, sharing, p0]
 # 3. Verify edit controls are hidden, or attempting to save returns 403 with a clear message.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
+# Signs in as the seeded read-only collaborator account, then opens the
+# pre-joined plan and asserts that the Rearrange/Edit toolbar buttons are
+# absent (read-only role hides them client-side).
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_READONLY_EMAIL}
+      TEST_PASSWORD: ${TEST_READONLY_PASSWORD}
+- tapOn: { id: "home.tab.travel-plans" }
+- tapOn: { id: "plans.plan-card.shared" }
+- assertVisible: { id: "itinerary.screen" }
+- assertVisible: { id: "itinerary.read-only-banner" }
+- assertNotVisible: { id: "itinerary.toolbar.rearrange-button" }
+- assertNotVisible: { id: "itinerary.toolbar.reorder-days-button" }

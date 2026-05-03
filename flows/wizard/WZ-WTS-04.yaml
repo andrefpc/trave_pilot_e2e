@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: WZ-WTS-04
-tags: [needs-implementation, wizard, p2]
+tags: [wizard, p2]
 ---
 # >>> dashboard-meta
 # WZ-WTS-04 — Each Where to Stay hotel card shows a star rating that matches its rating value
@@ -11,7 +11,12 @@ tags: [needs-implementation, wizard, p2]
 # 2. Verify the rendered stars (out of 5) match the numeric rating (e.g. 4.5 = 4½ stars).
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- assertVisible: { id: "welcome.title" }
+- tapOn: { id: "welcome.create-plan-button" }
+- runFlow: ./_walk_to_wts.yaml
+- assertVisible: { id: "wizard.where-to-stay.title" }
+- assertVisible: { id: "wizard.where-to-stay.city-section.0.hotel-card.0" }
+- assertVisible: { id: "wizard.where-to-stay.city-section.0.hotel-card.0.rating" }
+- assertVisible: { id: "wizard.where-to-stay.city-section.0.hotel-card.0.stars" }

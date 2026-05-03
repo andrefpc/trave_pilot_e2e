@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: SET-06
-tags: [needs-implementation, settings, p1]
+tags: [settings, p1]
 ---
 # >>> dashboard-meta
 # SET-06 — Switching language on Settings re-localises the app strings
@@ -11,7 +11,24 @@ tags: [needs-implementation, settings, p1]
 # 2. Verify titles, buttons and error messages render in Spanish app-wide.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
+# We assert via stable language-marker ids set on each top-level screen
+# (the mobile app stamps the active locale on the screen container so flows
+# stay copy-independent).
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_FREE_EMAIL}
+      TEST_PASSWORD: ${TEST_FREE_PASSWORD}
+- tapOn: { id: "home.tab.profile" }
+- tapOn: { id: "profile.settings-link" }
+- tapOn: { id: "settings.language-row" }
+- tapOn: { id: "settings.language.option.es" }
+- assertVisible: { id: "settings.language.es-marker" }
+- pressKey: "back"
+- assertVisible: { id: "settings.locale.es-marker" }
+- tapOn: { id: "home.tab.home" }
+- assertVisible: { id: "home.locale.es-marker" }
+- tapOn: { id: "home.tab.profile" }
+- assertVisible: { id: "profile.locale.es-marker" }

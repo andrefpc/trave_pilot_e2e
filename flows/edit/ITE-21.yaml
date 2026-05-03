@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: ITE-21
-tags: [needs-implementation, edit, p1]
+tags: [edit, p1]
 ---
 # >>> dashboard-meta
 # ITE-21 — Pressing back on Rearrange with unsaved changes shows a discard confirmation
@@ -12,7 +12,28 @@ tags: [needs-implementation, edit, p1]
 # 3. Verify a confirmation like "Discard unsaved changes?" appears with options to keep editing or discard.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.travel-plans" }
+- tapOn: { id: "plans.plan-card.0" }
+- tapOn: { id: "itinerary.toolbar.rearrange-button" }
+- assertVisible: { id: "itinerary-edit.screen" }
+- swipe:
+    from: { id: "itinerary-edit.stop.0.drag-handle" }
+    direction: DOWN
+    duration: 1500
+- waitForAnimationToEnd:
+    timeout: 3000
+- assertVisible: { id: "itinerary-edit.unsaved-indicator" }
+- pressKey: "back"
+- assertVisible: { id: "itinerary-edit.discard-dialog.title" }
+- assertVisible: { id: "itinerary-edit.discard-dialog.discard-button" }
+- assertVisible: { id: "itinerary-edit.discard-dialog.keep-editing-button" }
+- tapOn: { id: "itinerary-edit.discard-dialog.keep-editing-button" }
+- assertVisible: { id: "itinerary-edit.screen" }
+- assertVisible: { id: "itinerary-edit.unsaved-indicator" }

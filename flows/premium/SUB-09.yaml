@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: SUB-09
-tags: [needs-implementation, premium, p0]
+tags: [premium, p0]
 ---
 # >>> dashboard-meta
 # SUB-09 — Cancel Subscription deep-links to Google Play subscription management
@@ -11,7 +11,16 @@ tags: [needs-implementation, premium, p0]
 # 2. Verify the Play Store opens at the subscription-management page where the user can cancel.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.profile" }
+- tapOn: { id: "profile.manage-subscription-button" }
+- tapOn: { id: "subscription.cancel-button" }
+- waitForAnimationToEnd:
+    timeout: 5000
+- assertVisible: { id: "external-browser.url-bar" }

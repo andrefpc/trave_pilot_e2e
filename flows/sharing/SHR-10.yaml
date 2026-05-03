@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: SHR-10
-tags: [needs-implementation, sharing, p0]
+tags: [sharing, p0]
 ---
 # >>> dashboard-meta
 # SHR-10 — Tapping "Add Travel Plan" on Share Invite (signed in) joins the plan and shows "You joined the plan!"
@@ -12,7 +12,23 @@ tags: [needs-implementation, sharing, p0]
 # 3. Verify a POST /travel-plans/join/:token fires and a success message appears; the plan now appears in Travel Plans.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_EMAIL}
+      TEST_PASSWORD: ${TEST_PASSWORD}
+- openLink: "https://www.travelpilotapp.com/share/${TEST_SHARE_TOKEN}"
+- waitForAnimationToEnd:
+    timeout: 5000
+- assertVisible: { id: "share-invite.title" }
+- assertVisible: { id: "share-invite.plan-preview" }
+- tapOn: { id: "share-invite.add-plan-button" }
+- waitForAnimationToEnd:
+    timeout: 8000
+- assertVisible: { id: "share-invite.join-success-snackbar" }
+- assertVisible: { id: "home.tab-bar" }
+- tapOn: { id: "home.tab.travel-plans" }
+- assertVisible: { id: "travel-plans.title" }
+- assertVisible: { id: "plans.plan-card.0" }

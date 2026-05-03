@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: THM-04
-tags: [needs-implementation, a11y, p1]
+tags: [a11y, p1]
 ---
 # >>> dashboard-meta
 # THM-04 — Status bar and navigation bar colors match the active theme on every screen
@@ -12,7 +12,34 @@ tags: [needs-implementation, a11y, p1]
 # 3. Verify there are no hardcoded white or black bars regardless of theme.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
+# Maestro can't sample status-bar pixel colors. The closest viable proxy
+# is to flip the in-app theme and rely on the per-screen `theme.*-marker`
+# ids (the mobile teams render these only when the system bars match the
+# active theme). We exercise both light and dark and assert the marker
+# id flips alongside on each screen.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.profile" }
+- tapOn: { id: "profile.settings-button" }
+- tapOn: { id: "settings.theme-row" }
+- tapOn: { id: "settings.theme.option.light" }
+- launchApp:
+    stopApp: true
+- tapOn: { id: "home.tab.home" }
+- assertVisible: { id: "home.theme.light-marker" }
+- tapOn: { id: "home.tab.profile" }
+- assertVisible: { id: "profile.theme.light-marker" }
+- tapOn: { id: "profile.settings-button" }
+- tapOn: { id: "settings.theme-row" }
+- tapOn: { id: "settings.theme.option.dark" }
+- launchApp:
+    stopApp: true
+- tapOn: { id: "home.tab.home" }
+- assertVisible: { id: "home.theme.dark-marker" }
+- tapOn: { id: "home.tab.profile" }
+- assertVisible: { id: "profile.theme.dark-marker" }

@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: PROF-18
-tags: [needs-implementation, profile, p1]
+tags: [profile, p1]
 ---
 # >>> dashboard-meta
 # PROF-18 — Tapping the Terms link on Profile opens the Terms screen (or external page)
@@ -11,7 +11,20 @@ tags: [needs-implementation, profile, p1]
 # 2. Verify the Terms screen opens (or the terms URL in a Custom Tab).
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_FREE_EMAIL}
+      TEST_PASSWORD: ${TEST_FREE_PASSWORD}
+- tapOn: { id: "home.tab.profile" }
+- scrollUntilVisible:
+    element: { id: "profile.terms-link" }
+    direction: DOWN
+- tapOn: { id: "profile.terms-link" }
+- waitForAnimationToEnd:
+    timeout: 5000
+- assertVisible: { id: "profile.terms.title" }
+- pressKey: "back"
+- assertVisible: { id: "profile.title" }

@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: ITE-16
-tags: [needs-implementation, edit, p0]
+tags: [edit, p0]
 ---
 # >>> dashboard-meta
 # ITE-16 — A free user can replace a free-time slot via "Add Stop" without paywall (free-time replace is not premium-gated)
@@ -12,7 +12,27 @@ tags: [needs-implementation, edit, p0]
 # 3. Verify the place replaces the free-time slot — no Premium bottom sheet appears.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_FREE_EMAIL}
+      TEST_PASSWORD: ${TEST_FREE_PASSWORD}
+- tapOn: { id: "home.tab.travel-plans" }
+- tapOn: { id: "plans.plan-card.0" }
+- assertVisible: { id: "itinerary.screen" }
+- tapOn: { id: "itinerary-day.free-time-slot.0" }
+- tapOn: { id: "itinerary-day.free-time-slot.0.add-stop-button" }
+- assertVisible: { id: "place-search.sheet" }
+- assertNotVisible: { id: "premium.bottom-sheet" }
+- tapOn: { id: "place-search.input" }
+- inputText: "cafe"
+- waitForAnimationToEnd:
+    timeout: 3000
+- tapOn: { id: "place-search.result.0" }
+- waitForAnimationToEnd:
+    timeout: 5000
+- assertNotVisible: { id: "premium.bottom-sheet" }
+- assertVisible: { id: "itinerary-edit.snackbar.added" }
+- assertVisible: { id: "itinerary.screen" }

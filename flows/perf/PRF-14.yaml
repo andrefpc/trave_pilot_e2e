@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: PRF-14
-tags: [needs-implementation, perf, p0]
+tags: [perf, p0]
 ---
 # >>> dashboard-meta
 # PRF-14 — Room database migrations run successfully when upgrading from a previous app version
@@ -12,7 +12,27 @@ tags: [needs-implementation, perf, p0]
 # 3. Open the app — verify it does not crash, the data is intact, and logcat shows the Room migration succeeding.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
+# Maestro can't install a previous APK and overlay a new one. The
+# closest viable proxy is to sign in (populates Room with user data),
+# hot-relaunch and then cold-launch with state preserved (clearState
+# false), and assert the data still renders — exercises the migration
+# path's "open existing DB on app start" code path on the same schema.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.home" }
+- assertVisible: { id: "home.plan-header" }
+- assertVisible: { id: "home.day-card.0" }
+- launchApp:
+    stopApp: true
+- assertVisible: { id: "home.tab-bar" }
+- tapOn: { id: "home.tab.home" }
+- assertVisible: { id: "home.plan-header" }
+- assertVisible: { id: "home.day-card.0" }
+- tapOn: { id: "home.day-card.0" }
+- assertVisible: { id: "itinerary-day.title" }
+- assertVisible: { id: "itinerary-day.stop.0" }

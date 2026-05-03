@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: SUB-15
-tags: [needs-implementation, premium, p1]
+tags: [premium, p1]
 ---
 # >>> dashboard-meta
 # SUB-15 — A Google refund webhook (subscription_status=refunded) revokes premium
@@ -12,7 +12,24 @@ tags: [needs-implementation, premium, p1]
 # 3. Verify premium gates re-appear in the app.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
+# Drives the sandbox refund webhook via the devtools "Simulate Refund"
+# action; afterwards the Profile premium badge disappears and Rearrange
+# is gated again.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.profile" }
+- assertVisible: { id: "profile.premium-badge" }
+- tapOn: { id: "subscription.devtools.simulate-refund" }
+- waitForAnimationToEnd:
+    timeout: 8000
+- assertVisible: { id: "profile.unlock-premium-button" }
+- assertNotVisible: { id: "profile.premium-badge" }
+- tapOn: { id: "home.tab.travel-plans" }
+- tapOn: { id: "plans.plan-card.0" }
+- tapOn: { id: "itinerary.toolbar.rearrange-button" }
+- assertVisible: { id: "premium.bottom-sheet" }

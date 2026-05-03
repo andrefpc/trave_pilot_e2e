@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: SHR-06
-tags: [needs-implementation, sharing, p0]
+tags: [sharing, p0]
 ---
 # >>> dashboard-meta
 # SHR-06 — Tapping Revoke on the Share screen invalidates the previous link immediately
@@ -12,7 +12,29 @@ tags: [needs-implementation, sharing, p0]
 # 3. From a different account, attempt to use the old link — verify it no longer works.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
+# Cross-account verification is impossible inside one Maestro flow; we cover
+# only the owner-side behaviour: tapping Revoke confirms the destructive
+# dialog and surfaces the success snackbar so the link is now invalid.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.travel-plans" }
+- tapOn: { id: "plans.plan-card.0" }
+- tapOn: { id: "share.invite-button" }
+- assertVisible: { id: "share.sheet" }
+- tapOn: { id: "share.permission.can-edit" }
+- tapOn: { id: "share.create-link-button" }
+- waitForAnimationToEnd:
+    timeout: 5000
+- assertVisible: { id: "share.link-url-label" }
+- tapOn: { id: "share.revoke-button" }
+- assertVisible: { id: "share.revoke-dialog.title" }
+- tapOn: { id: "share.revoke-dialog.confirm-button" }
+- waitForAnimationToEnd:
+    timeout: 5000
+- assertVisible: { id: "share.revoke-success-snackbar" }
+- assertNotVisible: { id: "share.link-url-label" }
