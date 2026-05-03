@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: PLANS-14
+tags: [needs-implementation, plans, p2]
+---
+# >>> dashboard-meta
+# PLANS-14 — On Travel Plans, the status filter (if present) restricts the list to draft / active / completed / archived
+# Section: Travel Plans List & Plan Management
+# Priority: P2
+# Repro:
+# 1. On Travel Plans, tap the filter icon.
+# 2. Pick "Draft".
+# 3. Verify only draft plans are shown.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

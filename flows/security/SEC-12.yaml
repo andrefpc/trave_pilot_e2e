@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: SEC-12
+tags: [needs-implementation, security, p0]
+---
+# >>> dashboard-meta
+# SEC-12 — Email enumeration is prevented in Forgot Password: known and unknown emails return the same response
+# Section: Security & Auth Hardening
+# Priority: P0
+# Repro:
+# 1. From Forgot Password, submit a known email and observe the UX.
+# 2. Submit an unknown email.
+# 3. Verify both produce the same Recovery Code screen (or generic "check your email") and same backend 200 response.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

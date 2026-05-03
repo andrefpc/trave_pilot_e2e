@@ -1,0 +1,19 @@
+appId: ${APP_ID}
+name: SEC-02
+tags: [needs-implementation, security, p0]
+---
+# >>> dashboard-meta
+# SEC-02 — Logout clears tokens fully; subsequent protected API calls return 401
+# Section: Security & Auth Hardening
+# Priority: P0
+# Repro:
+# 1. Sign in, verify a /users/me call succeeds.
+# 2. Sign out.
+# 3. Verify DataStore tokens are cleared (no Authorization header on any subsequent request).
+# 4. Force any request — verify it returns 401 and the app shows Welcome.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

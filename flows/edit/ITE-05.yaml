@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: ITE-05
+tags: [needs-implementation, edit, p0]
+---
+# >>> dashboard-meta
+# ITE-05 — A reorder persists after leaving Rearrange and returning to the day
+# Section: Itinerary Editing & Rearrange
+# Priority: P0
+# Repro:
+# 1. As premium, reorder stops on Rearrange Day and Save.
+# 2. Tap back to Itinerary, then tap the edit icon to reopen Rearrange.
+# 3. Verify the new order is preserved (not reset).
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

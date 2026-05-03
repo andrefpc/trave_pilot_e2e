@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: AUTH-F-07
+tags: [needs-implementation, auth, p1]
+---
+# >>> dashboard-meta
+# AUTH-F-07 — A recovery code older than 15 minutes is rejected with "Invalid reset token" on the Reset step
+# Section: Authentication & Session
+# Priority: P1
+# Repro:
+# 1. Submit Forgot Password and wait 16+ minutes without opening the email.
+# 2. Then enter the (now-expired) code, set a valid new password, tap Reset.
+# 3. Verify the dialog "Invalid reset token" appears.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

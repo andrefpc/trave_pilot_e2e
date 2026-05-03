@@ -1,0 +1,17 @@
+appId: ${APP_ID}
+name: PLANS-09
+tags: [needs-implementation, plans, p0]
+---
+# >>> dashboard-meta
+# PLANS-09 — Long-press → Export to Calendar prompts for READ_CALENDAR/WRITE_CALENDAR permission if not granted
+# Section: Travel Plans List & Plan Management
+# Priority: P0
+# Repro:
+# 1. On a device where Calendar permission is not granted, long-press a plan → Export to Calendar.
+# 2. Verify the system permission dialog appears asking for Calendar access.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

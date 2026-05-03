@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: WZ-CO-01
+tags: [needs-implementation, wizard, p0]
+---
+# >>> dashboard-meta
+# WZ-CO-01 — A user already signed in walking the wizard skips Complete Onboarding and lands on Plan Generation
+# Section: Plan Creation Wizard
+# Priority: P0
+# Repro:
+# 1. Sign in, then start Create Plan and walk all wizard steps.
+# 2. After Travel Times → Next.
+# 3. Verify the app skips the Complete Onboarding auth gate and opens Plan Generation directly.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

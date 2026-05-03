@@ -1,0 +1,17 @@
+appId: ${APP_ID}
+name: ITV-06
+tags: [needs-implementation, itinerary, p1]
+---
+# >>> dashboard-meta
+# ITV-06 — Place photos in the detail sheet load through /proxy/google-photo (not direct Google URLs)
+# Section: Itinerary Viewing
+# Priority: P1
+# Repro:
+# 1. With Network Profiler open, tap a stop to open Place Detail.
+# 2. Inspect image requests — verify they go to /proxy/google-photo (no direct googleusercontent.com).
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

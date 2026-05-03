@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: FD-01
+tags: [needs-implementation, feed, p1]
+---
+# >>> dashboard-meta
+# FD-01 — Feed loads with four sections: Places, Restaurants, Hotels, General recommendations
+# Section: Feed & Recommendations
+# Priority: P1
+# Repro:
+# 1. Sign in and tap the Feed tab.
+# 2. Scroll the screen.
+# 3. Verify four sections labelled Places, Restaurants, Hotels, and Recommendations (or General) are each populated with cards.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

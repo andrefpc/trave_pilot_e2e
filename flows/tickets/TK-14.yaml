@@ -1,0 +1,19 @@
+appId: ${APP_ID}
+name: TK-14
+tags: [needs-implementation, tickets, p1]
+---
+# >>> dashboard-meta
+# TK-14 — Losing network mid ticket upload shows an error snackbar with Retry; Retry succeeds when reconnected
+# Section: Tickets
+# Priority: P1
+# Repro:
+# 1. On Tickets, start uploading a ticket.
+# 2. Toggle airplane mode mid-upload.
+# 3. Verify an error snackbar appears with Retry.
+# 4. Toggle airplane off and tap Retry — upload completes; ticket appears.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

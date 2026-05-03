@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: PRF-08
+tags: [needs-implementation, perf, p0]
+---
+# >>> dashboard-meta
+# PRF-08 — Crash-free session rate stays above 99.5% across one week on the internal test track
+# Section: Performance & Stability
+# Priority: P0
+# Repro:
+# 1. Promote the build to internal testing and recruit testers.
+# 2. Watch Firebase Crashlytics for 7 days.
+# 3. Verify (sessions − crashes) / sessions ≥ 0.995.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

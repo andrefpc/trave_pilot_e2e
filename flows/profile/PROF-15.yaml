@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: PROF-15
+tags: [needs-implementation, profile, p0]
+---
+# >>> dashboard-meta
+# PROF-15 — Delete Account with the wrong password shows "Invalid password" inline; account is not deleted
+# Section: Profile & Account
+# Priority: P0
+# Repro:
+# 1. Open the Delete Account sheet.
+# 2. Enter the wrong password and tap Delete.
+# 3. Verify an inline error "Invalid password" appears; the account remains intact.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

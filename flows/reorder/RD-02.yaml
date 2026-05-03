@@ -1,0 +1,19 @@
+appId: ${APP_ID}
+name: RD-02
+tags: [needs-implementation, reorder, p0]
+---
+# >>> dashboard-meta
+# RD-02 — A premium user tapping Reorder Days opens the screen and dragging reorders days; saving sends PUT /reorder-days
+# Section: Reorder Days
+# Priority: P0
+# Repro:
+# 1. As premium, open a plan with 2+ days.
+# 2. Tap the reorder-days icon → Reorder Days opens.
+# 3. Drag a day card to a new position → tap "Save Order".
+# 4. Verify a PUT /reorder-days fires with the new day_ids array and a success snackbar appears.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

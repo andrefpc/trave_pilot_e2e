@@ -1,0 +1,17 @@
+appId: ${APP_ID}
+name: WZ-WTS-07
+tags: [needs-implementation, wizard, p2]
+---
+# >>> dashboard-meta
+# WZ-WTS-07 — Where to Stay hotel images load through /proxy/google-photo (not direct Google URLs)
+# Section: Plan Creation Wizard
+# Priority: P2
+# Repro:
+# 1. With Network Profiler running, scroll the Where to Stay screen so hotel cards render.
+# 2. Inspect image requests — verify they go to /proxy/google-photo on the API host (no direct googleusercontent.com).
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

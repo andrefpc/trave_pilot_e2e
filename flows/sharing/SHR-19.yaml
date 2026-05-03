@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: SHR-19
+tags: [needs-implementation, sharing, p1]
+---
+# >>> dashboard-meta
+# SHR-19 — In dark mode, the share card uses theme-aware "glass" colours (no hardcoded white panels)
+# Section: Plan Sharing & Deep Links
+# Priority: P1
+# Repro:
+# 1. Enable system dark theme.
+# 2. Open Share Plan from a plan.
+# 3. Verify the bottom-sheet background and text use dark theme colours; no white-on-white text or panel.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

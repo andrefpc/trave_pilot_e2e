@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: AUTH-L-13
+tags: [needs-implementation, auth, p1]
+---
+# >>> dashboard-meta
+# AUTH-L-13 — Right after a premium user logs in, the Profile screen shows the Premium badge
+# Section: Authentication & Session
+# Priority: P1
+# Repro:
+# 1. From Welcome, sign in with a known premium account (e.g. qa-premium@…).
+# 2. As soon as Home loads, tap Profile.
+# 3. Verify a "You are Premium" badge is visible (no spinner / no "Unlock Premium" card).
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

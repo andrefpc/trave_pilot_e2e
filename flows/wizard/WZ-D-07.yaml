@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: WZ-D-07
+tags: [needs-implementation, wizard, p0]
+---
+# >>> dashboard-meta
+# WZ-D-07 — Tapping "+ Add Destination" appends a second city card editable independently of the first
+# Section: Plan Creation Wizard
+# Priority: P0
+# Repro:
+# 1. From Welcome → Create Plan → Destination, fill Origin + dates.
+# 2. Tap "+ Add Destination".
+# 3. Verify a second destination card appears with its own city, arrival/departure date, and transport selector.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

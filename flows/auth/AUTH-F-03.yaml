@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: AUTH-F-03
+tags: [needs-implementation, auth, p1]
+---
+# >>> dashboard-meta
+# AUTH-F-03 — On Forgot Password, "xxx" in the email field shows "Invalid email address" inline; no email is sent
+# Section: Authentication & Session
+# Priority: P1
+# Repro:
+# 1. From Login → "Recover Password".
+# 2. Type "xxx" in the email field and tap "Send Recovery Code".
+# 3. Verify "Invalid email address" appears under the field and no request goes out.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

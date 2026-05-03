@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: SHR-04
+tags: [needs-implementation, sharing, p1]
+---
+# >>> dashboard-meta
+# SHR-04 — Choosing "Read only" and sharing produces a link tagged read_only on the server
+# Section: Plan Sharing & Deep Links
+# Priority: P1
+# Repro:
+# 1. As premium, open Share Plan, pick "Read only" → Share.
+# 2. Inspect the POST /share-link response.
+# 3. Verify the returned permission is read_only.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

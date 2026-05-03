@@ -1,0 +1,17 @@
+appId: ${APP_ID}
+name: SET-06
+tags: [needs-implementation, settings, p1]
+---
+# >>> dashboard-meta
+# SET-06 — Switching language on Settings re-localises the app strings
+# Section: Settings & Preferences
+# Priority: P1
+# Repro:
+# 1. On Settings → Language, pick Spanish.
+# 2. Verify titles, buttons and error messages render in Spanish app-wide.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

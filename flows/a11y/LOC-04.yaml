@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: LOC-04
+tags: [needs-implementation, a11y, p1]
+---
+# >>> dashboard-meta
+# LOC-04 — API requests carry an Accept-Language header so backend i18nKeys come back in the right language
+# Section: Localization, Accessibility, Theming
+# Priority: P1
+# Repro:
+# 1. Switch device language to e.g. Spanish.
+# 2. Force any API request via the app.
+# 3. Inspect the request via Charles/mitmproxy and verify Accept-Language: es-* is present; verify error messages from the API arrive in Spanish.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

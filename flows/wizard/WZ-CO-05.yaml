@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: WZ-CO-05
+tags: [needs-implementation, wizard, p0]
+---
+# >>> dashboard-meta
+# WZ-CO-05 — On Complete Onboarding, "Sign up with Google" creates the account and opens Plan Generation
+# Section: Plan Creation Wizard
+# Priority: P0
+# Repro:
+# 1. From Complete Onboarding, tap "Sign up with Google".
+# 2. Pick a Google account that has never registered.
+# 3. Verify the account is created and Plan Generation opens for the wizard draft.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

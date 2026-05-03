@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: NOT-03
+tags: [needs-implementation, notifications, p1]
+---
+# >>> dashboard-meta
+# NOT-03 — A scheduled stop reminder fires at the scheduled time with the stop title and time
+# Section: Notifications & Reminders
+# Priority: P1
+# Repro:
+# 1. Open a day on Itinerary, tap a stop and schedule a reminder for 1 minute ahead.
+# 2. Wait 1 minute (keep the device awake).
+# 3. Verify a notification appears with the stop title and the scheduled time (and travel duration if set).
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

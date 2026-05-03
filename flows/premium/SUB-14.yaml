@@ -1,0 +1,19 @@
+appId: ${APP_ID}
+name: SUB-14
+tags: [needs-implementation, premium, p0]
+---
+# >>> dashboard-meta
+# SUB-14 — If the network drops mid-purchase but Play already charged, Restore Purchases recovers premium
+# Section: Subscription / Premium / Play Billing
+# Priority: P0
+# Repro:
+# 1. Start a Play Billing purchase, complete the charge.
+# 2. Lose network before the app sends POST /subscriptions.
+# 3. Reconnect, tap Restore Purchases.
+# 4. Verify the receipt is re-verified and premium is granted.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

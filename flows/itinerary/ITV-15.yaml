@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: ITV-15
+tags: [needs-implementation, itinerary, p0]
+---
+# >>> dashboard-meta
+# ITV-15 — A free user tapping the Rearrange action sees the Premium bottom sheet (no Rearrange screen)
+# Section: Itinerary Viewing
+# Priority: P0
+# Repro:
+# 1. Sign in as a free user, open a plan day.
+# 2. Tap the edit/dashboard icon in the toolbar.
+# 3. Verify the Premium bottom sheet appears; the Rearrange screen does not open.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

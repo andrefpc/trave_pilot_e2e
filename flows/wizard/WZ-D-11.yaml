@@ -1,0 +1,19 @@
+appId: ${APP_ID}
+name: WZ-D-11
+tags: [needs-implementation, wizard, p0]
+---
+# >>> dashboard-meta
+# WZ-D-11 — The "Next" button on Destination is disabled until origin, dates and at least one destination are filled
+# Section: Plan Creation Wizard
+# Priority: P0
+# Repro:
+# 1. Open Destination via Create Plan with no fields filled — Next is disabled.
+# 2. Fill Origin only — Next still disabled.
+# 3. Fill Departure + Return — still disabled until you add a destination city.
+# 4. Add a destination — Next becomes enabled.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

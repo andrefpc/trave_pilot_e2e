@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: WZ-WTS-08
+tags: [needs-implementation, wizard, p2]
+---
+# >>> dashboard-meta
+# WZ-WTS-08 — When the photo proxy is unreachable, hotel cards show a placeholder image with no crash
+# Section: Plan Creation Wizard
+# Priority: P2
+# Repro:
+# 1. Configure a proxy (e.g. mitmproxy) to block /proxy/google-photo.
+# 2. Walk to Where to Stay.
+# 3. Verify hotel cards show a generic placeholder image and the screen stays interactive.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

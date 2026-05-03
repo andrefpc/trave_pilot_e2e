@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: PH-09
+tags: [needs-implementation, photos, p2]
+---
+# >>> dashboard-meta
+# PH-09 — A user with no photos on Gallery sees an empty illustration and an "Add Photo" CTA
+# Section: Photos & Gallery
+# Priority: P2
+# Repro:
+# 1. Sign in as a user with no milestone photos.
+# 2. Open Gallery.
+# 3. Verify the empty state with title (e.g. "No photos yet") and a primary "Add Photo" button is shown.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

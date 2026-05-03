@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: PROF-08
+tags: [needs-implementation, profile, p0]
+---
+# >>> dashboard-meta
+# PROF-08 — Submitting Change Password with the wrong old password shows "Incorrect password" inline
+# Section: Profile & Account
+# Priority: P0
+# Repro:
+# 1. On Change Password, enter the wrong old password and a valid new password.
+# 2. Tap Save.
+# 3. Verify the error "Incorrect password" appears under Old Password.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

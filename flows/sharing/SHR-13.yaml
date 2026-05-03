@@ -1,0 +1,17 @@
+appId: ${APP_ID}
+name: SHR-13
+tags: [needs-implementation, sharing, p2]
+---
+# >>> dashboard-meta
+# SHR-13 — Opening your own plan's share link is handled gracefully (no duplicate join, no crash)
+# Section: Plan Sharing & Deep Links
+# Priority: P2
+# Repro:
+# 1. As the plan owner, open a share link for your own plan.
+# 2. Verify Share Invite appears or the app navigates to the existing plan with no error.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

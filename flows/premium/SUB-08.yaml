@@ -1,0 +1,19 @@
+appId: ${APP_ID}
+name: SUB-08
+tags: [needs-implementation, premium, p0]
+---
+# >>> dashboard-meta
+# SUB-08 — Restore Purchases on a fresh install verifies past receipts and restores premium
+# Section: Subscription / Premium / Play Billing
+# Priority: P0
+# Repro:
+# 1. Buy premium on Device A.
+# 2. Fresh-install the app on Device B with the same Google account, sign in.
+# 3. Tap Restore Purchases (Profile or auto on init).
+# 4. Verify Play Billing's queryPurchases returns the receipt, POST /subscriptions re-verifies, and Profile shows "You are Premium".
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

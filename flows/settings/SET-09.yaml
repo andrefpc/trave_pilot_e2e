@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: SET-09
+tags: [needs-implementation, settings, p2]
+---
+# >>> dashboard-meta
+# SET-09 — Tapping Clear Cache wipes Coil image cache; reopening images forces a network reload
+# Section: Settings & Preferences
+# Priority: P2
+# Repro:
+# 1. On Settings, tap Clear Cache.
+# 2. Verify a confirmation snackbar appears.
+# 3. Open Itinerary — image requests fire to load images that were previously cached.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

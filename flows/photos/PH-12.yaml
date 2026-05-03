@@ -1,0 +1,19 @@
+appId: ${APP_ID}
+name: PH-12
+tags: [needs-implementation, photos, p1]
+---
+# >>> dashboard-meta
+# PH-12 — Losing network during a photo upload shows a Retry snackbar; reconnecting and retrying succeeds
+# Section: Photos & Gallery
+# Priority: P1
+# Repro:
+# 1. On Gallery, start uploading photos.
+# 2. Toggle airplane mode mid-upload.
+# 3. Verify an error snackbar with Retry appears.
+# 4. Disable airplane → tap Retry → upload completes.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

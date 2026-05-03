@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: WZ-TT-01
+tags: [needs-implementation, wizard, p1]
+---
+# >>> dashboard-meta
+# WZ-TT-01 — Travel Times shows one row per inter-city leg of the trip
+# Section: Plan Creation Wizard
+# Priority: P1
+# Repro:
+# 1. Walk the wizard with 2 cities (Paris → Rome) to Travel Times.
+# 2. Verify a row "Departure from Paris to Rome" appears.
+# 3. With 3 cities, verify there is one row per consecutive pair.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: PRF-10
+tags: [needs-implementation, perf, p2]
+---
+# >>> dashboard-meta
+# PRF-10 — Battery drain under active use stays below ~15%/hour with no wake-lock leaks
+# Section: Performance & Stability
+# Priority: P2
+# Repro:
+# 1. Charge the device to 100%, run `adb shell dumpsys batterystats --reset`.
+# 2. Use the app actively for 60 minutes (no other apps).
+# 3. Capture `adb bugreport` — verify drain ≤ 15% and no partial wake locks held > 5 min.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

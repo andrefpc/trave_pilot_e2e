@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: PROF-06
+tags: [needs-implementation, profile, p2]
+---
+# >>> dashboard-meta
+# PROF-06 — After changing the email, a verification email is sent (if implemented)
+# Section: Profile & Account
+# Priority: P2
+# Repro:
+# 1. Edit the email to a new valid address and Save.
+# 2. Wait 1-2 minutes and check that inbox.
+# 3. Verify a verification email arrived with a confirmation link.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

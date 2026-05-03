@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: SMK-10
+tags: [needs-implementation, smk, p0]
+---
+# >>> dashboard-meta
+# SMK-10 — Rotating the device on Home, Itinerary and a wizard step preserves state without crashing
+# Section: Smoke Suite
+# Priority: P0
+# Repro:
+# 1. Sign in and open Home → rotate the phone 90°. Plan/header should remain visible.
+# 2. Open an Itinerary Day → rotate. Stops should still be in order.
+# 3. Start the wizard, fill Companions to Adults=2, rotate. The values should still be 2.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

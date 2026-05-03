@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: NET-07
+tags: [needs-implementation, network, p0]
+---
+# >>> dashboard-meta
+# NET-07 — A persistent 401 (refresh fails) clears tokens and navigates to Welcome
+# Section: Network, Offline & Error Handling
+# Priority: P0
+# Repro:
+# 1. Use mitmproxy to also fail POST /auth/refresh.
+# 2. Trigger any 401 on a protected endpoint.
+# 3. Verify TokenAuthenticator clears tokens, sessionManager.notifySessionExpired() emits, and the app returns to Welcome.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

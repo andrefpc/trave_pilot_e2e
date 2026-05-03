@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: PRF-12
+tags: [needs-implementation, perf, p1]
+---
+# >>> dashboard-meta
+# PRF-12 — Loading 100+ images via Coil does not produce OutOfMemoryError; cache evicts properly
+# Section: Performance & Stability
+# Priority: P1
+# Repro:
+# 1. Open Feed and scroll through hundreds of cards (or scroll Itinerary place photos).
+# 2. Watch the Profiler memory graph.
+# 3. Verify no OOM crashes; the image cache plateaus rather than growing unbounded.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

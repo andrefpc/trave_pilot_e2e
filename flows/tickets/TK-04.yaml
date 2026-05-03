@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: TK-04
+tags: [needs-implementation, tickets, p0]
+---
+# >>> dashboard-meta
+# TK-04 — Picking a JPG/PNG and uploading attaches an image ticket to the trip
+# Section: Tickets
+# Priority: P0
+# Repro:
+# 1. On Tickets, tap + → pick a JPG or PNG.
+# 2. In the upload sheet, tap "Upload ticket".
+# 3. Verify the ticket appears in the list with an image thumbnail.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

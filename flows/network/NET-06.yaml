@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: NET-06
+tags: [needs-implementation, network, p1]
+---
+# >>> dashboard-meta
+# NET-06 — Replaying an old refresh token on a second device causes both apps to be logged out on next request
+# Section: Network, Offline & Error Handling
+# Priority: P1
+# Repro:
+# 1. Capture a valid refresh token, then keep using the app normally so it rotates.
+# 2. Replay the old token via curl on a second device.
+# 3. Verify the backend revokes all sessions; on the original device the next request returns 401 and the app navigates to Welcome.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

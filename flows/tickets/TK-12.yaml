@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: TK-12
+tags: [needs-implementation, tickets, p2]
+---
+# >>> dashboard-meta
+# TK-12 — A user with no tickets sees an empty state with an "Add Ticket" button
+# Section: Tickets
+# Priority: P2
+# Repro:
+# 1. Sign in as a user with no tickets uploaded.
+# 2. Open Tickets.
+# 3. Verify "No places requiring tickets" with an "Add Ticket" button is shown.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

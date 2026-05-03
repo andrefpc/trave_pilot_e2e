@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: ITV-01
+tags: [needs-implementation, itinerary, p0]
+---
+# >>> dashboard-meta
+# ITV-01 — Opening a plan loads every day with all stops and times in chronological order
+# Section: Itinerary Viewing
+# Priority: P0
+# Repro:
+# 1. Sign in as a user with a generated plan.
+# 2. Tap Travel Plans → tap any plan.
+# 3. Verify the Itinerary screen shows day tabs at the top and all stops in time order on the active day.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

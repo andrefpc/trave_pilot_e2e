@@ -1,0 +1,17 @@
+appId: ${APP_ID}
+name: PLANS-03
+tags: [needs-implementation, plans, p0]
+---
+# >>> dashboard-meta
+# PLANS-03 — Tapping a plan card opens that plan's itinerary
+# Section: Travel Plans List & Plan Management
+# Priority: P0
+# Repro:
+# 1. On Travel Plans, tap any plan card.
+# 2. Verify the Itinerary screen opens with all that plan's days/stops visible.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

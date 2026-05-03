@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: HOME-02
+tags: [needs-implementation, home, p1]
+---
+# >>> dashboard-meta
+# HOME-02 — A free user with no plans on Home sees an empty state with a "Create a new Plan" CTA
+# Section: Home Dashboard
+# Priority: P1
+# Repro:
+# 1. Sign in as a free user with no existing plans.
+# 2. Tap Home.
+# 3. Verify the screen shows the empty state with a "Create a new Plan" button below.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

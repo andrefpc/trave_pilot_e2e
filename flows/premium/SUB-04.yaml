@@ -1,0 +1,17 @@
+appId: ${APP_ID}
+name: SUB-04
+tags: [needs-implementation, premium, p0]
+---
+# >>> dashboard-meta
+# SUB-04 — Tapping Subscribe on the Annual card launches the Play Billing flow for the yearly offer
+# Section: Subscription / Premium / Play Billing
+# Priority: P0
+# Repro:
+# 1. On the Premium sheet, tap the Annual card → Subscribe.
+# 2. Verify the Google Play Billing sheet appears for the annual offer.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

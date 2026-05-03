@@ -1,0 +1,17 @@
+appId: ${APP_ID}
+name: AUTH-S-05
+tags: [needs-implementation, auth, p2]
+---
+# >>> dashboard-meta
+# AUTH-S-05 — When Google sign-in is not configured on the server, an explanatory error dialog explains why it's unavailable
+# Section: Authentication & Session
+# Priority: P2
+# Repro:
+# 1. On a backend environment where GOOGLE_OAUTH_CLIENT_ID is unset, attempt Login → "Sign in with Google".
+# 2. Verify a clear error dialog explains Google sign-in is not configured (no generic crash).
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

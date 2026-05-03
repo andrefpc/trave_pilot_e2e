@@ -1,0 +1,17 @@
+appId: ${APP_ID}
+name: ITE-18
+tags: [needs-implementation, edit, p1]
+---
+# >>> dashboard-meta
+# ITE-18 — Adding a place that already exists in the itinerary shows a Force-Replace confirmation dialog
+# Section: Itinerary Editing & Rearrange
+# Priority: P1
+# Repro:
+# 1. As premium, on Rearrange Day tap "+ Add Stop" and try to add a place already in the itinerary.
+# 2. Verify a "Force Replace" confirmation sheet appears with Confirm/Cancel.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

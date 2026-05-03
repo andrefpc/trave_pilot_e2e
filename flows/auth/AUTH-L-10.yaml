@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: AUTH-L-10
+tags: [needs-implementation, auth, p1]
+---
+# >>> dashboard-meta
+# AUTH-L-10 — Tapping the "Recover Password" link on Login opens the Forgot Password screen
+# Section: Authentication & Session
+# Priority: P1
+# Repro:
+# 1. From Welcome, tap Login → "Sign in with password".
+# 2. Tap "Recover Password" (top-right above the Login button).
+# 3. Verify the Forgot Password screen opens with an email field and a "Send Recovery Code" button.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

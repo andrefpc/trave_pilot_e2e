@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: ITE-19
+tags: [needs-implementation, edit, p1]
+---
+# >>> dashboard-meta
+# ITE-19 — Long-pressing a stop and tapping "Add Ticket" opens a file picker; the chosen PDF/image is attached
+# Section: Itinerary Editing & Rearrange
+# Priority: P1
+# Repro:
+# 1. Open a day, tap a stop to open Place Detail → tap "Add Ticket".
+# 2. Choose a PDF or image from the picker.
+# 3. In the Add Ticket sheet, set the time and tap Save to Trip — verify a POST /tickets fires and the stop now shows "Show Ticket".
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

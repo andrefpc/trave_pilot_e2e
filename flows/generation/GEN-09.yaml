@@ -1,0 +1,17 @@
+appId: ${APP_ID}
+name: GEN-09
+tags: [needs-implementation, generation, p1]
+---
+# >>> dashboard-meta
+# GEN-09 — A premium user triggering a 6th generation in one hour sees a rate-limit screen with a countdown to the next allowed run
+# Section: Plan Generation
+# Priority: P1
+# Repro:
+# 1. As a premium user, trigger plan generation 5 times in quick succession.
+# 2. Trigger a 6th — verify a "Generation Limit Reached" screen with a countdown timer (e.g. 45:30 remaining) replaces the normal animation.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

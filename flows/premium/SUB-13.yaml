@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: SUB-13
+tags: [needs-implementation, premium, p1]
+---
+# >>> dashboard-meta
+# SUB-13 — In dark mode, the Premium sheet buttons and prices remain readable with adequate contrast
+# Section: Subscription / Premium / Play Billing
+# Priority: P1
+# Repro:
+# 1. Enable system dark theme.
+# 2. Open the Premium bottom sheet.
+# 3. Verify all text, prices, and buttons are visible against the dark background.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

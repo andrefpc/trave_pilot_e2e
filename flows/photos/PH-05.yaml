@@ -1,0 +1,17 @@
+appId: ${APP_ID}
+name: PH-05
+tags: [needs-implementation, photos, p1]
+---
+# >>> dashboard-meta
+# PH-05 — Long-press → Share on a Gallery photo opens the system share chooser via FileProvider
+# Section: Photos & Gallery
+# Priority: P1
+# Repro:
+# 1. On Gallery, long-press a photo (or open it full-screen and tap Share).
+# 2. Verify the system share chooser appears with the image attached via FileProvider.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

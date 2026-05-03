@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: SET-10
+tags: [needs-implementation, settings, p1]
+---
+# >>> dashboard-meta
+# SET-10 — Preferences persist across reinstall: setting changes survive uninstall + reinstall + sign-in
+# Section: Settings & Preferences
+# Priority: P1
+# Repro:
+# 1. On Settings, change theme to Dark, distance to miles, currency to EUR, language to Spanish — save each.
+# 2. Uninstall, reinstall, sign in with the same account.
+# 3. Open Settings — verify all four preferences match what you set previously.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

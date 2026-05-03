@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: ITE-11
+tags: [needs-implementation, edit, p1]
+---
+# >>> dashboard-meta
+# ITE-11 — Deleting the last remaining stop on a day leaves the day in an empty state without crashing
+# Section: Itinerary Editing & Rearrange
+# Priority: P1
+# Repro:
+# 1. As premium, find a day with a single non-fixed stop.
+# 2. Edit that stop and Remove it.
+# 3. Verify the app does not crash; the day shows the empty state and "Add Stop" is still usable.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

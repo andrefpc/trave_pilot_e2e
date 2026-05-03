@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: SEC-03
+tags: [needs-implementation, security, p0]
+---
+# >>> dashboard-meta
+# SEC-03 — Backup rules exclude credentials from device backups (allowBackup / dataExtractionRules configured)
+# Section: Security & Auth Hardening
+# Priority: P0
+# Repro:
+# 1. Inspect AndroidManifest.xml: android:allowBackup, android:dataExtractionRules.
+# 2. Open data_extraction_rules.xml and backup_rules.xml.
+# 3. Verify the auth_tokens DataStore is explicitly excluded from cloud and device-to-device backups.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

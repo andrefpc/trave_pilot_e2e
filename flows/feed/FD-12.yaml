@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: FD-12
+tags: [needs-implementation, feed, p1]
+---
+# >>> dashboard-meta
+# FD-12 — A user with no active plan opening Feed sees an empty state with a Create-Plan CTA
+# Section: Feed & Recommendations
+# Priority: P1
+# Repro:
+# 1. Sign in as a user with no plan.
+# 2. Tap Feed.
+# 3. Verify an empty state explains that Feed needs a plan, with a button to start the wizard.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

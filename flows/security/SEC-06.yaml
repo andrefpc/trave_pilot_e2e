@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: SEC-06
+tags: [needs-implementation, security, p2]
+---
+# >>> dashboard-meta
+# SEC-06 — On a rooted device, the app either functions normally or shows a security warning per policy
+# Section: Security & Auth Hardening
+# Priority: P2
+# Repro:
+# 1. Run the app on a rooted device or emulator.
+# 2. Sign in and use core flows.
+# 3. Verify the app either works fully or shows a controlled warning; it does not crash.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

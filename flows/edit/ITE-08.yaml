@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: ITE-08
+tags: [needs-implementation, edit, p0]
+---
+# >>> dashboard-meta
+# ITE-08 — Tapping the edit icon on a stop opens an Edit sheet for title, subtitle, arrival and departure times
+# Section: Itinerary Editing & Rearrange
+# Priority: P0
+# Repro:
+# 1. As premium, on Rearrange Day tap the edit icon on a stop.
+# 2. Verify a sheet opens with editable Title, Subtitle, Arrival Time, Departure Time fields.
+# 3. Change a value and tap Save Changes — verify a PUT update-stop fires and the stop reflects the change.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

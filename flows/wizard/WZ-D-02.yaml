@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: WZ-D-02
+tags: [needs-implementation, wizard, p2]
+---
+# >>> dashboard-meta
+# WZ-D-02 — Typing only 1 character into Origin does not fire any city-search request
+# Section: Plan Creation Wizard
+# Priority: P2
+# Repro:
+# 1. From Welcome → Create Plan → Destination → tap Origin.
+# 2. Type a single letter (e.g. "P").
+# 3. Verify no dropdown appears and no network request to /cities is made (check Network Profiler).
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: GEN-02
+tags: [needs-implementation, generation, p2]
+---
+# >>> dashboard-meta
+# GEN-02 — On Plan Generation, the destination-fact card cross-fades to a new fact every 8 seconds
+# Section: Plan Generation
+# Priority: P2
+# Repro:
+# 1. On Plan Generation, find the "Did you know?" / fact card.
+# 2. Note the current fact text and start a stopwatch.
+# 3. After ~8 s, verify the fact crossfades (fade out + fade in over ~400 ms) to a new fact.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

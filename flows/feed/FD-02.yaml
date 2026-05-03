@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: FD-02
+tags: [needs-implementation, feed, p1]
+---
+# >>> dashboard-meta
+# FD-02 — For free users, AdMob native ads render among Feed cards labelled "Ad"
+# Section: Feed & Recommendations
+# Priority: P1
+# Repro:
+# 1. Sign in as a free user, open Feed.
+# 2. Scroll through the cards.
+# 3. Verify ad cards appear with an "Ad" badge and they do not break layout.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

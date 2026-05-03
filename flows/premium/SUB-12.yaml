@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: SUB-12
+tags: [needs-implementation, premium, p0]
+---
+# >>> dashboard-meta
+# SUB-12 — A 403 from a premium-only endpoint reactively opens the Premium bottom sheet
+# Section: Subscription / Premium / Play Billing
+# Priority: P0
+# Repro:
+# 1. As a free user, attempt a premium-only action (e.g. Share, Rearrange).
+# 2. Verify the endpoint returns 403 with i18nKey "forbidden.premium_required".
+# 3. Verify the Premium bottom sheet appears automatically.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

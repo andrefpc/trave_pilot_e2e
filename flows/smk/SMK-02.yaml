@@ -1,0 +1,19 @@
+appId: ${APP_ID}
+name: SMK-02
+tags: [needs-implementation, smk, p0]
+---
+# >>> dashboard-meta
+# SMK-02 — A new account can be created end-to-end via the trip wizard
+# Section: Smoke Suite
+# Priority: P0
+# Repro:
+# 1. Cold-launch the app while signed out — Welcome appears.
+# 2. Tap "Create Plan" and walk all 11 wizard steps with valid data.
+# 3. On Complete Onboarding, tap "Sign Up", fill name + new email + valid password, tap "Create Account".
+# 4. Verify the app navigates to the Plan Generation screen (it does not return to Welcome).
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

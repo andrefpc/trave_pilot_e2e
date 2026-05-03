@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: AUTH-R-11
+tags: [needs-implementation, auth, p0]
+---
+# >>> dashboard-meta
+# AUTH-R-11 — Registering with no draft trip in progress lands on Home after success
+# Section: Authentication & Session
+# Priority: P0
+# Repro:
+# 1. Open Register from outside the wizard (for example via a deep link or by signing out and re-registering).
+# 2. Fill a fresh name + email + valid password.
+# 3. Tap "Create Account" and verify Home appears.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

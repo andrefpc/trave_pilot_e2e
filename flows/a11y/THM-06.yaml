@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: THM-06
+tags: [needs-implementation, a11y, p1]
+---
+# >>> dashboard-meta
+# THM-06 — The Share card uses theme-aware glass colours; in dark mode it is dark/translucent, not white
+# Section: Localization, Accessibility, Theming
+# Priority: P1
+# Repro:
+# 1. Enable dark mode and open a plan as a premium user.
+# 2. Tap Share → observe the Share card / bottom sheet.
+# 3. Verify the glass background is dark/translucent (not a hardcoded white panel) and text remains readable.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

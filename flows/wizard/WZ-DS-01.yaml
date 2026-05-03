@@ -1,0 +1,17 @@
+appId: ${APP_ID}
+name: WZ-DS-01
+tags: [needs-implementation, wizard, p1]
+---
+# >>> dashboard-meta
+# WZ-DS-01 — Day Schedule shows one card per travel day labelled e.g. "Day 1 · Paris · Mon, Jan 15"
+# Section: Plan Creation Wizard
+# Priority: P1
+# Repro:
+# 1. Walk the wizard to Day Schedule with a multi-day, multi-city trip.
+# 2. Verify there is one card per day; each shows day number, city name, and date in "Day N · City · Day-of-week, Month Day" format.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: LOC-01
+tags: [needs-implementation, a11y, p0]
+---
+# >>> dashboard-meta
+# LOC-01 — No hardcoded user-facing strings exist in code: every text comes from strings.xml
+# Section: Localization, Accessibility, Theming
+# Priority: P0
+# Repro:
+# 1. From the Android repo root, run `grep -rE 'Text\("|stringResource' app/src/main/java` and audit hits.
+# 2. Verify visible strings come from R.string / stringResource only.
+# 3. Flag any hardcoded literals (≥1 character) as a violation.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

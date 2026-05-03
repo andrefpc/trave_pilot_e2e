@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: THM-05
+tags: [needs-implementation, a11y, p1]
+---
+# >>> dashboard-meta
+# THM-05 — The splash icon is visible in both light and dark modes (no white-on-white)
+# Section: Localization, Accessibility, Theming
+# Priority: P1
+# Repro:
+# 1. Set system theme to Light, cold-launch the app and observe the splash compass icon.
+# 2. Set system theme to Dark, cold-launch and observe again.
+# 3. Verify the icon is visible with adequate contrast against the splash background in both modes.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

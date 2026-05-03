@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: ITE-12
+tags: [needs-implementation, edit, p0]
+---
+# >>> dashboard-meta
+# ITE-12 — Tapping "Find a good Restaurant" on a meal stop opens search; picking one swaps the meal
+# Section: Itinerary Editing & Rearrange
+# Priority: P0
+# Repro:
+# 1. Open a day on Itinerary, tap a meal stop (Lunch / Dinner / Breakfast).
+# 2. In Place Detail, tap "Find a good Restaurant".
+# 3. Search and select a restaurant — verify a POST replace-meal fires and the meal slot now shows the new restaurant.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

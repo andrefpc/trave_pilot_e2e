@@ -1,0 +1,17 @@
+appId: ${APP_ID}
+name: SHR-14
+tags: [needs-implementation, sharing, p1]
+---
+# >>> dashboard-meta
+# SHR-14 — On the share dialog (or collaborators screen), the owner sees a list of joiners with their permission
+# Section: Plan Sharing & Deep Links
+# Priority: P1
+# Repro:
+# 1. As owner of a shared plan, open the Share / Collaborators screen.
+# 2. Verify each collaborator is listed with their name/avatar and permission badge (Can edit / Read only).
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

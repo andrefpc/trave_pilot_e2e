@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: HOME-04
+tags: [needs-implementation, home, p2]
+---
+# >>> dashboard-meta
+# HOME-04 — Tapping a city marker on the Home map opens the Travel Map screen
+# Section: Home Dashboard
+# Priority: P2
+# Repro:
+# 1. On Home, scroll to the world map.
+# 2. Tap a city pin.
+# 3. Verify the Travel Map screen opens with that city focused.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

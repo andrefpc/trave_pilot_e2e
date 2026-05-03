@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: PROF-16
+tags: [needs-implementation, profile, p0]
+---
+# >>> dashboard-meta
+# PROF-16 — After Delete Account, attempting to log in with that email fails with "Invalid credentials"
+# Section: Profile & Account
+# Priority: P0
+# Repro:
+# 1. Delete the account (PROF-14).
+# 2. From Welcome → Login → enter the deleted email and password.
+# 3. Verify the dialog "Invalid credentials" appears.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

@@ -1,0 +1,19 @@
+appId: ${APP_ID}
+name: AUTH-R-12
+tags: [needs-implementation, auth, p0]
+---
+# >>> dashboard-meta
+# AUTH-R-12 — Registering at the end of the trip wizard lands on Plan Generation for that draft (not Home)
+# Section: Authentication & Session
+# Priority: P0
+# Repro:
+# 1. Cold-launch app → Welcome → Create Plan → walk all wizard steps.
+# 2. On Complete Onboarding, tap "Sign Up".
+# 3. Fill name + new email + valid password and tap "Create Account".
+# 4. Verify Plan Generation opens for the draft you just built, not Home.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

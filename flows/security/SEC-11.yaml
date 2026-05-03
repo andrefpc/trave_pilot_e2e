@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: SEC-11
+tags: [needs-implementation, security, p1]
+---
+# >>> dashboard-meta
+# SEC-11 — FileProvider only exposes scoped paths; access outside the allowed scopes is denied
+# Section: Security & Auth Hardening
+# Priority: P1
+# Repro:
+# 1. Open res/xml/file_paths.xml.
+# 2. Verify entries are limited to e.g. files-path "tickets/" and "milestone_photos/" and cache-path "share/".
+# 3. Try (programmatically) to share a file outside those paths — verify a SecurityException is thrown.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

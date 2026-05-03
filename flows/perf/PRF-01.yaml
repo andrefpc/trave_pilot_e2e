@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: PRF-01
+tags: [needs-implementation, perf, p1]
+---
+# >>> dashboard-meta
+# PRF-01 — Cold-start on Pixel 6 reaches the first interactive screen in ≤ 2.5 s
+# Section: Performance & Stability
+# Priority: P1
+# Repro:
+# 1. adb shell am force-stop com.travelpilotapp on a Pixel 6.
+# 2. Run: adb shell am start -W com.travelpilotapp/.MainActivity | grep "TotalTime|ThisTime".
+# 3. Verify the reported time ≤ 2500 ms.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

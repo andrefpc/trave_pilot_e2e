@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: FD-07
+tags: [needs-implementation, feed, p0]
+---
+# >>> dashboard-meta
+# FD-07 — Tapping "Select as Hotel" on a Hotel card → choosing days assigns the hotel for the destination
+# Section: Feed & Recommendations
+# Priority: P0
+# Repro:
+# 1. On Feed → Hotels, tap "Select as Hotel".
+# 2. In the day-picker sheet, choose the dates the hotel applies to.
+# 3. Tap Confirm — verify the hotel is set on those days and a snackbar appears.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

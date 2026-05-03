@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: AUTH-S-06
+tags: [needs-implementation, auth, p0]
+---
+# >>> dashboard-meta
+# AUTH-S-06 — Signing up with Google at the end of the trip wizard lands on Plan Generation for that draft (not Home)
+# Section: Authentication & Session
+# Priority: P0
+# Repro:
+# 1. Cold-launch the app and walk the wizard to Complete Onboarding.
+# 2. Tap "Sign up with Google" and choose a Google account that has never registered.
+# 3. Verify the app creates the account and opens Plan Generation for the draft you just built (not Home).
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

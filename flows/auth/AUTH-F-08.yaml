@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: AUTH-F-08
+tags: [needs-implementation, auth, p1]
+---
+# >>> dashboard-meta
+# AUTH-F-08 — A recovery code that was already used once is rejected with "Invalid reset token" if reused
+# Section: Authentication & Session
+# Priority: P1
+# Repro:
+# 1. Complete a successful password reset using a code (see AUTH-F-10).
+# 2. Open Recovery Code again and re-enter the same code, set a new password, tap Reset.
+# 3. Verify "Invalid reset token" appears — codes are single-use.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

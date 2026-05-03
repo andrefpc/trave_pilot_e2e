@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: PROF-07
+tags: [needs-implementation, profile, p0]
+---
+# >>> dashboard-meta
+# PROF-07 — Changing password: old password + new password meeting the same six rules → success
+# Section: Profile & Account
+# Priority: P0
+# Repro:
+# 1. Open Profile / Settings → Change Password.
+# 2. Enter old password and a new password meeting all six rules + confirmation.
+# 3. Tap Save — verify a successful response and a "Password updated" message.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

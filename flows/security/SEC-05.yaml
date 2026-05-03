@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: SEC-05
+tags: [needs-implementation, security, p0]
+---
+# >>> dashboard-meta
+# SEC-05 — A device whose token was revoked (5-device limit) gets 401 on the next call and is force-logged-out
+# Section: Security & Auth Hardening
+# Priority: P0
+# Repro:
+# 1. Trigger the revocation in SEC-04.
+# 2. On the revoked device, tap any protected screen.
+# 3. Verify the request returns 401, TokenAuthenticator clears tokens, and the app navigates to Welcome with a "Session expired" message.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

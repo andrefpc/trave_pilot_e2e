@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: SEC-07
+tags: [needs-implementation, security, p2]
+---
+# >>> dashboard-meta
+# SEC-07 — On sensitive screens (paywall/payment), screenshots are either allowed or blocked per design (FLAG_SECURE)
+# Section: Security & Auth Hardening
+# Priority: P2
+# Repro:
+# 1. Open the Premium paywall (or password fields).
+# 2. Try to take a screenshot (Power + Volume Down) and to start screen recording.
+# 3. Verify the result matches the designed behaviour: either captures normally or shows "Cannot capture" depending on FLAG_SECURE config.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

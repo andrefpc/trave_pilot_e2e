@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: ITE-13
+tags: [needs-implementation, edit, p1]
+---
+# >>> dashboard-meta
+# ITE-13 — Tapping "Replace with another Stop" on Edit Stop opens search and swaps the stop's place
+# Section: Itinerary Editing & Rearrange
+# Priority: P1
+# Repro:
+# 1. Open Edit Stop for an attraction or custom stop.
+# 2. Tap "Replace with another Stop".
+# 3. Pick a new place — verify the stop's title/photo updates to the new place.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

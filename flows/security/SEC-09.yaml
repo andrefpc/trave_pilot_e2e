@@ -1,0 +1,17 @@
+appId: ${APP_ID}
+name: SEC-09
+tags: [needs-implementation, security, p1]
+---
+# >>> dashboard-meta
+# SEC-09 — Tampered deep links (e.g. travelpilot://share/garbage) show a graceful error, not a crash
+# Section: Security & Auth Hardening
+# Priority: P1
+# Repro:
+# 1. From a Terminal: adb shell am start -d "travelpilot://share/garbage".
+# 2. Verify Travel Pilot opens to Share Invite and shows "This share link is invalid or expired" — no crash.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

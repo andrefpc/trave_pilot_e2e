@@ -1,0 +1,19 @@
+appId: ${APP_ID}
+name: AUTH-F-11
+tags: [needs-implementation, auth, p0]
+---
+# >>> dashboard-meta
+# AUTH-F-11 — After a password reset, any other device that was logged in is forced to sign in again on its next request
+# Section: Authentication & Session
+# Priority: P0
+# Repro:
+# 1. Sign in on Device A and leave it on Home.
+# 2. On Device B, complete the password reset flow for the same account.
+# 3. On Device A, tap any tab to trigger an API call.
+# 4. Verify Device A returns to Welcome and requires a fresh login.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

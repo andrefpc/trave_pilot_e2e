@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: ACC-03
+tags: [needs-implementation, a11y, p1]
+---
+# >>> dashboard-meta
+# ACC-03 — Color contrast ratios meet WCAG AA (≥ 4.5:1 for body text, ≥ 3:1 for large text/graphics)
+# Section: Localization, Accessibility, Theming
+# Priority: P1
+# Repro:
+# 1. Run the Accessibility Scanner app on each main screen.
+# 2. Review the report.
+# 3. Verify there are no Low-Contrast warnings on body text or important icons.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

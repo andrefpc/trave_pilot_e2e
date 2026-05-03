@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: NOT-08
+tags: [needs-implementation, notifications, p1]
+---
+# >>> dashboard-meta
+# NOT-08 — A test FCM push from the backend appears as a notification on the device
+# Section: Notifications & Reminders
+# Priority: P1
+# Repro:
+# 1. Sign in to register the device (NOT-07).
+# 2. From the backend / Firebase console, send a test push targeting this device's token.
+# 3. Verify a notification with the test title and body appears in the tray.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

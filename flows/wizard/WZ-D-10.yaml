@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: WZ-D-10
+tags: [needs-implementation, wizard, p1]
+---
+# >>> dashboard-meta
+# WZ-D-10 — Removing the only destination is blocked; second and later destinations can be removed via the trash icon
+# Section: Plan Creation Wizard
+# Priority: P1
+# Repro:
+# 1. From Welcome → Create Plan → Destination — verify the trash icon on the only card is disabled or hidden.
+# 2. Tap "+ Add Destination" → tap the trash icon on the second card.
+# 3. Verify the second card is removed; the first is preserved.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: PLANS-06
+tags: [needs-implementation, plans, p1]
+---
+# >>> dashboard-meta
+# PLANS-06 — Long-press → Delete → Cancel keeps the plan untouched in the list
+# Section: Travel Plans List & Plan Management
+# Priority: P1
+# Repro:
+# 1. Long-press a plan, tap Delete.
+# 2. In the confirmation, tap Cancel.
+# 3. Verify no request fires and the plan still appears in the list.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

@@ -1,0 +1,17 @@
+appId: ${APP_ID}
+name: FD-08
+tags: [needs-implementation, feed, p1]
+---
+# >>> dashboard-meta
+# FD-08 — A free user reaching the 21st restaurant search in a day sees a rate-limit message with an Upgrade CTA
+# Section: Feed & Recommendations
+# Priority: P1
+# Repro:
+# 1. As a free user, perform restaurant searches throughout one day.
+# 2. On the 21st search, verify an inline error or sheet appears with the rate-limit copy and an Upgrade button leading to the paywall.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

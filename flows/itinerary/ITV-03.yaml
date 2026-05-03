@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: ITV-03
+tags: [needs-implementation, itinerary, p1]
+---
+# >>> dashboard-meta
+# ITV-03 — Each stop type has a distinct icon (attraction, restaurant, hotel, transport, free time)
+# Section: Itinerary Viewing
+# Priority: P1
+# Repro:
+# 1. Open a day with mixed stop types.
+# 2. Visually scan each stop card.
+# 3. Verify attractions show a landmark icon, restaurants a fork/knife, hotels a bed, transport a vehicle, and free time a clock.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: WZ-DS-06
+tags: [needs-implementation, wizard, p2]
+---
+# >>> dashboard-meta
+# WZ-DS-06 — If the "Apply same times to all days" option exists, using it copies start/end to every day card
+# Section: Plan Creation Wizard
+# Priority: P2
+# Repro:
+# 1. On Day Schedule with 3+ days, fill Start/End on Day 1.
+# 2. Tap "Apply same times to all days" (if present).
+# 3. Verify the same Start/End appear on every other day card.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

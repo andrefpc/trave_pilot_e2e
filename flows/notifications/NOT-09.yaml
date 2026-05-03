@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: NOT-09
+tags: [needs-implementation, notifications, p1]
+---
+# >>> dashboard-meta
+# NOT-09 — In-app Notifications screen lists past notifications loaded from GET /notifications, paginated
+# Section: Notifications & Reminders
+# Priority: P1
+# Repro:
+# 1. Open the Notifications screen.
+# 2. Verify a list of past notifications: reminders, weather tips, bookings, etc.
+# 3. Scroll to the bottom — verify older notifications load via pagination.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

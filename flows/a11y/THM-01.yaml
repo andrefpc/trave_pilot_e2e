@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: THM-01
+tags: [needs-implementation, a11y, p1]
+---
+# >>> dashboard-meta
+# THM-01 — Light mode renders every screen with light backgrounds and dark, readable text
+# Section: Localization, Accessibility, Theming
+# Priority: P1
+# Repro:
+# 1. Disable system dark theme (`adb shell cmd uimode night no`).
+# 2. Walk Welcome, Home, Itinerary, Feed, Profile.
+# 3. Verify backgrounds are light and text is dark; no swapped colours or unreadable elements.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

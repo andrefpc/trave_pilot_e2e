@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: ITV-11
+tags: [needs-implementation, itinerary, p1]
+---
+# >>> dashboard-meta
+# ITV-11 — Hotel check-in and check-out stops are auto-inserted on the appropriate days
+# Section: Itinerary Viewing
+# Priority: P1
+# Repro:
+# 1. Open a plan that has a hotel stay across multiple days.
+# 2. Switch to the first day of the stay → verify "Check in at hotel" appears at start.
+# 3. Switch to the last day → verify "Check out of hotel" appears at the end.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

@@ -1,0 +1,17 @@
+appId: ${APP_ID}
+name: ITV-12
+tags: [needs-implementation, itinerary, p2]
+---
+# >>> dashboard-meta
+# ITV-12 — A day with no stops shows an empty state like "No activities planned"
+# Section: Itinerary Viewing
+# Priority: P2
+# Repro:
+# 1. Open a plan with a day that has no stops yet.
+# 2. Verify the day shows an empty illustration/text, not a blank/broken layout.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: AUTH-W-06
+tags: [needs-implementation, auth, p2]
+---
+# >>> dashboard-meta
+# AUTH-W-06 — When Google sign-in fails (e.g. Play Services disabled) a "Google sign-in failed" dialog appears with Retry
+# Section: Authentication & Session
+# Priority: P2
+# Repro:
+# 1. On a test device, disable Google Play Services in Settings → Apps.
+# 2. Cold-launch Travel Pilot, tap Login → "Sign in with Google".
+# 3. Verify an error dialog "Google sign-in failed" appears with a Retry button. Tapping Retry re-attempts the flow.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

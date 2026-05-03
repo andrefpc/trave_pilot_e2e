@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: PLANS-07
+tags: [needs-implementation, plans, p1]
+---
+# >>> dashboard-meta
+# PLANS-07 — Long-press → Duplicate creates a Draft copy of the plan and starts a new generation
+# Section: Travel Plans List & Plan Management
+# Priority: P1
+# Repro:
+# 1. Long-press an existing plan and tap Duplicate.
+# 2. Verify a new plan with a Draft badge appears in the list.
+# 3. Verify Plan Generation auto-launches (or runs in background) for the duplicate.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: ACC-02
+tags: [needs-implementation, a11y, p1]
+---
+# >>> dashboard-meta
+# ACC-02 — Every interactive element has a touch target ≥ 48dp × 48dp
+# Section: Localization, Accessibility, Theming
+# Priority: P1
+# Repro:
+# 1. Use Android Studio Layout Inspector or the Accessibility Scanner app.
+# 2. Inspect buttons, chips, IconButtons across Home, Itinerary, Feed, Profile.
+# 3. Verify each one is at least 48dp wide and 48dp tall.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

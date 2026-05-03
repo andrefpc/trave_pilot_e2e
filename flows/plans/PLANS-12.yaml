@@ -1,0 +1,17 @@
+appId: ${APP_ID}
+name: PLANS-12
+tags: [needs-implementation, plans, p1]
+---
+# >>> dashboard-meta
+# PLANS-12 — The "+ Create a new Plan" button on Travel Plans opens the Destination wizard step
+# Section: Travel Plans List & Plan Management
+# Priority: P1
+# Repro:
+# 1. On Travel Plans, scroll to the bottom and tap "Create a new Plan".
+# 2. Verify the wizard opens at Destination.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

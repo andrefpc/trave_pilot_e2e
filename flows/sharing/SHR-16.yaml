@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: SHR-16
+tags: [needs-implementation, sharing, p0]
+---
+# >>> dashboard-meta
+# SHR-16 — A read-only joiner cannot edit the itinerary; edit controls are hidden or 403
+# Section: Plan Sharing & Deep Links
+# Priority: P0
+# Repro:
+# 1. Join a plan with read_only permission.
+# 2. Open the itinerary and try to edit a stop.
+# 3. Verify edit controls are hidden, or attempting to save returns 403 with a clear message.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

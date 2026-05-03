@@ -1,0 +1,17 @@
+appId: ${APP_ID}
+name: SUB-09
+tags: [needs-implementation, premium, p0]
+---
+# >>> dashboard-meta
+# SUB-09 — Cancel Subscription deep-links to Google Play subscription management
+# Section: Subscription / Premium / Play Billing
+# Priority: P0
+# Repro:
+# 1. As a premium user, on Profile tap "Cancel Subscription".
+# 2. Verify the Play Store opens at the subscription-management page where the user can cancel.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

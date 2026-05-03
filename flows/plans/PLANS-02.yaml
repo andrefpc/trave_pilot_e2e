@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: PLANS-02
+tags: [needs-implementation, plans, p1]
+---
+# >>> dashboard-meta
+# PLANS-02 — Each Travel Plans card shows destinations, dates and a current/non-current indicator
+# Section: Travel Plans List & Plan Management
+# Priority: P1
+# Repro:
+# 1. Open Travel Plans.
+# 2. Inspect any plan card.
+# 3. Verify the card shows the destination list, formatted dates (e.g. "May 15-22"), and a checkmark/badge if it is the current plan.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

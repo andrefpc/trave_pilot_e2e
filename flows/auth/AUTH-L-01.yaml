@@ -1,0 +1,19 @@
+appId: ${APP_ID}
+name: AUTH-L-01
+tags: [needs-implementation, auth, p0]
+---
+# >>> dashboard-meta
+# AUTH-L-01 — Tapping Login with the email field empty shows "Invalid email address" under the field; nothing is sent
+# Section: Authentication & Session
+# Priority: P0
+# Repro:
+# 1. From Welcome, tap Login → "Sign in with password".
+# 2. Leave Email empty, type any password.
+# 3. Tap "Login".
+# 4. Verify "Invalid email address" appears below Email; no network request fires (check Network Profiler).
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

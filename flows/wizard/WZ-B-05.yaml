@@ -1,0 +1,17 @@
+appId: ${APP_ID}
+name: WZ-B-05
+tags: [needs-implementation, wizard, p1]
+---
+# >>> dashboard-meta
+# WZ-B-05 — Tapping Next on Budget sends PUT /travel-plans/:id/budget and opens Places of Interest
+# Section: Plan Creation Wizard
+# Priority: P1
+# Repro:
+# 1. On Budget with all six categories selected, tap Next.
+# 2. Verify a PUT to /travel-plans/:id/budget fires with the array of {category, level} and Places of Interest opens.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

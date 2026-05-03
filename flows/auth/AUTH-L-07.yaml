@@ -1,0 +1,19 @@
+appId: ${APP_ID}
+name: AUTH-L-07
+tags: [needs-implementation, auth, p1]
+---
+# >>> dashboard-meta
+# AUTH-L-07 — Tapping the eye icon on the Login password field toggles between hidden dots and the visible password
+# Section: Authentication & Session
+# Priority: P1
+# Repro:
+# 1. On Login, type a password — it shows as dots.
+# 2. Tap the eye icon at the right of the Password field.
+# 3. Verify the password text becomes readable.
+# 4. Tap again and verify it returns to dots.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

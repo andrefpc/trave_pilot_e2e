@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: AUTH-L-05
+tags: [needs-implementation, auth, p0]
+---
+# >>> dashboard-meta
+# AUTH-L-05 — After 5 wrong-password attempts in a row, the next try shows an "Account locked for 15 minutes" dialog
+# Section: Authentication & Session
+# Priority: P0
+# Repro:
+# 1. From Welcome, tap Login → "Sign in with password" using qa-locked@travelpilotapp.com.
+# 2. Enter the wrong password and tap Login. Repeat 4 more times (5 total wrong attempts).
+# 3. On the 5th failure, verify an error dialog explains the account is locked for 15 minutes.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

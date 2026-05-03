@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: NET-04
+tags: [needs-implementation, network, p0]
+---
+# >>> dashboard-meta
+# NET-04 — A 401 response triggers a token refresh; the original request is retried automatically with the new token
+# Section: Network, Offline & Error Handling
+# Priority: P0
+# Repro:
+# 1. Sign in normally.
+# 2. Use mitmproxy to inject a 401 on the next protected request.
+# 3. Verify the TokenAuthenticator fires POST /auth/refresh and the original request is retried successfully.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

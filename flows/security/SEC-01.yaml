@@ -1,0 +1,17 @@
+appId: ${APP_ID}
+name: SEC-01
+tags: [needs-implementation, security, p0]
+---
+# >>> dashboard-meta
+# SEC-01 — Tokens are stored in encrypted DataStore (not plaintext SharedPreferences)
+# Section: Security & Auth Hardening
+# Priority: P0
+# Repro:
+# 1. Sign in, then via adb shell inspect /data/data/<package>/files/datastore/auth_tokens.preferences_pb.
+# 2. Verify the file is binary protobuf, not human-readable JSON, and tokens are not present as plaintext.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

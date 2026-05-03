@@ -1,0 +1,19 @@
+appId: ${APP_ID}
+name: WZ-D-04
+tags: [needs-implementation, wizard, p0]
+---
+# >>> dashboard-meta
+# WZ-D-04 — Tapping Departure date opens a Material3 date picker that lets you pick a date
+# Section: Plan Creation Wizard
+# Priority: P0
+# Repro:
+# 1. From Welcome → Create Plan → Destination, fill Origin first.
+# 2. Tap the Departure field.
+# 3. Verify a Material3 date picker dialog opens.
+# 4. Select today or any future date and tap OK — the field shows the picked date.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: GEN-12
+tags: [needs-implementation, generation, p1]
+---
+# >>> dashboard-meta
+# GEN-12 — Backgrounding the app during Plan Generation and returning resumes polling and shows the latest progress
+# Section: Plan Generation
+# Priority: P1
+# Repro:
+# 1. On Plan Generation, press Home (background app).
+# 2. Wait 30 seconds, return to the app.
+# 3. Verify polling has resumed and the progress bar reflects the new completion state.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

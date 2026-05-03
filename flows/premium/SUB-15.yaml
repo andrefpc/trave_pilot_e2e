@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: SUB-15
+tags: [needs-implementation, premium, p1]
+---
+# >>> dashboard-meta
+# SUB-15 — A Google refund webhook (subscription_status=refunded) revokes premium
+# Section: Subscription / Premium / Play Billing
+# Priority: P1
+# Repro:
+# 1. As a premium user, refund the purchase via Play Store / Console.
+# 2. After the refund webhook updates the server, GET /subscriptions/me returns premium=false.
+# 3. Verify premium gates re-appear in the app.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

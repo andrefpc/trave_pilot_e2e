@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: HOME-10
+tags: [needs-implementation, home, p1]
+---
+# >>> dashboard-meta
+# HOME-10 — In dark mode, the weather icon on Home renders with proper contrast (no white box)
+# Section: Home Dashboard
+# Priority: P1
+# Repro:
+# 1. Enable system dark theme.
+# 2. Open Home with an active plan.
+# 3. Verify the weather icon and temperature on each day card are clearly visible (no white-on-white squares).
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

@@ -1,0 +1,17 @@
+appId: ${APP_ID}
+name: WZ-C-02
+tags: [needs-implementation, wizard, p0]
+---
+# >>> dashboard-meta
+# WZ-C-02 — On Companions, tapping minus on Adults at value 1 does not decrement below 1
+# Section: Plan Creation Wizard
+# Priority: P0
+# Repro:
+# 1. On Companions with Adults=1, tap the minus button next to Adults.
+# 2. Verify the value stays at 1 (button is no-op or disabled at the minimum).
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

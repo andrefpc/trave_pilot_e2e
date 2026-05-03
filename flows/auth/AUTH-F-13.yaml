@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: AUTH-F-13
+tags: [needs-implementation, auth, p0]
+---
+# >>> dashboard-meta
+# AUTH-F-13 — Logging in with the old password after a reset shows the "Invalid credentials" error
+# Section: Authentication & Session
+# Priority: P0
+# Repro:
+# 1. Complete a password reset for an account.
+# 2. From Login, enter the email and the old (pre-reset) password.
+# 3. Verify a dialog "Invalid credentials" appears.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: FD-04
+tags: [needs-implementation, feed, p1]
+---
+# >>> dashboard-meta
+# FD-04 — Pulling down on Feed re-fetches all four sections
+# Section: Feed & Recommendations
+# Priority: P1
+# Repro:
+# 1. On Feed, scroll to the top.
+# 2. Drag down to trigger pull-to-refresh.
+# 3. Verify all four sections show a loading state, then re-render with fresh data.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

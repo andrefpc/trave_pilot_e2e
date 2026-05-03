@@ -1,0 +1,17 @@
+appId: ${APP_ID}
+name: SUB-01
+tags: [needs-implementation, premium, p0]
+---
+# >>> dashboard-meta
+# SUB-01 — Premium bottom sheet shows Monthly and Annual plan cards with prices fetched from Play Billing
+# Section: Subscription / Premium / Play Billing
+# Priority: P0
+# Repro:
+# 1. Sign in as a free user, open Profile → "Unlock Premium".
+# 2. Verify the sheet shows two plan cards — "Monthly" and "Annual" — each with a price string from Play Billing (e.g. "$4.99/mo", "$49.99/yr").
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: ITE-14
+tags: [needs-implementation, edit, p1]
+---
+# >>> dashboard-meta
+# ITE-14 — On a hotel stop, tapping the hotel option opens hotel selection and switches the day's hotel on save
+# Section: Itinerary Editing & Rearrange
+# Priority: P1
+# Repro:
+# 1. Open a day with a hotel stop, tap the hotel stop.
+# 2. Tap the option to change the hotel.
+# 3. Pick a different hotel — verify the day's hotel info updates.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

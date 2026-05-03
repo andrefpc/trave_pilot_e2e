@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: ITE-09
+tags: [needs-implementation, edit, p1]
+---
+# >>> dashboard-meta
+# ITE-09 — On Edit Stop, setting arrival later than departure shows a server-side validation error
+# Section: Itinerary Editing & Rearrange
+# Priority: P1
+# Repro:
+# 1. On Edit Stop, set Arrival = 14:00 and Departure = 13:00.
+# 2. Tap Save Changes.
+# 3. Verify a backend error like "Time change conflicts with another stop" appears (request rejected).
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

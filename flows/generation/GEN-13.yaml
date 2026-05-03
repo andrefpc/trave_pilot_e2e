@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: GEN-13
+tags: [needs-implementation, generation, p1]
+---
+# >>> dashboard-meta
+# GEN-13 — Losing network during Plan Generation triggers retries; after recovery the screen continues normally
+# Section: Plan Generation
+# Priority: P1
+# Repro:
+# 1. On Plan Generation, toggle airplane mode on.
+# 2. Wait 10 seconds — verify polling errors (and an inline error appears if it persists).
+# 3. Toggle airplane off — polling resumes and progress continues.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

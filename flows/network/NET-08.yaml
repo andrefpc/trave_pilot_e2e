@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: NET-08
+tags: [needs-implementation, network, p1]
+---
+# >>> dashboard-meta
+# NET-08 — A 429 rate-limit response shows a friendly message with a retry-after countdown if provided
+# Section: Network, Offline & Error Handling
+# Priority: P1
+# Repro:
+# 1. Use mitmproxy to inject a 429 with a Retry-After header on a request.
+# 2. Trigger that request.
+# 3. Verify an error dialog appears with a backend-localised message and a countdown if applicable.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

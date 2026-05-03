@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: THM-04
+tags: [needs-implementation, a11y, p1]
+---
+# >>> dashboard-meta
+# THM-04 — Status bar and navigation bar colors match the active theme on every screen
+# Section: Localization, Accessibility, Theming
+# Priority: P1
+# Repro:
+# 1. In light mode, walk through main screens and observe the status bar (icons should be dark on a light bar).
+# 2. Toggle dark mode and walk again (icons should be light on a dark bar).
+# 3. Verify there are no hardcoded white or black bars regardless of theme.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

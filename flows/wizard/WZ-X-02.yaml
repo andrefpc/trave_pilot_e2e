@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: WZ-X-02
+tags: [needs-implementation, wizard, p1]
+---
+# >>> dashboard-meta
+# WZ-X-02 — Force-killing the app at any wizard step then relaunching reopens that step with the saved data
+# Section: Plan Creation Wizard
+# Priority: P1
+# Repro:
+# 1. Walk the wizard to Budget; pick non-default levels for several categories.
+# 2. Force-stop the app via Settings → Apps.
+# 3. Relaunch — verify Budget reopens with the same levels selected (saved on the draft).
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

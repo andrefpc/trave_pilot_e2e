@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: PROF-13
+tags: [needs-implementation, profile, p1]
+---
+# >>> dashboard-meta
+# PROF-13 — Logging out while in airplane mode still clears the local session and returns to Welcome
+# Section: Profile & Account
+# Priority: P1
+# Repro:
+# 1. Toggle airplane mode on, sign in already on the device.
+# 2. Tap Profile → Logout → Confirm.
+# 3. Verify Welcome appears even though no network call could be made.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

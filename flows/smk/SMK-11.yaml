@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: SMK-11
+tags: [needs-implementation, smk, p0]
+---
+# >>> dashboard-meta
+# SMK-11 — Toggling system dark mode while in the app re-themes every screen with no white flashes
+# Section: Smoke Suite
+# Priority: P0
+# Repro:
+# 1. Open the app to Home.
+# 2. Pull down the system shade and toggle Dark theme on.
+# 3. Walk through Home, Itinerary, Feed, Profile and Settings and verify dark backgrounds with readable text on every screen.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

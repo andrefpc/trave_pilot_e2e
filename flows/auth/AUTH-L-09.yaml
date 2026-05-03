@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: AUTH-L-09
+tags: [needs-implementation, auth, p1]
+---
+# >>> dashboard-meta
+# AUTH-L-09 — While the login request is running, the Login button is disabled so it cannot be tapped twice
+# Section: Authentication & Session
+# Priority: P1
+# Repro:
+# 1. On Login, enter valid credentials.
+# 2. Tap Login and watch the button immediately.
+# 3. Verify it greys out / shows a loading state and does not fire a second request if you tap repeatedly.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

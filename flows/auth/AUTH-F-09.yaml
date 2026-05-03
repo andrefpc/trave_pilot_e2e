@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: AUTH-F-09
+tags: [needs-implementation, auth, p0]
+---
+# >>> dashboard-meta
+# AUTH-F-09 — Reset Password shows the same six password rule check boxes as Register and validates them in real time
+# Section: Authentication & Session
+# Priority: P0
+# Repro:
+# 1. Reach Reset Password via the recovery flow.
+# 2. Type a new password and confirmation; watch the rules below.
+# 3. Verify the same six rules (8+ chars, uppercase, lowercase, number, special, match) flip from red to green as conditions are satisfied.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

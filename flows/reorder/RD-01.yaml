@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: RD-01
+tags: [needs-implementation, reorder, p0]
+---
+# >>> dashboard-meta
+# RD-01 — A free user tapping Reorder Days opens the Premium bottom sheet (Reorder screen does not open)
+# Section: Reorder Days
+# Priority: P0
+# Repro:
+# 1. Sign in as a free user, open a plan.
+# 2. Tap the swap/reorder-days icon in the toolbar.
+# 3. Verify the Premium bottom sheet opens; the Reorder Days screen does not.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

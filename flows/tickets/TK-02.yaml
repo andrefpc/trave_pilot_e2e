@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: TK-02
+tags: [needs-implementation, tickets, p0]
+---
+# >>> dashboard-meta
+# TK-02 — The + button on Tickets opens the system Open Document file picker
+# Section: Tickets
+# Priority: P0
+# Repro:
+# 1. Open Tickets.
+# 2. Tap +.
+# 3. Verify the OpenDocument picker opens, allowing PDFs and images.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

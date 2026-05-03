@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: SUB-17
+tags: [needs-implementation, premium, p1]
+---
+# >>> dashboard-meta
+# SUB-17 — Force-stopping the app during the Play Billing flow reconciles state on next launch via queryPurchases
+# Section: Subscription / Premium / Play Billing
+# Priority: P1
+# Repro:
+# 1. Start a purchase on the Premium sheet.
+# 2. While the Play Billing sheet is open, force-stop the app via Settings → Apps.
+# 3. Reopen the app — verify queryPurchases is called and any completed purchase is verified, granting premium.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

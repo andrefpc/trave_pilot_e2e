@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: SHR-12
+tags: [needs-implementation, sharing, p1]
+---
+# >>> dashboard-meta
+# SHR-12 — Joining a plan you have already joined shows "You have already joined this plan" instead of duplicating
+# Section: Plan Sharing & Deep Links
+# Priority: P1
+# Repro:
+# 1. Join a shared plan (SHR-10).
+# 2. Tap the same share link again and tap Add Travel Plan.
+# 3. Verify "You have already joined this plan" is shown; no duplicate is created.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

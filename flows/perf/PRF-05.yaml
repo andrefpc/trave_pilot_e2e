@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: PRF-05
+tags: [needs-implementation, perf, p1]
+---
+# >>> dashboard-meta
+# PRF-05 — Memory on Home stays under ~250 MB heap with no monotonic growth
+# Section: Performance & Stability
+# Priority: P1
+# Repro:
+# 1. Connect Android Studio Profiler → Memory.
+# 2. Open Home, navigate Home → Itinerary → Home repeatedly.
+# 3. Verify heap remains roughly steady around 180–240 MB; no monotonic upward growth across cycles.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

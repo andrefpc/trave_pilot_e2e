@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: SEC-10
+tags: [needs-implementation, security, p0]
+---
+# >>> dashboard-meta
+# SEC-10 — Only the entry-point Activity and the share-receive intents are exported; everything else is internal
+# Section: Security & Auth Hardening
+# Priority: P0
+# Repro:
+# 1. Open AndroidManifest.xml.
+# 2. Verify android:exported="true" only on MainActivity and on activities/components that receive ACTION_VIEW for share links and ACTION_SEND/SEND_MULTIPLE for ticket sharing.
+# 3. Verify all other components have android:exported="false".
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

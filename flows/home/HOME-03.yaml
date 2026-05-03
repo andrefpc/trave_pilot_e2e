@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: HOME-03
+tags: [needs-implementation, home, p1]
+---
+# >>> dashboard-meta
+# HOME-03 — Home shows a world map with markers at each destination on the user's plan
+# Section: Home Dashboard
+# Priority: P1
+# Repro:
+# 1. Sign in as a user with a multi-city plan.
+# 2. Tap Home and scroll past the day card.
+# 3. Verify the world map renders with pins on each destination city.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

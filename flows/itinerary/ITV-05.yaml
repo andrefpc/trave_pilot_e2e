@@ -1,0 +1,17 @@
+appId: ${APP_ID}
+name: ITV-05
+tags: [needs-implementation, itinerary, p0]
+---
+# >>> dashboard-meta
+# ITV-05 — Tapping a stop with a place id opens the Place Detail bottom sheet with photos, description and hours
+# Section: Itinerary Viewing
+# Priority: P0
+# Repro:
+# 1. Open a day and tap an attraction or restaurant stop.
+# 2. Verify a bottom sheet slides up with the place name, photo carousel, description text and opening hours.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

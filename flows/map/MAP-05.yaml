@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: MAP-05
+tags: [needs-implementation, map, p2]
+---
+# >>> dashboard-meta
+# MAP-05 — Travel Map shows a stats card with counts of visited and planned cities
+# Section: Travel Map
+# Priority: P2
+# Repro:
+# 1. Open Travel Map.
+# 2. Look for the stats card (top or bottom of the screen).
+# 3. Verify it shows the user's counts: e.g. "X cities visited · Y planned".
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

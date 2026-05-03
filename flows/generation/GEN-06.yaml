@@ -1,0 +1,17 @@
+appId: ${APP_ID}
+name: GEN-06
+tags: [needs-implementation, generation, p1]
+---
+# >>> dashboard-meta
+# GEN-06 — Pressing system back on Plan Generation while running is ignored and stays on the screen
+# Section: Plan Generation
+# Priority: P1
+# Repro:
+# 1. On Plan Generation while progress < 100%, press system back.
+# 2. Verify the screen does not dismiss; generation continues.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

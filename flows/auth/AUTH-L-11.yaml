@@ -1,0 +1,19 @@
+appId: ${APP_ID}
+name: AUTH-L-11
+tags: [needs-implementation, auth, p1]
+---
+# >>> dashboard-meta
+# AUTH-L-11 — Tapping the back arrow on Login returns to Welcome without losing entered data
+# Section: Authentication & Session
+# Priority: P1
+# Repro:
+# 1. From Welcome, tap Login → "Sign in with password".
+# 2. Type any email/password.
+# 3. Tap the back arrow in the toolbar.
+# 4. Verify Welcome is shown again. (Re-entering Login starts with an empty form.)
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

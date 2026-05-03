@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: WZ-WTS-03
+tags: [needs-implementation, wizard, p1]
+---
+# >>> dashboard-meta
+# WZ-WTS-03 — Tapping "Add custom hotel" on Where to Stay opens a form for name + address
+# Section: Plan Creation Wizard
+# Priority: P1
+# Repro:
+# 1. On Where to Stay → tap "Add custom hotel" (or equivalent label).
+# 2. Verify a form opens with Name and Address fields.
+# 3. Fill them and confirm — verify a custom hotel chip appears in the city section.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: NET-09
+tags: [needs-implementation, network, p1]
+---
+# >>> dashboard-meta
+# NET-09 — A 500 error shows an error dialog with Retry; tapping Retry retries the same request
+# Section: Network, Offline & Error Handling
+# Priority: P1
+# Repro:
+# 1. Inject a 500 via mitmproxy.
+# 2. Trigger any protected request.
+# 3. Verify the dialog "Something went wrong" with Retry appears; tap Retry — the same request fires again.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

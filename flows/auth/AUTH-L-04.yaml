@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: AUTH-L-04
+tags: [needs-implementation, auth, p0]
+---
+# >>> dashboard-meta
+# AUTH-L-04 — Logging in with a correct email but wrong password shows an "Invalid credentials" dialog with Retry
+# Section: Authentication & Session
+# Priority: P0
+# Repro:
+# 1. From Welcome, tap Login → "Sign in with password".
+# 2. Enter a registered email and a wrong password.
+# 3. Tap Login. Verify a brief loading overlay, then a dialog with "Invalid credentials" and a Retry button.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

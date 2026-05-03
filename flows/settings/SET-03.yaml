@@ -1,0 +1,17 @@
+appId: ${APP_ID}
+name: SET-03
+tags: [needs-implementation, settings, p2]
+---
+# >>> dashboard-meta
+# SET-03 — Default walking style chosen on Settings is saved to the server preferences
+# Section: Settings & Preferences
+# Priority: P2
+# Repro:
+# 1. On Settings → Default Walking Style, pick a value.
+# 2. Verify a PUT /users/me/preferences fires and the wizard's Walking Style step pre-selects this value next time.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: PH-06
+tags: [needs-implementation, photos, p0]
+---
+# >>> dashboard-meta
+# PH-06 — Long-press → Delete on a Gallery photo confirms then deletes via DELETE /milestones/:id
+# Section: Photos & Gallery
+# Priority: P0
+# Repro:
+# 1. Long-press a photo and tap Delete.
+# 2. Confirm in the dialog.
+# 3. Verify a DELETE /milestones/:id fires and the photo is removed from the grid.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

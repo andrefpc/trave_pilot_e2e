@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: AUTH-F-02
+tags: [needs-implementation, auth, p0]
+---
+# >>> dashboard-meta
+# AUTH-F-02 — On Forgot Password, submitting an unknown email also opens Recovery Code (no error — prevents account enumeration)
+# Section: Authentication & Session
+# Priority: P0
+# Repro:
+# 1. From Login → "Recover Password".
+# 2. Enter a clearly-unregistered email such as nobody@example.com and tap "Send Recovery Code".
+# 3. Verify the same Recovery Code screen opens — no "user not found" error appears.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

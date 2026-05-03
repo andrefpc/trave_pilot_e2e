@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: PRF-11
+tags: [needs-implementation, perf, p1]
+---
+# >>> dashboard-meta
+# PRF-11 — PlanGenerationService stops within 30 s of generation completing
+# Section: Performance & Stability
+# Priority: P1
+# Repro:
+# 1. Trigger plan generation (foreground notification appears).
+# 2. Wait for it to finish on screen.
+# 3. Run `adb logcat | grep PlanGenerationService` and verify stopForeground/stopSelf is called within 30 s of completion.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

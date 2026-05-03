@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: WZ-D-13
+tags: [needs-implementation, wizard, p0]
+---
+# >>> dashboard-meta
+# WZ-D-13 — Free user with one active plan creating a second plan is blocked at the API with 403 → paywall opens
+# Section: Plan Creation Wizard
+# Priority: P0
+# Repro:
+# 1. Sign in as a free user that already has 1 active plan.
+# 2. Tap Create Plan → fill Destination → tap Next.
+# 3. Verify the 2nd-plan limit triggers the Premium bottom sheet (because POST /travel-plans/full returns 403).
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

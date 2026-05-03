@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: SUB-10
+tags: [needs-implementation, premium, p0]
+---
+# >>> dashboard-meta
+# SUB-10 — When the subscription expires, premium-only features show the Premium bottom sheet again
+# Section: Subscription / Premium / Play Billing
+# Priority: P0
+# Repro:
+# 1. As a premium user past the expiry date (or with sandbox expiry forced).
+# 2. After GET /subscriptions/me returns premium=false, attempt a premium feature.
+# 3. Verify the action is blocked with the Premium bottom sheet.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

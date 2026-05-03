@@ -1,0 +1,17 @@
+appId: ${APP_ID}
+name: WZ-WTS-01
+tags: [needs-implementation, wizard, p0]
+---
+# >>> dashboard-meta
+# WZ-WTS-01 — Where to Stay shows one section per destination city with 5+ hotel cards each
+# Section: Plan Creation Wizard
+# Priority: P0
+# Repro:
+# 1. Walk the wizard with 2+ destination cities to Where to Stay.
+# 2. Verify there is one section per city; each section lists at least 5 hotel cards with name, photo and rating.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

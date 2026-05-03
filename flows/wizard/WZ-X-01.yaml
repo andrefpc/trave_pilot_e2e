@@ -1,0 +1,19 @@
+appId: ${APP_ID}
+name: WZ-X-01
+tags: [needs-implementation, wizard, p1]
+---
+# >>> dashboard-meta
+# WZ-X-01 — Backgrounding mid-wizard for ~30 s and returning resumes on the same step with the same data
+# Section: Plan Creation Wizard
+# Priority: P1
+# Repro:
+# 1. Walk the wizard to Companions; set Adults=2, Children=1.
+# 2. Press Home to background the app for ~30 seconds.
+# 3. Tap the launcher icon to return.
+# 4. Verify Companions reopens with Adults=2, Children=1 still set.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

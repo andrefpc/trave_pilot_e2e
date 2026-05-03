@@ -1,0 +1,17 @@
+appId: ${APP_ID}
+name: MAP-03
+tags: [needs-implementation, map, p1]
+---
+# >>> dashboard-meta
+# MAP-03 — Dragging the Travel Map pans in all directions
+# Section: Travel Map
+# Priority: P1
+# Repro:
+# 1. On Travel Map, drag with one finger left, right, up, down.
+# 2. Verify the map pans smoothly to follow the gesture.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

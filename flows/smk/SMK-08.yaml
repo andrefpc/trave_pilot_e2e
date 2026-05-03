@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: SMK-08
+tags: [needs-implementation, smk, p0]
+---
+# >>> dashboard-meta
+# SMK-08 — A free-tier user tapping a premium-only feature opens the Premium bottom sheet
+# Section: Smoke Suite
+# Priority: P0
+# Repro:
+# 1. Sign in as a free user, then open any plan.
+# 2. Tap a premium-gated control such as Rearrange (edit icon) or Reorder Days.
+# 3. Verify the Premium bottom sheet slides up showing the latest plan and a Subscribe button.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: FD-05
+tags: [needs-implementation, feed, p0]
+---
+# >>> dashboard-meta
+# FD-05 — Tapping "Add to Itinerary" on a Place card → choosing a free-time slot adds it to the day
+# Section: Feed & Recommendations
+# Priority: P0
+# Repro:
+# 1. On Feed, on a Place card tap "Add to Itinerary".
+# 2. In the Free Time selection sheet, pick a slot.
+# 3. Verify the place replaces that free-time slot and a snackbar appears.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

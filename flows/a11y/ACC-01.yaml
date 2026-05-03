@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: ACC-01
+tags: [needs-implementation, a11y, p1]
+---
+# >>> dashboard-meta
+# ACC-01 — TalkBack reads every interactive element on Home / Profile / Itinerary with a clear announcement
+# Section: Localization, Accessibility, Theming
+# Priority: P1
+# Repro:
+# 1. Settings → Accessibility → enable TalkBack.
+# 2. Tap each button, image and field on Home, Profile, and Itinerary.
+# 3. Verify each element is announced with a meaningful name and role (no "Unlabeled button").
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: PRF-13
+tags: [needs-implementation, perf, p2]
+---
+# >>> dashboard-meta
+# PRF-13 — Hilt DI graph builds in <200 ms during cold start; no DI-related delay
+# Section: Performance & Stability
+# Priority: P2
+# Repro:
+# 1. Capture an Android Studio CPU trace during cold start.
+# 2. Search for Hilt_MainActivity / DaggerApplicationComponent frames.
+# 3. Verify total DI construction is under ~200 ms.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

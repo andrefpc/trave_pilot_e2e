@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: PLANS-08
+tags: [needs-implementation, plans, p0]
+---
+# >>> dashboard-meta
+# PLANS-08 — Free user with one plan tapping Duplicate hits 403 → Premium paywall
+# Section: Travel Plans List & Plan Management
+# Priority: P0
+# Repro:
+# 1. Sign in as a free user with exactly one plan.
+# 2. Long-press the plan and tap Duplicate.
+# 3. Verify the request returns 403 and the Premium bottom sheet appears.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

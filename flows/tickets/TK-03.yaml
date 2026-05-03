@@ -1,0 +1,19 @@
+appId: ${APP_ID}
+name: TK-03
+tags: [needs-implementation, tickets, p0]
+---
+# >>> dashboard-meta
+# TK-03 — Picking a PDF and tapping "Upload ticket" sends POST /tickets and the ticket appears in the list
+# Section: Tickets
+# Priority: P0
+# Repro:
+# 1. On Tickets, tap + → pick a PDF.
+# 2. In the "Did you buy the ticket?" sheet, tap "Upload ticket".
+# 3. Verify a POST /tickets request fires with the file and a success snackbar appears.
+# 4. The new ticket card is now visible in the list.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: AUTH-W-03
+tags: [needs-implementation, auth, p1]
+---
+# >>> dashboard-meta
+# AUTH-W-03 — Tapping "Have an account, Login" opens a bottom sheet with Google and password sign-in options
+# Section: Authentication & Session
+# Priority: P1
+# Repro:
+# 1. On Welcome, tap "Have an account, Login".
+# 2. Verify a bottom sheet titled "Welcome back" slides up with two buttons: "Sign in with Google" and "Sign in with password".
+# 3. Swipe down to dismiss — the sheet closes and Welcome remains.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

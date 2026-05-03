@@ -1,0 +1,17 @@
+appId: ${APP_ID}
+name: PH-02
+tags: [needs-implementation, photos, p0]
+---
+# >>> dashboard-meta
+# PH-02 — Tapping the + on Gallery opens the Android multi-select photo picker
+# Section: Photos & Gallery
+# Priority: P0
+# Repro:
+# 1. Open Gallery and tap the + button.
+# 2. Verify the system multi-select photo picker (or document picker) opens.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

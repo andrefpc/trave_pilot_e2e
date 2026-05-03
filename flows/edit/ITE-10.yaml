@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: ITE-10
+tags: [needs-implementation, edit, p0]
+---
+# >>> dashboard-meta
+# ITE-10 — On Edit Stop, "Remove Stop" → Confirm deletes the stop and the day no longer shows it
+# Section: Itinerary Editing & Rearrange
+# Priority: P0
+# Repro:
+# 1. On Edit Stop, tap "Remove Stop".
+# 2. Confirm in the dialog.
+# 3. Verify a DELETE fires, a snackbar like "Stop removed" appears, and the stop is gone from the day.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

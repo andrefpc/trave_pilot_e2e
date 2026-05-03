@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: SUB-03
+tags: [needs-implementation, premium, p0]
+---
+# >>> dashboard-meta
+# SUB-03 — Tapping Subscribe on the Monthly card launches the Google Play Billing flow for the monthly offer
+# Section: Subscription / Premium / Play Billing
+# Priority: P0
+# Repro:
+# 1. On the Premium sheet, tap the Monthly card → Subscribe.
+# 2. Verify the Google Play Billing sheet appears showing the monthly subscription offer.
+# 3. The user can complete or cancel the flow.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

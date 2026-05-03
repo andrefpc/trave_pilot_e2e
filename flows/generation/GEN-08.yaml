@@ -1,0 +1,17 @@
+appId: ${APP_ID}
+name: GEN-08
+tags: [needs-implementation, generation, p1]
+---
+# >>> dashboard-meta
+# GEN-08 — Tapping Retry after a Plan Generation failure restarts the generation flow
+# Section: Plan Generation
+# Priority: P1
+# Repro:
+# 1. From the failure screen (GEN-07), tap Retry.
+# 2. Verify the error clears and a fresh compass animation + progress bar appear, with polling resuming.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

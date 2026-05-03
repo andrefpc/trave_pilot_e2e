@@ -1,0 +1,17 @@
+appId: ${APP_ID}
+name: WZ-MT-05
+tags: [needs-implementation, wizard, p2]
+---
+# >>> dashboard-meta
+# WZ-MT-05 — Skipping all four meals on Meal Time is allowed by the client; the server enforces the minimum
+# Section: Plan Creation Wizard
+# Priority: P2
+# Repro:
+# 1. On Meal Time, toggle Skip on Breakfast, Lunch, Coffee Break and Dinner.
+# 2. Verify Next remains enabled and tapping it goes to Budget — the server may reject if its policy requires ≥1 meal.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

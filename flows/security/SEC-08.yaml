@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: SEC-08
+tags: [needs-implementation, security, p1]
+---
+# >>> dashboard-meta
+# SEC-08 — WebView (if any) safety: no JS-to-native bridge exposed; URLs validated
+# Section: Security & Auth Hardening
+# Priority: P1
+# Repro:
+# 1. Code-search for WebView usage.
+# 2. If any is present, verify addJavaScriptInterface is not used and URLs are validated/whitelisted before loading.
+# 3. Try to inject a "javascript:" URL — verify it is rejected.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

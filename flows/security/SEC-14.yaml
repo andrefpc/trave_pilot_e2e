@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: SEC-14
+tags: [needs-implementation, security, p0]
+---
+# >>> dashboard-meta
+# SEC-14 — Passwords never appear in logcat; HTTP logging redacts password fields
+# Section: Security & Auth Hardening
+# Priority: P0
+# Repro:
+# 1. Connect logcat (adb logcat).
+# 2. Sign in with a unique password string.
+# 3. Search logcat for that string — verify zero hits (the HTTP logging interceptor is configured to redact bodies on auth endpoints).
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

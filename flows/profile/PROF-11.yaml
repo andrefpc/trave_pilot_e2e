@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: PROF-11
+tags: [needs-implementation, profile, p1]
+---
+# >>> dashboard-meta
+# PROF-11 — A premium user on Profile sees a "You are Premium" badge instead of the upgrade card
+# Section: Profile & Account
+# Priority: P1
+# Repro:
+# 1. Sign in as a premium user.
+# 2. Tap Profile.
+# 3. Verify "You are Premium" badge is present and the Unlock Premium card is hidden.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

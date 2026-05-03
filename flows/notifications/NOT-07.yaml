@@ -1,0 +1,17 @@
+appId: ${APP_ID}
+name: NOT-07
+tags: [needs-implementation, notifications, p0]
+---
+# >>> dashboard-meta
+# NOT-07 — On login, the app registers its FCM token via POST /notifications/devices
+# Section: Notifications & Reminders
+# Priority: P0
+# Repro:
+# 1. Fresh-install the app, sign in.
+# 2. Inspect network — verify a POST /notifications/devices request fires with an FCM token in the body.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

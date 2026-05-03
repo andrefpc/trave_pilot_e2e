@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: AUTH-S-01
+tags: [needs-implementation, auth, p0]
+---
+# >>> dashboard-meta
+# AUTH-S-01 — Signing in with a Google account that has never been registered creates the account and lands on Home
+# Section: Authentication & Session
+# Priority: P0
+# Repro:
+# 1. From Welcome, tap Login → "Sign in with Google".
+# 2. In the Credential Manager picker, pick a Google account that is brand new to Travel Pilot.
+# 3. Verify the app creates an account silently and Home opens (no Welcome flicker).
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

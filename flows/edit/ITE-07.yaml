@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: ITE-07
+tags: [needs-implementation, edit, p1]
+---
+# >>> dashboard-meta
+# ITE-07 — Adding a custom stop with a manually typed title saves a stop with no place link
+# Section: Itinerary Editing & Rearrange
+# Priority: P1
+# Repro:
+# 1. On Rearrange Day → "+ Add Stop", switch to the custom-title option (if available).
+# 2. Type a title like "Picnic in the park" and confirm.
+# 3. Verify the stop appears with that title and no Google place attached.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

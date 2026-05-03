@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: FD-06
+tags: [needs-implementation, feed, p0]
+---
+# >>> dashboard-meta
+# FD-06 — Tapping "Add to Meal" on a Restaurant card → picking a meal slot assigns the restaurant
+# Section: Feed & Recommendations
+# Priority: P0
+# Repro:
+# 1. On Feed → Restaurants, tap "Add to Meal".
+# 2. Pick a meal slot (Breakfast / Lunch / Dinner / Coffee).
+# 3. Verify the restaurant is set on that meal and a snackbar appears.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

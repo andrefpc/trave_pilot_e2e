@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: THM-02
+tags: [needs-implementation, a11y, p0]
+---
+# >>> dashboard-meta
+# THM-02 — Dark mode renders every screen with dark backgrounds and light, readable text — no white panels
+# Section: Localization, Accessibility, Theming
+# Priority: P0
+# Repro:
+# 1. Enable system dark theme (`adb shell cmd uimode night yes`).
+# 2. Walk Welcome, Home, Itinerary, Feed, Profile, Tickets, Share.
+# 3. Verify dark backgrounds, light text, no white-on-white panels or buttons.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

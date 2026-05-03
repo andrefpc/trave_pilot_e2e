@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: AUTH-W-01
+tags: [needs-implementation, auth, p1]
+---
+# >>> dashboard-meta
+# AUTH-W-01 — Welcome shows the compass logo, tagline, "Create Plan" button and "Have an account, Login" link
+# Section: Authentication & Session
+# Priority: P1
+# Repro:
+# 1. Cold-launch the app while signed out.
+# 2. On Welcome, verify the compass logo (rotating ±15° for ~2.5 s) and the tagline "Less effort to plan, more time to have fun".
+# 3. Verify a primary "Create Plan" button and a "Have an account, Login" link are both visible, plus the app version at the bottom.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

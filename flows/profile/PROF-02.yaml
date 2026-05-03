@@ -1,0 +1,17 @@
+appId: ${APP_ID}
+name: PROF-02
+tags: [needs-implementation, profile, p1]
+---
+# >>> dashboard-meta
+# PROF-02 — Tapping the avatar on Profile opens the photo picker (or Gallery)
+# Section: Profile & Account
+# Priority: P1
+# Repro:
+# 1. On Profile, tap the avatar image at the top.
+# 2. Verify a photo picker or the Gallery screen opens to choose a new image.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

@@ -1,0 +1,19 @@
+appId: ${APP_ID}
+name: AUTH-F-10
+tags: [needs-implementation, auth, p0]
+---
+# >>> dashboard-meta
+# AUTH-F-10 — Setting a valid new password on Reset Password returns to Login; you can sign in with the new password
+# Section: Authentication & Session
+# Priority: P0
+# Repro:
+# 1. On Reset Password, type a new password meeting all rules + matching confirmation.
+# 2. Tap Reset.
+# 3. Verify a loading overlay flashes, then Login appears (often with a success snackbar).
+# 4. Sign in with the email and the new password — Home opens.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

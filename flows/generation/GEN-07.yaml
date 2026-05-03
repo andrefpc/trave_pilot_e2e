@@ -1,0 +1,17 @@
+appId: ${APP_ID}
+name: GEN-07
+tags: [needs-implementation, generation, p0]
+---
+# >>> dashboard-meta
+# GEN-07 — When the server reports status=failed, an error message and a Retry button appear on Plan Generation
+# Section: Plan Generation
+# Priority: P0
+# Repro:
+# 1. Trigger plan generation and force a failure (e.g. proxy returns status=failed).
+# 2. Verify the screen shows a "Generation failed" error message and a Retry button.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

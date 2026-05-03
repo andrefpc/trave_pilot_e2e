@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: PLANS-15
+tags: [needs-implementation, plans, p2]
+---
+# >>> dashboard-meta
+# PLANS-15 — On Travel Plans, the sort control (if present) reorders by created_at or departure_date
+# Section: Travel Plans List & Plan Management
+# Priority: P2
+# Repro:
+# 1. On Travel Plans, tap the sort control.
+# 2. Pick "Departure date".
+# 3. Verify plans reorder by their departure date.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: PROF-03
+tags: [needs-implementation, profile, p1]
+---
+# >>> dashboard-meta
+# PROF-03 — Picking a new avatar uploads it via POST /users/me/avatar and the avatar updates
+# Section: Profile & Account
+# Priority: P1
+# Repro:
+# 1. On Profile, tap the avatar → pick an image.
+# 2. Verify a POST /users/me/avatar request fires.
+# 3. Verify the avatar on Profile updates to the new image.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

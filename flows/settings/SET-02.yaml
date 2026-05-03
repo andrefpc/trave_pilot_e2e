@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: SET-02
+tags: [needs-implementation, settings, p1]
+---
+# >>> dashboard-meta
+# SET-02 — Switching distance unit between km and miles updates all distance displays and saves via PUT /users/me/preferences
+# Section: Settings & Preferences
+# Priority: P1
+# Repro:
+# 1. On Settings, switch Distance unit from km to miles.
+# 2. Open Itinerary or Feed and verify distances display in miles.
+# 3. Verify a PUT /users/me/preferences fires saving the change.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

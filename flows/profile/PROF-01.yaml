@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: PROF-01
+tags: [needs-implementation, profile, p0]
+---
+# >>> dashboard-meta
+# PROF-01 — Profile shows the user's avatar, name and email loaded from GET /users/me
+# Section: Profile & Account
+# Priority: P0
+# Repro:
+# 1. Sign in.
+# 2. Tap the Profile tab.
+# 3. Verify the header shows the avatar image, the user's name and the email address.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

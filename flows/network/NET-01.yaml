@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: NET-01
+tags: [needs-implementation, network, p0]
+---
+# >>> dashboard-meta
+# NET-01 — Cold-launching offline shows cached data if available and offers a Retry; no crash
+# Section: Network, Offline & Error Handling
+# Priority: P0
+# Repro:
+# 1. Toggle airplane mode on, force-stop the app.
+# 2. Cold-launch the app.
+# 3. Verify cached screens render (if available) or the app shows an offline message with a Retry CTA — not a crash.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

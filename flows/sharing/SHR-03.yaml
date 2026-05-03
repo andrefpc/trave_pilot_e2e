@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: SHR-03
+tags: [needs-implementation, sharing, p0]
+---
+# >>> dashboard-meta
+# SHR-03 — Picking a permission and tapping Share invokes the native Android share chooser with the plan URL
+# Section: Plan Sharing & Deep Links
+# Priority: P0
+# Repro:
+# 1. As premium, open Share Plan, choose a permission.
+# 2. Tap Share.
+# 3. Verify a backend POST /share-link returns a URL and the system share chooser appears with that URL.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

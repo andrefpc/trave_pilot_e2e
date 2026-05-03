@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: PROF-05
+tags: [needs-implementation, profile, p1]
+---
+# >>> dashboard-meta
+# PROF-05 — Editing the email; if the new email is taken, a 409 conflict is shown inline
+# Section: Profile & Account
+# Priority: P1
+# Repro:
+# 1. Open the email-edit form.
+# 2. Change the email to one that already exists, tap Save.
+# 3. Verify a PATCH /users/me returns 409 and an inline error like "Email already exists" is shown.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

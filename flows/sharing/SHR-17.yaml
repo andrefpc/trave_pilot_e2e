@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: SHR-17
+tags: [needs-implementation, sharing, p1]
+---
+# >>> dashboard-meta
+# SHR-17 — A user with shared plans sees them in a "Shared with me" list, paginated
+# Section: Plan Sharing & Deep Links
+# Priority: P1
+# Repro:
+# 1. Accept several share invites.
+# 2. On Travel Plans, find the "Shared with me" section.
+# 3. Verify all joined plans are listed and pagination works for >10 plans.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: SUB-06
+tags: [needs-implementation, premium, p0]
+---
+# >>> dashboard-meta
+# SUB-06 — If receipt verification fails, no premium is granted and a "Purchase failed" dialog is shown
+# Section: Subscription / Premium / Play Billing
+# Priority: P0
+# Repro:
+# 1. Complete a Play Billing purchase but corrupt the receipt (e.g. via mitmproxy).
+# 2. Verify POST /subscriptions returns an error.
+# 3. Verify a "Purchase failed" dialog appears and Profile still shows "Unlock Premium".
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

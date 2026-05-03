@@ -1,0 +1,17 @@
+appId: ${APP_ID}
+name: WZ-B-03
+tags: [needs-implementation, wizard, p1]
+---
+# >>> dashboard-meta
+# WZ-B-03 — Tapping Low/Medium/High on a Budget card switches the selection without affecting other cards
+# Section: Plan Creation Wizard
+# Priority: P1
+# Repro:
+# 1. On Budget, on the Accommodation card tap Low.
+# 2. Verify Low is highlighted and Medium is no longer selected on Accommodation; other cards keep their previous selection.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

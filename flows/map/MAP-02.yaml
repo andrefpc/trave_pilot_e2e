@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: MAP-02
+tags: [needs-implementation, map, p1]
+---
+# >>> dashboard-meta
+# MAP-02 — Pinching on the Travel Map smoothly zooms in and out
+# Section: Travel Map
+# Priority: P1
+# Repro:
+# 1. On Travel Map, place two fingers on the map.
+# 2. Pinch outward to zoom in, then pinch inward to zoom out.
+# 3. Verify smooth zoom with no jank.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

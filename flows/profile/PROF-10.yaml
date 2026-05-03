@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: PROF-10
+tags: [needs-implementation, profile, p1]
+---
+# >>> dashboard-meta
+# PROF-10 — A free user on Profile sees the "Unlock Premium" upgrade card
+# Section: Profile & Account
+# Priority: P1
+# Repro:
+# 1. Sign in as a free user.
+# 2. Tap Profile.
+# 3. Verify a Premium upgrade card with pricing and a "Subscribe" / "Upgrade" button is visible.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

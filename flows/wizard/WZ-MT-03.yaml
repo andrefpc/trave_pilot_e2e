@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: WZ-MT-03
+tags: [needs-implementation, wizard, p1]
+---
+# >>> dashboard-meta
+# WZ-MT-03 — Toggling the "Skip" check on a meal card fades its time fields and marks the meal as skipped
+# Section: Plan Creation Wizard
+# Priority: P1
+# Repro:
+# 1. On Meal Time → Coffee Break card, tap the Skip check box.
+# 2. Verify the check fills and the Start/End fields fade to ~50% opacity.
+# 3. Untoggle Skip — fields return to full opacity.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

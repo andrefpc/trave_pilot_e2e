@@ -1,0 +1,17 @@
+appId: ${APP_ID}
+name: TK-06
+tags: [needs-implementation, tickets, p1]
+---
+# >>> dashboard-meta
+# TK-06 — Tapping Share on a ticket invokes the system share chooser via FileProvider
+# Section: Tickets
+# Priority: P1
+# Repro:
+# 1. Open a ticket full-screen and tap Share.
+# 2. Verify the system share sheet appears with the ticket file attached via FileProvider.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

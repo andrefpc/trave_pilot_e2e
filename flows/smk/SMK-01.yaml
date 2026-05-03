@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: SMK-01
+tags: [needs-implementation, smk, p0]
+---
+# >>> dashboard-meta
+# SMK-01 — Cold-launching the app shows the splash screen with the compass animation, then opens Welcome or Home
+# Section: Smoke Suite
+# Priority: P0
+# Repro:
+# 1. Force-stop the app, then tap its launcher icon to cold-launch.
+# 2. Watch the splash screen — the compass logo should swing gently for ~2 s.
+# 3. Verify the screen transitions to Welcome (if signed out) or Home (if signed in).
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

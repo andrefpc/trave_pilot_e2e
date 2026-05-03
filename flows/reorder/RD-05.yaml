@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: RD-05
+tags: [needs-implementation, reorder, p2]
+---
+# >>> dashboard-meta
+# RD-05 — For a single-day plan, Reorder Days is disabled or hidden because there is nothing to reorder
+# Section: Reorder Days
+# Priority: P2
+# Repro:
+# 1. Open a plan that has only one day.
+# 2. Look at the toolbar.
+# 3. Verify the reorder-days icon is greyed out, hidden, or shows an info message when tapped.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: ITE-03
+tags: [needs-implementation, edit, p0]
+---
+# >>> dashboard-meta
+# ITE-03 — Long-pressing a stop's drag handle and dragging reorders the stop visually; the new order is applied on release
+# Section: Itinerary Editing & Rearrange
+# Priority: P0
+# Repro:
+# 1. As premium, open Rearrange Day.
+# 2. Long-press a stop card by its drag handle and drag it up or down.
+# 3. Release — verify the stop snaps into its new position.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

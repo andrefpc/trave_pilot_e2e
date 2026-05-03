@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: ITE-04
+tags: [needs-implementation, edit, p0]
+---
+# >>> dashboard-meta
+# ITE-04 — Tapping Save Changes on Rearrange sends PUT /itinerary/:day_id/reorder with the new order_indexes
+# Section: Itinerary Editing & Rearrange
+# Priority: P0
+# Repro:
+# 1. As premium, drag stops to a new order on Rearrange Day.
+# 2. Tap "Save Changes".
+# 3. Verify a PUT to /itinerary/:day_id/reorder fires with the new order array, and a success snackbar appears.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

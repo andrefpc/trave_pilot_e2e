@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: WZ-D-06
+tags: [needs-implementation, wizard, p0]
+---
+# >>> dashboard-meta
+# WZ-D-06 — Setting Return earlier than Departure shows "Return date must be after departure date" inline
+# Section: Plan Creation Wizard
+# Priority: P0
+# Repro:
+# 1. From Welcome → Create Plan → Destination, set Departure to e.g. Jan 15.
+# 2. Tap Return and pick Jan 10.
+# 3. Verify the inline error "Return date must be after departure date" appears under the Return field.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

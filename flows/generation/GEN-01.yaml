@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: GEN-01
+tags: [needs-implementation, generation, p1]
+---
+# >>> dashboard-meta
+# GEN-01 — Plan Generation shows a compass that breathes (scales 0.95–1.05) and a progress bar that grows
+# Section: Plan Generation
+# Priority: P1
+# Repro:
+# 1. Trigger plan generation by completing the wizard.
+# 2. On the "Creating Your Adventure" screen, watch the compass at the centre.
+# 3. Verify it pulses smoothly (~2 s cycle) and the progress bar below grows over time.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

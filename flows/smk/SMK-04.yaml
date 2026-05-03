@@ -1,0 +1,19 @@
+appId: ${APP_ID}
+name: SMK-04
+tags: [needs-implementation, smk, p0]
+---
+# >>> dashboard-meta
+# SMK-04 — A logged-in user can complete the trip wizard end-to-end and reach Plan Generation
+# Section: Smoke Suite
+# Priority: P0
+# Repro:
+# 1. Sign in, then tap "Create Plan" (Welcome) or the + on Travel Plans.
+# 2. Walk all 11 steps in order: Destination, Walking Style, Companions, Day Schedule, Meal Time, Budget, Places of Interest, Restaurants, Where to Stay, Travel Times, Complete Onboarding.
+# 3. Tap "Generate Plan" on the final step.
+# 4. Verify the app navigates to Plan Generation.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

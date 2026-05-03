@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: PROF-04
+tags: [needs-implementation, profile, p1]
+---
+# >>> dashboard-meta
+# PROF-04 — Editing the user's name on Profile (or Settings) sends PATCH /users/me and the name updates immediately
+# Section: Profile & Account
+# Priority: P1
+# Repro:
+# 1. Open Profile and the name-edit field (or Settings → name).
+# 2. Change the name and tap Save.
+# 3. Verify a PATCH /users/me fires and the new name shows on Profile.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

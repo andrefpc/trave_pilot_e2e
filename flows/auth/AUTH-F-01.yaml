@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: AUTH-F-01
+tags: [needs-implementation, auth, p0]
+---
+# >>> dashboard-meta
+# AUTH-F-01 — On Forgot Password, submitting a registered email opens Recovery Code and emails the user a 5-digit code
+# Section: Authentication & Session
+# Priority: P0
+# Repro:
+# 1. From Login, tap "Recover Password".
+# 2. Enter a registered email and tap "Send Recovery Code".
+# 3. Verify a loading overlay flashes, then Recovery Code opens. Within 1–2 minutes the inbox receives a 5-digit code.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

@@ -1,0 +1,17 @@
+appId: ${APP_ID}
+name: WZ-B-01
+tags: [needs-implementation, wizard, p1]
+---
+# >>> dashboard-meta
+# WZ-B-01 — Budget shows six category cards: Accommodation, Food, Transportation, Attractions, Shopping, Night Life
+# Section: Plan Creation Wizard
+# Priority: P1
+# Repro:
+# 1. Walk the wizard to Budget.
+# 2. Verify six cards in this order with banner images: Accommodation, Food, Transportation, Attractions, Shopping, Night Life.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

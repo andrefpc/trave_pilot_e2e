@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: TK-05
+tags: [needs-implementation, tickets, p0]
+---
+# >>> dashboard-meta
+# TK-05 — Tapping a ticket card opens the full-screen viewer with PDF/image rendering and toolbar
+# Section: Tickets
+# Priority: P0
+# Repro:
+# 1. On Tickets, tap any ticket card.
+# 2. Verify the full-screen Ticket Viewer opens; PDF tickets show pages, images zoom/pan.
+# 3. Verify a toolbar with Share and Delete actions is visible.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

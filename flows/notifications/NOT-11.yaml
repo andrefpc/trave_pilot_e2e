@@ -1,0 +1,17 @@
+appId: ${APP_ID}
+name: NOT-11
+tags: [needs-implementation, notifications, p1]
+---
+# >>> dashboard-meta
+# NOT-11 — Tapping "Mark all as read" calls POST /mark-all-read; all unread notifications become read
+# Section: Notifications & Reminders
+# Priority: P1
+# Repro:
+# 1. On the Notifications screen with multiple unread items, tap "Mark all as read".
+# 2. Verify a POST /mark-all-read fires; all notifications now render as read.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

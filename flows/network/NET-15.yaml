@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: NET-15
+tags: [needs-implementation, network, p1]
+---
+# >>> dashboard-meta
+# NET-15 — If TLS pinning is enabled, MITM with a self-signed certificate fails; otherwise the request succeeds
+# Section: Network, Offline & Error Handling
+# Priority: P1
+# Repro:
+# 1. Install the mitmproxy CA on the device, configure it as the system proxy.
+# 2. Launch the app and trigger any request.
+# 3. If pinning is enabled, the app rejects the connection with a TLS error. If not, requests pass through and the proxy logs them.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

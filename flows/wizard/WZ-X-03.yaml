@@ -1,0 +1,19 @@
+appId: ${APP_ID}
+name: WZ-X-03
+tags: [needs-implementation, wizard, p1]
+---
+# >>> dashboard-meta
+# WZ-X-03 — A network error during a wizard PATCH shows an error dialog with Retry; Retry succeeds when reconnected
+# Section: Plan Creation Wizard
+# Priority: P1
+# Repro:
+# 1. On any wizard step, fill data and tap Next.
+# 2. Mid-request, toggle airplane mode on so the PATCH fails.
+# 3. Verify a Retry dialog appears.
+# 4. Disable airplane mode and tap Retry — the request succeeds and the next step opens.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

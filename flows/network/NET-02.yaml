@@ -1,0 +1,19 @@
+appId: ${APP_ID}
+name: NET-02
+tags: [needs-implementation, network, p0]
+---
+# >>> dashboard-meta
+# NET-02 — Toggling airplane mode mid-screen shows an error with Retry; reconnecting + Retry resumes
+# Section: Network, Offline & Error Handling
+# Priority: P0
+# Repro:
+# 1. Open Home or Itinerary normally.
+# 2. Toggle airplane mode on, then tap any control that triggers a request.
+# 3. Verify an error/skeleton with a Retry button appears.
+# 4. Disable airplane and tap Retry — verify data loads.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

@@ -1,0 +1,17 @@
+appId: ${APP_ID}
+name: WZ-B-02
+tags: [needs-implementation, wizard, p2]
+---
+# >>> dashboard-meta
+# WZ-B-02 — Each Budget category defaults to Medium pre-selected on first visit
+# Section: Plan Creation Wizard
+# Priority: P2
+# Repro:
+# 1. Walk the wizard to Budget for the first time on a fresh draft.
+# 2. Verify each card shows Medium highlighted and Low/High not selected.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

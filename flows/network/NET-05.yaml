@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: NET-05
+tags: [needs-implementation, network, p0]
+---
+# >>> dashboard-meta
+# NET-05 — On refresh, the server's new refresh token is persisted; the old one is never reused
+# Section: Network, Offline & Error Handling
+# Priority: P0
+# Repro:
+# 1. Force a 401 to trigger refresh (NET-04).
+# 2. Inspect DataStore values before and after.
+# 3. Verify the refresh token changed; the next refresh uses the new value, not the previous one.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

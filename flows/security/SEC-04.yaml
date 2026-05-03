@@ -1,0 +1,19 @@
+appId: ${APP_ID}
+name: SEC-04
+tags: [needs-implementation, security, p0]
+---
+# >>> dashboard-meta
+# SEC-04 — A 6th simultaneous device login revokes the oldest device's refresh token (max 5 enforced)
+# Section: Security & Auth Hardening
+# Priority: P0
+# Repro:
+# 1. Sign in on Devices 1-5 with the same account.
+# 2. Sign in on Device 6.
+# 3. On Device 1, trigger any request.
+# 4. Verify Device 1's refresh token is rejected (server revoked it) and the app forces re-login.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

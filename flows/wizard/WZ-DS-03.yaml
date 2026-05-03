@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: WZ-DS-03
+tags: [needs-implementation, wizard, p1]
+---
+# >>> dashboard-meta
+# WZ-DS-03 — Tapping the "End of the day" field on a Day Schedule card opens a 24-hour time picker
+# Section: Plan Creation Wizard
+# Priority: P1
+# Repro:
+# 1. On Day Schedule, tap a day card's "End of the day" field.
+# 2. Verify a Material3 time picker opens.
+# 3. Pick e.g. 22:00 → tap OK and verify the field shows 22:00.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: PROF-14
+tags: [needs-implementation, profile, p0]
+---
+# >>> dashboard-meta
+# PROF-14 — Tapping Delete Account → entering password → Confirm deletes the account via DELETE /users/me
+# Section: Profile & Account
+# Priority: P0
+# Repro:
+# 1. On Profile (email/password account), scroll to Delete Account and tap it.
+# 2. In the sheet, enter the current password and tap Delete.
+# 3. Verify a DELETE /users/me fires; the app returns to Welcome and Login fails for the deleted email.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

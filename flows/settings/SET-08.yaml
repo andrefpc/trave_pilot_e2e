@@ -1,0 +1,19 @@
+appId: ${APP_ID}
+name: SET-08
+tags: [needs-implementation, settings, p1]
+---
+# >>> dashboard-meta
+# SET-08 — Per-type notification toggles disable specific categories (trip reminders, bookings, etc.) via PUT /notifications/preferences
+# Section: Settings & Preferences
+# Priority: P1
+# Repro:
+# 1. On Settings → Notifications, toggle off Trip Reminders only.
+# 2. Schedule a stop reminder.
+# 3. Verify no notification appears.
+# 4. Re-enable Trip Reminders — schedule again — verify the notification fires.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

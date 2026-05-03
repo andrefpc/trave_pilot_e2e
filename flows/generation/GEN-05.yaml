@@ -1,0 +1,19 @@
+appId: ${APP_ID}
+name: GEN-05
+tags: [needs-implementation, generation, p0]
+---
+# >>> dashboard-meta
+# GEN-05 — When generation reaches 100% the compass bounces to 1.2× scale and a "Let's Go!" button appears; tapping it opens Home
+# Section: Plan Generation
+# Priority: P0
+# Repro:
+# 1. On Plan Generation, wait for the progress bar to reach 100%.
+# 2. Verify the compass briefly bounces up to ~1.2× then settles.
+# 3. Verify a "Let's Go!" button appears; tap it.
+# 4. Verify Home opens with the new plan.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

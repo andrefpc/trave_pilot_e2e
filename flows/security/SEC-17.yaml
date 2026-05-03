@@ -1,0 +1,19 @@
+appId: ${APP_ID}
+name: SEC-17
+tags: [needs-implementation, security, p0]
+---
+# >>> dashboard-meta
+# SEC-17 — The release build is signed with v2/v3 schemes via Play App Signing
+# Section: Security & Auth Hardening
+# Priority: P0
+# Repro:
+# 1. Build the release AAB or APK.
+# 2. Run `apksigner verify -v <apk>`.
+# 3. Verify it reports v2/v3 signatures present.
+# 4. In Play Console → App integrity, verify the release key is managed by Google.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

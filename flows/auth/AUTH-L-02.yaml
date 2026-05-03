@@ -1,0 +1,19 @@
+appId: ${APP_ID}
+name: AUTH-L-02
+tags: [needs-implementation, auth, p0]
+---
+# >>> dashboard-meta
+# AUTH-L-02 — Tapping Login with "notanemail" in the email field shows "Invalid email address"; nothing is sent
+# Section: Authentication & Session
+# Priority: P0
+# Repro:
+# 1. From Welcome, tap Login → "Sign in with password".
+# 2. Type "notanemail" in Email and a valid-looking password.
+# 3. Tap "Login".
+# 4. Verify "Invalid email address" appears below Email; no request fires.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: PRF-04
+tags: [needs-implementation, perf, p0]
+---
+# >>> dashboard-meta
+# PRF-04 — Image loading on the Feed never blocks the UI thread; scrolling stays responsive
+# Section: Performance & Stability
+# Priority: P0
+# Repro:
+# 1. Enable StrictMode (Developer Options → Strict mode enabled).
+# 2. Open Feed and scroll rapidly through 20+ recommendation cards.
+# 3. Verify the UI never freezes and no StrictMode warnings about main-thread image decoding appear in logcat.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

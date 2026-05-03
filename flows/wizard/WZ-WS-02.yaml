@@ -1,0 +1,17 @@
+appId: ${APP_ID}
+name: WZ-WS-02
+tags: [needs-implementation, wizard, p1]
+---
+# >>> dashboard-meta
+# WZ-WS-02 — Tapping a Walking Style option deselects any previously selected one (single-select)
+# Section: Plan Creation Wizard
+# Priority: P1
+# Repro:
+# 1. On Walking Style, tap "All day" — it becomes highlighted.
+# 2. Tap "Moderate walking" — verify "All day" is no longer highlighted and only "Moderate walking" is selected.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

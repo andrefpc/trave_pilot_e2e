@@ -1,0 +1,17 @@
+appId: ${APP_ID}
+name: SUB-05
+tags: [needs-implementation, premium, p0]
+---
+# >>> dashboard-meta
+# SUB-05 — A successful purchase grants premium and Profile shows the Premium badge after server verification
+# Section: Subscription / Premium / Play Billing
+# Priority: P0
+# Repro:
+# 1. Complete a sandbox Play Billing purchase.
+# 2. Verify the app receives the Purchase, sends POST /subscriptions, and Profile now shows "You are Premium".
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

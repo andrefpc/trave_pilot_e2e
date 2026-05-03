@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: NOT-06
+tags: [needs-implementation, notifications, p2]
+---
+# >>> dashboard-meta
+# NOT-06 — Weather-tip notifications fire when conditions trigger them
+# Section: Notifications & Reminders
+# Priority: P2
+# Repro:
+# 1. Trigger a weather-tip condition (e.g. the next-day forecast includes heavy rain).
+# 2. Wait for the WeatherTipReceiver to run.
+# 3. Verify a notification with a weather alert / travel tip appears in the tray.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

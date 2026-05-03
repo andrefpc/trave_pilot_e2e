@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: NET-03
+tags: [needs-implementation, network, p1]
+---
+# >>> dashboard-meta
+# NET-03 — Throttling to slow 3G shows loading indicators; the UI never freezes or shows an infinite spinner
+# Section: Network, Offline & Error Handling
+# Priority: P1
+# Repro:
+# 1. Use Charles Proxy or the Android emulator network conditioner to throttle to 3G (~400 kbps).
+# 2. Open Home, scroll Feed, browse Itinerary.
+# 3. Verify each screen shows a loading skeleton briefly and then renders; no spinner runs forever.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: NET-11
+tags: [needs-implementation, network, p2]
+---
+# >>> dashboard-meta
+# NET-11 — Network error strings are translated to the device locale (Accept-Language header is sent)
+# Section: Network, Offline & Error Handling
+# Priority: P2
+# Repro:
+# 1. Switch device language to Spanish, German or Arabic.
+# 2. Trigger a network error (airplane mode).
+# 3. Verify the error message is in the chosen language and that requests carry an Accept-Language header.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

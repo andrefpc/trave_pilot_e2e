@@ -24,13 +24,17 @@ export interface ApiOptions {
 }
 
 export async function fetchAllTestCases(opts: ApiOptions): Promise<TestCase[]> {
-  const perPage = 200;
+  // We ask for 200 but the controller caps at 100. Drive the loop off the
+  // server-reported `total` and stop when we've collected everything (or a
+  // page comes back empty, as a safety net).
+  const requestedPerPage = 200;
   const all: TestCase[] = [];
   let page = 1;
-  while (true) {
+  let total = Infinity;
+  while (all.length < total) {
     const url = new URL(`${opts.baseUrl}/api/v1/admin/test-cases`);
     url.searchParams.set('page', String(page));
-    url.searchParams.set('per_page', String(perPage));
+    url.searchParams.set('per_page', String(requestedPerPage));
     url.searchParams.set('lang', 'en');
     const res = await fetch(url, {
       headers: { Authorization: `Bearer ${opts.token}` },
@@ -40,7 +44,8 @@ export async function fetchAllTestCases(opts: ApiOptions): Promise<TestCase[]> {
     }
     const parsed = ListResponseSchema.parse(await res.json());
     all.push(...parsed.items);
-    if (parsed.items.length < perPage) break;
+    total = parsed.total;
+    if (parsed.items.length === 0) break;
     page += 1;
   }
   return all;

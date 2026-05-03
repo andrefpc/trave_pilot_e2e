@@ -1,0 +1,17 @@
+appId: ${APP_ID}
+name: PH-10
+tags: [needs-implementation, photos, p1]
+---
+# >>> dashboard-meta
+# PH-10 — On Android 8–12 (< 13), the photo picker prompts for READ_EXTERNAL_STORAGE the first time
+# Section: Photos & Gallery
+# Priority: P1
+# Repro:
+# 1. On a device running Android 8–12 with permission not yet granted, open Gallery → tap +.
+# 2. Verify the system permission dialog asks for storage / photos access.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

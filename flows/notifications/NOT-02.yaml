@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: NOT-02
+tags: [needs-implementation, notifications, p0]
+---
+# >>> dashboard-meta
+# NOT-02 — Denying POST_NOTIFICATIONS leaves the app fully functional (no crash, no notifications)
+# Section: Notifications & Reminders
+# Priority: P0
+# Repro:
+# 1. On Android 13+, when the permission dialog appears tap "Don't Allow".
+# 2. Continue using the app: schedule a stop reminder.
+# 3. Verify no notification fires and the app does not crash.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

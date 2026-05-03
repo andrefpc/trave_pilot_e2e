@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: NET-14
+tags: [needs-implementation, network, p0]
+---
+# >>> dashboard-meta
+# NET-14 — In a release build, the API base URL is the production host (api.travelpilotapp.com), not localhost
+# Section: Network, Offline & Error Handling
+# Priority: P0
+# Repro:
+# 1. Build the release AAB; install it on a device.
+# 2. Inspect the network requests during sign-in.
+# 3. Verify they go to https://api.travelpilotapp.com/ — not to a localhost or staging URL.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

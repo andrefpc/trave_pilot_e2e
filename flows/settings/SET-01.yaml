@@ -1,0 +1,19 @@
+appId: ${APP_ID}
+name: SET-01
+tags: [needs-implementation, settings, p0]
+---
+# >>> dashboard-meta
+# SET-01 — Switching the theme (Light/Dark/System) on Settings re-themes the app immediately and persists
+# Section: Settings & Preferences
+# Priority: P0
+# Repro:
+# 1. Open Settings → Theme.
+# 2. Switch from Light to Dark.
+# 3. Verify all screens re-theme without restart.
+# 4. Force-stop and relaunch the app — verify Dark is still active.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

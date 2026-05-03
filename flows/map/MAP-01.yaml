@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: MAP-01
+tags: [needs-implementation, map, p1]
+---
+# >>> dashboard-meta
+# MAP-01 — Travel Map shows a world map with markers for visited and planned cities
+# Section: Travel Map
+# Priority: P1
+# Repro:
+# 1. Sign in as a user with completed/planned trips.
+# 2. Tap the Travel Map tab.
+# 3. Verify a world map renders with city markers; visited cities use a different colour from planned.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

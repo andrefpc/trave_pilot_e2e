@@ -1,0 +1,17 @@
+appId: ${APP_ID}
+name: PH-08
+tags: [needs-implementation, photos, p1]
+---
+# >>> dashboard-meta
+# PH-08 — Tapping a city header on Gallery opens that city's photos only
+# Section: Photos & Gallery
+# Priority: P1
+# Repro:
+# 1. On Gallery with photos in 2+ cities, tap a city header.
+# 2. Verify the City Gallery screen opens showing only that city's photos.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

@@ -1,0 +1,17 @@
+appId: ${APP_ID}
+name: SUB-02
+tags: [needs-implementation, premium, p0]
+---
+# >>> dashboard-meta
+# SUB-02 — On the Premium sheet the Annual plan is highlighted by default with a "Best value" badge
+# Section: Subscription / Premium / Play Billing
+# Priority: P0
+# Repro:
+# 1. Open the Premium bottom sheet.
+# 2. Verify the Annual card has the highlighted border and a "Best value" tag; Monthly is shown but not highlighted.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

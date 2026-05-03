@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: WZ-POI-01
+tags: [needs-implementation, wizard, p1]
+---
+# >>> dashboard-meta
+# WZ-POI-01 — On Places of Interest you can multi-select several places and they all stay highlighted
+# Section: Plan Creation Wizard
+# Priority: P1
+# Repro:
+# 1. Walk the wizard to Places of Interest.
+# 2. Tap three suggested places.
+# 3. Verify all three remain highlighted simultaneously.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

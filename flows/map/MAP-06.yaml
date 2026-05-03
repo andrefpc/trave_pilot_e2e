@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: MAP-06
+tags: [needs-implementation, map, p2]
+---
+# >>> dashboard-meta
+# MAP-06 — A user with no plans on Travel Map sees an empty state with a Create-Plan hint
+# Section: Travel Map
+# Priority: P2
+# Repro:
+# 1. Sign in as a fresh user with no plans.
+# 2. Open Travel Map.
+# 3. Verify an empty state ("Start exploring!" or similar) with a CTA to create a plan.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

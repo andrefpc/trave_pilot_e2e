@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: FD-10
+tags: [needs-implementation, feed, p1]
+---
+# >>> dashboard-meta
+# FD-10 — Adding a Feed place into an occupied slot triggers a Force-Replace confirmation
+# Section: Feed & Recommendations
+# Priority: P1
+# Repro:
+# 1. On Feed, tap "Add to Itinerary" on a Place.
+# 2. Pick a slot that already has a stop.
+# 3. Verify a "Replace current stop?" confirmation sheet appears with Confirm/Cancel.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

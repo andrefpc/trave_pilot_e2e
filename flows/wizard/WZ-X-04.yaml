@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: WZ-X-04
+tags: [needs-implementation, wizard, p1]
+---
+# >>> dashboard-meta
+# WZ-X-04 — Walking forward through wizard steps and back again preserves the data on every step
+# Section: Plan Creation Wizard
+# Priority: P1
+# Repro:
+# 1. Fill Destination, Walking Style, Companions, Day Schedule (each step has data).
+# 2. Walk back step-by-step using the back arrow.
+# 3. Verify each previous step still shows the values you entered.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: GEN-10
+tags: [needs-implementation, generation, p0]
+---
+# >>> dashboard-meta
+# GEN-10 — A free user attempting to regenerate an itinerary gets 403 and the Premium paywall opens
+# Section: Plan Generation
+# Priority: P0
+# Repro:
+# 1. Sign in as a free user with an existing plan.
+# 2. Open the plan and tap Regenerate.
+# 3. Verify the request returns 403 and the Premium bottom sheet opens.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

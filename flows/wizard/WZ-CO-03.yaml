@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: WZ-CO-03
+tags: [needs-implementation, wizard, p0]
+---
+# >>> dashboard-meta
+# WZ-CO-03 — On Complete Onboarding, tapping Create Account opens Register with the wizard's draftId attached
+# Section: Plan Creation Wizard
+# Priority: P0
+# Repro:
+# 1. From Complete Onboarding (signed out), tap "Create Account".
+# 2. Verify Register opens; the URL/route includes the draftId from the wizard.
+# 3. Completing registration takes you to Plan Generation for that same draft.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

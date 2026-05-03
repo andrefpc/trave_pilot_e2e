@@ -1,0 +1,17 @@
+appId: ${APP_ID}
+name: THM-07
+tags: [needs-implementation, a11y, p2]
+---
+# >>> dashboard-meta
+# THM-07 — Spacing in code uses TravelPilotTheme.spacing tokens, not magic dp numbers
+# Section: Localization, Accessibility, Theming
+# Priority: P2
+# Repro:
+# 1. From the Android repo root run `grep -rE 'padding\(|Modifier\.size\(|Modifier\.padding\(' app/src/main/java`.
+# 2. For each match, verify the dp value comes from TravelPilotTheme.spacing.* (or Material3 spacing tokens), not a literal Modifier.padding(8.dp).
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

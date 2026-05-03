@@ -1,0 +1,17 @@
+appId: ${APP_ID}
+name: MAP-04
+tags: [needs-implementation, map, p1]
+---
+# >>> dashboard-meta
+# MAP-04 — Tapping a country/city marker opens a detail sheet with information
+# Section: Travel Map
+# Priority: P1
+# Repro:
+# 1. On Travel Map, tap a marker for a visited or planned city.
+# 2. Verify a Country Detail sheet appears with city/country info.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: AUTH-F-12
+tags: [needs-implementation, auth, p0]
+---
+# >>> dashboard-meta
+# AUTH-F-12 — Logging in with the new password after a reset succeeds and lands on Home
+# Section: Authentication & Session
+# Priority: P0
+# Repro:
+# 1. Complete a password reset (AUTH-F-10).
+# 2. From Login, enter the email and the new password.
+# 3. Verify Home opens normally.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

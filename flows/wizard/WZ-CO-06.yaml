@@ -1,0 +1,17 @@
+appId: ${APP_ID}
+name: WZ-CO-06
+tags: [needs-implementation, wizard, p1]
+---
+# >>> dashboard-meta
+# WZ-CO-06 — Tapping Back on Complete Onboarding returns to Travel Times with the draft intact
+# Section: Plan Creation Wizard
+# Priority: P1
+# Repro:
+# 1. On Complete Onboarding, tap the back arrow.
+# 2. Verify Travel Times reopens with all previously selected time preferences still chosen.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

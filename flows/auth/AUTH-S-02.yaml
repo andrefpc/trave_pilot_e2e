@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: AUTH-S-02
+tags: [needs-implementation, auth, p0]
+---
+# >>> dashboard-meta
+# AUTH-S-02 — Signing in with Google using the same email you registered with via password links them as one account
+# Section: Authentication & Session
+# Priority: P0
+# Repro:
+# 1. Register an account via email + password (call its email user@gmail.com).
+# 2. Sign out, then from Welcome tap Login → "Sign in with Google" and pick the user@gmail.com Google account.
+# 3. Verify the sign-in succeeds and Home opens — no "account already exists" error.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

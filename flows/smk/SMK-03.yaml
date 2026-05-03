@@ -1,0 +1,19 @@
+appId: ${APP_ID}
+name: SMK-03
+tags: [needs-implementation, smk, p0]
+---
+# >>> dashboard-meta
+# SMK-03 — A registered user can sign in with email and password and lands on Home
+# Section: Smoke Suite
+# Priority: P0
+# Repro:
+# 1. Cold-launch the app — Welcome appears.
+# 2. Tap "Have an account, Login" → tap "Sign in with password".
+# 3. Enter a registered email and the correct password, tap Login.
+# 4. Verify a loading overlay flashes, then Home appears with the user's plan if they have one.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

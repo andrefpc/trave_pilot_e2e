@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: NOT-04
+tags: [needs-implementation, notifications, p1]
+---
+# >>> dashboard-meta
+# NOT-04 — Tapping a stop-reminder notification deep-links to that stop's Itinerary day
+# Section: Notifications & Reminders
+# Priority: P1
+# Repro:
+# 1. Trigger a stop reminder (NOT-03).
+# 2. Tap the notification in the tray.
+# 3. Verify the app opens directly to the Itinerary day containing that stop.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

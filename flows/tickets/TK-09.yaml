@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: TK-09
+tags: [needs-implementation, tickets, p1]
+---
+# >>> dashboard-meta
+# TK-09 — Sharing 3 images via SEND_MULTIPLE shows them all in the upload sheet; saving uploads each
+# Section: Tickets
+# Priority: P1
+# Repro:
+# 1. In Photos, pick 3 images and Share → Travel Pilot (multi-select).
+# 2. Verify all 3 images are listed in the upload sheet.
+# 3. Tap Save to trip — verify 3 tickets appear in the Tickets list.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

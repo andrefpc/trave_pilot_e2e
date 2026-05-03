@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: WZ-WS-04
+tags: [needs-implementation, wizard, p1]
+---
+# >>> dashboard-meta
+# WZ-WS-04 — Selecting a Walking Style, going Next then Back, leaves the same option selected
+# Section: Plan Creation Wizard
+# Priority: P1
+# Repro:
+# 1. On Walking Style, tap "Moderate walking" → Next.
+# 2. Tap the back arrow on Companions to return to Walking Style.
+# 3. Verify "Moderate walking" is still highlighted.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

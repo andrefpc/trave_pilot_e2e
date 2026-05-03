@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: SEC-16
+tags: [needs-implementation, security, p0]
+---
+# >>> dashboard-meta
+# SEC-16 — ProGuard / R8 are enabled in release; class names in the APK are obfuscated
+# Section: Security & Auth Hardening
+# Priority: P0
+# Repro:
+# 1. Build the release AAB and decompile it.
+# 2. Verify class names are short obfuscated strings (a, b, aa) — not full package paths like com.travelpilotapp.ui.LoginScreen.
+# 3. Verify the mapping file is uploaded to Crashlytics and Play Console.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

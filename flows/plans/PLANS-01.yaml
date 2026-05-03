@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: PLANS-01
+tags: [needs-implementation, plans, p0]
+---
+# >>> dashboard-meta
+# PLANS-01 — Travel Plans loads the first ~20 plans; scrolling to the bottom triggers pagination
+# Section: Travel Plans List & Plan Management
+# Priority: P0
+# Repro:
+# 1. Sign in as a user with 25+ plans.
+# 2. Tap Travel Plans.
+# 3. Verify the first ~20 plans load immediately, then scroll to the bottom — verify the next batch loads automatically.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

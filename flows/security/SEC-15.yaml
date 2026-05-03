@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: SEC-15
+tags: [needs-implementation, security, p0]
+---
+# >>> dashboard-meta
+# SEC-15 — API keys are not embedded in plaintext in the release APK; they are loaded from BuildConfig or backend
+# Section: Security & Auth Hardening
+# Priority: P0
+# Repro:
+# 1. Build the release AAB and extract the APK.
+# 2. Decompile (apktool) and grep strings for known API key prefixes (e.g. "AIza" for Google).
+# 3. Verify no obvious plaintext keys appear; keys go through BuildConfig or are fetched from the backend.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

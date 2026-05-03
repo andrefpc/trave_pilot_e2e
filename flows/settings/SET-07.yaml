@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: SET-07
+tags: [needs-implementation, settings, p0]
+---
+# >>> dashboard-meta
+# SET-07 — Toggling Notifications off on Settings stops all subsequent notifications from firing
+# Section: Settings & Preferences
+# Priority: P0
+# Repro:
+# 1. On Settings → Notifications, toggle off the master switch.
+# 2. Schedule a stop reminder for 1 minute ahead.
+# 3. Wait — verify no notification appears in the tray.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

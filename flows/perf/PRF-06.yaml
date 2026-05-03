@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: PRF-06
+tags: [needs-implementation, perf, p1]
+---
+# >>> dashboard-meta
+# PRF-06 — Rotating the device 20 times on Itinerary does not leak memory (heap stable)
+# Section: Performance & Stability
+# Priority: P1
+# Repro:
+# 1. Open Itinerary on a day with many stops.
+# 2. Rotate the device (or send rotation events) 20 times in a row, forcing GC after each.
+# 3. Verify the heap returns to roughly the same level after each rotation; no leaked Activities (use LeakCanary).
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

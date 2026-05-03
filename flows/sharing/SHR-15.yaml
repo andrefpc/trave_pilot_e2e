@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: SHR-15
+tags: [needs-implementation, sharing, p1]
+---
+# >>> dashboard-meta
+# SHR-15 — The owner tapping Remove next to a collaborator revokes that user's access immediately
+# Section: Plan Sharing & Deep Links
+# Priority: P1
+# Repro:
+# 1. As owner, open Collaborators and tap Remove next to a user.
+# 2. Confirm in the dialog.
+# 3. Verify a DELETE /shares/:share_id fires; the user no longer appears and loses access.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

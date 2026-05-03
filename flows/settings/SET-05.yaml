@@ -1,0 +1,17 @@
+appId: ${APP_ID}
+name: SET-05
+tags: [needs-implementation, settings, p1]
+---
+# >>> dashboard-meta
+# SET-05 — Switching preferred currency on Settings updates price displays app-wide
+# Section: Settings & Preferences
+# Priority: P1
+# Repro:
+# 1. On Settings → Currency, pick EUR.
+# 2. Open Hotels / Tickets and verify prices display in € (where supported).
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

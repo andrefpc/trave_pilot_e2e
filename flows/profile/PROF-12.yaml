@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: PROF-12
+tags: [needs-implementation, profile, p0]
+---
+# >>> dashboard-meta
+# PROF-12 — Tapping Logout on Profile, then Confirm clears the session and returns to Welcome
+# Section: Profile & Account
+# Priority: P0
+# Repro:
+# 1. On Profile, scroll to the Logout link and tap it.
+# 2. In the confirmation sheet, tap "Log Out".
+# 3. Verify the app navigates to Welcome and re-launching does not auto-sign in.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

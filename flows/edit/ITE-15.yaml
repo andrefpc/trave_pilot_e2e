@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: ITE-15
+tags: [needs-implementation, edit, p1]
+---
+# >>> dashboard-meta
+# ITE-15 — If premium expires while editing, the next save returns 403 → paywall opens but local edits are not lost
+# Section: Itinerary Editing & Rearrange
+# Priority: P1
+# Repro:
+# 1. As premium, open Rearrange Day or Edit Stop and make changes.
+# 2. Force-expire premium (admin action) before tapping Save.
+# 3. Tap Save — verify 403, the Premium bottom sheet opens, and the unsaved local changes remain on screen.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

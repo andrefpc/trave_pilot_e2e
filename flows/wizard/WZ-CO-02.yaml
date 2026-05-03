@@ -1,0 +1,17 @@
+appId: ${APP_ID}
+name: WZ-CO-02
+tags: [needs-implementation, wizard, p0]
+---
+# >>> dashboard-meta
+# WZ-CO-02 — A signed-out user reaching Complete Onboarding sees Create Account, Login and Sign up with Google buttons
+# Section: Plan Creation Wizard
+# Priority: P0
+# Repro:
+# 1. Cold-launch app while signed out, walk Create Plan all the way through Travel Times.
+# 2. On Complete Onboarding, verify three buttons: "Create Account", "Login", "Sign up with Google".
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

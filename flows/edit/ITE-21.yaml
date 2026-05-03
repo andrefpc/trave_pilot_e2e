@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: ITE-21
+tags: [needs-implementation, edit, p1]
+---
+# >>> dashboard-meta
+# ITE-21 — Pressing back on Rearrange with unsaved changes shows a discard confirmation
+# Section: Itinerary Editing & Rearrange
+# Priority: P1
+# Repro:
+# 1. As premium, on Rearrange Day drag stops to a new order but do not Save.
+# 2. Press the back button.
+# 3. Verify a confirmation like "Discard unsaved changes?" appears with options to keep editing or discard.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

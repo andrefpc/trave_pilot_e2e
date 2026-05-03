@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: SHR-01
+tags: [needs-implementation, sharing, p0]
+---
+# >>> dashboard-meta
+# SHR-01 — A free user tapping Share on a plan sees the Premium bottom sheet (share dialog does not open)
+# Section: Plan Sharing & Deep Links
+# Priority: P0
+# Repro:
+# 1. Sign in as a free user with an active plan.
+# 2. Open the plan's Share action.
+# 3. Verify the Premium bottom sheet appears (because creating a share link is premium-gated).
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

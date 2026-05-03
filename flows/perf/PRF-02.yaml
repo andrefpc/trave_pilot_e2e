@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: PRF-02
+tags: [needs-implementation, perf, p1]
+---
+# >>> dashboard-meta
+# PRF-02 — Warm-start (background → foreground) completes in ≤ 500 ms
+# Section: Performance & Stability
+# Priority: P1
+# Repro:
+# 1. Launch the app to Home, then press Home to background it.
+# 2. Tap the launcher icon to bring it back; capture timing via `adb shell am start -W ...` or logcat "Displayed".
+# 3. Verify Displayed time ≤ 500 ms.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: WZ-X-05
+tags: [needs-implementation, wizard, p0]
+---
+# >>> dashboard-meta
+# WZ-X-05 — A free user with one active plan completing the wizard hits 403 on the final save → paywall
+# Section: Plan Creation Wizard
+# Priority: P0
+# Repro:
+# 1. Sign in as a free user that already has 1 active plan.
+# 2. Walk the entire wizard to the final save.
+# 3. Verify POST /travel-plans/full returns 403 and the Premium bottom sheet appears.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

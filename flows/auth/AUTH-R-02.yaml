@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: AUTH-R-02
+tags: [needs-implementation, auth, p0]
+---
+# >>> dashboard-meta
+# AUTH-R-02 — Typing "bad@" in the email field on Register shows "Invalid email address" inline; nothing is sent
+# Section: Authentication & Session
+# Priority: P0
+# Repro:
+# 1. Open the Register screen.
+# 2. Enter a name, type "bad@" in Email, fill a valid password.
+# 3. Tap "Create Account" and verify "Invalid email address" shows below Email; no request fires.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

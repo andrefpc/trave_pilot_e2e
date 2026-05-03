@@ -1,0 +1,19 @@
+appId: ${APP_ID}
+name: WZ-D-01
+tags: [needs-implementation, wizard, p0]
+---
+# >>> dashboard-meta
+# WZ-D-01 — Typing 2+ characters into the Origin field shows a city dropdown with country flags
+# Section: Plan Creation Wizard
+# Priority: P0
+# Repro:
+# 1. Cold-launch the app and tap "Create Plan" on Welcome.
+# 2. On Destination, tap the Origin field.
+# 3. Type "Pa".
+# 4. Verify a dropdown appears with city matches (e.g. Paris) each showing a country flag.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

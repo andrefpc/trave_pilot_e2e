@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: AUTH-W-02
+tags: [needs-implementation, auth, p1]
+---
+# >>> dashboard-meta
+# AUTH-W-02 — Tapping "Create Plan" on Welcome opens the trip wizard at the Destination step
+# Section: Authentication & Session
+# Priority: P1
+# Repro:
+# 1. Cold-launch the app — Welcome appears.
+# 2. Tap "Create Plan".
+# 3. Verify the Destination screen appears with the origin field, departure/return date pickers and a "+ Add Destination" control.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

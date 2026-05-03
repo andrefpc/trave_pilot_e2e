@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: AUTH-W-05
+tags: [needs-implementation, auth, p1]
+---
+# >>> dashboard-meta
+# AUTH-W-05 — Dismissing the Google account picker on Welcome closes it with no crash and no error toast
+# Section: Authentication & Session
+# Priority: P1
+# Repro:
+# 1. On Welcome, tap "Sign in with Google".
+# 2. When the Credential Manager picker appears, swipe it down or tap outside to cancel.
+# 3. Verify the app stays on Welcome with the bottom sheet still visible (or closed) and no error dialog/toast appears.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

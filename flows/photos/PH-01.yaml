@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: PH-01
+tags: [needs-implementation, photos, p1]
+---
+# >>> dashboard-meta
+# PH-01 — Tapping Gallery shows a grid of milestone photos grouped per city
+# Section: Photos & Gallery
+# Priority: P1
+# Repro:
+# 1. Add at least one milestone photo.
+# 2. From Home or Profile, open Gallery.
+# 3. Verify a grid of photos is shown with section headers per city.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

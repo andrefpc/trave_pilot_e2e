@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: AUTH-S-03
+tags: [needs-implementation, auth, p1]
+---
+# >>> dashboard-meta
+# AUTH-S-03 — An expired Google ID token is rejected by the server and an "Invalid/expired token" dialog is shown
+# Section: Authentication & Session
+# Priority: P1
+# Repro:
+# 1. Use a development build with a way to inject an expired Google ID token (or revoke the token in the Google account before continuing).
+# 2. Trigger Login → "Sign in with Google".
+# 3. Verify an error dialog about an invalid or expired token appears; the user is not signed in.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

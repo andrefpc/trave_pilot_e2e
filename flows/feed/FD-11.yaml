@@ -1,0 +1,17 @@
+appId: ${APP_ID}
+name: FD-11
+tags: [needs-implementation, feed, p1]
+---
+# >>> dashboard-meta
+# FD-11 — Tapping a "Visit Website" link on a Feed card opens the partner site in a Custom Tab
+# Section: Feed & Recommendations
+# Priority: P1
+# Repro:
+# 1. On a Feed Hotel/Place card with a Website button, tap it.
+# 2. Verify a Chrome Custom Tab opens to the partner URL.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

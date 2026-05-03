@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: ITE-06
+tags: [needs-implementation, edit, p0]
+---
+# >>> dashboard-meta
+# ITE-06 — On Rearrange, tapping "Add Stop" opens the search sheet; selecting a place adds it to the day
+# Section: Itinerary Editing & Rearrange
+# Priority: P0
+# Repro:
+# 1. As premium, on Rearrange Day tap the "+ Add Stop" button.
+# 2. In the search sheet, type a place name and pick a result.
+# 3. Verify a POST /itinerary/:day_id/items fires and the new stop appears in the list.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

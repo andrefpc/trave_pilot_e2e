@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: PRF-03
+tags: [needs-implementation, perf, p1]
+---
+# >>> dashboard-meta
+# PRF-03 — Scrolling a long Itinerary holds 45+ FPS with no visible jank
+# Section: Performance & Stability
+# Priority: P1
+# Repro:
+# 1. Enable Developer Options → "Profile HWUI rendering" or "Show FPS".
+# 2. Open a multi-day Itinerary (7+ days, many stops) and scroll for 30 seconds.
+# 3. Inspect `adb shell dumpsys gfxinfo com.travelpilotapp` — verify >95% of frames render under 22 ms.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

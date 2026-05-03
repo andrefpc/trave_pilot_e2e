@@ -1,0 +1,19 @@
+appId: ${APP_ID}
+name: AUTH-W-04
+tags: [needs-implementation, auth, p0]
+---
+# >>> dashboard-meta
+# AUTH-W-04 — Tapping "Sign in with Google" on Welcome opens the Credential Manager picker; choosing an account lands on Home
+# Section: Authentication & Session
+# Priority: P0
+# Repro:
+# 1. On Welcome, tap "Have an account, Login" → "Sign in with Google".
+# 2. Verify the Google account picker (Credential Manager) appears.
+# 3. Choose a Google account.
+# 4. Verify a loading overlay shows briefly, then Home opens.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

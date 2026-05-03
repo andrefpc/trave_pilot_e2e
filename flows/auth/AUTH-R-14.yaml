@@ -1,0 +1,17 @@
+appId: ${APP_ID}
+name: AUTH-R-14
+tags: [needs-implementation, auth, p2]
+---
+# >>> dashboard-meta
+# AUTH-R-14 — A name with accents, apostrophe and hyphen (e.g. "José O'Connor-Müller") is accepted on Register
+# Section: Authentication & Session
+# Priority: P2
+# Repro:
+# 1. On Register, enter "José O'Connor-Müller" as the name with valid email + password.
+# 2. Tap Create Account — registration succeeds and the Profile shows the same name verbatim.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

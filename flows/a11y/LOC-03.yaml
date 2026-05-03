@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: LOC-03
+tags: [needs-implementation, a11y, p2]
+---
+# >>> dashboard-meta
+# LOC-03 — In an RTL language (Arabic), the layout mirrors correctly and there is no text truncation
+# Section: Localization, Accessibility, Theming
+# Priority: P2
+# Repro:
+# 1. `adb shell setprop persist.sys.locale ar; adb shell stop && adb shell start` (or use system Settings).
+# 2. Relaunch the app.
+# 3. Verify the back arrow is mirrored, layouts flip, and no text is clipped or overlaps.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

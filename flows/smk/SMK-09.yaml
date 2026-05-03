@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: SMK-09
+tags: [needs-implementation, smk, p0]
+---
+# >>> dashboard-meta
+# SMK-09 — Tapping a https://www.travelpilotapp.com/share/<token> link from another app opens Share Invite
+# Section: Smoke Suite
+# Priority: P0
+# Repro:
+# 1. Send yourself an SMS or email containing https://www.travelpilotapp.com/share/<a-real-token>.
+# 2. From the SMS/email app, tap the link.
+# 3. Verify the Travel Pilot app opens directly to Share Invite, showing a plan preview and an "Add Travel Plan" button.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

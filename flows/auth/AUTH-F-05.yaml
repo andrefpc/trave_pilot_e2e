@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: AUTH-F-05
+tags: [needs-implementation, auth, p0]
+---
+# >>> dashboard-meta
+# AUTH-F-05 — Entering the correct 5-digit recovery code on the Recovery Code screen opens the Reset Password screen
+# Section: Authentication & Session
+# Priority: P0
+# Repro:
+# 1. Open Recovery Code (from AUTH-F-01) and read the 5-digit code from the email.
+# 2. Type the code into the 5-cell input and tap the primary button.
+# 3. Verify Reset Password opens with two password fields and the same six rule check boxes as Register.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

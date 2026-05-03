@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: SEC-13
+tags: [needs-implementation, security, p0]
+---
+# >>> dashboard-meta
+# SEC-13 — An account is locked for 15 minutes after 5 failed login attempts (i18nKey "auth.account_locked")
+# Section: Security & Auth Hardening
+# Priority: P0
+# Repro:
+# 1. From Login, attempt the wrong password for one account 5 times in a row.
+# 2. On the 5th failure, verify the dialog explains the account is locked for 15 minutes.
+# 3. Verify the response carries i18nKey "auth.account_locked" (Network Profiler).
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

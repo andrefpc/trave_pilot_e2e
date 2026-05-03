@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: TK-11
+tags: [needs-implementation, tickets, p1]
+---
+# >>> dashboard-meta
+# TK-11 — FileProvider authority and exposed paths in the manifest are scoped to app cache and files only
+# Section: Tickets
+# Priority: P1
+# Repro:
+# 1. Open AndroidManifest.xml.
+# 2. Verify the FileProvider authority is "${applicationId}.fileprovider" and grantUriPermissions is true.
+# 3. Open res/xml/file_paths.xml and verify only files-path / cache-path entries (no root path).
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

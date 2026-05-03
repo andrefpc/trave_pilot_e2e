@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: NET-10
+tags: [needs-implementation, network, p1]
+---
+# >>> dashboard-meta
+# NET-10 — A 503 service-unavailable error shows the same Retry dialog; recovery on retry succeeds
+# Section: Network, Offline & Error Handling
+# Priority: P1
+# Repro:
+# 1. Inject 503 via mitmproxy on a request.
+# 2. Trigger the request and tap Retry after letting the proxy pass through.
+# 3. Verify the request succeeds.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

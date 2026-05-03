@@ -1,0 +1,17 @@
+appId: ${APP_ID}
+name: AUTH-R-08
+tags: [needs-implementation, auth, p0]
+---
+# >>> dashboard-meta
+# AUTH-R-08 — A password without a special character keeps the "Special character" rule red and Create Account disabled
+# Section: Authentication & Session
+# Priority: P0
+# Repro:
+# 1. On Register, type "Password1" into Password and matching Confirm.
+# 2. Verify the Special character rule stays red and Create Account is disabled.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: SHR-08
+tags: [needs-implementation, sharing, p0]
+---
+# >>> dashboard-meta
+# SHR-08 — Tapping a travelpilot://share/<token> custom-scheme link opens the Share Invite screen
+# Section: Plan Sharing & Deep Links
+# Priority: P0
+# Repro:
+# 1. Send yourself a message containing travelpilot://share/<a-real-token>.
+# 2. Tap the link from the messaging app.
+# 3. Verify Travel Pilot opens to Share Invite with the plan preview.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

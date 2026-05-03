@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: GEN-03
+tags: [needs-implementation, generation, p2]
+---
+# >>> dashboard-meta
+# GEN-03 — On Plan Generation, tapping a quick link card (Flights, Hotels, Activities) opens the partner site in a browser
+# Section: Plan Generation
+# Priority: P2
+# Repro:
+# 1. On Plan Generation, scroll to the quick-links section.
+# 2. Tap "Browse Flights".
+# 3. Verify a browser/Custom Tab opens to a Google Flights URL pre-filled with destination and dates.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

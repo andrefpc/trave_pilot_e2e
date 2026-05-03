@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: WZ-D-09
+tags: [needs-implementation, wizard, p1]
+---
+# >>> dashboard-meta
+# WZ-D-09 — A destination arrival date earlier than the trip departure shows a validation error
+# Section: Plan Creation Wizard
+# Priority: P1
+# Repro:
+# 1. From Welcome → Create Plan → Destination, set trip Departure to Jan 15.
+# 2. Add a destination and tap its arrival date field.
+# 3. Try to pick Jan 10 — verify it is rejected (greyed out or inline error).
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: SUB-16
+tags: [needs-implementation, premium, p1]
+---
+# >>> dashboard-meta
+# SUB-16 — Buying premium on Device A is reflected in Device B after sign-in
+# Section: Subscription / Premium / Play Billing
+# Priority: P1
+# Repro:
+# 1. Buy premium on Device A.
+# 2. Sign out (if needed) and sign in to the same account on Device B.
+# 3. Verify Profile shows "You are Premium" immediately (after GET /subscriptions/me).
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: GEN-04
+tags: [needs-implementation, generation, p0]
+---
+# >>> dashboard-meta
+# GEN-04 — Plan Generation polls GET /travel-plans/:id/generation-status every ~2 seconds
+# Section: Plan Generation
+# Priority: P0
+# Repro:
+# 1. With Network Profiler open, trigger plan generation.
+# 2. Watch the request timeline.
+# 3. Verify GET /travel-plans/:id/generation-status fires roughly every 2 s with progressPercent / status updating in each response.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

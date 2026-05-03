@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: AUTH-F-04
+tags: [needs-implementation, auth, p0]
+---
+# >>> dashboard-meta
+# AUTH-F-04 — The password recovery email arrives within 1–2 minutes and contains a 5-digit code
+# Section: Authentication & Session
+# Priority: P0
+# Repro:
+# 1. Submit Forgot Password for a registered email (see AUTH-F-01).
+# 2. Wait up to 2 minutes and check the inbox (and Spam folder).
+# 3. Verify the email contains a 5-digit numeric code.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

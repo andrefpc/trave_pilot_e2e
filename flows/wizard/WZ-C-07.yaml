@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: WZ-C-07
+tags: [needs-implementation, wizard, p1]
+---
+# >>> dashboard-meta
+# WZ-C-07 — Tapping Next on Companions saves the values and opens Day Schedule
+# Section: Plan Creation Wizard
+# Priority: P1
+# Repro:
+# 1. On Companions, set Adults=1, Children=1, Infants=0.
+# 2. Tap Next.
+# 3. Verify a PUT to /travel-plans/:id/companions fires and Day Schedule opens.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

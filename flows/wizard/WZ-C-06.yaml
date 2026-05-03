@@ -1,0 +1,17 @@
+appId: ${APP_ID}
+name: WZ-C-06
+tags: [needs-implementation, wizard, p2]
+---
+# >>> dashboard-meta
+# WZ-C-06 — On Companions, tapping minus on Children or Infants at 0 does not decrement below 0
+# Section: Plan Creation Wizard
+# Priority: P2
+# Repro:
+# 1. On Companions with Children=0, tap minus on Children — value stays 0.
+# 2. Same for Infants — minus at 0 is a no-op.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

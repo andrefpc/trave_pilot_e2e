@@ -1,0 +1,17 @@
+appId: ${APP_ID}
+name: WZ-POI-02
+tags: [needs-implementation, wizard, p1]
+---
+# >>> dashboard-meta
+# WZ-POI-02 — Tapping Next on Places of Interest with no selections is blocked or shows "select at least one place"
+# Section: Plan Creation Wizard
+# Priority: P1
+# Repro:
+# 1. On Places of Interest with nothing selected, tap Next.
+# 2. Verify either Next is disabled, or an error like "Please select at least one place to continue" appears.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

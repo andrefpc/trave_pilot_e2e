@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: PLANS-10
+tags: [needs-implementation, plans, p1]
+---
+# >>> dashboard-meta
+# PLANS-10 — Granting Calendar permission then exporting writes events for each day or stop into the chosen calendar
+# Section: Travel Plans List & Plan Management
+# Priority: P1
+# Repro:
+# 1. Long-press a plan → Export to Calendar.
+# 2. Grant Calendar permission, pick a calendar, tap Export.
+# 3. Open the system Calendar app and verify events were created for each day (or each stop) of the trip.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

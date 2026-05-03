@@ -1,0 +1,17 @@
+appId: ${APP_ID}
+name: FD-03
+tags: [needs-implementation, feed, p2]
+---
+# >>> dashboard-meta
+# FD-03 — When ad loading fails, the Feed section is empty / skipped without crashing
+# Section: Feed & Recommendations
+# Priority: P2
+# Repro:
+# 1. With ad loading disabled or blocked, open Feed.
+# 2. Verify cards still render; the "Ad" rows are absent or empty; no crash.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

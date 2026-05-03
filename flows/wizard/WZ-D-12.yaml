@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: WZ-D-12
+tags: [needs-implementation, wizard, p1]
+---
+# >>> dashboard-meta
+# WZ-D-12 — Killing the app mid-Destination then relaunching restores the same Destination data
+# Section: Plan Creation Wizard
+# Priority: P1
+# Repro:
+# 1. From Welcome → Create Plan → Destination, fill Origin (Paris), Departure Jan 15, Return Jan 20.
+# 2. Force-stop the app from Recents.
+# 3. Relaunch — verify the wizard resumes on Destination with the same Origin and dates filled in.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

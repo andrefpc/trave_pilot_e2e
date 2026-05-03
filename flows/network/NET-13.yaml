@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: NET-13
+tags: [needs-implementation, network, p2]
+---
+# >>> dashboard-meta
+# NET-13 — A DNS failure shows the same network-error UX as airplane mode
+# Section: Network, Offline & Error Handling
+# Priority: P2
+# Repro:
+# 1. Configure mitmproxy or the device DNS to fail name lookups for the API host.
+# 2. Trigger any request.
+# 3. Verify the same "No internet connection" dialog with Retry appears as for airplane mode.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

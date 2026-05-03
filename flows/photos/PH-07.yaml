@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: PH-07
+tags: [needs-implementation, photos, p1]
+---
+# >>> dashboard-meta
+# PH-07 — Tapping a photo opens a full-screen pager; swiping left/right moves between photos
+# Section: Photos & Gallery
+# Priority: P1
+# Repro:
+# 1. On Gallery, tap any photo.
+# 2. Swipe left and right inside the viewer.
+# 3. Verify previous/next photos are shown smoothly.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

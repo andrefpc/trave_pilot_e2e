@@ -1,0 +1,17 @@
+appId: ${APP_ID}
+name: SUB-07
+tags: [needs-implementation, premium, p1]
+---
+# >>> dashboard-meta
+# SUB-07 — Subscribing while already premium returns 409 and shows "Already subscribed"
+# Section: Subscription / Premium / Play Billing
+# Priority: P1
+# Repro:
+# 1. As a premium user, open the Premium sheet and try to subscribe again.
+# 2. Verify the server returns 409 and the UI shows "Already subscribed" rather than charging again.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

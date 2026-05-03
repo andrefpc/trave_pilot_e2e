@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: THM-03
+tags: [needs-implementation, a11y, p1]
+---
+# >>> dashboard-meta
+# THM-03 — Switching the OS theme while the app is open re-themes the app in real time
+# Section: Localization, Accessibility, Theming
+# Priority: P1
+# Repro:
+# 1. Open the app to Home in light mode.
+# 2. Without leaving the app, drag the system shade and toggle Dark theme on.
+# 3. Verify the app immediately switches to dark mode without a relaunch.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

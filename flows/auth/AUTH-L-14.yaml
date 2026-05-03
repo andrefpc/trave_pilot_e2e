@@ -1,0 +1,19 @@
+appId: ${APP_ID}
+name: AUTH-L-14
+tags: [needs-implementation, auth, p1]
+---
+# >>> dashboard-meta
+# AUTH-L-14 — Tapping Login while the device is in airplane mode shows a "No internet connection" dialog with Retry
+# Section: Authentication & Session
+# Priority: P1
+# Repro:
+# 1. Toggle airplane mode on.
+# 2. From Welcome, tap Login → "Sign in with password".
+# 3. Enter valid credentials and tap Login.
+# 4. Verify the "No internet connection" error dialog appears with a Retry button.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

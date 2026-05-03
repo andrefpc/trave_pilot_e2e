@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: SHR-10
+tags: [needs-implementation, sharing, p0]
+---
+# >>> dashboard-meta
+# SHR-10 — Tapping "Add Travel Plan" on Share Invite (signed in) joins the plan and shows "You joined the plan!"
+# Section: Plan Sharing & Deep Links
+# Priority: P0
+# Repro:
+# 1. Open Share Invite via a valid share link while signed in.
+# 2. Tap "Add Travel Plan".
+# 3. Verify a POST /travel-plans/join/:token fires and a success message appears; the plan now appears in Travel Plans.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

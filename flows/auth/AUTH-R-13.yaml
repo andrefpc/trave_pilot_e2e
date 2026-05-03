@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: AUTH-R-13
+tags: [needs-implementation, auth, p2]
+---
+# >>> dashboard-meta
+# AUTH-R-13 — A 255-character name is accepted on Register; longer names are rejected by the server
+# Section: Authentication & Session
+# Priority: P2
+# Repro:
+# 1. On Register, paste a 255-character name (repeat any letter), valid email, valid password.
+# 2. Tap Create Account — registration succeeds.
+# 3. Sign out and try again with a 256-character name; verify the server rejects it with an inline error.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

@@ -1,0 +1,19 @@
+appId: ${APP_ID}
+name: AUTH-L-12
+tags: [needs-implementation, auth, p0]
+---
+# >>> dashboard-meta
+# AUTH-L-12 — Opening the app via a share deep link, then logging in, lands on the Share Invite preview (not Home)
+# Section: Authentication & Session
+# Priority: P0
+# Repro:
+# 1. While signed out, tap a https://www.travelpilotapp.com/share/<token> link from SMS or email.
+# 2. The app opens to Share Invite — tap "Login".
+# 3. Sign in with valid credentials.
+# 4. Verify the app returns to the Share Invite preview (not Home) for the same shared plan.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

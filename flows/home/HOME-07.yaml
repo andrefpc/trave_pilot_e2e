@@ -1,0 +1,19 @@
+appId: ${APP_ID}
+name: HOME-07
+tags: [needs-implementation, home, p2]
+---
+# >>> dashboard-meta
+# HOME-07 — After photos are added, Home shows a milestone gallery thumbnail strip; tapping opens City Gallery
+# Section: Home Dashboard
+# Priority: P2
+# Repro:
+# 1. Add at least one milestone photo via Gallery.
+# 2. Return to Home and scroll past the world map.
+# 3. Verify a Gallery card with thumbnails per city appears.
+# 4. Tap a city stack — City Gallery opens for that city.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

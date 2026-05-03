@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: RD-03
+tags: [needs-implementation, reorder, p0]
+---
+# >>> dashboard-meta
+# RD-03 — Reordering days and saving persists across navigation: reopening the plan shows the new order
+# Section: Reorder Days
+# Priority: P0
+# Repro:
+# 1. As premium, reorder days and tap Save Order.
+# 2. Navigate back to Travel Plans, then reopen the same plan.
+# 3. Verify the day tabs reflect the new order.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

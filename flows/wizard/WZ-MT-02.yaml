@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: WZ-MT-02
+tags: [needs-implementation, wizard, p1]
+---
+# >>> dashboard-meta
+# WZ-MT-02 — On Meal Time, the Start and End fields on each meal card open the time picker and save the picked time
+# Section: Plan Creation Wizard
+# Priority: P1
+# Repro:
+# 1. On Meal Time → Breakfast card, tap Start → pick 07:00 → OK.
+# 2. Tap End → pick 08:00 → OK.
+# 3. Verify both fields display the picked times. Repeat for Lunch / Coffee Break / Dinner as needed.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

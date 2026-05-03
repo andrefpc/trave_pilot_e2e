@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: ITE-17
+tags: [needs-implementation, edit, p2]
+---
+# >>> dashboard-meta
+# ITE-17 — When replacing a stop, a preview appears with Confirm/Cancel before the change is committed
+# Section: Itinerary Editing & Rearrange
+# Priority: P2
+# Repro:
+# 1. As premium, on Edit Stop tap "Replace with another Stop" and pick a new place.
+# 2. Verify a preview sheet shows the new place's photo, name, hours and Confirm/Cancel buttons.
+# 3. Tap Cancel — original stop is unchanged.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

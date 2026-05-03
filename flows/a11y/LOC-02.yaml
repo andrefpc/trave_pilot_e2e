@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: LOC-02
+tags: [needs-implementation, a11y, p1]
+---
+# >>> dashboard-meta
+# LOC-02 — Switching the device language to Spanish translates the entire app
+# Section: Localization, Accessibility, Theming
+# Priority: P1
+# Repro:
+# 1. Settings → Languages → add Español and move it to top.
+# 2. Relaunch Travel Pilot.
+# 3. Walk through Welcome / Login / Home / Profile and verify all visible strings render in Spanish.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

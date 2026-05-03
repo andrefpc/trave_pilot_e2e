@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: PH-04
+tags: [needs-implementation, photos, p1]
+---
+# >>> dashboard-meta
+# PH-04 — A 10 MB+ image is automatically compressed before upload and the upload completes
+# Section: Photos & Gallery
+# Priority: P1
+# Repro:
+# 1. Prepare a 10 MB+ JPEG on the device.
+# 2. On Gallery, tap + → pick that image → upload.
+# 3. Verify upload completes (check Network Profiler shows a payload <2 MB).
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

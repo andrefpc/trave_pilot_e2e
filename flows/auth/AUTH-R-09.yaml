@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: AUTH-R-09
+tags: [needs-implementation, auth, p0]
+---
+# >>> dashboard-meta
+# AUTH-R-09 — When password and confirmation differ, the "Passwords match" rule stays red and Create Account is disabled
+# Section: Authentication & Session
+# Priority: P0
+# Repro:
+# 1. On Register, type "Password1!" in Password and "Password2!" in Confirm.
+# 2. Verify the "Passwords match" rule stays red.
+# 3. Change Confirm so it matches; verify the rule turns green and Create Account becomes enabled.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

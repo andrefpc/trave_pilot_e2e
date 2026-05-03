@@ -1,0 +1,17 @@
+appId: ${APP_ID}
+name: PH-13
+tags: [needs-implementation, photos, p2]
+---
+# >>> dashboard-meta
+# PH-13 — Selecting an unsupported file format (e.g. SVG) is filtered or rejected with an error
+# Section: Photos & Gallery
+# Priority: P2
+# Repro:
+# 1. On Gallery, tap + → pick an SVG file (from a file manager).
+# 2. Verify either the file is greyed out / not selectable, or a "Only JPG, PNG, WEBP, GIF" error appears after pick.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

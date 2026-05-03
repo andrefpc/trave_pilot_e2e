@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: PROF-17
+tags: [needs-implementation, profile, p2]
+---
+# >>> dashboard-meta
+# PROF-17 — Tapping the Help Center link on Profile opens the help URL externally
+# Section: Profile & Account
+# Priority: P2
+# Repro:
+# 1. On Profile, scroll to the Help Center link.
+# 2. Tap it.
+# 3. Verify a browser/Custom Tab opens at the help URL.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

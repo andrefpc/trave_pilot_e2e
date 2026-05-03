@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: AUTH-R-05
+tags: [needs-implementation, auth, p0]
+---
+# >>> dashboard-meta
+# AUTH-R-05 — A password without an uppercase letter keeps the "Uppercase" rule red and Create Account disabled
+# Section: Authentication & Session
+# Priority: P0
+# Repro:
+# 1. On Register, type "password1!" into Password and matching Confirm.
+# 2. Verify the Uppercase rule stays red.
+# 3. Verify Create Account is disabled.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

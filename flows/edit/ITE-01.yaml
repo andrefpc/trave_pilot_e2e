@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: ITE-01
+tags: [needs-implementation, edit, p0]
+---
+# >>> dashboard-meta
+# ITE-01 — A free user tapping the Rearrange icon opens the Premium bottom sheet, not Rearrange
+# Section: Itinerary Editing & Rearrange
+# Priority: P0
+# Repro:
+# 1. Sign in as a free user, open any plan day.
+# 2. Tap the dashboard-edit icon in the toolbar.
+# 3. Verify the Premium bottom sheet slides up; the Rearrange screen does not open.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

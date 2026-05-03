@@ -1,0 +1,19 @@
+appId: ${APP_ID}
+name: SMK-05
+tags: [needs-implementation, smk, p0]
+---
+# >>> dashboard-meta
+# SMK-05 — AI plan generation reaches 100% and auto-navigates to Home with the itinerary
+# Section: Smoke Suite
+# Priority: P0
+# Repro:
+# 1. Sign in and complete the wizard so Plan Generation starts.
+# 2. Wait without backgrounding the app — the compass + progress bar animates for several minutes.
+# 3. When the bar reaches 100%, the compass briefly bounces.
+# 4. Tap "Let's Go!" and verify Home appears with day cards, weather, and the world map.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

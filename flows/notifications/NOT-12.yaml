@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: NOT-12
+tags: [needs-implementation, notifications, p1]
+---
+# >>> dashboard-meta
+# NOT-12 — On Logout, the FCM device is unregistered via DELETE /notifications/devices/:id
+# Section: Notifications & Reminders
+# Priority: P1
+# Repro:
+# 1. Sign in, then sign out.
+# 2. Inspect network — verify a DELETE /notifications/devices/:id fires.
+# 3. Send a test push to the old token — verify it no longer reaches the device for that account.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

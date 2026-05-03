@@ -1,0 +1,16 @@
+appId: ${APP_ID}
+name: QA-NEW-01
+tags: [needs-implementation, smk, p0]
+---
+# >>> dashboard-meta
+# QA-NEW-01 — New feature smoke
+# Section: Smoke Suite
+# Priority: P0
+# Repro:
+# (no repro steps recorded)
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

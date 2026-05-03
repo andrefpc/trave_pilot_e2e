@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: RD-04
+tags: [needs-implementation, reorder, p1]
+---
+# >>> dashboard-meta
+# RD-04 — On Reorder Days, each card shows day number, city, departure date and stop count
+# Section: Reorder Days
+# Priority: P1
+# Repro:
+# 1. Open Reorder Days for a plan.
+# 2. Inspect a card.
+# 3. Verify it shows the day label, city, the day's date, and how many stops are scheduled.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: AUTH-R-01
+tags: [needs-implementation, auth, p0]
+---
+# >>> dashboard-meta
+# AUTH-R-01 — Tapping Register with the name field empty shows "Name cannot be empty" under the name field
+# Section: Authentication & Session
+# Priority: P0
+# Repro:
+# 1. From Welcome → Create Plan → walk to Complete Onboarding → tap Sign Up. (Or open Register directly from a deep link.)
+# 2. Leave Name empty, fill a valid email and a password meeting all six rules.
+# 3. Tap "Create Account" and verify "Name cannot be empty" appears below Name; no request fires.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

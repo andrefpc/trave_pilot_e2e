@@ -1,0 +1,17 @@
+appId: ${APP_ID}
+name: PROF-09
+tags: [needs-implementation, profile, p0]
+---
+# >>> dashboard-meta
+# PROF-09 — Change Password validates the new password with the same six rule check boxes as Register
+# Section: Profile & Account
+# Priority: P0
+# Repro:
+# 1. On Change Password, focus the new-password field and type a weak password.
+# 2. Verify the same six rules display below and update in real time as the password meets each.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

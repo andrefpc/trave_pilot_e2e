@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: HOME-09
+tags: [needs-implementation, home, p1]
+---
+# >>> dashboard-meta
+# HOME-09 — Home's "+ Create Plan" FAB or button navigates to the Destination wizard step
+# Section: Home Dashboard
+# Priority: P1
+# Repro:
+# 1. On Home, locate the + create-plan button (FAB or bottom button).
+# 2. Tap it.
+# 3. Verify the wizard opens at the Destination step.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: NOT-05
+tags: [needs-implementation, notifications, p1]
+---
+# >>> dashboard-meta
+# NOT-05 — Reminders survive device reboot: BootReminderReceiver reschedules them on BOOT_COMPLETED
+# Section: Notifications & Reminders
+# Priority: P1
+# Repro:
+# 1. Schedule three stop reminders for the next several minutes.
+# 2. Reboot the device.
+# 3. After boot, wait until each scheduled time and verify each notification still fires.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

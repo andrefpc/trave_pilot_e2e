@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: GEN-14
+tags: [needs-implementation, generation, p2]
+---
+# >>> dashboard-meta
+# GEN-14 — When Plan Generation finishes while the app is backgrounded, the OS shows a "Your trip is ready" notification
+# Section: Plan Generation
+# Priority: P2
+# Repro:
+# 1. Trigger plan generation, then immediately background the app.
+# 2. Wait for the foreground service to finish (or simulate completion).
+# 3. Verify a notification "Your trip is ready" appears in the notification tray.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

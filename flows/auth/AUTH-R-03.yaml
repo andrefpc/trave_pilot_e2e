@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: AUTH-R-03
+tags: [needs-implementation, auth, p1]
+---
+# >>> dashboard-meta
+# AUTH-R-03 — On Register, six password rule check boxes turn green in real time as your password meets each rule
+# Section: Authentication & Session
+# Priority: P1
+# Repro:
+# 1. Open the Register screen and focus the password field.
+# 2. Type characters one at a time and watch the rules below: 8+ chars, uppercase, lowercase, number, special, match.
+# 3. Verify each rule's box flips from red to green the moment its condition is satisfied.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

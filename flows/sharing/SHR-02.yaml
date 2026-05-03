@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: SHR-02
+tags: [needs-implementation, sharing, p0]
+---
+# >>> dashboard-meta
+# SHR-02 — A premium user tapping Share opens a sheet with "Can edit" and "Read only" options and a Share button
+# Section: Plan Sharing & Deep Links
+# Priority: P0
+# Repro:
+# 1. Sign in as a premium user with a plan.
+# 2. Tap Share.
+# 3. Verify the Share Plan sheet shows two radio options ("Can edit", "Read only") and a primary "Share" button.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

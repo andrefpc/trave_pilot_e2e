@@ -1,0 +1,19 @@
+appId: ${APP_ID}
+name: ITV-10
+tags: [needs-implementation, itinerary, p0]
+---
+# >>> dashboard-meta
+# ITV-10 — A free user can replace a free-time slot with a place via "Add Stop" without seeing the paywall
+# Section: Itinerary Viewing
+# Priority: P0
+# Repro:
+# 1. Sign in as a free user, open a day with a free-time slot.
+# 2. Tap the slot's "Add Stop" button.
+# 3. Verify Place Search opens (not the Premium bottom sheet).
+# 4. Pick a place — verify it replaces the free-time slot.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

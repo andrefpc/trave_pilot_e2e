@@ -1,0 +1,17 @@
+appId: ${APP_ID}
+name: WZ-WS-01
+tags: [needs-implementation, wizard, p1]
+---
+# >>> dashboard-meta
+# WZ-WS-01 — Walking Style shows four cards: All day, Moderate walking, Only the necessary, No walking
+# Section: Plan Creation Wizard
+# Priority: P1
+# Repro:
+# 1. From Welcome → Create Plan → walk through Destination to reach Walking Style.
+# 2. Verify a 2x2 grid of cards labelled "All day", "Moderate walking", "Only the necessary", "No walking", each with a banner image.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: AUTH-S-04
+tags: [needs-implementation, auth, p1]
+---
+# >>> dashboard-meta
+# AUTH-S-04 — A tampered Google ID token is rejected by the server and an "Invalid token" dialog is shown
+# Section: Authentication & Session
+# Priority: P1
+# Repro:
+# 1. Use a dev tool (Frida / Charles) to modify the Google ID token in flight before it reaches the API.
+# 2. Complete Login → "Sign in with Google".
+# 3. Verify the API returns 401 and an "Invalid token" dialog appears.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: WZ-WTS-02
+tags: [needs-implementation, wizard, p1]
+---
+# >>> dashboard-meta
+# WZ-WTS-02 — Tapping the search icon on Where to Stay opens the Place Search bottom sheet
+# Section: Plan Creation Wizard
+# Priority: P1
+# Repro:
+# 1. On Where to Stay → tap the hotel search field/icon.
+# 2. Verify the Place Search bottom sheet slides up with a query box.
+# 3. Type a hotel name; verify results appear and one can be tapped to select.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

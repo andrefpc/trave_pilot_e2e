@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: ACC-04
+tags: [needs-implementation, a11y, p1]
+---
+# >>> dashboard-meta
+# ACC-04 — Setting system font scale to 200% (largest) does not truncate or break any layout
+# Section: Localization, Accessibility, Theming
+# Priority: P1
+# Repro:
+# 1. Settings → Accessibility → Display size and text → Font size: largest (or `adb shell settings put system font_scale 2.0`).
+# 2. Walk through Home, Itinerary, Wizard, Profile, Settings.
+# 3. Verify no text is clipped, no buttons disappear, no layouts overflow.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

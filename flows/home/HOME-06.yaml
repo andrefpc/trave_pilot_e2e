@@ -1,0 +1,17 @@
+appId: ${APP_ID}
+name: HOME-06
+tags: [needs-implementation, home, p0]
+---
+# >>> dashboard-meta
+# HOME-06 — Tapping a Home day card opens that Itinerary Day with all stops and times
+# Section: Home Dashboard
+# Priority: P0
+# Repro:
+# 1. On Home, tap the day preview card (or "Open full itinerary").
+# 2. Verify the Itinerary Day screen opens with all stops in time order for that day.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

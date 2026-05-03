@@ -1,0 +1,17 @@
+appId: ${APP_ID}
+name: WZ-C-04
+tags: [needs-implementation, wizard, p2]
+---
+# >>> dashboard-meta
+# WZ-C-04 — On Companions, tapping plus on Children stops at 20
+# Section: Plan Creation Wizard
+# Priority: P2
+# Repro:
+# 1. On Companions, tap the plus button on Children repeatedly until the value reaches 20.
+# 2. Verify the counter stops at 20.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml

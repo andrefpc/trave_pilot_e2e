@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: AUTH-R-15
+tags: [needs-implementation, auth, p1]
+---
+# >>> dashboard-meta
+# AUTH-R-15 — Tapping the "Terms of Service" link on Register opens the terms page in a browser/Custom Tab
+# Section: Authentication & Session
+# Priority: P1
+# Repro:
+# 1. On Register, scroll to the small print near the Create Account button.
+# 2. Tap the "Terms of Service" link.
+# 3. Verify Chrome Custom Tabs (or the system browser) opens the live terms page.
+# <<< dashboard-meta
+
+# TODO: implement interaction steps. Remove the `needs-implementation`
+# tag above once the flow asserts the expected behavior end-to-end.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml
