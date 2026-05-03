@@ -1,0 +1,14 @@
+appId: ${APP_ID}
+---
+# Reusable: open the password sign-in sheet from Welcome and sign in as the
+# default free-tier e2e user. Override TEST_EMAIL / TEST_PASSWORD via --env to
+# log in as a different seeded user (e.g. premium).
+- assertVisible: { id: "welcome.title" }
+- tapOn: { id: "welcome.have-account-login" }
+- tapOn: { id: "auth-sheet.signin-with-password" }
+- tapOn: { id: "login.email-field" }
+- inputText: ${TEST_EMAIL}
+- tapOn: { id: "login.password-field" }
+- inputText: ${TEST_PASSWORD}
+- tapOn: { id: "login.submit-button" }
+- assertVisible: { id: "home.tab-bar" }

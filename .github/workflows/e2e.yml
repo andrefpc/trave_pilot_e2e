@@ -1,0 +1,178 @@
+name: e2e
+
+on:
+  workflow_dispatch:
+    inputs:
+      app_version:
+        description: 'App version (e.g. 1.4.0). Defaults to git short SHA.'
+        required: false
+      register_version:
+        description: 'Auto-register the app version if not yet seen by the API.'
+        type: boolean
+        default: true
+  push:
+    branches: [main]
+
+concurrency:
+  group: e2e-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  API_BASE_URL: https://staging-api.travelpilotapp.com
+  APP_VERSION: ${{ github.event.inputs.app_version || github.sha }}
+
+jobs:
+  android:
+    runs-on: ubuntu-latest-large
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with: { node-version: '20', cache: 'npm' }
+      - run: npm ci
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Install Maestro
+        run: |
+          curl -fsSL "https://get.maestro.mobile.dev" | bash
+          echo "$HOME/.maestro/bin" >> $GITHUB_PATH
+
+      - name: Mint admin JWT
+        id: auth
+        env:
+          E2E_BOT_EMAIL: ${{ secrets.E2E_BOT_EMAIL }}
+          E2E_BOT_PASSWORD: ${{ secrets.E2E_BOT_PASSWORD }}
+        run: |
+          token=$(curl -fsS -X POST "$API_BASE_URL/api/v1/auth/login" \
+            -H 'Content-Type: application/json' \
+            -d "{\"email\":\"$E2E_BOT_EMAIL\",\"password\":\"$E2E_BOT_PASSWORD\"}" \
+            | jq -r '.access_token')
+          echo "::add-mask::$token"
+          echo "ADMIN_TOKEN=$token" >> $GITHUB_ENV
+
+      # The mobile repo's CI publishes a debug APK as a release artifact;
+      # download it here. Override the URL via repo variable APK_DOWNLOAD_URL.
+      - name: Download Android APK
+        env:
+          APK_URL: ${{ vars.APK_DOWNLOAD_URL }}
+        run: |
+          mkdir -p fixtures
+          if [ -z "$APK_URL" ]; then
+            echo "APK_DOWNLOAD_URL is not configured; failing fast."
+            exit 1
+          fi
+          curl -fsSL "$APK_URL" -o fixtures/travel-pilot.apk
+
+      - name: Run Maestro on emulator
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 34
+          arch: x86_64
+          profile: pixel_7
+          script: |
+            adb install -r fixtures/travel-pilot.apk
+            maestro test \
+              --env APP_ID=com.travelpilotapp \
+              --env TEST_EMAIL=${{ secrets.TEST_FREE_EMAIL }} \
+              --env TEST_PASSWORD=${{ secrets.TEST_FREE_PASSWORD }} \
+              --env MAESTRO_API_BASE_URL=$API_BASE_URL \
+              --env MAESTRO_TEST_RESET_TOKEN=${{ secrets.TEST_RESET_TOKEN }} \
+              --format junit --output report.xml \
+              --debug-output debug \
+              --exclude-tags=needs-implementation,archived \
+              flows/
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: android-results
+          path: |
+            report.xml
+            debug/
+
+      - name: Push results to dashboard matrix
+        if: always()
+        env:
+          CI_RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          npm run report -- --platform=android --junit=report.xml --register
+
+  ios:
+    runs-on: macos-14
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with: { node-version: '20', cache: 'npm' }
+      - run: npm ci
+
+      - name: Install Maestro + idb
+        run: |
+          curl -fsSL "https://get.maestro.mobile.dev" | bash
+          echo "$HOME/.maestro/bin" >> $GITHUB_PATH
+          brew tap facebook/fb
+          brew install idb-companion
+          pip3 install fb-idb
+
+      - name: Mint admin JWT
+        env:
+          E2E_BOT_EMAIL: ${{ secrets.E2E_BOT_EMAIL }}
+          E2E_BOT_PASSWORD: ${{ secrets.E2E_BOT_PASSWORD }}
+        run: |
+          token=$(curl -fsS -X POST "$API_BASE_URL/api/v1/auth/login" \
+            -H 'Content-Type: application/json' \
+            -d "{\"email\":\"$E2E_BOT_EMAIL\",\"password\":\"$E2E_BOT_PASSWORD\"}" \
+            | jq -r '.access_token')
+          echo "::add-mask::$token"
+          echo "ADMIN_TOKEN=$token" >> $GITHUB_ENV
+
+      - name: Download iOS .app
+        env:
+          IPA_URL: ${{ vars.IOS_APP_DOWNLOAD_URL }}
+        run: |
+          mkdir -p fixtures
+          if [ -z "$IPA_URL" ]; then
+            echo "IOS_APP_DOWNLOAD_URL is not configured; failing fast."
+            exit 1
+          fi
+          curl -fsSL "$IPA_URL" -o fixtures/travel-pilot.app.zip
+          unzip -q fixtures/travel-pilot.app.zip -d fixtures/
+
+      - name: Boot simulator + install
+        run: |
+          xcrun simctl boot "iPhone 15" || true
+          xcrun simctl install booted fixtures/TravelPilot.app
+
+      - name: Run Maestro
+        run: |
+          maestro test \
+            --env APP_ID=com.travelpilotapp \
+            --env TEST_EMAIL=${{ secrets.TEST_FREE_EMAIL }} \
+            --env TEST_PASSWORD=${{ secrets.TEST_FREE_PASSWORD }} \
+            --env MAESTRO_API_BASE_URL=$API_BASE_URL \
+            --env MAESTRO_TEST_RESET_TOKEN=${{ secrets.TEST_RESET_TOKEN }} \
+            --format junit --output report.xml \
+            --debug-output debug \
+            --exclude-tags=needs-implementation,archived \
+            flows/
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ios-results
+          path: |
+            report.xml
+            debug/
+
+      - name: Push results to dashboard matrix
+        if: always()
+        env:
+          CI_RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          npm run report -- --platform=ios --junit=report.xml --register

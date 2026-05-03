@@ -1,0 +1,4 @@
+appId: ${APP_ID}
+---
+- runScript:
+    file: ../../scripts/maestro-reset.js

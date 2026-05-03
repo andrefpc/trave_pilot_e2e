@@ -1,0 +1,21 @@
+node_modules/
+.env
+.env.*
+!config/.env.example
+
+# Maestro outputs
+report.xml
+debug/
+recording.mp4
+.maestro/
+
+# Build artifacts pulled into CI
+fixtures/*.apk
+fixtures/*.app
+fixtures/*.ipa
+
+# Editor
+.vscode/
+.idea/
+*.swp
+.DS_Store
