@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: WZ-D-06
-tags: [needs-implementation, wizard, p0]
+tags: [wizard, p0]
 ---
 # >>> dashboard-meta
 # WZ-D-06 — Setting Return earlier than Departure shows "Return date must be after departure date" inline
@@ -12,7 +12,17 @@ tags: [needs-implementation, wizard, p0]
 # 3. Verify the inline error "Return date must be after departure date" appears under the Return field.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- assertVisible: { id: "welcome.title" }
+- tapOn: { id: "welcome.create-plan-button" }
+- assertVisible: { id: "wizard.destination.title" }
+- tapOn: { id: "wizard.destination.departure-field" }
+- assertVisible: { id: "wizard.destination.date-picker" }
+- tapOn: { id: "wizard.destination.date-picker.ok-button" }
+- tapOn: { id: "wizard.destination.return-field" }
+- assertVisible: { id: "wizard.destination.date-picker" }
+- assertVisible: { id: "wizard.destination.date-picker.day.past" }
+- tapOn: { id: "wizard.destination.date-picker.day.past" }
+- tapOn: { id: "wizard.destination.date-picker.ok-button" }
+- assertVisible: { id: "wizard.destination.return-error" }

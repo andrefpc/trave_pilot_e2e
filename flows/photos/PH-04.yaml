@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: PH-04
-tags: [needs-implementation, photos, p1]
+tags: [photos, p1]
 ---
 # >>> dashboard-meta
 # PH-04 — A 10 MB+ image is automatically compressed before upload and the upload completes
@@ -12,7 +12,24 @@ tags: [needs-implementation, photos, p1]
 # 3. Verify upload completes (check Network Profiler shows a payload <2 MB).
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.profile" }
+- tapOn: { id: "profile.gallery-link" }
+- tapOn: { id: "photos.upload-button" }
+- waitForAnimationToEnd:
+    timeout: 5000
+- tapOn: { id: "photos.system-picker.image.large" }
+- tapOn: { id: "photos.system-picker.confirm-button" }
+- assertVisible: { id: "photos.upload-sheet.title" }
+- tapOn: { id: "photos.upload-sheet.send-button" }
+- assertVisible: { id: "photos.upload.progress" }
+- waitForAnimationToEnd:
+    timeout: 30000
+- assertVisible: { id: "photos.upload.success-snackbar" }
+- assertVisible: { id: "photos.image.0" }

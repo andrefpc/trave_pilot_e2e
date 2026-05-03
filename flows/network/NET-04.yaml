@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: NET-04
-tags: [needs-implementation, network, p0]
+tags: [network, p0]
 ---
 # >>> dashboard-meta
 # NET-04 — A 401 response triggers a token refresh; the original request is retried automatically with the new token
@@ -12,7 +12,25 @@ tags: [needs-implementation, network, p0]
 # 3. Verify the TokenAuthenticator fires POST /auth/refresh and the original request is retried successfully.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
+# Maestro can't inject 401s. We use the in-app debug action that asks the
+# backend to expire the access token and re-issue, then verify the next
+# request still resolves to a populated screen (the silent refresh worked).
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.profile" }
+- tapOn: { id: "profile.settings-link" }
+- scrollUntilVisible:
+    element: { id: "settings.debug-section" }
+    direction: DOWN
+- tapOn: { id: "settings.debug.expire-access-token-button" }
+- assertVisible: { id: "settings.debug.token-expired-toast" }
+- tapOn: { id: "home.tab.home" }
+- waitForAnimationToEnd:
+    timeout: 8000
+- assertVisible: { id: "home.plan-header" }
+- assertNotVisible: { id: "welcome.title" }

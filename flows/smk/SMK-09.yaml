@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: SMK-09
-tags: [needs-implementation, smk, p0]
+tags: [smk, p0]
 ---
 # >>> dashboard-meta
 # SMK-09 — Tapping a https://www.travelpilotapp.com/share/<token> link from another app opens Share Invite
@@ -12,7 +12,11 @@ tags: [needs-implementation, smk, p0]
 # 3. Verify the Travel Pilot app opens directly to Share Invite, showing a plan preview and an "Add Travel Plan" button.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
-- runFlow: ../common/_reset_data.yaml
-- runFlow: ../common/_open_app.yaml
+- launchApp:
+    clearState: true
+    clearKeychain: true
+    stopApp: true
+- openLink: https://www.travelpilotapp.com/share/${TEST_SHARE_TOKEN}
+- assertVisible: { id: "share-invite.title" }
+- assertVisible: { id: "share-invite.plan-preview" }
+- assertVisible: { id: "share-invite.add-plan-button" }

@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: PH-02
-tags: [needs-implementation, photos, p0]
+tags: [photos, p0]
 ---
 # >>> dashboard-meta
 # PH-02 — Tapping the + on Gallery opens the Android multi-select photo picker
@@ -11,7 +11,17 @@ tags: [needs-implementation, photos, p0]
 # 2. Verify the system multi-select photo picker (or document picker) opens.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.profile" }
+- tapOn: { id: "profile.gallery-link" }
+- assertVisible: { id: "photos.gallery" }
+- tapOn: { id: "photos.upload-button" }
+- waitForAnimationToEnd:
+    timeout: 5000
+- assertVisible: { id: "photos.system-picker" }

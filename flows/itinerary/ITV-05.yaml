@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: ITV-05
-tags: [needs-implementation, itinerary, p0]
+tags: [itinerary, p0]
 ---
 # >>> dashboard-meta
 # ITV-05 — Tapping a stop with a place id opens the Place Detail bottom sheet with photos, description and hours
@@ -11,7 +11,19 @@ tags: [needs-implementation, itinerary, p0]
 # 2. Verify a bottom sheet slides up with the place name, photo carousel, description text and opening hours.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.travel-plans" }
+- tapOn: { id: "plans.plan-card.0" }
+- assertVisible: { id: "itinerary.stop.0" }
+- tapOn: { id: "itinerary.stop.0" }
+- assertVisible: { id: "place-detail.sheet" }
+- assertVisible: { id: "place-detail.title" }
+- assertVisible: { id: "place-detail.photo-carousel" }
+- assertVisible: { id: "place-detail.description" }
+- assertVisible: { id: "place-detail.hours" }

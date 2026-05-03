@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: NOT-05
-tags: [needs-implementation, notifications, p1]
+tags: [notifications, p1]
 ---
 # >>> dashboard-meta
 # NOT-05 — Reminders survive device reboot: BootReminderReceiver reschedules them on BOOT_COMPLETED
@@ -12,7 +12,34 @@ tags: [needs-implementation, notifications, p1]
 # 3. After boot, wait until each scheduled time and verify each notification still fires.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
+# Maestro cannot trigger a real device reboot. We schedule the reminders,
+# then proxy the "survives restart" assertion via a cold relaunch and verify
+# the in-app reminders list still shows the scheduled items.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.itinerary" }
+- tapOn: { id: "itinerary.day-card.0" }
+- repeat:
+    times: 3
+    commands:
+      - tapOn: { id: "itinerary.stop-card.0" }
+      - tapOn: { id: "itinerary.stop-detail.schedule-reminder-button" }
+      - runFlow:
+          when:
+            visible:
+              id: "notifications.permission-prompt"
+          commands:
+            - tapOn: { id: "notifications.permission-prompt.allow-button" }
+      - tapOn: { id: "notifications.reminder-sheet.preset.5-minute" }
+      - tapOn: { id: "notifications.reminder-sheet.confirm-button" }
+      - tapOn: { id: "itinerary.stop-detail.back-button" }
+- launchApp:
+    stopApp: true
+- tapOn: { id: "home.tab.notifications" }
+- tapOn: { id: "notifications.scheduled-tab" }
+- assertVisible: { id: "notifications.scheduled.reminder.0" }

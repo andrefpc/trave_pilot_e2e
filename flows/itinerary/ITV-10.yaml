@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: ITV-10
-tags: [needs-implementation, itinerary, p0]
+tags: [itinerary, p0]
 ---
 # >>> dashboard-meta
 # ITV-10 — A free user can replace a free-time slot with a place via "Add Stop" without seeing the paywall
@@ -13,7 +13,27 @@ tags: [needs-implementation, itinerary, p0]
 # 4. Pick a place — verify it replaces the free-time slot.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_FREE_EMAIL}
+      TEST_PASSWORD: ${TEST_FREE_PASSWORD}
+- tapOn: { id: "home.tab.travel-plans" }
+- tapOn: { id: "plans.plan-card.0" }
+- scrollUntilVisible:
+    element: { id: "itinerary.stop.free-time.0" }
+    direction: DOWN
+- tapOn: { id: "itinerary.stop.free-time.0.add-stop-button" }
+- assertNotVisible: { id: "premium.bottom-sheet" }
+- assertVisible: { id: "place-search.sheet" }
+- tapOn: { id: "place-search.input" }
+- inputText: "park"
+- waitForAnimationToEnd:
+    timeout: 3000
+- tapOn: { id: "place-search.result.0" }
+- waitForAnimationToEnd:
+    timeout: 3000
+- assertVisible: { id: "itinerary.stop.0" }
+- assertNotVisible: { id: "itinerary.stop.free-time.0" }

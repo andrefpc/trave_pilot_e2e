@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: FD-06
-tags: [needs-implementation, feed, p0]
+tags: [feed, p0]
 ---
 # >>> dashboard-meta
 # FD-06 — Tapping "Add to Meal" on a Restaurant card → picking a meal slot assigns the restaurant
@@ -12,7 +12,20 @@ tags: [needs-implementation, feed, p0]
 # 3. Verify the restaurant is set on that meal and a snackbar appears.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.feed" }
+- scrollUntilVisible:
+    element: { id: "feed.section.restaurants.card.0" }
+    direction: DOWN
+- tapOn: { id: "feed.section.restaurants.card.0.add-to-meal-button" }
+- assertVisible: { id: "feed.meal-slot-sheet.title" }
+- tapOn: { id: "feed.meal-slot-sheet.slot.lunch" }
+- waitForAnimationToEnd:
+    timeout: 5000
+- assertVisible: { id: "feed.add-to-meal.success-snackbar" }

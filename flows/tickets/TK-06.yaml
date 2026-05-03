@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: TK-06
-tags: [needs-implementation, tickets, p1]
+tags: [tickets, p1]
 ---
 # >>> dashboard-meta
 # TK-06 — Tapping Share on a ticket invokes the system share chooser via FileProvider
@@ -11,7 +11,17 @@ tags: [needs-implementation, tickets, p1]
 # 2. Verify the system share sheet appears with the ticket file attached via FileProvider.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.tickets" }
+- tapOn: { id: "tickets.ticket-card.0" }
+- assertVisible: { id: "tickets.viewer" }
+- tapOn: { id: "tickets.viewer.share-button" }
+- waitForAnimationToEnd:
+    timeout: 5000
+- assertVisible: { id: "tickets.share-chooser" }

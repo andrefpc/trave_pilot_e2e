@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: PLANS-10
-tags: [needs-implementation, plans, p1]
+tags: [plans, p1]
 ---
 # >>> dashboard-meta
 # PLANS-10 — Granting Calendar permission then exporting writes events for each day or stop into the chosen calendar
@@ -12,7 +12,22 @@ tags: [needs-implementation, plans, p1]
 # 3. Open the system Calendar app and verify events were created for each day (or each stop) of the trip.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.travel-plans" }
+- assertVisible: { id: "plans.plan-card.0" }
+- longPressOn: { id: "plans.plan-card.0" }
+- tapOn: { id: "plans.context-menu.export-calendar" }
+- tapOn:
+    id: "com.android.permissioncontroller:id/permission_allow_button"
+- assertVisible: { id: "plans.export-calendar-sheet" }
+- tapOn: { id: "plans.export-calendar-sheet.calendar-picker.0" }
+- tapOn: { id: "plans.export-calendar-sheet.export-button" }
+- waitForAnimationToEnd:
+    timeout: 5000
+- assertVisible: { id: "plans.snackbar.export-success" }

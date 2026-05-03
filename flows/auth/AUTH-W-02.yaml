@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: AUTH-W-02
-tags: [needs-implementation, auth, p1]
+tags: [auth, p1]
 ---
 # >>> dashboard-meta
 # AUTH-W-02 — Tapping "Create Plan" on Welcome opens the trip wizard at the Destination step
@@ -12,7 +12,14 @@ tags: [needs-implementation, auth, p1]
 # 3. Verify the Destination screen appears with the origin field, departure/return date pickers and a "+ Add Destination" control.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
-- runFlow: ../common/_reset_data.yaml
-- runFlow: ../common/_open_app.yaml
+- launchApp:
+    clearState: true
+    clearKeychain: true
+    stopApp: true
+- assertVisible: { id: "welcome.title" }
+- tapOn: { id: "welcome.create-plan-button" }
+- assertVisible: { id: "wizard.destination.title" }
+- assertVisible: { id: "wizard.destination.origin-field" }
+- assertVisible: { id: "wizard.destination.departure-field" }
+- assertVisible: { id: "wizard.destination.return-field" }
+- assertVisible: { id: "wizard.destination.add-destination-button" }

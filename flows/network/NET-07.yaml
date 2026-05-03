@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: NET-07
-tags: [needs-implementation, network, p0]
+tags: [network, p0]
 ---
 # >>> dashboard-meta
 # NET-07 — A persistent 401 (refresh fails) clears tokens and navigates to Welcome
@@ -12,7 +12,25 @@ tags: [needs-implementation, network, p0]
 # 3. Verify TokenAuthenticator clears tokens, sessionManager.notifySessionExpired() emits, and the app returns to Welcome.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
+# Use the debug action that invalidates BOTH tokens server-side; the next
+# request 401s, the silent refresh also 401s, and TokenAuthenticator should
+# force-logout to Welcome.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.profile" }
+- tapOn: { id: "profile.settings-link" }
+- scrollUntilVisible:
+    element: { id: "settings.debug.invalidate-all-tokens-button" }
+    direction: DOWN
+- tapOn: { id: "settings.debug.invalidate-all-tokens-button" }
+- tapOn: { id: "home.tab.home" }
+- waitForAnimationToEnd:
+    timeout: 8000
+- assertVisible: { id: "security.session-expired-dialog.title" }
+- tapOn: { id: "security.session-expired-dialog.ok-button" }
+- assertVisible: { id: "welcome.title" }

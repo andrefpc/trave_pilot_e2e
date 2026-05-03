@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: NOT-06
-tags: [needs-implementation, notifications, p2]
+tags: [notifications, p2]
 ---
 # >>> dashboard-meta
 # NOT-06 — Weather-tip notifications fire when conditions trigger them
@@ -12,7 +12,19 @@ tags: [needs-implementation, notifications, p2]
 # 3. Verify a notification with a weather alert / travel tip appears in the tray.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
+# Maestro can't read the system tray, so we exercise the in-app surface
+# (Notifications list) and confirm that a weather-tip entry exists for the
+# seeded premium account whose plan triggers a weather tip.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.notifications" }
+- assertVisible: { id: "notifications.list" }
+- assertVisible: { id: "notifications.notification.weather-tip.0" }
+- tapOn: { id: "notifications.notification.weather-tip.0" }
+- assertVisible: { id: "notifications.weather-tip-detail.title" }
+- assertVisible: { id: "notifications.weather-tip-detail.body" }

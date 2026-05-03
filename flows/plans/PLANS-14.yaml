@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: PLANS-14
-tags: [needs-implementation, plans, p2]
+tags: [plans, p2]
 ---
 # >>> dashboard-meta
 # PLANS-14 — On Travel Plans, the status filter (if present) restricts the list to draft / active / completed / archived
@@ -12,7 +12,20 @@ tags: [needs-implementation, plans, p2]
 # 3. Verify only draft plans are shown.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.travel-plans" }
+- assertVisible: { id: "plans.filter-button" }
+- tapOn: { id: "plans.filter-button" }
+- assertVisible: { id: "plans.filter-sheet" }
+- tapOn: { id: "plans.filter-sheet.option.draft" }
+- tapOn: { id: "plans.filter-sheet.apply-button" }
+- waitForAnimationToEnd:
+    timeout: 3000
+- assertVisible: { id: "plans.filter-chip.draft" }
+- assertVisible: { id: "plans.plan-card.0.draft-badge" }

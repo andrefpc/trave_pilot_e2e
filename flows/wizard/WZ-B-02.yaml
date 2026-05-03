@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: WZ-B-02
-tags: [needs-implementation, wizard, p2]
+tags: [wizard, p2]
 ---
 # >>> dashboard-meta
 # WZ-B-02 — Each Budget category defaults to Medium pre-selected on first visit
@@ -11,7 +11,26 @@ tags: [needs-implementation, wizard, p2]
 # 2. Verify each card shows Medium highlighted and Low/High not selected.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- assertVisible: { id: "welcome.title" }
+- tapOn: { id: "welcome.create-plan-button" }
+- runFlow: _walk_to_budget.yaml
+- assertVisible: { id: "wizard.budget.card.accommodation.medium" }
+- assertVisible: { id: "wizard.budget.card.food.medium" }
+- scrollUntilVisible:
+    element: { id: "wizard.budget.card.transportation.medium" }
+    direction: DOWN
+- assertVisible: { id: "wizard.budget.card.transportation.medium" }
+- scrollUntilVisible:
+    element: { id: "wizard.budget.card.attractions.medium" }
+    direction: DOWN
+- assertVisible: { id: "wizard.budget.card.attractions.medium" }
+- scrollUntilVisible:
+    element: { id: "wizard.budget.card.shopping.medium" }
+    direction: DOWN
+- assertVisible: { id: "wizard.budget.card.shopping.medium" }
+- scrollUntilVisible:
+    element: { id: "wizard.budget.card.nightlife.medium" }
+    direction: DOWN
+- assertVisible: { id: "wizard.budget.card.nightlife.medium" }

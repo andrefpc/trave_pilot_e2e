@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: AUTH-S-05
-tags: [needs-implementation, auth, p2]
+tags: [auth, p2]
 ---
 # >>> dashboard-meta
 # AUTH-S-05 — When Google sign-in is not configured on the server, an explanatory error dialog explains why it's unavailable
@@ -11,7 +11,23 @@ tags: [needs-implementation, auth, p2]
 # 2. Verify a clear error dialog explains Google sign-in is not configured (no generic crash).
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
-- runFlow: ../common/_reset_data.yaml
-- runFlow: ../common/_open_app.yaml
+# Dev-build hook `googleAuthBackendMode=unconfigured` forces the backend
+# stub to return the same 503 the production code returns when
+# GOOGLE_OAUTH_CLIENT_ID is missing.
+- launchApp:
+    clearState: true
+    clearKeychain: true
+    stopApp: true
+    arguments:
+      googleAuthBackendMode: "unconfigured"
+- assertVisible: { id: "welcome.title" }
+- tapOn: { id: "welcome.have-account-login" }
+- tapOn: { id: "auth-sheet.signin-with-google" }
+- assertVisible: { id: "google-auth.picker" }
+- runFlow:
+    when:
+      visible: { id: "test.google-auth.confirm-account" }
+    commands:
+      - tapOn: { id: "test.google-auth.confirm-account" }
+- assertVisible: { id: "google-auth.unconfigured-dialog.title" }
+- assertNotVisible: { id: "home.tab-bar" }

@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: PH-12
-tags: [needs-implementation, photos, p1]
+tags: [photos, p1]
 ---
 # >>> dashboard-meta
 # PH-12 — Losing network during a photo upload shows a Retry snackbar; reconnecting and retrying succeeds
@@ -13,7 +13,27 @@ tags: [needs-implementation, photos, p1]
 # 4. Disable airplane → tap Retry → upload completes.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.profile" }
+- tapOn: { id: "profile.gallery-link" }
+- tapOn: { id: "photos.upload-button" }
+- waitForAnimationToEnd:
+    timeout: 5000
+- tapOn: { id: "photos.system-picker.image.0" }
+- tapOn: { id: "photos.system-picker.confirm-button" }
+- tapOn: { id: "photos.upload-sheet.send-button" }
+- assertVisible: { id: "photos.upload.progress" }
+- toggleAirplaneMode
+- assertVisible: { id: "photos.upload.error-snackbar" }
+- assertVisible: { id: "photos.upload.error-snackbar.retry-button" }
+- toggleAirplaneMode
+- tapOn: { id: "photos.upload.error-snackbar.retry-button" }
+- waitForAnimationToEnd:
+    timeout: 15000
+- assertVisible: { id: "photos.upload.success-snackbar" }

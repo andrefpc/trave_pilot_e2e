@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: ITV-15
-tags: [needs-implementation, itinerary, p0]
+tags: [itinerary, p0]
 ---
 # >>> dashboard-meta
 # ITV-15 — A free user tapping the Rearrange action sees the Premium bottom sheet (no Rearrange screen)
@@ -12,7 +12,18 @@ tags: [needs-implementation, itinerary, p0]
 # 3. Verify the Premium bottom sheet appears; the Rearrange screen does not open.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_FREE_EMAIL}
+      TEST_PASSWORD: ${TEST_FREE_PASSWORD}
+- tapOn: { id: "home.tab.travel-plans" }
+- tapOn: { id: "plans.plan-card.0" }
+- assertVisible: { id: "itinerary.screen" }
+- tapOn: { id: "itinerary.toolbar.rearrange-button" }
+- assertVisible: { id: "premium.bottom-sheet" }
+- assertVisible: { id: "premium.bottom-sheet.title" }
+- assertVisible: { id: "premium.bottom-sheet.cta" }
+- assertNotVisible: { id: "itinerary-edit.screen" }

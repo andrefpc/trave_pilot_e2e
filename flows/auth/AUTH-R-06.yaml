@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: AUTH-R-06
-tags: [needs-implementation, auth, p0]
+tags: [auth, p0]
 ---
 # >>> dashboard-meta
 # AUTH-R-06 — A password without a lowercase letter keeps the "Lowercase" rule red and Create Account disabled
@@ -11,7 +11,20 @@ tags: [needs-implementation, auth, p0]
 # 2. Verify the Lowercase rule stays red and Create Account is disabled.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
-- runFlow: ../common/_reset_data.yaml
-- runFlow: ../common/_open_app.yaml
+- launchApp:
+    clearState: true
+    clearKeychain: true
+    stopApp: true
+- openLink: travelpilot://register
+- assertVisible: { id: "register.title" }
+- tapOn: { id: "register.name-field" }
+- inputText: "QA Tester"
+- tapOn: { id: "register.email-field" }
+- inputText: ${TEST_NEW_EMAIL}
+- tapOn: { id: "register.password-field" }
+- inputText: "PASSWORD1!"
+- tapOn: { id: "register.confirm-password-field" }
+- inputText: "PASSWORD1!"
+- hideKeyboard
+- assertVisible: { id: "register.rule.lowercase.unmet-marker" }
+- assertVisible: { id: "register.create-account-button.disabled-marker" }

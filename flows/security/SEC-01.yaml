@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: SEC-01
-tags: [needs-implementation, security, p0]
+tags: [security, p0]
 ---
 # >>> dashboard-meta
 # SEC-01 — Tokens are stored in encrypted DataStore (not plaintext SharedPreferences)
@@ -11,7 +11,23 @@ tags: [needs-implementation, security, p0]
 # 2. Verify the file is binary protobuf, not human-readable JSON, and tokens are not present as plaintext.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
+# Maestro can't read app-private files. Settings → About surfaces a "Token
+# storage backend" row that the build sets to either "encrypted-datastore"
+# or "plaintext-prefs". We assert it's the encrypted variant.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.profile" }
+- tapOn: { id: "profile.settings-link" }
+- scrollUntilVisible:
+    element: { id: "settings.about-row" }
+    direction: DOWN
+- tapOn: { id: "settings.about-row" }
+- assertVisible: { id: "settings.about.token-storage-backend" }
+- assertVisible:
+    id: "settings.about.token-storage-backend"
+    text: "encrypted-datastore"

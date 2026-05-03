@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: AUTH-S-02
-tags: [needs-implementation, auth, p0]
+tags: [auth, p0]
 ---
 # >>> dashboard-meta
 # AUTH-S-02 — Signing in with Google using the same email you registered with via password links them as one account
@@ -12,7 +12,23 @@ tags: [needs-implementation, auth, p0]
 # 3. Verify the sign-in succeeds and Home opens — no "account already exists" error.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
+# Reset script ensures ${TEST_GOOGLE_EXISTING_EMAIL} already exists as a
+# password-registered user, with the same email as the seeded Google account.
 - runFlow: ../common/_reset_data.yaml
-- runFlow: ../common/_open_app.yaml
+- launchApp:
+    clearState: true
+    clearKeychain: true
+    stopApp: true
+    arguments:
+      googleAuthEmail: ${TEST_GOOGLE_EXISTING_EMAIL}
+- assertVisible: { id: "welcome.title" }
+- tapOn: { id: "welcome.have-account-login" }
+- tapOn: { id: "auth-sheet.signin-with-google" }
+- assertVisible: { id: "google-auth.picker" }
+- runFlow:
+    when:
+      visible: { id: "test.google-auth.confirm-account" }
+    commands:
+      - tapOn: { id: "test.google-auth.confirm-account" }
+- assertVisible: { id: "home.tab-bar" }
+- assertNotVisible: { id: "google-auth.account-conflict-dialog.title" }

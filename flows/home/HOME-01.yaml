@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: HOME-01
-tags: [needs-implementation, home, p0]
+tags: [home, p0]
 ---
 # >>> dashboard-meta
 # HOME-01 — Home shows the current plan header with the next day label, dates and destination
@@ -12,7 +12,16 @@ tags: [needs-implementation, home, p0]
 # 3. Verify the top section shows "Day 1 · {date}" (or similar) and the destination name.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.home" }
+- assertVisible: { id: "home.tab-bar" }
+- assertVisible: { id: "home.plan-header" }
+- assertVisible: { id: "home.plan-header.day-label" }
+- assertVisible: { id: "home.plan-header.date-label" }
+- assertVisible: { id: "home.plan-header.destination-label" }

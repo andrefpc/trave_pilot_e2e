@@ -1,0 +1,13 @@
+appId: ${APP_ID}
+tags: [helper]
+---
+# Reusable: assumes wizard.destination.title is visible. Walks to Restaurants
+# (POI → tap one POI → Next). Lands with wizard.restaurants.title visible.
+- runFlow: _walk_to_poi.yaml
+- assertVisible: { id: "wizard.places-of-interest.title" }
+- tapOn: { id: "wizard.places-of-interest.place.0" }
+- scrollUntilVisible:
+    element: { id: "wizard.places-of-interest.next-button" }
+    direction: DOWN
+- tapOn: { id: "wizard.places-of-interest.next-button" }
+- assertVisible: { id: "wizard.restaurants.title" }

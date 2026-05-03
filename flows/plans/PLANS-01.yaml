@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: PLANS-01
-tags: [needs-implementation, plans, p0]
+tags: [plans, p0]
 ---
 # >>> dashboard-meta
 # PLANS-01 — Travel Plans loads the first ~20 plans; scrolling to the bottom triggers pagination
@@ -12,7 +12,21 @@ tags: [needs-implementation, plans, p0]
 # 3. Verify the first ~20 plans load immediately, then scroll to the bottom — verify the next batch loads automatically.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.travel-plans" }
+- assertVisible: { id: "plans.list" }
+- assertVisible: { id: "plans.plan-card.0" }
+- assertVisible: { id: "plans.plan-card.19" }
+- scrollUntilVisible:
+    element: { id: "plans.pagination-loader" }
+    direction: DOWN
+- assertVisible: { id: "plans.pagination-loader" }
+- waitForAnimationToEnd:
+    timeout: 5000
+- assertVisible: { id: "plans.plan-card.20" }

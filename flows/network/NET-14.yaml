@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: NET-14
-tags: [needs-implementation, network, p0]
+tags: [network, p0]
 ---
 # >>> dashboard-meta
 # NET-14 — In a release build, the API base URL is the production host (api.travelpilotapp.com), not localhost
@@ -12,7 +12,22 @@ tags: [needs-implementation, network, p0]
 # 3. Verify they go to https://api.travelpilotapp.com/ — not to a localhost or staging URL.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
+# Maestro can't sniff network. The app's About screen exposes the active
+# base URL; we navigate there and assert the production URL is shown.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.profile" }
+- tapOn: { id: "profile.settings-link" }
+- scrollUntilVisible:
+    element: { id: "settings.about-row" }
+    direction: DOWN
+- tapOn: { id: "settings.about-row" }
+- assertVisible: { id: "settings.about.api-base-url" }
+- assertVisible:
+    id: "settings.about.api-base-url"
+    text: "https://api.travelpilotapp.com"

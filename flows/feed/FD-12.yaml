@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: FD-12
-tags: [needs-implementation, feed, p1]
+tags: [feed, p1]
 ---
 # >>> dashboard-meta
 # FD-12 — A user with no active plan opening Feed sees an empty state with a Create-Plan CTA
@@ -12,7 +12,14 @@ tags: [needs-implementation, feed, p1]
 # 3. Verify an empty state explains that Feed needs a plan, with a button to start the wizard.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_NO_PLAN_EMAIL}
+      TEST_PASSWORD: ${TEST_NO_PLAN_PASSWORD}
+- tapOn: { id: "home.tab.feed" }
+- assertVisible: { id: "feed.empty-state" }
+- assertVisible: { id: "feed.empty-state.title" }
+- assertVisible: { id: "feed.empty-state.create-plan-button" }

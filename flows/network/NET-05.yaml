@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: NET-05
-tags: [needs-implementation, network, p0]
+tags: [network, p0]
 ---
 # >>> dashboard-meta
 # NET-05 — On refresh, the server's new refresh token is persisted; the old one is never reused
@@ -12,7 +12,35 @@ tags: [needs-implementation, network, p0]
 # 3. Verify the refresh token changed; the next refresh uses the new value, not the previous one.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
+# Maestro can't inspect DataStore. We trigger two consecutive refresh-forcing
+# expirations and assert the user remains signed-in across both — proving the
+# rotated refresh token was persisted (otherwise the second refresh would
+# fail with the stale token).
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.profile" }
+- tapOn: { id: "profile.settings-link" }
+- scrollUntilVisible:
+    element: { id: "settings.debug-section" }
+    direction: DOWN
+- tapOn: { id: "settings.debug.expire-access-token-button" }
+- tapOn: { id: "home.tab.home" }
+- waitForAnimationToEnd:
+    timeout: 5000
+- assertVisible: { id: "home.plan-header" }
+- tapOn: { id: "home.tab.profile" }
+- tapOn: { id: "profile.settings-link" }
+- scrollUntilVisible:
+    element: { id: "settings.debug.expire-access-token-button" }
+    direction: DOWN
+- tapOn: { id: "settings.debug.expire-access-token-button" }
+- tapOn: { id: "home.tab.home" }
+- waitForAnimationToEnd:
+    timeout: 5000
+- assertVisible: { id: "home.plan-header" }
+- assertNotVisible: { id: "welcome.title" }

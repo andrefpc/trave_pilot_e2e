@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: SUB-06
-tags: [needs-implementation, premium, p0]
+tags: [premium, p0]
 ---
 # >>> dashboard-meta
 # SUB-06 — If receipt verification fails, no premium is granted and a "Purchase failed" dialog is shown
@@ -12,7 +12,28 @@ tags: [needs-implementation, premium, p0]
 # 3. Verify a "Purchase failed" dialog appears and Profile still shows "Unlock Premium".
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
+# Drive the failure path via the test-only "Force Bad Receipt" toggle on
+# the Premium sheet (devtools build), which makes the next IAP confirmation
+# echo a corrupted purchase token to /subscriptions and surface the dialog.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_FREE_EMAIL}
+      TEST_PASSWORD: ${TEST_FREE_PASSWORD}
+- tapOn: { id: "home.tab.profile" }
+- tapOn: { id: "profile.unlock-premium-button" }
+- assertVisible: { id: "premium.bottom-sheet.title" }
+- tapOn: { id: "subscription.devtools.force-bad-receipt" }
+- tapOn: { id: "subscription.plan.monthly" }
+- tapOn: { id: "subscription.purchase-button" }
+- waitForAnimationToEnd:
+    timeout: 8000
+- assertVisible: { id: "subscription.iap-sheet.title" }
+- tapOn: { id: "subscription.iap-sheet.confirm-button" }
+- waitForAnimationToEnd:
+    timeout: 10000
+- assertVisible: { id: "subscription.purchase-failed-dialog.title" }
+- tapOn: { id: "subscription.purchase-failed-dialog.dismiss-button" }
+- assertVisible: { id: "profile.unlock-premium-button" }

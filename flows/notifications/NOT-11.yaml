@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: NOT-11
-tags: [needs-implementation, notifications, p1]
+tags: [notifications, p1]
 ---
 # >>> dashboard-meta
 # NOT-11 — Tapping "Mark all as read" calls POST /mark-all-read; all unread notifications become read
@@ -11,7 +11,18 @@ tags: [needs-implementation, notifications, p1]
 # 2. Verify a POST /mark-all-read fires; all notifications now render as read.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.notifications" }
+- assertVisible: { id: "notifications.list" }
+- assertVisible: { id: "notifications.notification.0.unread-indicator" }
+- tapOn: { id: "notifications.mark-all-read" }
+- waitForAnimationToEnd:
+    timeout: 3000
+- assertNotVisible: { id: "notifications.notification.0.unread-indicator" }
+- assertNotVisible: { id: "notifications.unread-badge" }

@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: AUTH-L-05
-tags: [needs-implementation, auth, p0]
+tags: [auth, p0]
 ---
 # >>> dashboard-meta
 # AUTH-L-05 — After 5 wrong-password attempts in a row, the next try shows an "Account locked for 15 minutes" dialog
@@ -12,7 +12,25 @@ tags: [needs-implementation, auth, p0]
 # 3. On the 5th failure, verify an error dialog explains the account is locked for 15 minutes.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
-- runFlow: ../common/_reset_data.yaml
-- runFlow: ../common/_open_app.yaml
+- launchApp:
+    clearState: true
+    clearKeychain: true
+    stopApp: true
+- assertVisible: { id: "welcome.title" }
+- tapOn: { id: "welcome.have-account-login" }
+- tapOn: { id: "auth-sheet.signin-with-password" }
+- assertVisible: { id: "login.title" }
+- tapOn: { id: "login.email-field" }
+- inputText: "qa-locked@travelpilotapp.com"
+- tapOn: { id: "login.password-field" }
+- inputText: "wrong-password-xyz"
+- hideKeyboard
+- repeat:
+    times: 4
+    commands:
+      - tapOn: { id: "login.submit-button" }
+      - assertVisible: { id: "login.error-dialog.title" }
+      - tapOn: { id: "login.error-dialog.retry-button" }
+- tapOn: { id: "login.submit-button" }
+- assertVisible: { id: "login.lockout-dialog.title" }
+- assertVisible: { id: "login.lockout-dialog.retry-button" }

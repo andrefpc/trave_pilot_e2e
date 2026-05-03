@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: AUTH-F-01
-tags: [needs-implementation, auth, p0]
+tags: [auth, p0]
 ---
 # >>> dashboard-meta
 # AUTH-F-01 — On Forgot Password, submitting a registered email opens Recovery Code and emails the user a 5-digit code
@@ -12,7 +12,19 @@ tags: [needs-implementation, auth, p0]
 # 3. Verify a loading overlay flashes, then Recovery Code opens. Within 1–2 minutes the inbox receives a 5-digit code.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
-- runFlow: ../common/_reset_data.yaml
-- runFlow: ../common/_open_app.yaml
+- launchApp:
+    clearState: true
+    clearKeychain: true
+    stopApp: true
+- assertVisible: { id: "welcome.title" }
+- tapOn: { id: "welcome.have-account-login" }
+- tapOn: { id: "auth-sheet.signin-with-password" }
+- assertVisible: { id: "login.title" }
+- tapOn: { id: "login.forgot-password-link" }
+- assertVisible: { id: "forgot-password.title" }
+- tapOn: { id: "forgot-password.email-field" }
+- inputText: ${TEST_EMAIL}
+- hideKeyboard
+- tapOn: { id: "forgot-password.send-code-button" }
+- assertVisible: { id: "recovery-code.title" }
+- assertVisible: { id: "recovery-code.cell.0" }

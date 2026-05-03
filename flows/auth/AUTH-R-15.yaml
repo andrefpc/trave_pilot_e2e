@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: AUTH-R-15
-tags: [needs-implementation, auth, p1]
+tags: [auth, p1]
 ---
 # >>> dashboard-meta
 # AUTH-R-15 — Tapping the "Terms of Service" link on Register opens the terms page in a browser/Custom Tab
@@ -12,7 +12,18 @@ tags: [needs-implementation, auth, p1]
 # 3. Verify Chrome Custom Tabs (or the system browser) opens the live terms page.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
-- runFlow: ../common/_reset_data.yaml
-- runFlow: ../common/_open_app.yaml
+- launchApp:
+    clearState: true
+    clearKeychain: true
+    stopApp: true
+- openLink: travelpilot://register
+- assertVisible: { id: "register.title" }
+- scrollUntilVisible:
+    element: { id: "register.terms-link" }
+    direction: DOWN
+- tapOn: { id: "register.terms-link" }
+# A Custom Tab opens above the app — the in-app Register screen is no longer
+# the foreground composition. Verify by asserting the URL bar artifact the
+# Custom Tab exposes (test hook) or that the in-app title is no longer visible.
+- assertNotVisible: { id: "register.title" }
+- assertVisible: { id: "external-browser.url-bar" }

@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: FD-03
-tags: [needs-implementation, feed, p2]
+tags: [feed, p2]
 ---
 # >>> dashboard-meta
 # FD-03 — When ad loading fails, the Feed section is empty / skipped without crashing
@@ -11,7 +11,19 @@ tags: [needs-implementation, feed, p2]
 # 2. Verify cards still render; the "Ad" rows are absent or empty; no crash.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
+# Simulate ad-blocking by toggling airplane mode for the AdMob fetch.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_FREE_EMAIL}
+      TEST_PASSWORD: ${TEST_FREE_PASSWORD}
+- toggleAirplaneMode
+- tapOn: { id: "home.tab.feed" }
+- toggleAirplaneMode
+- waitForAnimationToEnd:
+    timeout: 8000
+- assertVisible: { id: "feed.list" }
+- assertVisible: { id: "feed.recommendation-card.0" }
+- assertNotVisible: { id: "feed.ad-card.0" }

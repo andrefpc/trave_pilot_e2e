@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: WZ-B-04
-tags: [needs-implementation, wizard, p2]
+tags: [wizard, p2]
 ---
 # >>> dashboard-meta
 # WZ-B-04 — Selecting a level on a Budget card auto-scrolls to the next category card
@@ -11,7 +11,13 @@ tags: [needs-implementation, wizard, p2]
 # 2. Verify the screen smoothly scrolls so the next card (Food) is now visible.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- assertVisible: { id: "welcome.title" }
+- tapOn: { id: "welcome.create-plan-button" }
+- runFlow: _walk_to_budget.yaml
+- assertVisible: { id: "wizard.budget.card.accommodation" }
+- tapOn: { id: "wizard.budget.card.accommodation.low" }
+- waitForAnimationToEnd:
+    timeout: 3000
+- assertVisible: { id: "wizard.budget.card.food" }

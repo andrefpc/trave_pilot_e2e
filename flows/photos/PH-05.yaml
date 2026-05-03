@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: PH-05
-tags: [needs-implementation, photos, p1]
+tags: [photos, p1]
 ---
 # >>> dashboard-meta
 # PH-05 — Long-press → Share on a Gallery photo opens the system share chooser via FileProvider
@@ -11,7 +11,19 @@ tags: [needs-implementation, photos, p1]
 # 2. Verify the system share chooser appears with the image attached via FileProvider.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.profile" }
+- tapOn: { id: "profile.gallery-link" }
+- assertVisible: { id: "photos.image.0" }
+- longPressOn: { id: "photos.image.0" }
+- assertVisible: { id: "photos.context-menu" }
+- tapOn: { id: "photos.context-menu.share" }
+- waitForAnimationToEnd:
+    timeout: 5000
+- assertVisible: { id: "photos.share-chooser" }

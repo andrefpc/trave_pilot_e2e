@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: AUTH-W-04
-tags: [needs-implementation, auth, p0]
+tags: [auth, p0]
 ---
 # >>> dashboard-meta
 # AUTH-W-04 — Tapping "Sign in with Google" on Welcome opens the Credential Manager picker; choosing an account lands on Home
@@ -13,7 +13,20 @@ tags: [needs-implementation, auth, p0]
 # 4. Verify a loading overlay shows briefly, then Home opens.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
-- runFlow: ../common/_reset_data.yaml
-- runFlow: ../common/_open_app.yaml
+# Maestro can't drive the system Credential Manager directly. We assert the
+# in-app trigger fires the picker, then drive the dev-build hook
+# `test.google-auth.confirm-account` to simulate a successful account pick.
+- launchApp:
+    clearState: true
+    clearKeychain: true
+    stopApp: true
+- assertVisible: { id: "welcome.title" }
+- tapOn: { id: "welcome.have-account-login" }
+- tapOn: { id: "auth-sheet.signin-with-google" }
+- assertVisible: { id: "google-auth.picker" }
+- runFlow:
+    when:
+      visible: { id: "test.google-auth.confirm-account" }
+    commands:
+      - tapOn: { id: "test.google-auth.confirm-account" }
+- assertVisible: { id: "home.tab-bar" }

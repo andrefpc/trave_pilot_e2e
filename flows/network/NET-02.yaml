@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: NET-02
-tags: [needs-implementation, network, p0]
+tags: [network, p0]
 ---
 # >>> dashboard-meta
 # NET-02 — Toggling airplane mode mid-screen shows an error with Retry; reconnecting + Retry resumes
@@ -13,7 +13,22 @@ tags: [needs-implementation, network, p0]
 # 4. Disable airplane and tap Retry — verify data loads.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.home" }
+- assertVisible: { id: "home.plan-header" }
+- toggleAirplaneMode
+- tapOn: { id: "home.refresh-button" }
+- assertVisible: { id: "home.no-internet-banner" }
+- assertVisible: { id: "home.no-internet-banner.retry-button" }
+- toggleAirplaneMode
+- tapOn: { id: "home.no-internet-banner.retry-button" }
+- waitForAnimationToEnd:
+    timeout: 5000
+- assertNotVisible: { id: "home.no-internet-banner" }
+- assertVisible: { id: "home.plan-header" }

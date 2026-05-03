@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: PH-03
-tags: [needs-implementation, photos, p0]
+tags: [photos, p0]
 ---
 # >>> dashboard-meta
 # PH-03 — Selecting multiple photos uploads each via POST /milestones; all appear in the grid
@@ -12,7 +12,28 @@ tags: [needs-implementation, photos, p0]
 # 3. Verify three POST /milestones requests fire and all three photos appear in the grid.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.profile" }
+- tapOn: { id: "profile.gallery-link" }
+- tapOn: { id: "photos.upload-button" }
+- waitForAnimationToEnd:
+    timeout: 5000
+- tapOn: { id: "photos.system-picker.image.0" }
+- tapOn: { id: "photos.system-picker.image.1" }
+- tapOn: { id: "photos.system-picker.image.2" }
+- tapOn: { id: "photos.system-picker.confirm-button" }
+- assertVisible: { id: "photos.upload-sheet.title" }
+- tapOn: { id: "photos.upload-sheet.send-button" }
+- assertVisible: { id: "photos.upload.progress" }
+- waitForAnimationToEnd:
+    timeout: 15000
+- assertVisible: { id: "photos.upload.success-snackbar" }
+- assertVisible: { id: "photos.image.0" }
+- assertVisible: { id: "photos.image.1" }
+- assertVisible: { id: "photos.image.2" }

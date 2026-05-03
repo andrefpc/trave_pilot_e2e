@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: TK-13
-tags: [needs-implementation, tickets, p1]
+tags: [tickets, p1]
 ---
 # >>> dashboard-meta
 # TK-13 — Uploading a >10 MB PDF either uploads (with a warning) or shows a clear "File too large" error
@@ -12,7 +12,32 @@ tags: [needs-implementation, tickets, p1]
 # 3. Verify either upload completes (possibly slowly) or an error like "File size exceeds 10MB limit" appears.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.tickets" }
+- tapOn: { id: "tickets.add-button" }
+- waitForAnimationToEnd:
+    timeout: 5000
+- tapOn: { id: "tickets.document-picker.file.large-pdf" }
+- assertVisible: { id: "tickets.upload-sheet.title" }
+- tapOn: { id: "tickets.upload-sheet.upload-button" }
+- waitForAnimationToEnd:
+    timeout: 30000
+- runFlow:
+    when:
+      visible:
+        id: "tickets.upload.file-too-large-error"
+    commands:
+      - assertVisible: { id: "tickets.upload.file-too-large-error" }
+- runFlow:
+    when:
+      visible:
+        id: "tickets.upload.success-snackbar"
+    commands:
+      - assertVisible: { id: "tickets.upload.success-snackbar" }
+      - assertVisible: { id: "tickets.ticket-card.0" }

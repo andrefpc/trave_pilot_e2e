@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: ITV-11
-tags: [needs-implementation, itinerary, p1]
+tags: [itinerary, p1]
 ---
 # >>> dashboard-meta
 # ITV-11 — Hotel check-in and check-out stops are auto-inserted on the appropriate days
@@ -12,7 +12,23 @@ tags: [needs-implementation, itinerary, p1]
 # 3. Switch to the last day → verify "Check out of hotel" appears at the end.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.travel-plans" }
+- tapOn: { id: "plans.plan-card.0" }
+- assertVisible: { id: "itinerary.day-tab.0" }
+- tapOn: { id: "itinerary.day-tab.0" }
+- assertVisible: { id: "itinerary.stop.0.type.hotel-checkin" }
+- scrollUntilVisible:
+    element: { id: "itinerary.day-tab.last" }
+    direction: RIGHT
+- tapOn: { id: "itinerary.day-tab.last" }
+- scrollUntilVisible:
+    element: { id: "itinerary.stop.last" }
+    direction: DOWN
+- assertVisible: { id: "itinerary.stop.last.type.hotel-checkout" }

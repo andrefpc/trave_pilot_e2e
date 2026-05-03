@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: PLANS-12
-tags: [needs-implementation, plans, p1]
+tags: [plans, p1]
 ---
 # >>> dashboard-meta
 # PLANS-12 — The "+ Create a new Plan" button on Travel Plans opens the Destination wizard step
@@ -11,7 +11,18 @@ tags: [needs-implementation, plans, p1]
 # 2. Verify the wizard opens at Destination.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.travel-plans" }
+- assertVisible: { id: "plans.list" }
+- scrollUntilVisible:
+    element: { id: "plans.create-button" }
+    direction: DOWN
+- tapOn: { id: "plans.create-button" }
+- assertVisible: { id: "wizard.step-1.title" }
+- assertVisible: { id: "wizard.step-1.destination-field" }

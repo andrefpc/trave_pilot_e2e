@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: NOT-10
-tags: [needs-implementation, notifications, p1]
+tags: [notifications, p1]
 ---
 # >>> dashboard-meta
 # NOT-10 — Tapping an unread notification in the in-app list marks it read via PATCH /notifications/:id
@@ -12,7 +12,17 @@ tags: [needs-implementation, notifications, p1]
 # 3. Verify a PATCH /notifications/:id is_read=true fires and the row no longer renders bold.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.notifications" }
+- assertVisible: { id: "notifications.list" }
+- assertVisible: { id: "notifications.notification.0.unread-indicator" }
+- tapOn: { id: "notifications.notification.0" }
+- pressKey: "back"
+- assertVisible: { id: "notifications.list" }
+- assertNotVisible: { id: "notifications.notification.0.unread-indicator" }

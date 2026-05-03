@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: PH-09
-tags: [needs-implementation, photos, p2]
+tags: [photos, p2]
 ---
 # >>> dashboard-meta
 # PH-09 — A user with no photos on Gallery sees an empty illustration and an "Add Photo" CTA
@@ -12,7 +12,15 @@ tags: [needs-implementation, photos, p2]
 # 3. Verify the empty state with title (e.g. "No photos yet") and a primary "Add Photo" button is shown.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_FREE_EMAIL}
+      TEST_PASSWORD: ${TEST_FREE_PASSWORD}
+- tapOn: { id: "home.tab.profile" }
+- tapOn: { id: "profile.gallery-link" }
+- assertVisible: { id: "photos.empty-state" }
+- assertVisible: { id: "photos.empty-state.title" }
+- assertVisible: { id: "photos.empty-state.add-button" }

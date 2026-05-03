@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: TK-10
-tags: [needs-implementation, tickets, p0]
+tags: [tickets, p0]
 ---
 # >>> dashboard-meta
 # TK-10 — Sharing a PDF from another app opens Travel Pilot with the PDF ready to upload
@@ -12,7 +12,22 @@ tags: [needs-implementation, tickets, p0]
 # 3. Tap Save to trip — POST /tickets uploads the PDF.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- openLink: ${SHARE_INTENT_PDF_URL}
+- waitForAnimationToEnd:
+    timeout: 5000
+- assertVisible: { id: "tickets.upload-sheet.title" }
+- assertVisible: { id: "tickets.upload-sheet.preview.pdf" }
+- tapOn: { id: "tickets.upload-sheet.save-button" }
+- waitForAnimationToEnd:
+    timeout: 15000
+- assertVisible: { id: "tickets.upload.success-snackbar" }
+- tapOn: { id: "home.tab.tickets" }
+- assertVisible: { id: "tickets.ticket-card.0" }
+- assertVisible: { id: "tickets.ticket-card.0.type-badge.pdf" }

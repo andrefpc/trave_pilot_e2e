@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: SMK-05
-tags: [needs-implementation, smk, p0]
+tags: [smk, p0]
 ---
 # >>> dashboard-meta
 # SMK-05 — AI plan generation reaches 100% and auto-navigates to Home with the itinerary
@@ -13,7 +13,38 @@ tags: [needs-implementation, smk, p0]
 # 4. Tap "Let's Go!" and verify Home appears with day cards, weather, and the world map.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
-- runFlow: ../common/_open_app.yaml
+- launchApp:
+    clearState: true
+    clearKeychain: true
+    stopApp: true
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_EMAIL}
+      TEST_PASSWORD: ${TEST_PASSWORD}
+- tapOn: { id: "home.tab.travel-plans" }
+- tapOn: { id: "travel-plans.add-button" }
+- assertVisible: { id: "wizard.destination.title" }
+- tapOn: { id: "wizard.destination.next-button" }
+- tapOn: { id: "wizard.walking-style.next-button" }
+- tapOn: { id: "wizard.companions.next-button" }
+- tapOn: { id: "wizard.day-schedule.next-button" }
+- tapOn: { id: "wizard.meal-time.next-button" }
+- tapOn: { id: "wizard.budget.next-button" }
+- tapOn: { id: "wizard.places-of-interest.next-button" }
+- tapOn: { id: "wizard.restaurants.next-button" }
+- tapOn: { id: "wizard.where-to-stay.next-button" }
+- tapOn: { id: "wizard.travel-times.next-button" }
+- assertVisible: { id: "wizard.complete-onboarding.title" }
+- tapOn: { id: "wizard.complete-onboarding.generate-plan-button" }
+- assertVisible: { id: "plan-generation.progress" }
+- extendedWaitUntil:
+    visible: { id: "plan-generation.lets-go-button" }
+    timeout: 600000
+- assertVisible: { id: "plan-generation.percent-label" }
+- tapOn: { id: "plan-generation.lets-go-button" }
+- assertVisible: { id: "home.tab-bar" }
+- assertVisible: { id: "home.day-card.0" }
+- assertVisible: { id: "home.weather-widget" }
+- assertVisible: { id: "home.world-map" }

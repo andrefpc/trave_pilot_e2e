@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: WZ-D-14
-tags: [needs-implementation, wizard, p1]
+tags: [wizard, p1]
 ---
 # >>> dashboard-meta
 # WZ-D-14 — Premium user can create a second, third, etc. plan without seeing the paywall
@@ -12,7 +12,31 @@ tags: [needs-implementation, wizard, p1]
 # 3. Verify each plan creation succeeds with no Premium bottom sheet.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- assertVisible: { id: "home.tab-bar" }
+- tapOn: { id: "home.tab.travel-plans" }
+- tapOn: { id: "welcome.create-plan-button" }
+- assertVisible: { id: "wizard.destination.title" }
+- tapOn: { id: "wizard.destination.origin-field" }
+- inputText: "Paris"
+- waitForAnimationToEnd:
+    timeout: 5000
+- tapOn: { id: "wizard.destination.origin-suggestion.0" }
+- tapOn: { id: "wizard.destination.departure-field" }
+- tapOn: { id: "wizard.destination.date-picker.ok-button" }
+- tapOn: { id: "wizard.destination.return-field" }
+- tapOn: { id: "wizard.destination.date-picker.ok-button" }
+- tapOn: { id: "wizard.destination.card.0.city-field" }
+- inputText: "Rome"
+- waitForAnimationToEnd:
+    timeout: 5000
+- tapOn: { id: "wizard.destination.card.0.city-suggestion.0" }
+- tapOn: { id: "wizard.destination.next-button" }
+- assertNotVisible: { id: "premium.bottom-sheet.title" }
+- assertNotVisible: { id: "wizard.destination.title" }

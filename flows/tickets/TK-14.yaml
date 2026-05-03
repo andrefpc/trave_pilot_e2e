@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: TK-14
-tags: [needs-implementation, tickets, p1]
+tags: [tickets, p1]
 ---
 # >>> dashboard-meta
 # TK-14 — Losing network mid ticket upload shows an error snackbar with Retry; Retry succeeds when reconnected
@@ -13,7 +13,26 @@ tags: [needs-implementation, tickets, p1]
 # 4. Toggle airplane off and tap Retry — upload completes; ticket appears.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.tickets" }
+- tapOn: { id: "tickets.add-button" }
+- waitForAnimationToEnd:
+    timeout: 5000
+- tapOn: { id: "tickets.document-picker.file.pdf" }
+- tapOn: { id: "tickets.upload-sheet.upload-button" }
+- assertVisible: { id: "tickets.upload.progress" }
+- toggleAirplaneMode
+- assertVisible: { id: "tickets.upload.error-snackbar" }
+- assertVisible: { id: "tickets.upload.error-snackbar.retry-button" }
+- toggleAirplaneMode
+- tapOn: { id: "tickets.upload.error-snackbar.retry-button" }
+- waitForAnimationToEnd:
+    timeout: 15000
+- assertVisible: { id: "tickets.upload.success-snackbar" }
+- assertVisible: { id: "tickets.ticket-card.0" }

@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: WZ-MT-05
-tags: [needs-implementation, wizard, p2]
+tags: [wizard, p2]
 ---
 # >>> dashboard-meta
 # WZ-MT-05 — Skipping all four meals on Meal Time is allowed by the client; the server enforces the minimum
@@ -11,7 +11,34 @@ tags: [needs-implementation, wizard, p2]
 # 2. Verify Next remains enabled and tapping it goes to Budget — the server may reject if its policy requires ≥1 meal.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- assertVisible: { id: "welcome.title" }
+- tapOn: { id: "welcome.create-plan-button" }
+- runFlow: ../common/_wizard_fill_destination.yaml
+- assertVisible: { id: "wizard.walking-style.title" }
+- tapOn: { id: "wizard.walking-style.option.moderate" }
+- tapOn: { id: "wizard.walking-style.next-button" }
+- assertVisible: { id: "wizard.companions.title" }
+- tapOn: { id: "wizard.companions.next-button" }
+- assertVisible: { id: "wizard.day-schedule.title" }
+- scrollUntilVisible:
+    element: { id: "wizard.day-schedule.next-button" }
+    direction: DOWN
+- tapOn: { id: "wizard.day-schedule.next-button" }
+- assertVisible: { id: "wizard.meal-time.title" }
+- tapOn: { id: "wizard.meal-time.card.breakfast.skip" }
+- tapOn: { id: "wizard.meal-time.card.lunch.skip" }
+- scrollUntilVisible:
+    element: { id: "wizard.meal-time.card.coffee-break.skip" }
+    direction: DOWN
+- tapOn: { id: "wizard.meal-time.card.coffee-break.skip" }
+- scrollUntilVisible:
+    element: { id: "wizard.meal-time.card.dinner.skip" }
+    direction: DOWN
+- tapOn: { id: "wizard.meal-time.card.dinner.skip" }
+- scrollUntilVisible:
+    element: { id: "wizard.meal-time.next-button" }
+    direction: DOWN
+- tapOn: { id: "wizard.meal-time.next-button" }
+- assertVisible: { id: "wizard.budget.title" }

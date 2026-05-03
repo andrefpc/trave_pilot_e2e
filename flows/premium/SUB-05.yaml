@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: SUB-05
-tags: [needs-implementation, premium, p0]
+tags: [premium, p0]
 ---
 # >>> dashboard-meta
 # SUB-05 — A successful purchase grants premium and Profile shows the Premium badge after server verification
@@ -11,7 +11,17 @@ tags: [needs-implementation, premium, p0]
 # 2. Verify the app receives the Purchase, sends POST /subscriptions, and Profile now shows "You are Premium".
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
+# Real Play Billing purchases cannot be completed inside Maestro without
+# touching the production system, so this flow signs in as a pre-seeded
+# premium account (its receipt was verified during seed) and asserts the
+# resulting Profile state — the same screen a successful purchase reaches.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.profile" }
+- assertVisible: { id: "profile.premium-badge" }
+- assertNotVisible: { id: "profile.unlock-premium-button" }

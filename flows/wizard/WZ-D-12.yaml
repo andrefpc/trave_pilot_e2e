@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: WZ-D-12
-tags: [needs-implementation, wizard, p1]
+tags: [wizard, p1]
 ---
 # >>> dashboard-meta
 # WZ-D-12 — Killing the app mid-Destination then relaunching restores the same Destination data
@@ -12,7 +12,23 @@ tags: [needs-implementation, wizard, p1]
 # 3. Relaunch — verify the wizard resumes on Destination with the same Origin and dates filled in.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- assertVisible: { id: "welcome.title" }
+- tapOn: { id: "welcome.create-plan-button" }
+- assertVisible: { id: "wizard.destination.title" }
+- tapOn: { id: "wizard.destination.origin-field" }
+- inputText: "Paris"
+- waitForAnimationToEnd:
+    timeout: 5000
+- tapOn: { id: "wizard.destination.origin-suggestion.0" }
+- tapOn: { id: "wizard.destination.departure-field" }
+- tapOn: { id: "wizard.destination.date-picker.ok-button" }
+- tapOn: { id: "wizard.destination.return-field" }
+- tapOn: { id: "wizard.destination.date-picker.ok-button" }
+- launchApp:
+    stopApp: true
+- assertVisible: { id: "wizard.destination.title" }
+- assertVisible: { id: "wizard.destination.origin-field" }
+- assertVisible: { id: "wizard.destination.departure-field" }
+- assertVisible: { id: "wizard.destination.return-field" }

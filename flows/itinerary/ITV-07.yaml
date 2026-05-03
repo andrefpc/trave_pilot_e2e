@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: ITV-07
-tags: [needs-implementation, itinerary, p1]
+tags: [itinerary, p1]
 ---
 # >>> dashboard-meta
 # ITV-07 — On a stop card, the edit/ticket/restaurant action buttons let the user manage the stop
@@ -12,7 +12,19 @@ tags: [needs-implementation, itinerary, p1]
 # 3. Each button reacts to tap (does not silently fail).
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.travel-plans" }
+- tapOn: { id: "plans.plan-card.0" }
+- tapOn: { id: "itinerary.stop.meal.0" }
+- assertVisible: { id: "place-detail.sheet" }
+- assertVisible: { id: "place-detail.action.edit" }
+- assertVisible: { id: "place-detail.action.add-ticket" }
+- assertVisible: { id: "place-detail.action.find-restaurant" }
+- tapOn: { id: "place-detail.action.find-restaurant" }
+- assertVisible: { id: "place-search.sheet" }

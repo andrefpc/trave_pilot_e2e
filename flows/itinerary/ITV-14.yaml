@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: ITV-14
-tags: [needs-implementation, itinerary, p2]
+tags: [itinerary, p2]
 ---
 # >>> dashboard-meta
 # ITV-14 — A long place description in the detail sheet scrolls smoothly inside the sheet
@@ -12,7 +12,19 @@ tags: [needs-implementation, itinerary, p2]
 # 3. Verify all text is reachable, no truncation, no overflow into other sections.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.travel-plans" }
+- tapOn: { id: "plans.plan-card.0" }
+- tapOn: { id: "itinerary.stop.0" }
+- assertVisible: { id: "place-detail.sheet" }
+- assertVisible: { id: "place-detail.description" }
+- scrollUntilVisible:
+    element: { id: "place-detail.description.end-marker" }
+    direction: DOWN
+- assertVisible: { id: "place-detail.description.end-marker" }

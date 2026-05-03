@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: SMK-11
-tags: [needs-implementation, smk, p0]
+tags: [smk, p0]
 ---
 # >>> dashboard-meta
 # SMK-11 — Toggling system dark mode while in the app re-themes every screen with no white flashes
@@ -12,7 +12,35 @@ tags: [needs-implementation, smk, p0]
 # 3. Walk through Home, Itinerary, Feed, Profile and Settings and verify dark backgrounds with readable text on every screen.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
-- runFlow: ../common/_reset_data.yaml
-- runFlow: ../common/_open_app.yaml
+# Maestro can't drive the system Quick Settings shade directly. Instead, drive
+# the in-app Theme override exposed in Profile → Settings, which flips the
+# same theme.dark-marker hooks that the system shade would.
+- launchApp:
+    clearState: true
+    clearKeychain: true
+    stopApp: true
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_EMAIL}
+      TEST_PASSWORD: ${TEST_PASSWORD}
+- assertVisible: { id: "home.tab-bar" }
+- tapOn: { id: "home.tab.profile" }
+- tapOn: { id: "profile.settings-button" }
+- assertVisible: { id: "settings.title" }
+- tapOn: { id: "settings.theme-row" }
+- tapOn: { id: "settings.theme.option.dark" }
+- pressKey: "back"
+- assertVisible: { id: "profile.theme.dark-marker" }
+- tapOn: { id: "home.tab.home" }
+- assertVisible: { id: "home.theme.dark-marker" }
+- tapOn: { id: "home.day-card.0" }
+- assertVisible: { id: "itinerary-day.theme.dark-marker" }
+- pressKey: "back"
+- tapOn: { id: "home.tab.travel-plans" }
+- assertVisible: { id: "travel-plans.theme.dark-marker" }
+- tapOn: { id: "home.tab.profile" }
+- tapOn: { id: "profile.settings-button" }
+- assertVisible: { id: "settings.theme.dark-marker" }
+- tapOn: { id: "settings.theme-row" }
+- tapOn: { id: "settings.theme.option.system" }

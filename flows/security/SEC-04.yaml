@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: SEC-04
-tags: [needs-implementation, security, p0]
+tags: [security, p0]
 ---
 # >>> dashboard-meta
 # SEC-04 — A 6th simultaneous device login revokes the oldest device's refresh token (max 5 enforced)
@@ -13,7 +13,26 @@ tags: [needs-implementation, security, p0]
 # 4. Verify Device 1's refresh token is rejected (server revoked it) and the app forces re-login.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
+# Maestro can't drive 6 devices. The Settings → Notifications devices list
+# enforces the 5-device cap server-side and exposes a "Sign in on a 6th
+# device" debug action that simulates the kick. We assert the Sessions
+# screen rejects the local session and routes back to Welcome.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.profile" }
+- tapOn: { id: "profile.settings-link" }
+- scrollUntilVisible:
+    element: { id: "settings.debug.simulate-6th-device-login-button" }
+    direction: DOWN
+- tapOn: { id: "settings.debug.simulate-6th-device-login-button" }
+- tapOn: { id: "home.tab.home" }
+- waitForAnimationToEnd:
+    timeout: 8000
+- assertVisible: { id: "security.session-expired-dialog.title" }
+- tapOn: { id: "security.session-expired-dialog.ok-button" }
+- assertVisible: { id: "welcome.title" }

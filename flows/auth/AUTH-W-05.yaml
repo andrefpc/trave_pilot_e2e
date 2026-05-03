@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: AUTH-W-05
-tags: [needs-implementation, auth, p1]
+tags: [auth, p1]
 ---
 # >>> dashboard-meta
 # AUTH-W-05 — Dismissing the Google account picker on Welcome closes it with no crash and no error toast
@@ -12,7 +12,19 @@ tags: [needs-implementation, auth, p1]
 # 3. Verify the app stays on Welcome with the bottom sheet still visible (or closed) and no error dialog/toast appears.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
-- runFlow: ../common/_reset_data.yaml
-- runFlow: ../common/_open_app.yaml
+- launchApp:
+    clearState: true
+    clearKeychain: true
+    stopApp: true
+- assertVisible: { id: "welcome.title" }
+- tapOn: { id: "welcome.have-account-login" }
+- tapOn: { id: "auth-sheet.signin-with-google" }
+- assertVisible: { id: "google-auth.picker" }
+- runFlow:
+    when:
+      visible: { id: "test.google-auth.cancel" }
+    commands:
+      - tapOn: { id: "test.google-auth.cancel" }
+- assertVisible: { id: "welcome.title" }
+- assertNotVisible: { id: "google-auth.error-dialog.title" }
+- assertNotVisible: { id: "global.error-toast" }

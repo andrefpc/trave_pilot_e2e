@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: WZ-D-01
-tags: [needs-implementation, wizard, p0]
+tags: [wizard, p0]
 ---
 # >>> dashboard-meta
 # WZ-D-01 — Typing 2+ characters into the Origin field shows a city dropdown with country flags
@@ -13,7 +13,14 @@ tags: [needs-implementation, wizard, p0]
 # 4. Verify a dropdown appears with city matches (e.g. Paris) each showing a country flag.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- assertVisible: { id: "welcome.title" }
+- tapOn: { id: "welcome.create-plan-button" }
+- assertVisible: { id: "wizard.destination.title" }
+- tapOn: { id: "wizard.destination.origin-field" }
+- inputText: "Pa"
+- waitForAnimationToEnd:
+    timeout: 5000
+- assertVisible: { id: "wizard.destination.origin-suggestion.0" }
+- assertVisible: { id: "wizard.destination.origin-suggestion.0.flag" }

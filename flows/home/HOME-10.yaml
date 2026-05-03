@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: HOME-10
-tags: [needs-implementation, home, p1]
+tags: [home, p1]
 ---
 # >>> dashboard-meta
 # HOME-10 — In dark mode, the weather icon on Home renders with proper contrast (no white box)
@@ -12,7 +12,18 @@ tags: [needs-implementation, home, p1]
 # 3. Verify the weather icon and temperature on each day card are clearly visible (no white-on-white squares).
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.profile" }
+- tapOn: { id: "profile.theme-row" }
+- tapOn: { id: "profile.theme.dark-option" }
+- tapOn: { id: "home.tab.home" }
+- assertVisible: { id: "home.theme.dark-mode" }
+- assertVisible: { id: "home.day-card.0.weather-icon" }
+- assertVisible: { id: "home.day-card.0.weather-icon.themed" }
+- assertVisible: { id: "home.day-card.0.temperature-label" }

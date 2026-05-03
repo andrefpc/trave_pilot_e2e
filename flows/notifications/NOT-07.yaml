@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: NOT-07
-tags: [needs-implementation, notifications, p0]
+tags: [notifications, p0]
 ---
 # >>> dashboard-meta
 # NOT-07 — On login, the app registers its FCM token via POST /notifications/devices
@@ -11,7 +11,19 @@ tags: [needs-implementation, notifications, p0]
 # 2. Inspect network — verify a POST /notifications/devices request fires with an FCM token in the body.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
+# Maestro can't read network traffic directly. We sign in fresh and verify
+# the in-app device registration screen reflects the registered device, which
+# is rendered iff POST /notifications/devices succeeded.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.profile" }
+- tapOn: { id: "profile.settings-link" }
+- tapOn: { id: "settings.notifications-row" }
+- assertVisible: { id: "settings.notifications.devices-section" }
+- assertVisible: { id: "settings.notifications.device.0" }
+- assertVisible: { id: "settings.notifications.device.0.this-device-badge" }

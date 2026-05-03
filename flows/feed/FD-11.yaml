@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: FD-11
-tags: [needs-implementation, feed, p1]
+tags: [feed, p1]
 ---
 # >>> dashboard-meta
 # FD-11 — Tapping a "Visit Website" link on a Feed card opens the partner site in a Custom Tab
@@ -11,7 +11,20 @@ tags: [needs-implementation, feed, p1]
 # 2. Verify a Chrome Custom Tab opens to the partner URL.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.feed" }
+- scrollUntilVisible:
+    element: { id: "feed.section.hotels.card.0" }
+    direction: DOWN
+- tapOn: { id: "feed.section.hotels.card.0" }
+- assertVisible: { id: "feed.detail.website-button" }
+- tapOn: { id: "feed.detail.website-button" }
+- waitForAnimationToEnd:
+    timeout: 5000
+- assertVisible: { id: "feed.custom-tab" }

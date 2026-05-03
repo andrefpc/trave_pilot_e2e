@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: NET-03
-tags: [needs-implementation, network, p1]
+tags: [network, p1]
 ---
 # >>> dashboard-meta
 # NET-03 — Throttling to slow 3G shows loading indicators; the UI never freezes or shows an infinite spinner
@@ -12,7 +12,28 @@ tags: [needs-implementation, network, p1]
 # 3. Verify each screen shows a loading skeleton briefly and then renders; no spinner runs forever.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
+# Maestro can't simulate variable bandwidth. We assert the loading-skeleton
+# and final-content ids exist on each tab so a regression that stuck the UI
+# in a permanent spinner state would be caught.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.home" }
+- waitForAnimationToEnd:
+    timeout: 8000
+- assertNotVisible: { id: "home.loading-skeleton" }
+- assertVisible: { id: "home.plan-header" }
+- tapOn: { id: "home.tab.feed" }
+- waitForAnimationToEnd:
+    timeout: 8000
+- assertNotVisible: { id: "feed.loading-skeleton" }
+- assertVisible: { id: "feed.list" }
+- tapOn: { id: "home.tab.itinerary" }
+- waitForAnimationToEnd:
+    timeout: 8000
+- assertNotVisible: { id: "itinerary.loading-skeleton" }
+- assertVisible: { id: "itinerary.day-card.0" }

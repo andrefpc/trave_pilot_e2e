@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: AUTH-F-10
-tags: [needs-implementation, auth, p0]
+tags: [auth, p0]
 ---
 # >>> dashboard-meta
 # AUTH-F-10 — Setting a valid new password on Reset Password returns to Login; you can sign in with the new password
@@ -13,7 +13,36 @@ tags: [needs-implementation, auth, p0]
 # 4. Sign in with the email and the new password — Home opens.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
-- runFlow: ../common/_open_app.yaml
+- launchApp:
+    clearState: true
+    clearKeychain: true
+    stopApp: true
+- assertVisible: { id: "welcome.title" }
+- tapOn: { id: "welcome.have-account-login" }
+- tapOn: { id: "auth-sheet.signin-with-password" }
+- tapOn: { id: "login.forgot-password-link" }
+- tapOn: { id: "forgot-password.email-field" }
+- inputText: ${TEST_EMAIL}
+- hideKeyboard
+- tapOn: { id: "forgot-password.send-code-button" }
+- assertVisible: { id: "recovery-code.title" }
+- copyTextFrom: { id: "test.recovery-code.last-issued" }
+- tapOn: { id: "recovery-code.cell.0" }
+- pasteText
+- tapOn: { id: "recovery-code.submit-button" }
+- assertVisible: { id: "reset-password.title" }
+- tapOn: { id: "reset-password.password-field" }
+- inputText: ${TEST_NEW_PASSWORD}
+- tapOn: { id: "reset-password.confirm-password-field" }
+- inputText: ${TEST_NEW_PASSWORD}
+- hideKeyboard
+- tapOn: { id: "reset-password.submit-button" }
+- assertVisible: { id: "login.title" }
+- tapOn: { id: "login.email-field" }
+- inputText: ${TEST_EMAIL}
+- tapOn: { id: "login.password-field" }
+- inputText: ${TEST_NEW_PASSWORD}
+- hideKeyboard
+- tapOn: { id: "login.submit-button" }
+- assertVisible: { id: "home.tab-bar" }

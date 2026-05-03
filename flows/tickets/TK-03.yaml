@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: TK-03
-tags: [needs-implementation, tickets, p0]
+tags: [tickets, p0]
 ---
 # >>> dashboard-meta
 # TK-03 — Picking a PDF and tapping "Upload ticket" sends POST /tickets and the ticket appears in the list
@@ -13,7 +13,22 @@ tags: [needs-implementation, tickets, p0]
 # 4. The new ticket card is now visible in the list.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.tickets" }
+- tapOn: { id: "tickets.add-button" }
+- waitForAnimationToEnd:
+    timeout: 5000
+- tapOn: { id: "tickets.document-picker.file.pdf" }
+- assertVisible: { id: "tickets.upload-sheet.title" }
+- tapOn: { id: "tickets.upload-sheet.upload-button" }
+- assertVisible: { id: "tickets.upload.progress" }
+- waitForAnimationToEnd:
+    timeout: 15000
+- assertVisible: { id: "tickets.upload.success-snackbar" }
+- assertVisible: { id: "tickets.ticket-card.0" }

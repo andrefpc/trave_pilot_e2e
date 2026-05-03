@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: SEC-06
-tags: [needs-implementation, security, p2]
+tags: [security, p2]
 ---
 # >>> dashboard-meta
 # SEC-06 — On a rooted device, the app either functions normally or shows a security warning per policy
@@ -12,7 +12,23 @@ tags: [needs-implementation, security, p2]
 # 3. Verify the app either works fully or shows a controlled warning; it does not crash.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
+# Maestro can't root the test device. Settings → About surfaces a
+# "root-detection-status" row; if the run is on a rooted device the
+# RootWarningDialog is also shown at launch. Either branch is acceptable —
+# we just verify the app reaches Home without a crash.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- runFlow:
+    when:
+      visible:
+        id: "security.root-warning-dialog.title"
+    commands:
+      - assertVisible: { id: "security.root-warning-dialog.acknowledge-button" }
+      - tapOn: { id: "security.root-warning-dialog.acknowledge-button" }
+- assertVisible: { id: "home.tab-bar" }
+- assertVisible: { id: "home.plan-header" }

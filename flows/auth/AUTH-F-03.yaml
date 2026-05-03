@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: AUTH-F-03
-tags: [needs-implementation, auth, p1]
+tags: [auth, p1]
 ---
 # >>> dashboard-meta
 # AUTH-F-03 — On Forgot Password, "xxx" in the email field shows "Invalid email address" inline; no email is sent
@@ -12,7 +12,20 @@ tags: [needs-implementation, auth, p1]
 # 3. Verify "Invalid email address" appears under the field and no request goes out.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
-- runFlow: ../common/_reset_data.yaml
-- runFlow: ../common/_open_app.yaml
+- launchApp:
+    clearState: true
+    clearKeychain: true
+    stopApp: true
+- assertVisible: { id: "welcome.title" }
+- tapOn: { id: "welcome.have-account-login" }
+- tapOn: { id: "auth-sheet.signin-with-password" }
+- assertVisible: { id: "login.title" }
+- tapOn: { id: "login.forgot-password-link" }
+- assertVisible: { id: "forgot-password.title" }
+- tapOn: { id: "forgot-password.email-field" }
+- inputText: "xxx"
+- hideKeyboard
+- tapOn: { id: "forgot-password.send-code-button" }
+- assertVisible: { id: "forgot-password.email-field.error" }
+- assertNotVisible: { id: "recovery-code.title" }
+- assertNotVisible: { id: "forgot-password.loading-overlay" }

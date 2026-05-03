@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: WZ-D-11
-tags: [needs-implementation, wizard, p0]
+tags: [wizard, p0]
 ---
 # >>> dashboard-meta
 # WZ-D-11 — The "Next" button on Destination is disabled until origin, dates and at least one destination are filled
@@ -13,7 +13,31 @@ tags: [needs-implementation, wizard, p0]
 # 4. Add a destination — Next becomes enabled.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- assertVisible: { id: "welcome.title" }
+- tapOn: { id: "welcome.create-plan-button" }
+- assertVisible: { id: "wizard.destination.title" }
+- assertVisible: { id: "wizard.destination.next-button" }
+- tapOn: { id: "wizard.destination.next-button" }
+- assertVisible: { id: "wizard.destination.title" }
+- tapOn: { id: "wizard.destination.origin-field" }
+- inputText: "Paris"
+- waitForAnimationToEnd:
+    timeout: 5000
+- tapOn: { id: "wizard.destination.origin-suggestion.0" }
+- tapOn: { id: "wizard.destination.next-button" }
+- assertVisible: { id: "wizard.destination.title" }
+- tapOn: { id: "wizard.destination.departure-field" }
+- tapOn: { id: "wizard.destination.date-picker.ok-button" }
+- tapOn: { id: "wizard.destination.return-field" }
+- tapOn: { id: "wizard.destination.date-picker.ok-button" }
+- tapOn: { id: "wizard.destination.next-button" }
+- assertVisible: { id: "wizard.destination.title" }
+- tapOn: { id: "wizard.destination.card.0.city-field" }
+- inputText: "Rome"
+- waitForAnimationToEnd:
+    timeout: 5000
+- tapOn: { id: "wizard.destination.card.0.city-suggestion.0" }
+- tapOn: { id: "wizard.destination.next-button" }
+- assertNotVisible: { id: "wizard.destination.title" }

@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: AUTH-R-14
-tags: [needs-implementation, auth, p2]
+tags: [auth, p2]
 ---
 # >>> dashboard-meta
 # AUTH-R-14 — A name with accents, apostrophe and hyphen (e.g. "José O'Connor-Müller") is accepted on Register
@@ -11,7 +11,25 @@ tags: [needs-implementation, auth, p2]
 # 2. Tap Create Account — registration succeeds and the Profile shows the same name verbatim.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
-- runFlow: ../common/_open_app.yaml
+- launchApp:
+    clearState: true
+    clearKeychain: true
+    stopApp: true
+- openLink: travelpilot://register
+- assertVisible: { id: "register.title" }
+- tapOn: { id: "register.name-field" }
+- inputText: "José O'Connor-Müller"
+- tapOn: { id: "register.email-field" }
+- inputText: ${TEST_NEW_EMAIL}
+- tapOn: { id: "register.password-field" }
+- inputText: "Password1!"
+- tapOn: { id: "register.confirm-password-field" }
+- inputText: "Password1!"
+- hideKeyboard
+- tapOn: { id: "register.create-account-button" }
+- assertVisible: { id: "home.tab-bar" }
+- tapOn: { id: "home.tab.profile" }
+- assertVisible:
+    id: "profile.user-name"
+    text: "José O'Connor-Müller"

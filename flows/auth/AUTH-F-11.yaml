@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: AUTH-F-11
-tags: [needs-implementation, auth, p0]
+tags: [auth, p0]
 ---
 # >>> dashboard-meta
 # AUTH-F-11 — After a password reset, any other device that was logged in is forced to sign in again on its next request
@@ -13,7 +13,23 @@ tags: [needs-implementation, auth, p0]
 # 4. Verify Device A returns to Welcome and requires a fresh login.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
+# Maestro drives a single device. To exercise "another device", we use the
+# debug hook that calls /api/v1/auth/reset-password directly with a seeded
+# token, simulating the second device completing the reset while we stay
+# logged in on this device.
 - runFlow: ../common/_reset_data.yaml
-- runFlow: ../common/_open_app.yaml
+- launchApp:
+    clearState: true
+    clearKeychain: true
+    stopApp: true
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_EMAIL}
+      TEST_PASSWORD: ${TEST_PASSWORD}
+- assertVisible: { id: "home.tab-bar" }
+- runScript:
+    file: ../../scripts/maestro-reset-password-other-device.js
+- tapOn: { id: "home.tab.travel-plans" }
+- assertVisible: { id: "welcome.title" }
+- assertNotVisible: { id: "home.tab-bar" }

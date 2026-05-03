@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: ITE-06
-tags: [needs-implementation, edit, p0]
+tags: [edit, p0]
 ---
 # >>> dashboard-meta
 # ITE-06 — On Rearrange, tapping "Add Stop" opens the search sheet; selecting a place adds it to the day
@@ -12,7 +12,25 @@ tags: [needs-implementation, edit, p0]
 # 3. Verify a POST /itinerary/:day_id/items fires and the new stop appears in the list.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.travel-plans" }
+- tapOn: { id: "plans.plan-card.0" }
+- tapOn: { id: "itinerary.toolbar.rearrange-button" }
+- assertVisible: { id: "itinerary-edit.screen" }
+- tapOn: { id: "itinerary-edit.add-stop-button" }
+- assertVisible: { id: "place-search.sheet" }
+- tapOn: { id: "place-search.input" }
+- inputText: "museum"
+- waitForAnimationToEnd:
+    timeout: 3000
+- tapOn: { id: "place-search.result.0" }
+- waitForAnimationToEnd:
+    timeout: 5000
+- assertVisible: { id: "itinerary-edit.snackbar.added" }
+- assertVisible: { id: "itinerary-edit.stop.last" }

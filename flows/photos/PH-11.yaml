@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: PH-11
-tags: [needs-implementation, photos, p1]
+tags: [photos, p1]
 ---
 # >>> dashboard-meta
 # PH-11 — On Android 13+, the photo picker opens directly with no permission prompt
@@ -11,7 +11,17 @@ tags: [needs-implementation, photos, p1]
 # 2. Verify the new system Photo Picker opens immediately, no permission dialog.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.profile" }
+- tapOn: { id: "profile.gallery-link" }
+- tapOn: { id: "photos.upload-button" }
+- waitForAnimationToEnd:
+    timeout: 5000
+- assertVisible: { id: "photos.system-picker" }
+- assertNotVisible: { id: "photos.permission-dialog" }

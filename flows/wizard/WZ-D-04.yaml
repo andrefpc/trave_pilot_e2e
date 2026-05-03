@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: WZ-D-04
-tags: [needs-implementation, wizard, p0]
+tags: [wizard, p0]
 ---
 # >>> dashboard-meta
 # WZ-D-04 — Tapping Departure date opens a Material3 date picker that lets you pick a date
@@ -13,7 +13,18 @@ tags: [needs-implementation, wizard, p0]
 # 4. Select today or any future date and tap OK — the field shows the picked date.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- assertVisible: { id: "welcome.title" }
+- tapOn: { id: "welcome.create-plan-button" }
+- assertVisible: { id: "wizard.destination.title" }
+- tapOn: { id: "wizard.destination.origin-field" }
+- inputText: "Paris"
+- waitForAnimationToEnd:
+    timeout: 5000
+- tapOn: { id: "wizard.destination.origin-suggestion.0" }
+- tapOn: { id: "wizard.destination.departure-field" }
+- assertVisible: { id: "wizard.destination.date-picker" }
+- tapOn: { id: "wizard.destination.date-picker.ok-button" }
+- assertNotVisible: { id: "wizard.destination.date-picker" }
+- assertVisible: { id: "wizard.destination.departure-field" }

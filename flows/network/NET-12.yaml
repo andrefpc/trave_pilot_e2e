@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: NET-12
-tags: [needs-implementation, network, p2]
+tags: [network, p2]
 ---
 # >>> dashboard-meta
 # NET-12 — When /proxy/google-photo fails, image places show a placeholder with no crash
@@ -12,7 +12,24 @@ tags: [needs-implementation, network, p2]
 # 3. Verify each image shows a generic placeholder; the screen remains interactive.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
+# Use the in-app debug toggle that disables the photo proxy, then verify the
+# itinerary stop card renders the placeholder image and remains tappable.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.profile" }
+- tapOn: { id: "profile.settings-link" }
+- scrollUntilVisible:
+    element: { id: "settings.debug.disable-photo-proxy-toggle" }
+    direction: DOWN
+- tapOn: { id: "settings.debug.disable-photo-proxy-toggle" }
+- tapOn: { id: "home.tab.itinerary" }
+- tapOn: { id: "itinerary.day-card.0" }
+- assertVisible: { id: "itinerary.stop-card.0" }
+- assertVisible: { id: "itinerary.stop-card.0.image-placeholder" }
+- tapOn: { id: "itinerary.stop-card.0" }
+- assertVisible: { id: "itinerary.stop-detail.title" }

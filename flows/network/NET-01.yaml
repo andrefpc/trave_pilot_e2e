@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: NET-01
-tags: [needs-implementation, network, p0]
+tags: [network, p0]
 ---
 # >>> dashboard-meta
 # NET-01 — Cold-launching offline shows cached data if available and offers a Retry; no crash
@@ -12,7 +12,19 @@ tags: [needs-implementation, network, p0]
 # 3. Verify cached screens render (if available) or the app shows an offline message with a Retry CTA — not a crash.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.home" }
+- assertVisible: { id: "home.plan-header" }
+- toggleAirplaneMode
+- launchApp:
+    stopApp: true
+- assertVisible: { id: "home.no-internet-banner" }
+- assertVisible: { id: "home.plan-header" }
+- assertVisible: { id: "home.no-internet-banner.retry-button" }
+- toggleAirplaneMode

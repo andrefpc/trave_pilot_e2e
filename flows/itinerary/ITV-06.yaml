@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: ITV-06
-tags: [needs-implementation, itinerary, p1]
+tags: [itinerary, p1]
 ---
 # >>> dashboard-meta
 # ITV-06 — Place photos in the detail sheet load through /proxy/google-photo (not direct Google URLs)
@@ -11,7 +11,17 @@ tags: [needs-implementation, itinerary, p1]
 # 2. Inspect image requests — verify they go to /proxy/google-photo (no direct googleusercontent.com).
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.travel-plans" }
+- tapOn: { id: "plans.plan-card.0" }
+- tapOn: { id: "itinerary.stop.0" }
+- assertVisible: { id: "place-detail.sheet" }
+- assertVisible: { id: "place-detail.photo-carousel" }
+- assertVisible: { id: "place-detail.photo.0" }
+- assertVisible: { id: "place-detail.photo.0.proxy-loaded" }

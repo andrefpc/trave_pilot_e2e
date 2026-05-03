@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: AUTH-W-03
-tags: [needs-implementation, auth, p1]
+tags: [auth, p1]
 ---
 # >>> dashboard-meta
 # AUTH-W-03 — Tapping "Have an account, Login" opens a bottom sheet with Google and password sign-in options
@@ -12,7 +12,17 @@ tags: [needs-implementation, auth, p1]
 # 3. Swipe down to dismiss — the sheet closes and Welcome remains.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
-- runFlow: ../common/_reset_data.yaml
-- runFlow: ../common/_open_app.yaml
+- launchApp:
+    clearState: true
+    clearKeychain: true
+    stopApp: true
+- assertVisible: { id: "welcome.title" }
+- tapOn: { id: "welcome.have-account-login" }
+- assertVisible: { id: "auth-sheet.title" }
+- assertVisible: { id: "auth-sheet.signin-with-google" }
+- assertVisible: { id: "auth-sheet.signin-with-password" }
+- swipe:
+    from: { id: "auth-sheet.title" }
+    direction: DOWN
+- assertNotVisible: { id: "auth-sheet.title" }
+- assertVisible: { id: "welcome.title" }

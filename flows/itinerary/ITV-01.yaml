@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: ITV-01
-tags: [needs-implementation, itinerary, p0]
+tags: [itinerary, p0]
 ---
 # >>> dashboard-meta
 # ITV-01 — Opening a plan loads every day with all stops and times in chronological order
@@ -12,7 +12,19 @@ tags: [needs-implementation, itinerary, p0]
 # 3. Verify the Itinerary screen shows day tabs at the top and all stops in time order on the active day.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.travel-plans" }
+- tapOn: { id: "plans.plan-card.0" }
+- assertVisible: { id: "itinerary.screen" }
+- assertVisible: { id: "itinerary.day-tab.0" }
+- assertVisible: { id: "itinerary.day-tab.1" }
+- assertVisible: { id: "itinerary.stop.0" }
+- assertVisible: { id: "itinerary.stop.0.time-label" }
+- assertVisible: { id: "itinerary.stop.1" }
+- assertVisible: { id: "itinerary.stop.1.time-label" }

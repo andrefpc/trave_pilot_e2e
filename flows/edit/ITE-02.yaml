@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: ITE-02
-tags: [needs-implementation, edit, p0]
+tags: [edit, p0]
 ---
 # >>> dashboard-meta
 # ITE-02 — A premium user tapping the Rearrange icon opens the Rearrange screen with a draggable list of stops
@@ -12,7 +12,18 @@ tags: [needs-implementation, edit, p0]
 # 3. Verify Rearrange Day opens with the day's stops in cards, each with a drag handle.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.travel-plans" }
+- tapOn: { id: "plans.plan-card.0" }
+- assertVisible: { id: "itinerary.screen" }
+- tapOn: { id: "itinerary.toolbar.rearrange-button" }
+- assertVisible: { id: "itinerary-edit.screen" }
+- assertVisible: { id: "itinerary-edit.stop.0" }
+- assertVisible: { id: "itinerary-edit.stop.0.drag-handle" }
+- assertVisible: { id: "itinerary-edit.stop.1.drag-handle" }

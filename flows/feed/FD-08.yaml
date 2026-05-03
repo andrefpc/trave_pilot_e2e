@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: FD-08
-tags: [needs-implementation, feed, p1]
+tags: [feed, p1]
 ---
 # >>> dashboard-meta
 # FD-08 — A free user reaching the 21st restaurant search in a day sees a rate-limit message with an Upgrade CTA
@@ -11,7 +11,25 @@ tags: [needs-implementation, feed, p1]
 # 2. On the 21st search, verify an inline error or sheet appears with the rate-limit copy and an Upgrade button leading to the paywall.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_FREE_EMAIL}
+      TEST_PASSWORD: ${TEST_FREE_PASSWORD}
+- tapOn: { id: "home.tab.feed" }
+- scrollUntilVisible:
+    element: { id: "feed.section.restaurants.search-button" }
+    direction: DOWN
+- repeat:
+    times: 20
+    commands:
+      - tapOn: { id: "feed.section.restaurants.search-button" }
+      - waitForAnimationToEnd:
+          timeout: 3000
+- tapOn: { id: "feed.section.restaurants.search-button" }
+- assertVisible: { id: "feed.rate-limit-sheet.title" }
+- assertVisible: { id: "feed.rate-limit-sheet.upgrade-button" }
+- tapOn: { id: "feed.rate-limit-sheet.upgrade-button" }
+- assertVisible: { id: "premium.bottom-sheet.title" }

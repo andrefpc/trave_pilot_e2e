@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: ITV-02
-tags: [needs-implementation, itinerary, p0]
+tags: [itinerary, p0]
 ---
 # >>> dashboard-meta
 # ITV-02 — Within a day, stops are ordered earliest-arrival first, with hotel check-in on top and check-out at the bottom
@@ -11,7 +11,20 @@ tags: [needs-implementation, itinerary, p0]
 # 2. Verify the first stop is hotel check-in or wake-up; later stops follow in time order; hotel check-out is last.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.travel-plans" }
+- tapOn: { id: "plans.plan-card.0" }
+- assertVisible: { id: "itinerary.screen" }
+- tapOn: { id: "itinerary.day-tab.0" }
+- assertVisible: { id: "itinerary.stop.0" }
+- assertVisible: { id: "itinerary.stop.0.type.hotel-checkin" }
+- scrollUntilVisible:
+    element: { id: "itinerary.stop.last" }
+    direction: DOWN
+- assertVisible: { id: "itinerary.stop.last.type.hotel-checkout" }

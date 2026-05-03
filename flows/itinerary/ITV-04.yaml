@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: ITV-04
-tags: [needs-implementation, itinerary, p1]
+tags: [itinerary, p1]
 ---
 # >>> dashboard-meta
 # ITV-04 — Each Itinerary day shows a weather badge with the day's forecast (icon + temperature)
@@ -12,7 +12,17 @@ tags: [needs-implementation, itinerary, p1]
 # 3. Verify a weather icon and a temperature in °C/°F appear.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.travel-plans" }
+- tapOn: { id: "plans.plan-card.0" }
+- assertVisible: { id: "itinerary.screen" }
+- assertVisible: { id: "itinerary.day-header" }
+- assertVisible: { id: "itinerary.weather-pill" }
+- assertVisible: { id: "itinerary.weather-pill.icon" }
+- assertVisible: { id: "itinerary.weather-pill.temperature-label" }

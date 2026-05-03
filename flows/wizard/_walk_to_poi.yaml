@@ -1,0 +1,11 @@
+appId: ${APP_ID}
+tags: [helper]
+---
+# Reusable: assumes wizard.destination.title is visible. Walks all the way
+# to Places of Interest and lands with wizard.places-of-interest.title visible.
+- runFlow: _walk_to_budget.yaml
+- scrollUntilVisible:
+    element: { id: "wizard.budget.next-button" }
+    direction: DOWN
+- tapOn: { id: "wizard.budget.next-button" }
+- assertVisible: { id: "wizard.places-of-interest.title" }

@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: SMK-01
-tags: [needs-implementation, smk, p0]
+tags: [smk, p0]
 ---
 # >>> dashboard-meta
 # SMK-01 — Cold-launching the app shows the splash screen with the compass animation, then opens Welcome or Home
@@ -12,7 +12,11 @@ tags: [needs-implementation, smk, p0]
 # 3. Verify the screen transitions to Welcome (if signed out) or Home (if signed in).
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
-- runFlow: ../common/_reset_data.yaml
-- runFlow: ../common/_open_app.yaml
+- launchApp:
+    clearState: true
+    clearKeychain: true
+    stopApp: true
+- assertVisible: { id: "splash.compass-logo" }
+- waitForAnimationToEnd:
+    timeout: 5000
+- assertVisible: { id: "welcome.title" }

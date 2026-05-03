@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: AUTH-S-03
-tags: [needs-implementation, auth, p1]
+tags: [auth, p1]
 ---
 # >>> dashboard-meta
 # AUTH-S-03 — An expired Google ID token is rejected by the server and an "Invalid/expired token" dialog is shown
@@ -12,7 +12,22 @@ tags: [needs-implementation, auth, p1]
 # 3. Verify an error dialog about an invalid or expired token appears; the user is not signed in.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
-- runFlow: ../common/_reset_data.yaml
-- runFlow: ../common/_open_app.yaml
+# Dev-build hook `googleAuthTokenMode=expired` makes the next Google sign-in
+# attempt mint an already-expired ID token before forwarding to the server.
+- launchApp:
+    clearState: true
+    clearKeychain: true
+    stopApp: true
+    arguments:
+      googleAuthTokenMode: "expired"
+- assertVisible: { id: "welcome.title" }
+- tapOn: { id: "welcome.have-account-login" }
+- tapOn: { id: "auth-sheet.signin-with-google" }
+- assertVisible: { id: "google-auth.picker" }
+- runFlow:
+    when:
+      visible: { id: "test.google-auth.confirm-account" }
+    commands:
+      - tapOn: { id: "test.google-auth.confirm-account" }
+- assertVisible: { id: "google-auth.invalid-token-dialog.title" }
+- assertNotVisible: { id: "home.tab-bar" }

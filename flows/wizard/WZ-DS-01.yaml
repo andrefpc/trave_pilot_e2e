@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: WZ-DS-01
-tags: [needs-implementation, wizard, p1]
+tags: [wizard, p1]
 ---
 # >>> dashboard-meta
 # WZ-DS-01 — Day Schedule shows one card per travel day labelled e.g. "Day 1 · Paris · Mon, Jan 15"
@@ -11,7 +11,21 @@ tags: [needs-implementation, wizard, p1]
 # 2. Verify there is one card per day; each shows day number, city name, and date in "Day N · City · Day-of-week, Month Day" format.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- assertVisible: { id: "welcome.title" }
+- tapOn: { id: "welcome.create-plan-button" }
+- runFlow: ../common/_wizard_fill_destination_two_cities.yaml
+# Walking Style → pick first option → Next
+- assertVisible: { id: "wizard.walking-style.title" }
+- tapOn: { id: "wizard.walking-style.option.moderate" }
+- tapOn: { id: "wizard.walking-style.next-button" }
+# Companions → defaults are valid → Next
+- assertVisible: { id: "wizard.companions.title" }
+- tapOn: { id: "wizard.companions.next-button" }
+# Day Schedule
+- assertVisible: { id: "wizard.day-schedule.title" }
+- assertVisible: { id: "wizard.day-schedule.day-card.0" }
+- assertVisible: { id: "wizard.day-schedule.day-card.0.label" }
+- assertVisible: { id: "wizard.day-schedule.day-card.1" }
+- assertVisible: { id: "wizard.day-schedule.day-card.1.label" }

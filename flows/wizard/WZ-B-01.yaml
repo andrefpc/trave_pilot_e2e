@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: WZ-B-01
-tags: [needs-implementation, wizard, p1]
+tags: [wizard, p1]
 ---
 # >>> dashboard-meta
 # WZ-B-01 — Budget shows six category cards: Accommodation, Food, Transportation, Attractions, Shopping, Night Life
@@ -11,7 +11,26 @@ tags: [needs-implementation, wizard, p1]
 # 2. Verify six cards in this order with banner images: Accommodation, Food, Transportation, Attractions, Shopping, Night Life.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- assertVisible: { id: "welcome.title" }
+- tapOn: { id: "welcome.create-plan-button" }
+- runFlow: _walk_to_budget.yaml
+- assertVisible: { id: "wizard.budget.card.accommodation" }
+- assertVisible: { id: "wizard.budget.card.food" }
+- scrollUntilVisible:
+    element: { id: "wizard.budget.card.transportation" }
+    direction: DOWN
+- assertVisible: { id: "wizard.budget.card.transportation" }
+- scrollUntilVisible:
+    element: { id: "wizard.budget.card.attractions" }
+    direction: DOWN
+- assertVisible: { id: "wizard.budget.card.attractions" }
+- scrollUntilVisible:
+    element: { id: "wizard.budget.card.shopping" }
+    direction: DOWN
+- assertVisible: { id: "wizard.budget.card.shopping" }
+- scrollUntilVisible:
+    element: { id: "wizard.budget.card.nightlife" }
+    direction: DOWN
+- assertVisible: { id: "wizard.budget.card.nightlife" }

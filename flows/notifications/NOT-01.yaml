@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: NOT-01
-tags: [needs-implementation, notifications, p0]
+tags: [notifications, p0]
 ---
 # >>> dashboard-meta
 # NOT-01 — On Android 13+, the first launch shows the system POST_NOTIFICATIONS permission dialog at the right moment
@@ -12,7 +12,19 @@ tags: [needs-implementation, notifications, p0]
 # 3. Verify the system permission dialog "Allow notifications?" appears.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.itinerary" }
+- assertVisible: { id: "itinerary.day-card.0" }
+- tapOn: { id: "itinerary.day-card.0" }
+- assertVisible: { id: "itinerary.stop-card.0" }
+- tapOn: { id: "itinerary.stop-card.0" }
+- tapOn: { id: "itinerary.stop-detail.schedule-reminder-button" }
+- assertVisible: { id: "notifications.permission-prompt" }
+- assertVisible: { id: "notifications.permission-prompt.allow-button" }
+- assertVisible: { id: "notifications.permission-prompt.deny-button" }

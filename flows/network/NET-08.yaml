@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: NET-08
-tags: [needs-implementation, network, p1]
+tags: [network, p1]
 ---
 # >>> dashboard-meta
 # NET-08 — A 429 rate-limit response shows a friendly message with a retry-after countdown if provided
@@ -12,7 +12,19 @@ tags: [needs-implementation, network, p1]
 # 3. Verify an error dialog appears with a backend-localised message and a countdown if applicable.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
+# Plan generation has a real backend rate limit (5/hour for free, premium
+# capped). We trigger generation repeatedly until the 429 dialog surfaces.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_RATE_LIMITED_EMAIL}
+      TEST_PASSWORD: ${TEST_RATE_LIMITED_PASSWORD}
+- tapOn: { id: "home.tab.home" }
+- tapOn: { id: "home.create-plan-button" }
+- assertVisible: { id: "network.rate-limit-dialog.title" }
+- assertVisible: { id: "network.rate-limit-dialog.message" }
+- assertVisible: { id: "network.rate-limit-dialog.retry-after-countdown" }
+- assertVisible: { id: "network.rate-limit-dialog.ok-button" }
+- tapOn: { id: "network.rate-limit-dialog.ok-button" }

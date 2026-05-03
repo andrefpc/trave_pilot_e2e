@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: PH-13
-tags: [needs-implementation, photos, p2]
+tags: [photos, p2]
 ---
 # >>> dashboard-meta
 # PH-13 — Selecting an unsupported file format (e.g. SVG) is filtered or rejected with an error
@@ -11,7 +11,18 @@ tags: [needs-implementation, photos, p2]
 # 2. Verify either the file is greyed out / not selectable, or a "Only JPG, PNG, WEBP, GIF" error appears after pick.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.profile" }
+- tapOn: { id: "profile.gallery-link" }
+- tapOn: { id: "photos.upload-button" }
+- waitForAnimationToEnd:
+    timeout: 5000
+- tapOn: { id: "photos.system-picker.image.svg" }
+- tapOn: { id: "photos.system-picker.confirm-button" }
+- assertVisible: { id: "photos.upload.unsupported-format-error" }

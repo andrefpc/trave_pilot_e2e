@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: QA-NEW-01
-tags: [needs-implementation, smk, p0]
+tags: [smk, p0]
 ---
 # >>> dashboard-meta
 # QA-NEW-01 — New feature smoke
@@ -10,7 +10,10 @@ tags: [needs-implementation, smk, p0]
 # (no repro steps recorded)
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
-- runFlow: ../common/_reset_data.yaml
-- runFlow: ../common/_open_app.yaml
+# No repro steps recorded on the dashboard. Treat this as a baseline smoke:
+# cold-launch the app from a fresh state and verify Welcome renders.
+- launchApp:
+    clearState: true
+    clearKeychain: true
+    stopApp: true
+- assertVisible: { id: "welcome.title" }

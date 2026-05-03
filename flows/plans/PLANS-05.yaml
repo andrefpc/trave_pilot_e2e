@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: PLANS-05
-tags: [needs-implementation, plans, p0]
+tags: [plans, p0]
 ---
 # >>> dashboard-meta
 # PLANS-05 — Long-press → Delete → Confirm deletes the plan via DELETE /travel-plans/:id and removes it from the list
@@ -12,7 +12,20 @@ tags: [needs-implementation, plans, p0]
 # 3. Verify a DELETE /travel-plans/:id request fires and the card disappears from the list.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.travel-plans" }
+- assertVisible: { id: "plans.plan-card.0" }
+- longPressOn: { id: "plans.plan-card.0" }
+- tapOn: { id: "plans.context-menu.delete" }
+- assertVisible: { id: "plans.delete-dialog" }
+- assertVisible: { id: "plans.delete-dialog.title" }
+- tapOn: { id: "plans.delete-dialog.confirm-button" }
+- waitForAnimationToEnd:
+    timeout: 5000
+- assertVisible: { id: "plans.snackbar.deleted" }

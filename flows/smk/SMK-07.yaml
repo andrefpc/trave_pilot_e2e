@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: SMK-07
-tags: [needs-implementation, smk, p0]
+tags: [smk, p0]
 ---
 # >>> dashboard-meta
 # SMK-07 — Profile → Logout signs the user out and returns to the Welcome screen
@@ -13,7 +13,22 @@ tags: [needs-implementation, smk, p0]
 # 4. Verify Welcome appears and that Home is no longer reachable until you sign in again.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
-- runFlow: ../common/_reset_data.yaml
-- runFlow: ../common/_open_app.yaml
+- launchApp:
+    clearState: true
+    clearKeychain: true
+    stopApp: true
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_EMAIL}
+      TEST_PASSWORD: ${TEST_PASSWORD}
+- tapOn: { id: "home.tab.profile" }
+- assertVisible: { id: "profile.title" }
+- scrollUntilVisible:
+    element: { id: "profile.logout-button" }
+    direction: DOWN
+- tapOn: { id: "profile.logout-button" }
+- assertVisible: { id: "profile.logout-sheet.title" }
+- tapOn: { id: "profile.logout-sheet.confirm-button" }
+- assertVisible: { id: "welcome.title" }
+- assertNotVisible: { id: "home.tab-bar" }

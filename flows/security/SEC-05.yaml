@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: SEC-05
-tags: [needs-implementation, security, p0]
+tags: [security, p0]
 ---
 # >>> dashboard-meta
 # SEC-05 — A device whose token was revoked (5-device limit) gets 401 on the next call and is force-logged-out
@@ -12,7 +12,23 @@ tags: [needs-implementation, security, p0]
 # 3. Verify the request returns 401, TokenAuthenticator clears tokens, and the app navigates to Welcome with a "Session expired" message.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.profile" }
+- tapOn: { id: "profile.settings-link" }
+- scrollUntilVisible:
+    element: { id: "settings.debug.revoke-this-session-button" }
+    direction: DOWN
+- tapOn: { id: "settings.debug.revoke-this-session-button" }
+- tapOn: { id: "home.tab.itinerary" }
+- waitForAnimationToEnd:
+    timeout: 8000
+- assertVisible: { id: "security.session-expired-dialog.title" }
+- assertVisible: { id: "security.session-expired-dialog.message" }
+- tapOn: { id: "security.session-expired-dialog.ok-button" }
+- assertVisible: { id: "welcome.title" }

@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: AUTH-F-07
-tags: [needs-implementation, auth, p1]
+tags: [auth, p1]
 ---
 # >>> dashboard-meta
 # AUTH-F-07 — A recovery code older than 15 minutes is rejected with "Invalid reset token" on the Reset step
@@ -12,7 +12,30 @@ tags: [needs-implementation, auth, p1]
 # 3. Verify the dialog "Invalid reset token" appears.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
+# The reset script seeds an expired recovery code for ${TEST_EMAIL} so we
+# don't have to wait 15+ minutes in the e2e suite.
 - runFlow: ../common/_reset_data.yaml
-- runFlow: ../common/_open_app.yaml
+- launchApp:
+    clearState: true
+    clearKeychain: true
+    stopApp: true
+- assertVisible: { id: "welcome.title" }
+- tapOn: { id: "welcome.have-account-login" }
+- tapOn: { id: "auth-sheet.signin-with-password" }
+- tapOn: { id: "login.forgot-password-link" }
+- tapOn: { id: "forgot-password.email-field" }
+- inputText: ${TEST_EMAIL}
+- hideKeyboard
+- tapOn: { id: "forgot-password.send-code-button" }
+- assertVisible: { id: "recovery-code.title" }
+- tapOn: { id: "recovery-code.cell.0" }
+- inputText: ${TEST_EXPIRED_RECOVERY_CODE}
+- tapOn: { id: "recovery-code.submit-button" }
+- assertVisible: { id: "reset-password.title" }
+- tapOn: { id: "reset-password.password-field" }
+- inputText: "NewPass1!"
+- tapOn: { id: "reset-password.confirm-password-field" }
+- inputText: "NewPass1!"
+- hideKeyboard
+- tapOn: { id: "reset-password.submit-button" }
+- assertVisible: { id: "reset-password.invalid-token-dialog.title" }

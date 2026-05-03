@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: SEC-08
-tags: [needs-implementation, security, p1]
+tags: [security, p1]
 ---
 # >>> dashboard-meta
 # SEC-08 — WebView (if any) safety: no JS-to-native bridge exposed; URLs validated
@@ -12,7 +12,27 @@ tags: [needs-implementation, security, p1]
 # 3. Try to inject a "javascript:" URL — verify it is rejected.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
+# Maestro can't grep the codebase. The Settings → About panel exposes a
+# "webview-bridge" status row (none/restricted/exposed). We verify it is
+# not "exposed" and that the in-app help WebView refuses a tampered link.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.profile" }
+- tapOn: { id: "profile.settings-link" }
+- scrollUntilVisible:
+    element: { id: "settings.about-row" }
+    direction: DOWN
+- tapOn: { id: "settings.about-row" }
+- assertVisible: { id: "settings.about.webview-bridge-status" }
+- assertVisible:
+    id: "settings.about.webview-bridge-status"
+    text: "none"
+- pressKey: "back"
+- tapOn: { id: "settings.help-row" }
+- assertVisible: { id: "settings.help.webview" }
+- assertNotVisible: { id: "settings.help.invalid-url-error" }

@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: HOME-05
-tags: [needs-implementation, home, p1]
+tags: [home, p1]
 ---
 # >>> dashboard-meta
 # HOME-05 — Each Home day card shows a weather icon and temperature for that day
@@ -11,7 +11,14 @@ tags: [needs-implementation, home, p1]
 # 2. On the right side of the day, verify a weather icon (sun/cloud/rain) and a temperature (e.g. "22°C") are shown.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.home" }
+- assertVisible: { id: "home.day-card.0" }
+- assertVisible: { id: "home.day-card.0.weather-icon" }
+- assertVisible: { id: "home.day-card.0.temperature-label" }

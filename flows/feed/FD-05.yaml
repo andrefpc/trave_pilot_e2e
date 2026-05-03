@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: FD-05
-tags: [needs-implementation, feed, p0]
+tags: [feed, p0]
 ---
 # >>> dashboard-meta
 # FD-05 — Tapping "Add to Itinerary" on a Place card → choosing a free-time slot adds it to the day
@@ -12,7 +12,18 @@ tags: [needs-implementation, feed, p0]
 # 3. Verify the place replaces that free-time slot and a snackbar appears.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.feed" }
+- assertVisible: { id: "feed.section.places.card.0" }
+- tapOn: { id: "feed.section.places.card.0.add-to-itinerary-button" }
+- assertVisible: { id: "feed.free-time-sheet.title" }
+- tapOn: { id: "feed.free-time-sheet.slot.0" }
+- waitForAnimationToEnd:
+    timeout: 5000
+- assertVisible: { id: "feed.add-to-itinerary.success-snackbar" }

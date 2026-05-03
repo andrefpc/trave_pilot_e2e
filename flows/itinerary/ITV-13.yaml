@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: ITV-13
-tags: [needs-implementation, itinerary, p1]
+tags: [itinerary, p1]
 ---
 # >>> dashboard-meta
 # ITV-13 — Opening a day route map shows polylines connecting stops with directions
@@ -12,7 +12,18 @@ tags: [needs-implementation, itinerary, p1]
 # 3. Verify a map opens showing each stop pin connected by a polyline; turn-by-turn or summary directions are visible.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.travel-plans" }
+- tapOn: { id: "plans.plan-card.0" }
+- assertVisible: { id: "itinerary.screen" }
+- tapOn: { id: "itinerary.toolbar.route-button" }
+- assertVisible: { id: "route-map.screen" }
+- assertVisible: { id: "route-map.polyline" }
+- assertVisible: { id: "route-map.stop-pin.0" }
+- assertVisible: { id: "route-map.directions-summary" }

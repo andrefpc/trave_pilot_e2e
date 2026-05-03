@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: PLANS-15
-tags: [needs-implementation, plans, p2]
+tags: [plans, p2]
 ---
 # >>> dashboard-meta
 # PLANS-15 — On Travel Plans, the sort control (if present) reorders by created_at or departure_date
@@ -12,7 +12,19 @@ tags: [needs-implementation, plans, p2]
 # 3. Verify plans reorder by their departure date.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.travel-plans" }
+- assertVisible: { id: "plans.sort-button" }
+- tapOn: { id: "plans.sort-button" }
+- assertVisible: { id: "plans.sort-sheet" }
+- tapOn: { id: "plans.sort-sheet.option.departure-date" }
+- waitForAnimationToEnd:
+    timeout: 3000
+- assertVisible: { id: "plans.sort-chip.departure-date" }
+- assertVisible: { id: "plans.plan-card.0" }

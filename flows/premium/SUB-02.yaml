@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: SUB-02
-tags: [needs-implementation, premium, p0]
+tags: [premium, p0]
 ---
 # >>> dashboard-meta
 # SUB-02 — On the Premium sheet the Annual plan is highlighted by default with a "Best value" badge
@@ -11,7 +11,18 @@ tags: [needs-implementation, premium, p0]
 # 2. Verify the Annual card has the highlighted border and a "Best value" tag; Monthly is shown but not highlighted.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_FREE_EMAIL}
+      TEST_PASSWORD: ${TEST_FREE_PASSWORD}
+- tapOn: { id: "home.tab.profile" }
+- tapOn: { id: "profile.unlock-premium-button" }
+- assertVisible: { id: "premium.bottom-sheet.title" }
+- assertVisible: { id: "subscription.plan.annual" }
+- assertVisible: { id: "subscription.plan.annual.highlight" }
+- assertVisible: { id: "subscription.plan.annual.best-value-badge" }
+- assertVisible: { id: "subscription.plan.monthly" }
+- assertNotVisible: { id: "subscription.plan.monthly.highlight" }

@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: ITV-12
-tags: [needs-implementation, itinerary, p2]
+tags: [itinerary, p2]
 ---
 # >>> dashboard-meta
 # ITV-12 — A day with no stops shows an empty state like "No activities planned"
@@ -11,7 +11,16 @@ tags: [needs-implementation, itinerary, p2]
 # 2. Verify the day shows an empty illustration/text, not a blank/broken layout.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.travel-plans" }
+- tapOn: { id: "plans.plan-card.empty-day" }
+- assertVisible: { id: "itinerary.screen" }
+- assertVisible: { id: "itinerary.day-empty-state" }
+- assertVisible: { id: "itinerary.day-empty-state.title" }
+- assertVisible: { id: "itinerary.day-empty-state.illustration" }

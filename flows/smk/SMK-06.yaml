@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: SMK-06
-tags: [needs-implementation, smk, p0]
+tags: [smk, p0]
 ---
 # >>> dashboard-meta
 # SMK-06 — Opening a generated plan shows every day with stops, times and weather
@@ -13,7 +13,21 @@ tags: [needs-implementation, smk, p0]
 # 4. Verify the day shows a weather icon and temperature, and stop icons differ by type.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
-- runFlow: ../common/_reset_data.yaml
-- runFlow: ../common/_open_app.yaml
+- launchApp:
+    clearState: true
+    clearKeychain: true
+    stopApp: true
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_EMAIL}
+      TEST_PASSWORD: ${TEST_PASSWORD}
+- assertVisible: { id: "home.tab-bar" }
+- assertVisible: { id: "home.day-card.0" }
+- tapOn: { id: "home.day-card.0" }
+- assertVisible: { id: "itinerary-day.title" }
+- assertVisible: { id: "itinerary-day.wakeup-stop" }
+- assertVisible: { id: "itinerary-day.stop.0" }
+- assertVisible: { id: "itinerary-day.sleep-stop" }
+- assertVisible: { id: "itinerary-day.weather-icon" }
+- assertVisible: { id: "itinerary-day.weather-temp" }

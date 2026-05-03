@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: FD-02
-tags: [needs-implementation, feed, p1]
+tags: [feed, p1]
 ---
 # >>> dashboard-meta
 # FD-02 — For free users, AdMob native ads render among Feed cards labelled "Ad"
@@ -12,7 +12,17 @@ tags: [needs-implementation, feed, p1]
 # 3. Verify ad cards appear with an "Ad" badge and they do not break layout.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_FREE_EMAIL}
+      TEST_PASSWORD: ${TEST_FREE_PASSWORD}
+- tapOn: { id: "home.tab.feed" }
+- assertVisible: { id: "feed.list" }
+- scrollUntilVisible:
+    element: { id: "feed.ad-card.0" }
+    direction: DOWN
+- assertVisible: { id: "feed.ad-card.0.badge" }
+- assertVisible: { id: "feed.recommendation-card.0" }

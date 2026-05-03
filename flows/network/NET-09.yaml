@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: NET-09
-tags: [needs-implementation, network, p1]
+tags: [network, p1]
 ---
 # >>> dashboard-meta
 # NET-09 — A 500 error shows an error dialog with Retry; tapping Retry retries the same request
@@ -12,7 +12,27 @@ tags: [needs-implementation, network, p1]
 # 3. Verify the dialog "Something went wrong" with Retry appears; tap Retry — the same request fires again.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
+# Use the in-app debug action that asks the backend to fail the next request
+# with 500. After the dialog opens we tap Retry; the second attempt succeeds
+# because the debug toggle only affects one request.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.profile" }
+- tapOn: { id: "profile.settings-link" }
+- scrollUntilVisible:
+    element: { id: "settings.debug.force-next-500-button" }
+    direction: DOWN
+- tapOn: { id: "settings.debug.force-next-500-button" }
+- tapOn: { id: "home.tab.home" }
+- assertVisible: { id: "network.error-dialog.title" }
+- assertVisible: { id: "network.error-dialog.retry-button" }
+- tapOn: { id: "network.error-dialog.retry-button" }
+- waitForAnimationToEnd:
+    timeout: 5000
+- assertNotVisible: { id: "network.error-dialog.title" }
+- assertVisible: { id: "home.plan-header" }

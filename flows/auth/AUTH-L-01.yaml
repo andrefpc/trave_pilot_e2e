@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: AUTH-L-01
-tags: [needs-implementation, auth, p0]
+tags: [auth, p0]
 ---
 # >>> dashboard-meta
 # AUTH-L-01 — Tapping Login with the email field empty shows "Invalid email address" under the field; nothing is sent
@@ -13,7 +13,17 @@ tags: [needs-implementation, auth, p0]
 # 4. Verify "Invalid email address" appears below Email; no network request fires (check Network Profiler).
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
-- runFlow: ../common/_reset_data.yaml
-- runFlow: ../common/_open_app.yaml
+- launchApp:
+    clearState: true
+    clearKeychain: true
+    stopApp: true
+- assertVisible: { id: "welcome.title" }
+- tapOn: { id: "welcome.have-account-login" }
+- tapOn: { id: "auth-sheet.signin-with-password" }
+- assertVisible: { id: "login.title" }
+- tapOn: { id: "login.password-field" }
+- inputText: "Password1!"
+- hideKeyboard
+- tapOn: { id: "login.submit-button" }
+- assertVisible: { id: "login.email-field.error" }
+- assertNotVisible: { id: "login.loading-overlay" }

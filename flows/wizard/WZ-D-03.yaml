@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: WZ-D-03
-tags: [needs-implementation, wizard, p1]
+tags: [wizard, p1]
 ---
 # >>> dashboard-meta
 # WZ-D-03 — Typing gibberish into Origin and confirming shows a "City not found" error
@@ -12,7 +12,14 @@ tags: [needs-implementation, wizard, p1]
 # 3. Verify an inline error like "City not found" appears.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- assertVisible: { id: "welcome.title" }
+- tapOn: { id: "welcome.create-plan-button" }
+- assertVisible: { id: "wizard.destination.title" }
+- tapOn: { id: "wizard.destination.origin-field" }
+- inputText: "ZZZQQQ"
+- waitForAnimationToEnd:
+    timeout: 5000
+- hideKeyboard
+- assertVisible: { id: "wizard.destination.origin-error" }

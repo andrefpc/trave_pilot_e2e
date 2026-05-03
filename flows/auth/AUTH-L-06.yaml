@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: AUTH-L-06
-tags: [needs-implementation, auth, p1]
+tags: [auth, p1]
 ---
 # >>> dashboard-meta
 # AUTH-L-06 — Logging in with the correct password after the 15-minute lockout window expires succeeds
@@ -12,7 +12,21 @@ tags: [needs-implementation, auth, p1]
 # 3. Re-attempt login with the correct password and verify Home opens normally.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
+# Reset script clears the lockout via the admin endpoint so we don't have to
+# wait the full 15 minutes in the e2e suite.
 - runFlow: ../common/_reset_data.yaml
-- runFlow: ../common/_open_app.yaml
+- launchApp:
+    clearState: true
+    clearKeychain: true
+    stopApp: true
+- assertVisible: { id: "welcome.title" }
+- tapOn: { id: "welcome.have-account-login" }
+- tapOn: { id: "auth-sheet.signin-with-password" }
+- assertVisible: { id: "login.title" }
+- tapOn: { id: "login.email-field" }
+- inputText: "qa-locked@travelpilotapp.com"
+- tapOn: { id: "login.password-field" }
+- inputText: ${TEST_LOCKED_PASSWORD}
+- hideKeyboard
+- tapOn: { id: "login.submit-button" }
+- assertVisible: { id: "home.tab-bar" }

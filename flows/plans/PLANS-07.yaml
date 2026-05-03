@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: PLANS-07
-tags: [needs-implementation, plans, p1]
+tags: [plans, p1]
 ---
 # >>> dashboard-meta
 # PLANS-07 — Long-press → Duplicate creates a Draft copy of the plan and starts a new generation
@@ -12,7 +12,20 @@ tags: [needs-implementation, plans, p1]
 # 3. Verify Plan Generation auto-launches (or runs in background) for the duplicate.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.travel-plans" }
+- assertVisible: { id: "plans.plan-card.0" }
+- longPressOn: { id: "plans.plan-card.0" }
+- tapOn: { id: "plans.context-menu.duplicate" }
+- waitForAnimationToEnd:
+    timeout: 5000
+- assertVisible: { id: "plan-generation.progress" }
+- assertVisible: { id: "plan-generation.percent-label" }
+- pressKey: "back"
+- assertVisible: { id: "plans.plan-card.0.draft-badge" }

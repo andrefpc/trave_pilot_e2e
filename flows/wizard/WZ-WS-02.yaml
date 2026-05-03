@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: WZ-WS-02
-tags: [needs-implementation, wizard, p1]
+tags: [wizard, p1]
 ---
 # >>> dashboard-meta
 # WZ-WS-02 — Tapping a Walking Style option deselects any previously selected one (single-select)
@@ -11,7 +11,17 @@ tags: [needs-implementation, wizard, p1]
 # 2. Tap "Moderate walking" — verify "All day" is no longer highlighted and only "Moderate walking" is selected.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- assertVisible: { id: "welcome.title" }
+- tapOn: { id: "welcome.create-plan-button" }
+- runFlow: ../common/_wizard_fill_destination.yaml
+- assertVisible: { id: "wizard.walking-style.title" }
+- tapOn: { id: "wizard.walking-style.option.all-day" }
+- waitForAnimationToEnd:
+    timeout: 2000
+- tapOn: { id: "wizard.walking-style.option.moderate" }
+- waitForAnimationToEnd:
+    timeout: 2000
+- tapOn: { id: "wizard.walking-style.next-button" }
+- assertVisible: { id: "wizard.companions.title" }

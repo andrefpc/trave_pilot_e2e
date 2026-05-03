@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: NET-06
-tags: [needs-implementation, network, p1]
+tags: [network, p1]
 ---
 # >>> dashboard-meta
 # NET-06 — Replaying an old refresh token on a second device causes both apps to be logged out on next request
@@ -12,7 +12,25 @@ tags: [needs-implementation, network, p1]
 # 3. Verify the backend revokes all sessions; on the original device the next request returns 401 and the app navigates to Welcome.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
+# Maestro can't replay tokens externally. We use the in-app debug action that
+# triggers a server-side "revoke this session" call (simulating a stolen
+# token replay) and verify the app force-logs-out on the next request.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.profile" }
+- tapOn: { id: "profile.settings-link" }
+- scrollUntilVisible:
+    element: { id: "settings.debug.replay-old-refresh-button" }
+    direction: DOWN
+- tapOn: { id: "settings.debug.replay-old-refresh-button" }
+- tapOn: { id: "home.tab.home" }
+- waitForAnimationToEnd:
+    timeout: 8000
+- assertVisible: { id: "security.session-expired-dialog.title" }
+- tapOn: { id: "security.session-expired-dialog.ok-button" }
+- assertVisible: { id: "welcome.title" }

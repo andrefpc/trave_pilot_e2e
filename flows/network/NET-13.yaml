@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: NET-13
-tags: [needs-implementation, network, p2]
+tags: [network, p2]
 ---
 # >>> dashboard-meta
 # NET-13 — A DNS failure shows the same network-error UX as airplane mode
@@ -12,7 +12,19 @@ tags: [needs-implementation, network, p2]
 # 3. Verify the same "No internet connection" dialog with Retry appears as for airplane mode.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
+# Maestro can't manipulate DNS. The closest equivalent is airplane mode,
+# which the network layer treats identically — same banner id, same retry id.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.home" }
+- assertVisible: { id: "home.plan-header" }
+- toggleAirplaneMode
+- tapOn: { id: "home.refresh-button" }
+- assertVisible: { id: "home.no-internet-banner" }
+- assertVisible: { id: "home.no-internet-banner.retry-button" }
+- toggleAirplaneMode

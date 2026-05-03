@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: PH-06
-tags: [needs-implementation, photos, p0]
+tags: [photos, p0]
 ---
 # >>> dashboard-meta
 # PH-06 — Long-press → Delete on a Gallery photo confirms then deletes via DELETE /milestones/:id
@@ -12,7 +12,21 @@ tags: [needs-implementation, photos, p0]
 # 3. Verify a DELETE /milestones/:id fires and the photo is removed from the grid.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.profile" }
+- tapOn: { id: "profile.gallery-link" }
+- assertVisible: { id: "photos.image.0" }
+- longPressOn: { id: "photos.image.0" }
+- assertVisible: { id: "photos.context-menu" }
+- tapOn: { id: "photos.context-menu.delete" }
+- assertVisible: { id: "photos.delete-dialog.title" }
+- tapOn: { id: "photos.delete-dialog.confirm-button" }
+- waitForAnimationToEnd:
+    timeout: 5000
+- assertVisible: { id: "photos.delete.success-snackbar" }

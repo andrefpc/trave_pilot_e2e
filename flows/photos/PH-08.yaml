@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: PH-08
-tags: [needs-implementation, photos, p1]
+tags: [photos, p1]
 ---
 # >>> dashboard-meta
 # PH-08 — Tapping a city header on Gallery opens that city's photos only
@@ -11,7 +11,19 @@ tags: [needs-implementation, photos, p1]
 # 2. Verify the City Gallery screen opens showing only that city's photos.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.profile" }
+- tapOn: { id: "profile.gallery-link" }
+- assertVisible: { id: "photos.city-header.0" }
+- tapOn: { id: "photos.city-header.0" }
+- waitForAnimationToEnd:
+    timeout: 5000
+- assertVisible: { id: "photos.city-gallery" }
+- assertVisible: { id: "photos.city-gallery.title" }
+- assertVisible: { id: "photos.city-gallery.image.0" }

@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: FD-04
-tags: [needs-implementation, feed, p1]
+tags: [feed, p1]
 ---
 # >>> dashboard-meta
 # FD-04 — Pulling down on Feed re-fetches all four sections
@@ -12,7 +12,20 @@ tags: [needs-implementation, feed, p1]
 # 3. Verify all four sections show a loading state, then re-render with fresh data.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.feed" }
+- assertVisible: { id: "feed.list" }
+- swipe:
+    from: { id: "feed.list" }
+    direction: DOWN
+- assertVisible: { id: "feed.refresh-indicator" }
+- waitForAnimationToEnd:
+    timeout: 10000
+- assertNotVisible: { id: "feed.refresh-indicator" }
+- assertVisible: { id: "feed.section.places.card.0" }

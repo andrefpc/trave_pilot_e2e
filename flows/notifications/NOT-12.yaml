@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: NOT-12
-tags: [needs-implementation, notifications, p1]
+tags: [notifications, p1]
 ---
 # >>> dashboard-meta
 # NOT-12 — On Logout, the FCM device is unregistered via DELETE /notifications/devices/:id
@@ -12,7 +12,24 @@ tags: [needs-implementation, notifications, p1]
 # 3. Send a test push to the old token — verify it no longer reaches the device for that account.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
+# Maestro can't snoop network. We exercise the logout flow and verify that
+# after re-login the device list no longer contains the previous device row
+# (the prior registration was deleted).
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.profile" }
+- tapOn: { id: "profile.settings-link" }
+- tapOn: { id: "settings.notifications-row" }
+- assertVisible: { id: "settings.notifications.device.0" }
+- pressKey: "back"
+- scrollUntilVisible:
+    element: { id: "settings.logout-button" }
+    direction: DOWN
+- tapOn: { id: "settings.logout-button" }
+- tapOn: { id: "settings.logout-confirm-dialog.confirm-button" }
+- assertVisible: { id: "welcome.title" }

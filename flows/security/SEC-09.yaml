@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: SEC-09
-tags: [needs-implementation, security, p1]
+tags: [security, p1]
 ---
 # >>> dashboard-meta
 # SEC-09 — Tampered deep links (e.g. travelpilot://share/garbage) show a graceful error, not a crash
@@ -11,7 +11,16 @@ tags: [needs-implementation, security, p1]
 # 2. Verify Travel Pilot opens to Share Invite and shows "This share link is invalid or expired" — no crash.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- openLink: "travelpilot://share/garbage"
+- assertVisible: { id: "share.invalid-link-screen.title" }
+- assertVisible: { id: "share.invalid-link-screen.message" }
+- assertVisible: { id: "share.invalid-link-screen.go-home-button" }
+- tapOn: { id: "share.invalid-link-screen.go-home-button" }
+- assertVisible: { id: "home.tab-bar" }

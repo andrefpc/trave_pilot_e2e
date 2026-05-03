@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: SEC-07
-tags: [needs-implementation, security, p2]
+tags: [security, p2]
 ---
 # >>> dashboard-meta
 # SEC-07 — On sensitive screens (paywall/payment), screenshots are either allowed or blocked per design (FLAG_SECURE)
@@ -12,7 +12,23 @@ tags: [needs-implementation, security, p2]
 # 3. Verify the result matches the designed behaviour: either captures normally or shows "Cannot capture" depending on FLAG_SECURE config.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
+# Maestro can't take a system screenshot to validate FLAG_SECURE. We open
+# the paywall, the login password field, and the change-password screen, and
+# assert each exposes the canonical "secure-window" id which is set when
+# FLAG_SECURE is applied.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_FREE_EMAIL}
+      TEST_PASSWORD: ${TEST_FREE_PASSWORD}
+- tapOn: { id: "home.tab.profile" }
+- tapOn: { id: "profile.upgrade-to-premium-button" }
+- assertVisible: { id: "premium.paywall.title" }
+- assertVisible: { id: "premium.paywall.secure-window-marker" }
+- pressKey: "back"
+- tapOn: { id: "profile.settings-link" }
+- tapOn: { id: "settings.change-password-row" }
+- assertVisible: { id: "settings.change-password.title" }
+- assertVisible: { id: "settings.change-password.secure-window-marker" }

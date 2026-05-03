@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: HOME-06
-tags: [needs-implementation, home, p0]
+tags: [home, p0]
 ---
 # >>> dashboard-meta
 # HOME-06 — Tapping a Home day card opens that Itinerary Day with all stops and times
@@ -11,7 +11,16 @@ tags: [needs-implementation, home, p0]
 # 2. Verify the Itinerary Day screen opens with all stops in time order for that day.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.home" }
+- assertVisible: { id: "home.day-card.0" }
+- tapOn: { id: "home.day-card.0" }
+- assertVisible: { id: "itinerary.screen" }
+- assertVisible: { id: "itinerary.day-tab.0" }
+- assertVisible: { id: "itinerary.stop.0" }

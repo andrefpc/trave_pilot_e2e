@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: AUTH-R-03
-tags: [needs-implementation, auth, p1]
+tags: [auth, p1]
 ---
 # >>> dashboard-meta
 # AUTH-R-03 — On Register, six password rule check boxes turn green in real time as your password meets each rule
@@ -12,7 +12,29 @@ tags: [needs-implementation, auth, p1]
 # 3. Verify each rule's box flips from red to green the moment its condition is satisfied.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
-- runFlow: ../common/_reset_data.yaml
-- runFlow: ../common/_open_app.yaml
+- launchApp:
+    clearState: true
+    clearKeychain: true
+    stopApp: true
+- openLink: travelpilot://register
+- assertVisible: { id: "register.title" }
+- assertVisible: { id: "register.rule.length.unmet-marker" }
+- assertVisible: { id: "register.rule.uppercase.unmet-marker" }
+- assertVisible: { id: "register.rule.lowercase.unmet-marker" }
+- assertVisible: { id: "register.rule.number.unmet-marker" }
+- assertVisible: { id: "register.rule.special.unmet-marker" }
+- assertVisible: { id: "register.rule.match.unmet-marker" }
+- tapOn: { id: "register.password-field" }
+- inputText: "P"
+- assertVisible: { id: "register.rule.uppercase.met-marker" }
+- inputText: "a"
+- assertVisible: { id: "register.rule.lowercase.met-marker" }
+- inputText: "ssword"
+- assertVisible: { id: "register.rule.length.met-marker" }
+- inputText: "1"
+- assertVisible: { id: "register.rule.number.met-marker" }
+- inputText: "!"
+- assertVisible: { id: "register.rule.special.met-marker" }
+- tapOn: { id: "register.confirm-password-field" }
+- inputText: "Password1!"
+- assertVisible: { id: "register.rule.match.met-marker" }

@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: WZ-D-05
-tags: [needs-implementation, wizard, p1]
+tags: [wizard, p1]
 ---
 # >>> dashboard-meta
 # WZ-D-05 — On Departure date picker, dates earlier than today are disabled and cannot be selected
@@ -12,7 +12,15 @@ tags: [needs-implementation, wizard, p1]
 # 3. Verify those days are greyed out and tapping them does nothing.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- assertVisible: { id: "welcome.title" }
+- tapOn: { id: "welcome.create-plan-button" }
+- assertVisible: { id: "wizard.destination.title" }
+- tapOn: { id: "wizard.destination.departure-field" }
+- assertVisible: { id: "wizard.destination.date-picker" }
+- assertVisible: { id: "wizard.destination.date-picker.day.past" }
+- tapOn: { id: "wizard.destination.date-picker.day.past" }
+- assertVisible: { id: "wizard.destination.date-picker" }
+- tapOn: { id: "wizard.destination.date-picker.cancel-button" }
+- assertNotVisible: { id: "wizard.destination.date-picker" }

@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: HOME-03
-tags: [needs-implementation, home, p1]
+tags: [home, p1]
 ---
 # >>> dashboard-meta
 # HOME-03 — Home shows a world map with markers at each destination on the user's plan
@@ -12,7 +12,17 @@ tags: [needs-implementation, home, p1]
 # 3. Verify the world map renders with pins on each destination city.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.home" }
+- scrollUntilVisible:
+    element: { id: "home.world-map" }
+    direction: DOWN
+- assertVisible: { id: "home.world-map" }
+- assertVisible: { id: "home.world-map.marker.0" }
+- assertVisible: { id: "home.world-map.marker.1" }

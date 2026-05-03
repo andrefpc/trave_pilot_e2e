@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: ITV-08
-tags: [needs-implementation, itinerary, p1]
+tags: [itinerary, p1]
 ---
 # >>> dashboard-meta
 # ITV-08 — Pulling down on the Itinerary refetches the itinerary and weather
@@ -12,7 +12,21 @@ tags: [needs-implementation, itinerary, p1]
 # 3. Verify a loading indicator appears and the data reloads.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.travel-plans" }
+- tapOn: { id: "plans.plan-card.0" }
+- assertVisible: { id: "itinerary.scroll-view" }
+- swipe:
+    from: { id: "itinerary.scroll-view" }
+    direction: DOWN
+- assertVisible: { id: "itinerary.refresh-indicator" }
+- waitForAnimationToEnd:
+    timeout: 5000
+- assertVisible: { id: "itinerary.stop.0" }
+- assertVisible: { id: "itinerary.weather-pill" }

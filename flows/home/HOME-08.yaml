@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: HOME-08
-tags: [needs-implementation, home, p1]
+tags: [home, p1]
 ---
 # >>> dashboard-meta
 # HOME-08 — Pulling down on Home triggers a refresh that re-fetches plan, weather and milestones
@@ -12,7 +12,19 @@ tags: [needs-implementation, home, p1]
 # 3. Verify a loading spinner appears and the plan/weather/milestones data is refreshed.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.home" }
+- assertVisible: { id: "home.scroll-view" }
+- swipe:
+    from: { id: "home.scroll-view" }
+    direction: DOWN
+- assertVisible: { id: "home.refresh-indicator" }
+- waitForAnimationToEnd:
+    timeout: 5000
+- assertVisible: { id: "home.plan-header" }

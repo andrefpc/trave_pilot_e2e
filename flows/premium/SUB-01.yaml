@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: SUB-01
-tags: [needs-implementation, premium, p0]
+tags: [premium, p0]
 ---
 # >>> dashboard-meta
 # SUB-01 — Premium bottom sheet shows Monthly and Annual plan cards with prices fetched from Play Billing
@@ -11,7 +11,17 @@ tags: [needs-implementation, premium, p0]
 # 2. Verify the sheet shows two plan cards — "Monthly" and "Annual" — each with a price string from Play Billing (e.g. "$4.99/mo", "$49.99/yr").
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_FREE_EMAIL}
+      TEST_PASSWORD: ${TEST_FREE_PASSWORD}
+- tapOn: { id: "home.tab.profile" }
+- tapOn: { id: "profile.unlock-premium-button" }
+- assertVisible: { id: "premium.bottom-sheet.title" }
+- assertVisible: { id: "subscription.plan.monthly" }
+- assertVisible: { id: "subscription.plan.monthly.price-label" }
+- assertVisible: { id: "subscription.plan.annual" }
+- assertVisible: { id: "subscription.plan.annual.price-label" }

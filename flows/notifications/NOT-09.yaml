@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: NOT-09
-tags: [needs-implementation, notifications, p1]
+tags: [notifications, p1]
 ---
 # >>> dashboard-meta
 # NOT-09 — In-app Notifications screen lists past notifications loaded from GET /notifications, paginated
@@ -12,7 +12,19 @@ tags: [needs-implementation, notifications, p1]
 # 3. Scroll to the bottom — verify older notifications load via pagination.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.notifications" }
+- assertVisible: { id: "notifications.list" }
+- assertVisible: { id: "notifications.notification.0" }
+- scrollUntilVisible:
+    element: { id: "notifications.pagination-loader" }
+    direction: DOWN
+- waitForAnimationToEnd:
+    timeout: 5000
+- assertVisible: { id: "notifications.notification.10" }

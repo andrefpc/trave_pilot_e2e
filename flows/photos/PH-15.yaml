@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: PH-15
-tags: [needs-implementation, photos, p2]
+tags: [photos, p2]
 ---
 # >>> dashboard-meta
 # PH-15 — Tapping the Ranking action loads the milestones leaderboard from GET /milestones/ranking
@@ -12,7 +12,27 @@ tags: [needs-implementation, photos, p2]
 # 3. Scroll to the bottom — pagination loads more rows.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.profile" }
+- tapOn: { id: "profile.gallery-link" }
+- tapOn: { id: "milestones.score-badge" }
+- assertVisible: { id: "milestones.modal.title" }
+- tapOn: { id: "milestones.modal.ranking-button" }
+- waitForAnimationToEnd:
+    timeout: 5000
+- assertVisible: { id: "milestones.ranking-screen" }
+- assertVisible: { id: "milestones.ranking.row.0" }
+- assertVisible: { id: "milestones.ranking.row.0.rank" }
+- assertVisible: { id: "milestones.ranking.row.0.name" }
+- assertVisible: { id: "milestones.ranking.row.0.count" }
+- scrollUntilVisible:
+    element: { id: "milestones.ranking.load-more" }
+    direction: DOWN
+- waitForAnimationToEnd:
+    timeout: 5000

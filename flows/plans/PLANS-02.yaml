@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: PLANS-02
-tags: [needs-implementation, plans, p1]
+tags: [plans, p1]
 ---
 # >>> dashboard-meta
 # PLANS-02 — Each Travel Plans card shows destinations, dates and a current/non-current indicator
@@ -12,7 +12,15 @@ tags: [needs-implementation, plans, p1]
 # 3. Verify the card shows the destination list, formatted dates (e.g. "May 15-22"), and a checkmark/badge if it is the current plan.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.travel-plans" }
+- assertVisible: { id: "plans.plan-card.0" }
+- assertVisible: { id: "plans.plan-card.0.destination-label" }
+- assertVisible: { id: "plans.plan-card.0.date-range-label" }
+- assertVisible: { id: "plans.plan-card.0.current-badge" }

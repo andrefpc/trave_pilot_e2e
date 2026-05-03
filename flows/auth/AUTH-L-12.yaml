@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: AUTH-L-12
-tags: [needs-implementation, auth, p0]
+tags: [auth, p0]
 ---
 # >>> dashboard-meta
 # AUTH-L-12 — Opening the app via a share deep link, then logging in, lands on the Share Invite preview (not Home)
@@ -13,7 +13,22 @@ tags: [needs-implementation, auth, p0]
 # 4. Verify the app returns to the Share Invite preview (not Home) for the same shared plan.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
-- runFlow: ../common/_reset_data.yaml
-- runFlow: ../common/_open_app.yaml
+- launchApp:
+    clearState: true
+    clearKeychain: true
+    stopApp: true
+- openLink: https://www.travelpilotapp.com/share/${TEST_SHARE_TOKEN}
+- assertVisible: { id: "share-invite.title" }
+- tapOn: { id: "share-invite.login-button" }
+- assertVisible: { id: "auth-sheet.title" }
+- tapOn: { id: "auth-sheet.signin-with-password" }
+- assertVisible: { id: "login.title" }
+- tapOn: { id: "login.email-field" }
+- inputText: ${TEST_EMAIL}
+- tapOn: { id: "login.password-field" }
+- inputText: ${TEST_PASSWORD}
+- hideKeyboard
+- tapOn: { id: "login.submit-button" }
+- assertVisible: { id: "share-invite.title" }
+- assertVisible: { id: "share-invite.plan-preview" }
+- assertNotVisible: { id: "home.tab-bar" }

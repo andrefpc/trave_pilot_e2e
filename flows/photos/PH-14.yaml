@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: PH-14
-tags: [needs-implementation, photos, p1]
+tags: [photos, p1]
 ---
 # >>> dashboard-meta
 # PH-14 — Uploading a photo of a recognised attraction unlocks the milestone and increases the user's score
@@ -12,7 +12,28 @@ tags: [needs-implementation, photos, p1]
 # 3. Verify the milestone card shows a checkmark and the user's score has increased.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.profile" }
+- tapOn: { id: "profile.gallery-link" }
+- assertVisible: { id: "milestones.score-badge" }
+- tapOn: { id: "photos.upload-button" }
+- waitForAnimationToEnd:
+    timeout: 5000
+- tapOn: { id: "photos.system-picker.image.0" }
+- tapOn: { id: "photos.system-picker.confirm-button" }
+- assertVisible: { id: "photos.upload-sheet.title" }
+- tapOn: { id: "photos.upload-sheet.city-field" }
+- tapOn: { id: "photos.upload-sheet.city-option.0" }
+- tapOn: { id: "photos.upload-sheet.place-field" }
+- tapOn: { id: "photos.upload-sheet.place-option.0" }
+- tapOn: { id: "photos.upload-sheet.send-button" }
+- waitForAnimationToEnd:
+    timeout: 15000
+- assertVisible: { id: "milestones.unlocked-toast" }
+- assertVisible: { id: "milestones.card.checkmark" }

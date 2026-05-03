@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: TK-01
-tags: [needs-implementation, tickets, p1]
+tags: [tickets, p1]
 ---
 # >>> dashboard-meta
 # TK-01 — Tickets tab shows uploaded tickets as cards with type, date and thumbnail
@@ -12,7 +12,16 @@ tags: [needs-implementation, tickets, p1]
 # 3. Verify each card shows a type badge (PDF / Image / Hotel / Rental Car), a date if known, and a thumbnail/preview.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.tickets" }
+- assertVisible: { id: "tickets.tab-content" }
+- assertVisible: { id: "tickets.ticket-card.0" }
+- assertVisible: { id: "tickets.ticket-card.0.type-badge" }
+- assertVisible: { id: "tickets.ticket-card.0.date-label" }
+- assertVisible: { id: "tickets.ticket-card.0.thumbnail" }

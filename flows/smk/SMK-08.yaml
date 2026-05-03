@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: SMK-08
-tags: [needs-implementation, smk, p0]
+tags: [smk, p0]
 ---
 # >>> dashboard-meta
 # SMK-08 — A free-tier user tapping a premium-only feature opens the Premium bottom sheet
@@ -12,7 +12,19 @@ tags: [needs-implementation, smk, p0]
 # 3. Verify the Premium bottom sheet slides up showing the latest plan and a Subscribe button.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
-- runFlow: ../common/_reset_data.yaml
-- runFlow: ../common/_open_app.yaml
+- launchApp:
+    clearState: true
+    clearKeychain: true
+    stopApp: true
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_EMAIL}
+      TEST_PASSWORD: ${TEST_PASSWORD}
+- assertVisible: { id: "home.tab-bar" }
+- tapOn: { id: "home.day-card.0" }
+- assertVisible: { id: "itinerary-day.title" }
+- tapOn: { id: "itinerary-day.edit-button" }
+- assertVisible: { id: "premium.bottom-sheet.title" }
+- assertVisible: { id: "premium.bottom-sheet.plan-card" }
+- assertVisible: { id: "premium.bottom-sheet.subscribe-button" }

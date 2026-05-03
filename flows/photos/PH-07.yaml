@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: PH-07
-tags: [needs-implementation, photos, p1]
+tags: [photos, p1]
 ---
 # >>> dashboard-meta
 # PH-07 — Tapping a photo opens a full-screen pager; swiping left/right moves between photos
@@ -12,7 +12,25 @@ tags: [needs-implementation, photos, p1]
 # 3. Verify previous/next photos are shown smoothly.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.profile" }
+- tapOn: { id: "profile.gallery-link" }
+- tapOn: { id: "photos.image.0" }
+- assertVisible: { id: "photos.viewer" }
+- assertVisible: { id: "photos.viewer.page.0" }
+- swipe:
+    direction: LEFT
+- waitForAnimationToEnd:
+    timeout: 3000
+- assertVisible: { id: "photos.viewer.page.1" }
+- swipe:
+    direction: RIGHT
+- waitForAnimationToEnd:
+    timeout: 3000
+- assertVisible: { id: "photos.viewer.page.0" }

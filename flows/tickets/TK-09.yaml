@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: TK-09
-tags: [needs-implementation, tickets, p1]
+tags: [tickets, p1]
 ---
 # >>> dashboard-meta
 # TK-09 — Sharing 3 images via SEND_MULTIPLE shows them all in the upload sheet; saving uploads each
@@ -12,7 +12,25 @@ tags: [needs-implementation, tickets, p1]
 # 3. Tap Save to trip — verify 3 tickets appear in the Tickets list.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- openLink: ${SHARE_INTENT_MULTI_URL}
+- waitForAnimationToEnd:
+    timeout: 5000
+- assertVisible: { id: "tickets.upload-sheet.title" }
+- assertVisible: { id: "tickets.upload-sheet.preview.0" }
+- assertVisible: { id: "tickets.upload-sheet.preview.1" }
+- assertVisible: { id: "tickets.upload-sheet.preview.2" }
+- tapOn: { id: "tickets.upload-sheet.save-button" }
+- waitForAnimationToEnd:
+    timeout: 20000
+- assertVisible: { id: "tickets.upload.success-snackbar" }
+- tapOn: { id: "home.tab.tickets" }
+- assertVisible: { id: "tickets.ticket-card.0" }
+- assertVisible: { id: "tickets.ticket-card.1" }
+- assertVisible: { id: "tickets.ticket-card.2" }

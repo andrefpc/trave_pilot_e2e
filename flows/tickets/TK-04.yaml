@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: TK-04
-tags: [needs-implementation, tickets, p0]
+tags: [tickets, p0]
 ---
 # >>> dashboard-meta
 # TK-04 — Picking a JPG/PNG and uploading attaches an image ticket to the trip
@@ -12,7 +12,23 @@ tags: [needs-implementation, tickets, p0]
 # 3. Verify the ticket appears in the list with an image thumbnail.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.tickets" }
+- tapOn: { id: "tickets.add-button" }
+- waitForAnimationToEnd:
+    timeout: 5000
+- tapOn: { id: "tickets.document-picker.file.image" }
+- assertVisible: { id: "tickets.upload-sheet.title" }
+- tapOn: { id: "tickets.upload-sheet.upload-button" }
+- waitForAnimationToEnd:
+    timeout: 15000
+- assertVisible: { id: "tickets.upload.success-snackbar" }
+- assertVisible: { id: "tickets.ticket-card.0" }
+- assertVisible: { id: "tickets.ticket-card.0.thumbnail" }
+- assertVisible: { id: "tickets.ticket-card.0.type-badge.image" }

@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: SUB-04
-tags: [needs-implementation, premium, p0]
+tags: [premium, p0]
 ---
 # >>> dashboard-meta
 # SUB-04 — Tapping Subscribe on the Annual card launches the Play Billing flow for the yearly offer
@@ -11,7 +11,21 @@ tags: [needs-implementation, premium, p0]
 # 2. Verify the Google Play Billing sheet appears for the annual offer.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
+# IAP flow: assert the Play Billing sheet appears for the annual offer, but
+# stop there — do not attempt a real purchase.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_FREE_EMAIL}
+      TEST_PASSWORD: ${TEST_FREE_PASSWORD}
+- tapOn: { id: "home.tab.profile" }
+- tapOn: { id: "profile.unlock-premium-button" }
+- assertVisible: { id: "premium.bottom-sheet.title" }
+- tapOn: { id: "subscription.plan.annual" }
+- tapOn: { id: "subscription.purchase-button" }
+- waitForAnimationToEnd:
+    timeout: 8000
+- assertVisible: { id: "subscription.iap-sheet.title" }
+- assertVisible: { id: "subscription.iap-sheet.offer.annual" }

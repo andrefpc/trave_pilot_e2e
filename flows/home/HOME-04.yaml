@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: HOME-04
-tags: [needs-implementation, home, p2]
+tags: [home, p2]
 ---
 # >>> dashboard-meta
 # HOME-04 — Tapping a city marker on the Home map opens the Travel Map screen
@@ -12,7 +12,17 @@ tags: [needs-implementation, home, p2]
 # 3. Verify the Travel Map screen opens with that city focused.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.home" }
+- scrollUntilVisible:
+    element: { id: "home.world-map" }
+    direction: DOWN
+- tapOn: { id: "home.world-map.marker.0" }
+- assertVisible: { id: "travel-map.screen" }
+- assertVisible: { id: "travel-map.focused-city-label" }

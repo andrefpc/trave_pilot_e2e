@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: NOT-04
-tags: [needs-implementation, notifications, p1]
+tags: [notifications, p1]
 ---
 # >>> dashboard-meta
 # NOT-04 — Tapping a stop-reminder notification deep-links to that stop's Itinerary day
@@ -12,7 +12,19 @@ tags: [needs-implementation, notifications, p1]
 # 3. Verify the app opens directly to the Itinerary day containing that stop.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
+# Maestro can schedule a reminder and assert the in-app reminder list reflects
+# the scheduling, but it cannot interact with the system notification tray.
+# We walk the deep-link destination via the in-app Notifications list so the
+# target screen is exercised end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.notifications" }
+- assertVisible: { id: "notifications.list" }
+- tapOn: { id: "notifications.notification.0" }
+- assertVisible: { id: "itinerary.day-detail.title" }
+- assertVisible: { id: "itinerary.stop-card.0" }

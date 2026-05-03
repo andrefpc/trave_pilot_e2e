@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: FD-09
-tags: [needs-implementation, feed, p1]
+tags: [feed, p1]
 ---
 # >>> dashboard-meta
 # FD-09 — A premium user can perform many (50+) restaurant searches without rate limiting
@@ -11,7 +11,22 @@ tags: [needs-implementation, feed, p1]
 # 2. Verify all searches succeed; no rate-limit error appears.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.feed" }
+- scrollUntilVisible:
+    element: { id: "feed.section.restaurants.search-button" }
+    direction: DOWN
+- repeat:
+    times: 50
+    commands:
+      - tapOn: { id: "feed.section.restaurants.search-button" }
+      - waitForAnimationToEnd:
+          timeout: 2000
+- assertNotVisible: { id: "feed.rate-limit-sheet.title" }
+- assertVisible: { id: "feed.section.restaurants.card.0" }

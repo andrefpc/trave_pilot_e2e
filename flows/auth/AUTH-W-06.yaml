@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: AUTH-W-06
-tags: [needs-implementation, auth, p2]
+tags: [auth, p2]
 ---
 # >>> dashboard-meta
 # AUTH-W-06 — When Google sign-in fails (e.g. Play Services disabled) a "Google sign-in failed" dialog appears with Retry
@@ -12,7 +12,19 @@ tags: [needs-implementation, auth, p2]
 # 3. Verify an error dialog "Google sign-in failed" appears with a Retry button. Tapping Retry re-attempts the flow.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
-- runFlow: ../common/_reset_data.yaml
-- runFlow: ../common/_open_app.yaml
+# Maestro can't toggle Play Services. The dev build exposes a fault-injection
+# hook (`test.fault-injection.google-fail`) that forces the next Google sign-in
+# attempt to fail with the same dialog the production code path renders.
+- launchApp:
+    clearState: true
+    clearKeychain: true
+    stopApp: true
+    arguments:
+      faultInjection: "google-fail"
+- assertVisible: { id: "welcome.title" }
+- tapOn: { id: "welcome.have-account-login" }
+- tapOn: { id: "auth-sheet.signin-with-google" }
+- assertVisible: { id: "google-auth.error-dialog.title" }
+- assertVisible: { id: "google-auth.error-dialog.retry-button" }
+- tapOn: { id: "google-auth.error-dialog.retry-button" }
+- assertVisible: { id: "google-auth.picker" }

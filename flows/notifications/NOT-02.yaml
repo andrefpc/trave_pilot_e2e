@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: NOT-02
-tags: [needs-implementation, notifications, p0]
+tags: [notifications, p0]
 ---
 # >>> dashboard-meta
 # NOT-02 — Denying POST_NOTIFICATIONS leaves the app fully functional (no crash, no notifications)
@@ -12,7 +12,23 @@ tags: [needs-implementation, notifications, p0]
 # 3. Verify no notification fires and the app does not crash.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.itinerary" }
+- tapOn: { id: "itinerary.day-card.0" }
+- tapOn: { id: "itinerary.stop-card.0" }
+- tapOn: { id: "itinerary.stop-detail.schedule-reminder-button" }
+- runFlow:
+    when:
+      visible:
+        id: "notifications.permission-prompt"
+    commands:
+      - tapOn: { id: "notifications.permission-prompt.deny-button" }
+- assertVisible: { id: "notifications.permission-denied-banner" }
+- tapOn: { id: "itinerary.stop-detail.back-button" }
+- assertVisible: { id: "home.tab-bar" }

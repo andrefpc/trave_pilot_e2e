@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: WZ-DS-06
-tags: [needs-implementation, wizard, p2]
+tags: [wizard, p2]
 ---
 # >>> dashboard-meta
 # WZ-DS-06 — If the "Apply same times to all days" option exists, using it copies start/end to every day card
@@ -12,7 +12,26 @@ tags: [needs-implementation, wizard, p2]
 # 3. Verify the same Start/End appear on every other day card.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- assertVisible: { id: "welcome.title" }
+- tapOn: { id: "welcome.create-plan-button" }
+- runFlow: ../common/_wizard_fill_destination_two_cities.yaml
+- assertVisible: { id: "wizard.walking-style.title" }
+- tapOn: { id: "wizard.walking-style.option.moderate" }
+- tapOn: { id: "wizard.walking-style.next-button" }
+- assertVisible: { id: "wizard.companions.title" }
+- tapOn: { id: "wizard.companions.next-button" }
+- assertVisible: { id: "wizard.day-schedule.title" }
+- tapOn: { id: "wizard.day-schedule.day-card.0.start-field" }
+- tapOn: { id: "wizard.day-schedule.time-picker.ok-button" }
+- tapOn: { id: "wizard.day-schedule.day-card.0.end-field" }
+- tapOn: { id: "wizard.day-schedule.time-picker.ok-button" }
+- runFlow:
+    when:
+      visible:
+        id: "wizard.day-schedule.apply-to-all-button"
+    commands:
+      - tapOn: { id: "wizard.day-schedule.apply-to-all-button" }
+      - assertVisible: { id: "wizard.day-schedule.day-card.1.start-field" }
+      - assertVisible: { id: "wizard.day-schedule.day-card.1.end-field" }

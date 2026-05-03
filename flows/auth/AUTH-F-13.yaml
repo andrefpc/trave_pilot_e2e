@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: AUTH-F-13
-tags: [needs-implementation, auth, p0]
+tags: [auth, p0]
 ---
 # >>> dashboard-meta
 # AUTH-F-13 — Logging in with the old password after a reset shows the "Invalid credentials" error
@@ -12,7 +12,22 @@ tags: [needs-implementation, auth, p0]
 # 3. Verify a dialog "Invalid credentials" appears.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
+# Reset script seeds the user with the new password so the original
+# `TEST_PASSWORD` is now stale.
 - runFlow: ../common/_reset_data.yaml
-- runFlow: ../common/_open_app.yaml
+- launchApp:
+    clearState: true
+    clearKeychain: true
+    stopApp: true
+- assertVisible: { id: "welcome.title" }
+- tapOn: { id: "welcome.have-account-login" }
+- tapOn: { id: "auth-sheet.signin-with-password" }
+- assertVisible: { id: "login.title" }
+- tapOn: { id: "login.email-field" }
+- inputText: ${TEST_EMAIL}
+- tapOn: { id: "login.password-field" }
+- inputText: ${TEST_PASSWORD}
+- hideKeyboard
+- tapOn: { id: "login.submit-button" }
+- assertVisible: { id: "login.error-dialog.title" }
+- assertVisible: { id: "login.error-dialog.retry-button" }

@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: SUB-03
-tags: [needs-implementation, premium, p0]
+tags: [premium, p0]
 ---
 # >>> dashboard-meta
 # SUB-03 — Tapping Subscribe on the Monthly card launches the Google Play Billing flow for the monthly offer
@@ -12,7 +12,21 @@ tags: [needs-implementation, premium, p0]
 # 3. The user can complete or cancel the flow.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
+# IAP flow: assert the Play Billing sheet appears, but stop there — do not
+# attempt a purchase. SUB-05 covers the post-purchase verification path.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_FREE_EMAIL}
+      TEST_PASSWORD: ${TEST_FREE_PASSWORD}
+- tapOn: { id: "home.tab.profile" }
+- tapOn: { id: "profile.unlock-premium-button" }
+- assertVisible: { id: "premium.bottom-sheet.title" }
+- tapOn: { id: "subscription.plan.monthly" }
+- tapOn: { id: "subscription.purchase-button" }
+- waitForAnimationToEnd:
+    timeout: 8000
+- assertVisible: { id: "subscription.iap-sheet.title" }
+- assertVisible: { id: "subscription.iap-sheet.offer.monthly" }

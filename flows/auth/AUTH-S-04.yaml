@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: AUTH-S-04
-tags: [needs-implementation, auth, p1]
+tags: [auth, p1]
 ---
 # >>> dashboard-meta
 # AUTH-S-04 — A tampered Google ID token is rejected by the server and an "Invalid token" dialog is shown
@@ -12,7 +12,23 @@ tags: [needs-implementation, auth, p1]
 # 3. Verify the API returns 401 and an "Invalid token" dialog appears.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
-- runFlow: ../common/_reset_data.yaml
-- runFlow: ../common/_open_app.yaml
+# Dev-build hook `googleAuthTokenMode=tampered` flips one signature byte on
+# the next Google ID token before it leaves the device, exercising the same
+# server-side rejection path a real MITM tool would.
+- launchApp:
+    clearState: true
+    clearKeychain: true
+    stopApp: true
+    arguments:
+      googleAuthTokenMode: "tampered"
+- assertVisible: { id: "welcome.title" }
+- tapOn: { id: "welcome.have-account-login" }
+- tapOn: { id: "auth-sheet.signin-with-google" }
+- assertVisible: { id: "google-auth.picker" }
+- runFlow:
+    when:
+      visible: { id: "test.google-auth.confirm-account" }
+    commands:
+      - tapOn: { id: "test.google-auth.confirm-account" }
+- assertVisible: { id: "google-auth.invalid-token-dialog.title" }
+- assertNotVisible: { id: "home.tab-bar" }

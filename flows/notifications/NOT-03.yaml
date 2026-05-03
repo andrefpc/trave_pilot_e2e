@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: NOT-03
-tags: [needs-implementation, notifications, p1]
+tags: [notifications, p1]
 ---
 # >>> dashboard-meta
 # NOT-03 — A scheduled stop reminder fires at the scheduled time with the stop title and time
@@ -12,7 +12,26 @@ tags: [needs-implementation, notifications, p1]
 # 3. Verify a notification appears with the stop title and the scheduled time (and travel duration if set).
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.itinerary" }
+- tapOn: { id: "itinerary.day-card.0" }
+- tapOn: { id: "itinerary.stop-card.0" }
+- assertVisible: { id: "itinerary.stop-detail.title" }
+- tapOn: { id: "itinerary.stop-detail.schedule-reminder-button" }
+- runFlow:
+    when:
+      visible:
+        id: "notifications.permission-prompt"
+    commands:
+      - tapOn: { id: "notifications.permission-prompt.allow-button" }
+- assertVisible: { id: "notifications.reminder-sheet.title" }
+- tapOn: { id: "notifications.reminder-sheet.preset.1-minute" }
+- tapOn: { id: "notifications.reminder-sheet.confirm-button" }
+- assertVisible: { id: "notifications.reminder-scheduled-toast" }
+- assertVisible: { id: "itinerary.stop-detail.reminder-badge" }

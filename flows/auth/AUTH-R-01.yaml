@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: AUTH-R-01
-tags: [needs-implementation, auth, p0]
+tags: [auth, p0]
 ---
 # >>> dashboard-meta
 # AUTH-R-01 — Tapping Register with the name field empty shows "Name cannot be empty" under the name field
@@ -12,7 +12,19 @@ tags: [needs-implementation, auth, p0]
 # 3. Tap "Create Account" and verify "Name cannot be empty" appears below Name; no request fires.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
-- runFlow: ../common/_reset_data.yaml
-- runFlow: ../common/_open_app.yaml
+- launchApp:
+    clearState: true
+    clearKeychain: true
+    stopApp: true
+- openLink: travelpilot://register
+- assertVisible: { id: "register.title" }
+- tapOn: { id: "register.email-field" }
+- inputText: ${TEST_NEW_EMAIL}
+- tapOn: { id: "register.password-field" }
+- inputText: "Password1!"
+- tapOn: { id: "register.confirm-password-field" }
+- inputText: "Password1!"
+- hideKeyboard
+- tapOn: { id: "register.create-account-button" }
+- assertVisible: { id: "register.name-field.error" }
+- assertNotVisible: { id: "register.loading-overlay" }

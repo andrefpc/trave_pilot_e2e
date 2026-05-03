@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: AUTH-F-05
-tags: [needs-implementation, auth, p0]
+tags: [auth, p0]
 ---
 # >>> dashboard-meta
 # AUTH-F-05 — Entering the correct 5-digit recovery code on the Recovery Code screen opens the Reset Password screen
@@ -12,7 +12,30 @@ tags: [needs-implementation, auth, p0]
 # 3. Verify Reset Password opens with two password fields and the same six rule check boxes as Register.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
-- runFlow: ../common/_open_app.yaml
+- launchApp:
+    clearState: true
+    clearKeychain: true
+    stopApp: true
+- assertVisible: { id: "welcome.title" }
+- tapOn: { id: "welcome.have-account-login" }
+- tapOn: { id: "auth-sheet.signin-with-password" }
+- tapOn: { id: "login.forgot-password-link" }
+- tapOn: { id: "forgot-password.email-field" }
+- inputText: ${TEST_EMAIL}
+- hideKeyboard
+- tapOn: { id: "forgot-password.send-code-button" }
+- assertVisible: { id: "recovery-code.title" }
+- copyTextFrom: { id: "test.recovery-code.last-issued" }
+- tapOn: { id: "recovery-code.cell.0" }
+- pasteText
+- tapOn: { id: "recovery-code.submit-button" }
+- assertVisible: { id: "reset-password.title" }
+- assertVisible: { id: "reset-password.password-field" }
+- assertVisible: { id: "reset-password.confirm-password-field" }
+- assertVisible: { id: "reset-password.rule.length" }
+- assertVisible: { id: "reset-password.rule.uppercase" }
+- assertVisible: { id: "reset-password.rule.lowercase" }
+- assertVisible: { id: "reset-password.rule.number" }
+- assertVisible: { id: "reset-password.rule.special" }
+- assertVisible: { id: "reset-password.rule.match" }

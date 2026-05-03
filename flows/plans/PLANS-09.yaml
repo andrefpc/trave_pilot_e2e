@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: PLANS-09
-tags: [needs-implementation, plans, p0]
+tags: [plans, p0]
 ---
 # >>> dashboard-meta
 # PLANS-09 — Long-press → Export to Calendar prompts for READ_CALENDAR/WRITE_CALENDAR permission if not granted
@@ -11,7 +11,18 @@ tags: [needs-implementation, plans, p0]
 # 2. Verify the system permission dialog appears asking for Calendar access.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.travel-plans" }
+- assertVisible: { id: "plans.plan-card.0" }
+- longPressOn: { id: "plans.plan-card.0" }
+- tapOn: { id: "plans.context-menu.export-calendar" }
+- assertVisible:
+    id: "com.android.permissioncontroller:id/permission_message"
+- assertVisible:
+    id: "com.android.permissioncontroller:id/permission_allow_button"

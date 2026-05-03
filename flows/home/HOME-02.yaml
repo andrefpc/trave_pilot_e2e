@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: HOME-02
-tags: [needs-implementation, home, p1]
+tags: [home, p1]
 ---
 # >>> dashboard-meta
 # HOME-02 — A free user with no plans on Home sees an empty state with a "Create a new Plan" CTA
@@ -12,7 +12,14 @@ tags: [needs-implementation, home, p1]
 # 3. Verify the screen shows the empty state with a "Create a new Plan" button below.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_FREE_EMAIL}
+      TEST_PASSWORD: ${TEST_FREE_PASSWORD}
+- tapOn: { id: "home.tab.home" }
+- assertVisible: { id: "home.empty-state" }
+- assertVisible: { id: "home.empty-state.title" }
+- assertVisible: { id: "home.empty-state.create-plan-button" }

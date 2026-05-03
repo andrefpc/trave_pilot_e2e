@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: AUTH-S-01
-tags: [needs-implementation, auth, p0]
+tags: [auth, p0]
 ---
 # >>> dashboard-meta
 # AUTH-S-01 — Signing in with a Google account that has never been registered creates the account and lands on Home
@@ -12,7 +12,22 @@ tags: [needs-implementation, auth, p0]
 # 3. Verify the app creates an account silently and Home opens (no Welcome flicker).
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
+# Reset script ensures TEST_GOOGLE_NEW_EMAIL has no Travel Pilot account.
 - runFlow: ../common/_reset_data.yaml
-- runFlow: ../common/_open_app.yaml
+- launchApp:
+    clearState: true
+    clearKeychain: true
+    stopApp: true
+    arguments:
+      googleAuthEmail: ${TEST_GOOGLE_NEW_EMAIL}
+- assertVisible: { id: "welcome.title" }
+- tapOn: { id: "welcome.have-account-login" }
+- tapOn: { id: "auth-sheet.signin-with-google" }
+- assertVisible: { id: "google-auth.picker" }
+- runFlow:
+    when:
+      visible: { id: "test.google-auth.confirm-account" }
+    commands:
+      - tapOn: { id: "test.google-auth.confirm-account" }
+- assertVisible: { id: "home.tab-bar" }
+- assertNotVisible: { id: "welcome.title" }

@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: WZ-D-08
-tags: [needs-implementation, wizard, p0]
+tags: [wizard, p0]
 ---
 # >>> dashboard-meta
 # WZ-D-08 — Each destination card has Flight/Train/Car/Bus/Ferry chips with single-select behaviour
@@ -12,7 +12,21 @@ tags: [needs-implementation, wizard, p0]
 # 3. Tap Train — verify only Train is highlighted; Flight is no longer selected.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- assertVisible: { id: "welcome.title" }
+- tapOn: { id: "welcome.create-plan-button" }
+- assertVisible: { id: "wizard.destination.title" }
+- scrollUntilVisible:
+    element: { id: "wizard.destination.add-destination-button" }
+    direction: DOWN
+- tapOn: { id: "wizard.destination.add-destination-button" }
+- assertVisible: { id: "wizard.destination.card.1.transport.flight" }
+- assertVisible: { id: "wizard.destination.card.1.transport.train" }
+- assertVisible: { id: "wizard.destination.card.1.transport.car" }
+- assertVisible: { id: "wizard.destination.card.1.transport.bus" }
+- assertVisible: { id: "wizard.destination.card.1.transport.ferry" }
+- tapOn: { id: "wizard.destination.card.1.transport.train" }
+- waitForAnimationToEnd:
+    timeout: 2000
+- assertVisible: { id: "wizard.destination.card.1.transport.train" }

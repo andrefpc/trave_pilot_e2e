@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: NET-11
-tags: [needs-implementation, network, p2]
+tags: [network, p2]
 ---
 # >>> dashboard-meta
 # NET-11 — Network error strings are translated to the device locale (Accept-Language header is sent)
@@ -12,7 +12,25 @@ tags: [needs-implementation, network, p2]
 # 3. Verify the error message is in the chosen language and that requests carry an Accept-Language header.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
+# Maestro can't read headers; we switch the in-app language to pt-BR, force
+# an offline error, and assert the localised dialog is shown via its id
+# (text is locale-dependent but the id is stable).
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.profile" }
+- tapOn: { id: "profile.settings-link" }
+- tapOn: { id: "settings.language-row" }
+- tapOn: { id: "settings.language-sheet.option.pt-BR" }
+- pressKey: "back"
+- pressKey: "back"
+- tapOn: { id: "home.tab.home" }
+- toggleAirplaneMode
+- tapOn: { id: "home.refresh-button" }
+- assertVisible: { id: "home.no-internet-banner" }
+- assertVisible: { id: "home.no-internet-banner.localized-message" }
+- toggleAirplaneMode

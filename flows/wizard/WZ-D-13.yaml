@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: WZ-D-13
-tags: [needs-implementation, wizard, p0]
+tags: [wizard, p0]
 ---
 # >>> dashboard-meta
 # WZ-D-13 — Free user with one active plan creating a second plan is blocked at the API with 403 → paywall opens
@@ -12,7 +12,31 @@ tags: [needs-implementation, wizard, p0]
 # 3. Verify the 2nd-plan limit triggers the Premium bottom sheet (because POST /travel-plans/full returns 403).
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_FREE_EMAIL}
+      TEST_PASSWORD: ${TEST_FREE_PASSWORD}
+- assertVisible: { id: "home.tab-bar" }
+- tapOn: { id: "home.tab.travel-plans" }
+- tapOn: { id: "welcome.create-plan-button" }
+- assertVisible: { id: "wizard.destination.title" }
+- tapOn: { id: "wizard.destination.origin-field" }
+- inputText: "Paris"
+- waitForAnimationToEnd:
+    timeout: 5000
+- tapOn: { id: "wizard.destination.origin-suggestion.0" }
+- tapOn: { id: "wizard.destination.departure-field" }
+- tapOn: { id: "wizard.destination.date-picker.ok-button" }
+- tapOn: { id: "wizard.destination.return-field" }
+- tapOn: { id: "wizard.destination.date-picker.ok-button" }
+- tapOn: { id: "wizard.destination.card.0.city-field" }
+- inputText: "Rome"
+- waitForAnimationToEnd:
+    timeout: 5000
+- tapOn: { id: "wizard.destination.card.0.city-suggestion.0" }
+- tapOn: { id: "wizard.destination.next-button" }
+- assertVisible: { id: "premium.bottom-sheet.title" }
+- assertVisible: { id: "premium.bottom-sheet.cta" }

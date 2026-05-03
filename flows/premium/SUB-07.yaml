@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: SUB-07
-tags: [needs-implementation, premium, p1]
+tags: [premium, p1]
 ---
 # >>> dashboard-meta
 # SUB-07 — Subscribing while already premium returns 409 and shows "Already subscribed"
@@ -11,7 +11,17 @@ tags: [needs-implementation, premium, p1]
 # 2. Verify the server returns 409 and the UI shows "Already subscribed" rather than charging again.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.profile" }
+- tapOn: { id: "profile.manage-subscription-button" }
+- tapOn: { id: "subscription.subscribe-again-button" }
+- waitForAnimationToEnd:
+    timeout: 5000
+- assertVisible: { id: "subscription.already-subscribed-dialog.title" }
+- tapOn: { id: "subscription.already-subscribed-dialog.dismiss-button" }

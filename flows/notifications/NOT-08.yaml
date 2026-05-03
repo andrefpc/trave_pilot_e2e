@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: NOT-08
-tags: [needs-implementation, notifications, p1]
+tags: [notifications, p1]
 ---
 # >>> dashboard-meta
 # NOT-08 — A test FCM push from the backend appears as a notification on the device
@@ -12,7 +12,20 @@ tags: [needs-implementation, notifications, p1]
 # 3. Verify a notification with the test title and body appears in the tray.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
+# Maestro can't peek at the system tray. We use the in-app "Send test push"
+# debug action and verify the resulting in-app notification entry appears.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.profile" }
+- tapOn: { id: "profile.settings-link" }
+- tapOn: { id: "settings.notifications-row" }
+- tapOn: { id: "settings.notifications.send-test-push-button" }
+- assertVisible: { id: "settings.notifications.test-push-sent-toast" }
+- tapOn: { id: "home.tab.notifications" }
+- assertVisible: { id: "notifications.list" }
+- assertVisible: { id: "notifications.notification.test-push.0" }

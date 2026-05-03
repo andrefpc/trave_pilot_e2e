@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: AUTH-R-10
-tags: [needs-implementation, auth, p0]
+tags: [auth, p0]
 ---
 # >>> dashboard-meta
 # AUTH-R-10 — Registering with an email that already has an account shows an "Email already exists" dialog with Retry
@@ -12,7 +12,21 @@ tags: [needs-implementation, auth, p0]
 # 3. Verify a loading overlay flashes, then a dialog "Email already exists" appears with Retry.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
-- runFlow: ../common/_reset_data.yaml
-- runFlow: ../common/_open_app.yaml
+- launchApp:
+    clearState: true
+    clearKeychain: true
+    stopApp: true
+- openLink: travelpilot://register
+- assertVisible: { id: "register.title" }
+- tapOn: { id: "register.name-field" }
+- inputText: "QA Tester"
+- tapOn: { id: "register.email-field" }
+- inputText: ${TEST_EMAIL}
+- tapOn: { id: "register.password-field" }
+- inputText: "Password1!"
+- tapOn: { id: "register.confirm-password-field" }
+- inputText: "Password1!"
+- hideKeyboard
+- tapOn: { id: "register.create-account-button" }
+- assertVisible: { id: "register.email-exists-dialog.title" }
+- assertVisible: { id: "register.email-exists-dialog.retry-button" }

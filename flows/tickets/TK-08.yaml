@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: TK-08
-tags: [needs-implementation, tickets, p0]
+tags: [tickets, p0]
 ---
 # >>> dashboard-meta
 # TK-08 — Sharing an image from another app to Travel Pilot opens the upload sheet ready to save
@@ -12,7 +12,20 @@ tags: [needs-implementation, tickets, p0]
 # 3. Tapping "Save to trip" creates the ticket.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- openLink: ${SHARE_INTENT_IMAGE_URL}
+- waitForAnimationToEnd:
+    timeout: 5000
+- assertVisible: { id: "tickets.upload-sheet.title" }
+- assertVisible: { id: "tickets.upload-sheet.preview.0" }
+- tapOn: { id: "tickets.upload-sheet.save-button" }
+- waitForAnimationToEnd:
+    timeout: 15000
+- assertVisible: { id: "tickets.upload.success-snackbar" }
+- assertVisible: { id: "tickets.ticket-card.0" }

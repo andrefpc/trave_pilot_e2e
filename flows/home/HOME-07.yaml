@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: HOME-07
-tags: [needs-implementation, home, p2]
+tags: [home, p2]
 ---
 # >>> dashboard-meta
 # HOME-07 — After photos are added, Home shows a milestone gallery thumbnail strip; tapping opens City Gallery
@@ -13,7 +13,20 @@ tags: [needs-implementation, home, p2]
 # 4. Tap a city stack — City Gallery opens for that city.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.home" }
+- scrollUntilVisible:
+    element: { id: "home.gallery-card" }
+    direction: DOWN
+- assertVisible: { id: "home.gallery-card" }
+- assertVisible: { id: "home.gallery-card.city-stack.0" }
+- assertVisible: { id: "home.gallery-card.city-stack.0.thumbnail" }
+- tapOn: { id: "home.gallery-card.city-stack.0" }
+- assertVisible: { id: "city-gallery.screen" }
+- assertVisible: { id: "city-gallery.title" }

@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: WZ-MT-04
-tags: [needs-implementation, wizard, p1]
+tags: [wizard, p1]
 ---
 # >>> dashboard-meta
 # WZ-MT-04 — On a Meal Time card, end time before start time shows an inline error
@@ -11,7 +11,27 @@ tags: [needs-implementation, wizard, p1]
 # 2. Verify an inline error like "End time must be after start time" appears.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- assertVisible: { id: "welcome.title" }
+- tapOn: { id: "welcome.create-plan-button" }
+- runFlow: ../common/_wizard_fill_destination.yaml
+- assertVisible: { id: "wizard.walking-style.title" }
+- tapOn: { id: "wizard.walking-style.option.moderate" }
+- tapOn: { id: "wizard.walking-style.next-button" }
+- assertVisible: { id: "wizard.companions.title" }
+- tapOn: { id: "wizard.companions.next-button" }
+- assertVisible: { id: "wizard.day-schedule.title" }
+- scrollUntilVisible:
+    element: { id: "wizard.day-schedule.next-button" }
+    direction: DOWN
+- tapOn: { id: "wizard.day-schedule.next-button" }
+- assertVisible: { id: "wizard.meal-time.title" }
+- scrollUntilVisible:
+    element: { id: "wizard.meal-time.card.lunch.start-field" }
+    direction: DOWN
+- tapOn: { id: "wizard.meal-time.card.lunch.start-field" }
+- tapOn: { id: "wizard.meal-time.time-picker.ok-button" }
+- tapOn: { id: "wizard.meal-time.card.lunch.end-field" }
+- tapOn: { id: "wizard.meal-time.time-picker.ok-button" }
+- assertVisible: { id: "wizard.meal-time.card.lunch.error" }

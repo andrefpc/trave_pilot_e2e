@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: TK-11
-tags: [needs-implementation, tickets, p1]
+tags: [tickets, p1]
 ---
 # >>> dashboard-meta
 # TK-11 — FileProvider authority and exposed paths in the manifest are scoped to app cache and files only
@@ -12,7 +12,21 @@ tags: [needs-implementation, tickets, p1]
 # 3. Open res/xml/file_paths.xml and verify only files-path / cache-path entries (no root path).
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
+# Static-analysis case — Maestro cannot read the APK manifest directly. We
+# exercise the FileProvider end-to-end by sharing a ticket: if the authority
+# and file_paths were misconfigured the share intent would crash (no content
+# URI grant) instead of opening the system chooser.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.tickets" }
+- tapOn: { id: "tickets.ticket-card.0" }
+- assertVisible: { id: "tickets.viewer" }
+- tapOn: { id: "tickets.viewer.share-button" }
+- waitForAnimationToEnd:
+    timeout: 5000
+- assertVisible: { id: "tickets.share-chooser" }

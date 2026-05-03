@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: FD-07
-tags: [needs-implementation, feed, p0]
+tags: [feed, p0]
 ---
 # >>> dashboard-meta
 # FD-07 — Tapping "Select as Hotel" on a Hotel card → choosing days assigns the hotel for the destination
@@ -12,7 +12,22 @@ tags: [needs-implementation, feed, p0]
 # 3. Tap Confirm — verify the hotel is set on those days and a snackbar appears.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.feed" }
+- scrollUntilVisible:
+    element: { id: "feed.section.hotels.card.0" }
+    direction: DOWN
+- tapOn: { id: "feed.section.hotels.card.0.select-as-hotel-button" }
+- assertVisible: { id: "feed.hotel-day-picker-sheet.title" }
+- tapOn: { id: "feed.hotel-day-picker-sheet.day.0" }
+- tapOn: { id: "feed.hotel-day-picker-sheet.day.1" }
+- tapOn: { id: "feed.hotel-day-picker-sheet.confirm-button" }
+- waitForAnimationToEnd:
+    timeout: 5000
+- assertVisible: { id: "feed.select-hotel.success-snackbar" }

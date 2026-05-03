@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: AUTH-L-13
-tags: [needs-implementation, auth, p1]
+tags: [auth, p1]
 ---
 # >>> dashboard-meta
 # AUTH-L-13 — Right after a premium user logs in, the Profile screen shows the Premium badge
@@ -12,7 +12,17 @@ tags: [needs-implementation, auth, p1]
 # 3. Verify a "You are Premium" badge is visible (no spinner / no "Unlock Premium" card).
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
-- runFlow: ../common/_reset_data.yaml
-- runFlow: ../common/_open_app.yaml
+- launchApp:
+    clearState: true
+    clearKeychain: true
+    stopApp: true
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.profile" }
+- assertVisible: { id: "profile.title" }
+- assertVisible: { id: "profile.premium-badge" }
+- assertNotVisible: { id: "profile.unlock-premium-card" }
+- assertNotVisible: { id: "profile.premium-spinner" }

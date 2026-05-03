@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: ITE-03
-tags: [needs-implementation, edit, p0]
+tags: [edit, p0]
 ---
 # >>> dashboard-meta
 # ITE-03 — Long-pressing a stop's drag handle and dragging reorders the stop visually; the new order is applied on release
@@ -12,7 +12,24 @@ tags: [needs-implementation, edit, p0]
 # 3. Release — verify the stop snaps into its new position.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.travel-plans" }
+- tapOn: { id: "plans.plan-card.0" }
+- tapOn: { id: "itinerary.toolbar.rearrange-button" }
+- assertVisible: { id: "itinerary-edit.screen" }
+- assertVisible: { id: "itinerary-edit.stop.0" }
+- assertVisible: { id: "itinerary-edit.stop.1" }
+- swipe:
+    from: { id: "itinerary-edit.stop.0.drag-handle" }
+    direction: DOWN
+    duration: 1500
+- waitForAnimationToEnd:
+    timeout: 3000
+- assertVisible: { id: "itinerary-edit.stop.0" }
+- assertVisible: { id: "itinerary-edit.unsaved-indicator" }

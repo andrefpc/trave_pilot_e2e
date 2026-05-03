@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: PH-01
-tags: [needs-implementation, photos, p1]
+tags: [photos, p1]
 ---
 # >>> dashboard-meta
 # PH-01 — Tapping Gallery shows a grid of milestone photos grouped per city
@@ -12,7 +12,15 @@ tags: [needs-implementation, photos, p1]
 # 3. Verify a grid of photos is shown with section headers per city.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.profile" }
+- tapOn: { id: "profile.gallery-link" }
+- assertVisible: { id: "photos.gallery" }
+- assertVisible: { id: "photos.city-header.0" }
+- assertVisible: { id: "photos.image.0" }

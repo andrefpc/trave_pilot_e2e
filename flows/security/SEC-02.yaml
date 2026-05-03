@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: SEC-02
-tags: [needs-implementation, security, p0]
+tags: [security, p0]
 ---
 # >>> dashboard-meta
 # SEC-02 — Logout clears tokens fully; subsequent protected API calls return 401
@@ -13,7 +13,23 @@ tags: [needs-implementation, security, p0]
 # 4. Force any request — verify it returns 401 and the app shows Welcome.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
 - runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.profile" }
+- assertVisible: { id: "profile.user-name" }
+- tapOn: { id: "profile.settings-link" }
+- scrollUntilVisible:
+    element: { id: "settings.logout-button" }
+    direction: DOWN
+- tapOn: { id: "settings.logout-button" }
+- tapOn: { id: "settings.logout-confirm-dialog.confirm-button" }
+- assertVisible: { id: "welcome.title" }
+- launchApp:
+    stopApp: true
+- assertVisible: { id: "welcome.title" }
+- assertNotVisible: { id: "home.tab-bar" }

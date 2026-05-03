@@ -1,0 +1,10 @@
+appId: ${APP_ID}
+tags: [helper]
+---
+# Reusable: cold-launch the app and land on the Destination step of the
+# Create Plan wizard via the signed-out Welcome → Create Plan path.
+- runFlow: _reset_data.yaml
+- runFlow: _open_app.yaml
+- assertVisible: { id: "welcome.title" }
+- tapOn: { id: "welcome.create-plan-button" }
+- assertVisible: { id: "wizard.destination.title" }

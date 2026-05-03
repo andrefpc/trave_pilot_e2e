@@ -1,0 +1,22 @@
+appId: ${APP_ID}
+tags: [helper]
+---
+# Reusable: assumes wizard.destination.title is visible. Fills a minimal valid
+# Destination (Origin Paris, default departure/return, one destination Rome)
+# and taps Next so the next wizard step opens.
+- assertVisible: { id: "wizard.destination.title" }
+- tapOn: { id: "wizard.destination.origin-field" }
+- inputText: "Paris"
+- waitForAnimationToEnd:
+    timeout: 5000
+- tapOn: { id: "wizard.destination.origin-suggestion.0" }
+- tapOn: { id: "wizard.destination.departure-field" }
+- tapOn: { id: "wizard.destination.date-picker.ok-button" }
+- tapOn: { id: "wizard.destination.return-field" }
+- tapOn: { id: "wizard.destination.date-picker.ok-button" }
+- tapOn: { id: "wizard.destination.card.0.city-field" }
+- inputText: "Rome"
+- waitForAnimationToEnd:
+    timeout: 5000
+- tapOn: { id: "wizard.destination.card.0.city-suggestion.0" }
+- tapOn: { id: "wizard.destination.next-button" }

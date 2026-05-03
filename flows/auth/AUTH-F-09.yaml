@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: AUTH-F-09
-tags: [needs-implementation, auth, p0]
+tags: [auth, p0]
 ---
 # >>> dashboard-meta
 # AUTH-F-09 — Reset Password shows the same six password rule check boxes as Register and validates them in real time
@@ -12,7 +12,42 @@ tags: [needs-implementation, auth, p0]
 # 3. Verify the same six rules (8+ chars, uppercase, lowercase, number, special, match) flip from red to green as conditions are satisfied.
 # <<< dashboard-meta
 
-# TODO: implement interaction steps. Remove the `needs-implementation`
-# tag above once the flow asserts the expected behavior end-to-end.
 - runFlow: ../common/_reset_data.yaml
-- runFlow: ../common/_open_app.yaml
+- launchApp:
+    clearState: true
+    clearKeychain: true
+    stopApp: true
+- assertVisible: { id: "welcome.title" }
+- tapOn: { id: "welcome.have-account-login" }
+- tapOn: { id: "auth-sheet.signin-with-password" }
+- tapOn: { id: "login.forgot-password-link" }
+- tapOn: { id: "forgot-password.email-field" }
+- inputText: ${TEST_EMAIL}
+- hideKeyboard
+- tapOn: { id: "forgot-password.send-code-button" }
+- assertVisible: { id: "recovery-code.title" }
+- copyTextFrom: { id: "test.recovery-code.last-issued" }
+- tapOn: { id: "recovery-code.cell.0" }
+- pasteText
+- tapOn: { id: "recovery-code.submit-button" }
+- assertVisible: { id: "reset-password.title" }
+- assertVisible: { id: "reset-password.rule.length.unmet-marker" }
+- assertVisible: { id: "reset-password.rule.uppercase.unmet-marker" }
+- assertVisible: { id: "reset-password.rule.lowercase.unmet-marker" }
+- assertVisible: { id: "reset-password.rule.number.unmet-marker" }
+- assertVisible: { id: "reset-password.rule.special.unmet-marker" }
+- assertVisible: { id: "reset-password.rule.match.unmet-marker" }
+- tapOn: { id: "reset-password.password-field" }
+- inputText: "P"
+- assertVisible: { id: "reset-password.rule.uppercase.met-marker" }
+- inputText: "a"
+- assertVisible: { id: "reset-password.rule.lowercase.met-marker" }
+- inputText: "ssword"
+- assertVisible: { id: "reset-password.rule.length.met-marker" }
+- inputText: "1"
+- assertVisible: { id: "reset-password.rule.number.met-marker" }
+- inputText: "!"
+- assertVisible: { id: "reset-password.rule.special.met-marker" }
+- tapOn: { id: "reset-password.confirm-password-field" }
+- inputText: "Password1!"
+- assertVisible: { id: "reset-password.rule.match.met-marker" }
