@@ -3,11 +3,12 @@ node_modules/
 .env.*
 !config/.env.example
 
-# Maestro outputs
+# Maestro outputs (per-run, regenerated)
 report.xml
 debug/
 recording.mp4
 .maestro/
+results/
 
 # Build artifacts pulled into CI
 fixtures/*.apk
