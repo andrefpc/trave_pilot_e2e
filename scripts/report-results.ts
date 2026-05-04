@@ -179,24 +179,25 @@ async function findOrRegisterAppVersion(
   return null;
 }
 
-async function postRun(
+async function postBatch(
   baseUrl: string,
   token: string,
   appVersionId: string,
-  body: { test_case_id: string; platform: Platform; status: Status; notes: string | null },
-): Promise<void> {
-  const res = await fetch(`${baseUrl}/api/v1/admin/app-versions/${appVersionId}/test-runs`, {
-    method: 'PUT',
+  results: Array<{ test_case_id: string; platform: Platform; status: Status; notes: string | null }>,
+): Promise<{ run_id: string; written: number }> {
+  const res = await fetch(`${baseUrl}/api/v1/admin/app-versions/${appVersionId}/test-runs/batch`, {
+    method: 'POST',
     headers: {
       Authorization: `Bearer ${token}`,
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify(body),
+    body: JSON.stringify({ results }),
   });
   if (!res.ok) {
     const text = await res.text().catch(() => '');
-    throw new Error(`PUT test-runs failed (${res.status}): ${text.slice(0, 300)}`);
+    throw new Error(`POST test-runs/batch failed (${res.status}): ${text.slice(0, 500)}`);
   }
+  return res.json() as Promise<{ run_id: string; written: number }>;
 }
 
 async function main(): Promise<void> {
@@ -230,44 +231,49 @@ async function main(): Promise<void> {
     return;
   }
 
-  // Batch the PUTs N at a time so 400 results don't take 400 round-trips.
-  const CONCURRENCY = 10;
-  const queue = results.slice();
-  let posted = 0;
+  // Single batched POST: N results in one transaction-bounded request.
+  // The server tags everything as kind=automated and writes a TestExecution
+  // history row plus an upserted TestRun matrix cell per result.
+  const batch: Array<{ test_case_id: string; platform: Platform; status: Status; notes: string | null }> = [];
   let skipped = 0;
-  let failed = 0;
-
-  async function worker(): Promise<void> {
-    while (queue.length) {
-      const r = queue.shift()!;
-      const tcId = codeToId.get(r.code);
-      if (!tcId) {
-        skipped += 1;
-        continue;
-      }
-      const body = {
-        test_case_id: tcId,
-        platform: args.platform,
-        status: r.status,
-        notes: r.notes,
-      };
-      if (args.dryRun) {
-        posted += 1;
-        continue;
-      }
-      try {
-        await postRun(baseUrl, token, appVersionId, body);
-        posted += 1;
-      } catch (err) {
-        failed += 1;
-        console.warn(`  ! ${r.code}: ${err instanceof Error ? err.message : String(err)}`);
-      }
+  for (const r of results) {
+    const tcId = codeToId.get(r.code);
+    if (!tcId) {
+      skipped += 1;
+      continue;
     }
+    batch.push({
+      test_case_id: tcId,
+      platform: args.platform,
+      status: r.status,
+      notes: r.notes,
+    });
   }
 
-  const workers = Array.from({ length: Math.min(CONCURRENCY, results.length) }, () => worker());
-  await Promise.all(workers);
-  console.log(`done: posted=${posted} skipped=${skipped} failed=${failed}`);
+  if (args.dryRun) {
+    console.log(`done: would-post=${batch.length} skipped=${skipped} (dry run)`);
+    return;
+  }
+  if (!batch.length) {
+    console.log(`done: posted=0 skipped=${skipped} (nothing to send)`);
+    return;
+  }
+
+  // Server enforces a 1000-row max per request. For larger suites we split.
+  const CHUNK = 500;
+  let posted = 0;
+  let runId: string | null = null;
+  for (let i = 0; i < batch.length; i += CHUNK) {
+    const slice = batch.slice(i, i + CHUNK);
+    try {
+      const reply = await postBatch(baseUrl, token, appVersionId, slice);
+      posted += reply.written;
+      runId = reply.run_id;
+    } catch (err) {
+      console.warn(`  ! batch ${i}-${i + slice.length}: ${err instanceof Error ? err.message : String(err)}`);
+    }
+  }
+  console.log(`done: posted=${posted} skipped=${skipped} run_id=${runId ?? 'n/a'}`);
 }
 
 main().catch((err) => {
