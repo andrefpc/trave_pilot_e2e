@@ -13,7 +13,7 @@
 
 import path from 'node:path';
 import fs from 'node:fs';
-import { spawnSync } from 'node:child_process';
+import { spawn, spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { mintAdminToken } from './lib/credentials.ts';
 import {
@@ -110,14 +110,7 @@ function flowsPath(section: string | null): string {
 
 type RunOutcome = 'pass' | 'fail' | 'no-flows';
 
-function runMaestro(target: Target, flowsDir: string): { outcome: RunOutcome; junitPath: string } {
-  const reportDir = path.join(ROOT, 'results', target.platform);
-  fs.mkdirSync(reportDir, { recursive: true });
-  const junitPath = path.join(reportDir, 'report.xml');
-  const debugDir = path.join(reportDir, 'debug');
-  fs.rmSync(debugDir, { recursive: true, force: true });
-  fs.rmSync(junitPath, { force: true });
-
+function maestroArgsFor(target: Target, flowsDir: string, junitPath: string): string[] {
   const args = [
     'test',
     '--env', `APP_ID=${target.appId}`,
@@ -127,23 +120,96 @@ function runMaestro(target: Target, flowsDir: string): { outcome: RunOutcome; ju
     '--env', `MAESTRO_TEST_RESET_TOKEN=${TEST_RESET_TOKEN}`,
     '--format', 'junit',
     '--output', junitPath,
-    '--debug-output', debugDir,
+    // --debug-output omitted: Maestro 2.5.1 crashes serializing JS runScript
+    // results via GraalVM (CompilerDirectives$ShouldNotReachHere). When that
+    // upstream bug is fixed, re-add: '--debug-output', debugDir,
     '--exclude-tags=needs-implementation,archived,helper',
+    '--continuous=false',
     flowsDir,
   ];
-  if (target.platform === 'android') args.unshift('--device', target.device);
-  // Maestro auto-picks the only booted iOS sim, so we don't pass --device for iOS.
+  // Always pass --device explicitly so two parallel maestro processes don't
+  // race over device selection. iOS uses simulator UDID; Android uses serial.
+  args.unshift('--device', target.device);
+  return args;
+}
 
-  console.log(`\n→ maestro ${target.platform} (${target.device}) v${target.appVersion}`);
-  const result = spawnSync('maestro', args, { stdio: 'inherit', cwd: ROOT });
-
-  // Maestro skips writing report.xml when no flows match the include/exclude
-  // tag filter. Treat that as a no-op (no flows to run is a config state, not
-  // a failure) so the orchestrator exits 0 once Wave 1 implementations land.
-  if (!fs.existsSync(junitPath)) {
-    return { outcome: 'no-flows', junitPath };
+/**
+ * Pre-grant common runtime permissions at the OS level so the app never sees
+ * a permission prompt mid-flow. Best-effort: any failure is logged and
+ * ignored (the per-flow `_dismiss_interrupts.yaml` is the safety net).
+ */
+function preGrantPermissions(target: Target): void {
+  if (target.platform === 'ios') {
+    const perms = ['notifications', 'location', 'location-always', 'photos', 'camera', 'microphone', 'contacts', 'calendar'];
+    for (const p of perms) {
+      const r = spawnSync('xcrun', ['simctl', 'privacy', target.device, 'grant', p, target.appId], {
+        stdio: ['ignore', 'ignore', 'ignore'],
+      });
+      if (r.status !== 0) {
+        // notifications isn't a valid simctl privacy service in older Xcode;
+        // silently ignore.
+      }
+    }
+  } else {
+    const perms = [
+      'android.permission.POST_NOTIFICATIONS',
+      'android.permission.ACCESS_FINE_LOCATION',
+      'android.permission.ACCESS_COARSE_LOCATION',
+      'android.permission.READ_MEDIA_IMAGES',
+      'android.permission.READ_MEDIA_VIDEO',
+      'android.permission.CAMERA',
+    ];
+    for (const p of perms) {
+      spawnSync('adb', ['-s', target.device, 'shell', 'pm', 'grant', target.appId, p], {
+        stdio: ['ignore', 'ignore', 'ignore'],
+      });
+    }
   }
-  return { outcome: result.status === 0 ? 'pass' : 'fail', junitPath };
+}
+
+/**
+ * Launch maestro for a single target. Captures stdout/stderr line-by-line and
+ * prefixes each line with the platform tag so two concurrent runs interleave
+ * cleanly in a single terminal.
+ */
+function runMaestroAsync(target: Target, flowsDir: string): Promise<{ target: Target; outcome: RunOutcome; junitPath: string }> {
+  const reportDir = path.join(ROOT, 'results', target.platform);
+  fs.mkdirSync(reportDir, { recursive: true });
+  const junitPath = path.join(reportDir, 'report.xml');
+  fs.rmSync(junitPath, { force: true });
+
+  const tag = target.platform === 'android' ? '\x1b[32m[android]\x1b[0m' : '\x1b[35m[ios]\x1b[0m';
+  console.log(`${tag} starting on ${target.device} (app v${target.appVersion})`);
+  preGrantPermissions(target);
+
+  return new Promise((resolve) => {
+    const child = spawn('maestro', maestroArgsFor(target, flowsDir, junitPath), { cwd: ROOT });
+
+    const pipe = (stream: NodeJS.ReadableStream): void => {
+      let buf = '';
+      stream.on('data', (chunk: Buffer) => {
+        buf += chunk.toString();
+        let idx;
+        while ((idx = buf.indexOf('\n')) >= 0) {
+          const line = buf.slice(0, idx);
+          buf = buf.slice(idx + 1);
+          if (line.trim()) process.stdout.write(`${tag} ${line}\n`);
+        }
+      });
+      stream.on('end', () => {
+        if (buf.trim()) process.stdout.write(`${tag} ${buf}\n`);
+      });
+    };
+    pipe(child.stdout);
+    pipe(child.stderr);
+
+    child.on('close', (code) => {
+      const exists = fs.existsSync(junitPath);
+      const outcome: RunOutcome = !exists ? 'no-flows' : code === 0 ? 'pass' : 'fail';
+      console.log(`${tag} finished (${outcome}, exit=${code})`);
+      resolve({ target, outcome, junitPath });
+    });
+  });
 }
 
 async function reportResults(target: Target, junitPath: string, token: string): Promise<void> {
@@ -190,14 +256,40 @@ async function main(): Promise<void> {
   const { token } = await mintAdminToken(API_BASE_URL);
   console.log(`✓ minted admin token (${token.length} chars)`);
 
+  // Pre-unlock the seeded e2e users so any prior AUTH-L-05 / SEC-13 lockout
+  // doesn't leak into this run. Production-safe (admin-authed endpoint).
+  for (const email of [TEST_FREE_EMAIL, process.env.TEST_PREMIUM_EMAIL || 'e2e+premium@travelpilotapp.com']) {
+    try {
+      const res = await fetch(`${API_BASE_URL}/api/v1/admin/actions/unlock-account`, {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      });
+      if (res.ok) {
+        const body = (await res.json()) as { cleared?: boolean };
+        console.log(`✓ unlocked ${email}${body.cleared ? ' (cleared lockout)' : ''}`);
+      } else {
+        console.warn(`! unlock ${email} → ${res.status} (continuing)`);
+      }
+    } catch (err) {
+      console.warn(`! unlock ${email} threw (continuing): ${err instanceof Error ? err.message : String(err)}`);
+    }
+  }
+
+  // Fire all platform runs in parallel — each maestro process drives a
+  // different device, so they don't contend.
+  console.log(`\nrunning ${targets.length} platform(s) in parallel\n`);
+  const completed = await Promise.all(targets.map((t) => runMaestroAsync(t, flowsDir)));
+
+  // Then report each platform's results sequentially so the matrix posts
+  // don't stomp each other under concurrent admin token use.
   const summary: { target: Target; outcome: RunOutcome }[] = [];
-  for (const t of targets) {
-    const { outcome, junitPath } = runMaestro(t, flowsDir);
-    summary.push({ target: t, outcome });
-    if (outcome === 'no-flows') {
-      console.log(`  ⊘ no runnable flows (all tagged needs-implementation/archived)`);
+  for (const c of completed) {
+    summary.push({ target: c.target, outcome: c.outcome });
+    if (c.outcome === 'no-flows') {
+      console.log(`  ⊘ ${c.target.platform}: no runnable flows`);
     } else {
-      await reportResults(t, junitPath, token);
+      await reportResults(c.target, c.junitPath, token);
     }
   }
 

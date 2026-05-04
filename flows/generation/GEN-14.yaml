@@ -45,7 +45,10 @@ tags: [generation, p2]
 - pressKey: "home"
 - waitForAnimationToEnd:
     timeout: 5000
-- openNotifications
+# Maestro can't drive the OS notification shade; closest viable proxy is to
+# foreground the app and verify the in-app "ready" state lands.
+- launchApp:
+    stopApp: false
 - extendedWaitUntil:
     visible: { id: "notification.plan-generation.ready" }
     timeout: 60000

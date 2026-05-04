@@ -33,6 +33,7 @@ tags: [generation, p2]
 - tapOn: { id: "wizard.where-to-stay.next-button" }
 - tapOn: { id: "wizard.travel-times.next-button" }
 - assertVisible: { id: "plan-generation.progress" }
-- openNotifications
+# Maestro can't drive the OS notification shade. Closest in-app proxy:
+# verify the persistent in-app banner asserting generation is in progress.
 - assertVisible: { id: "notification.plan-generation.in-progress" }
 - assertVisible: { id: "notification.plan-generation.in-progress.persistent-marker" }

@@ -23,14 +23,14 @@ tags: [smk, p0]
       TEST_PASSWORD: ${TEST_PASSWORD}
 - assertVisible: { id: "home.tab-bar" }
 - assertVisible: { id: "home.plan-header" }
-- setOrientation: LANDSCAPE
+- setOrientation: LANDSCAPE_LEFT
 - assertVisible: { id: "home.tab-bar" }
 - assertVisible: { id: "home.plan-header" }
 - setOrientation: PORTRAIT
 - tapOn: { id: "home.day-card.0" }
 - assertVisible: { id: "itinerary-day.title" }
 - assertVisible: { id: "itinerary-day.stop.0" }
-- setOrientation: LANDSCAPE
+- setOrientation: LANDSCAPE_LEFT
 - assertVisible: { id: "itinerary-day.stop.0" }
 - setOrientation: PORTRAIT
 - pressKey: "back"
@@ -45,7 +45,7 @@ tags: [smk, p0]
 - assertVisible:
     id: "wizard.companions.adults.value"
     text: "2"
-- setOrientation: LANDSCAPE
+- setOrientation: LANDSCAPE_LEFT
 - assertVisible:
     id: "wizard.companions.adults.value"
     text: "2"

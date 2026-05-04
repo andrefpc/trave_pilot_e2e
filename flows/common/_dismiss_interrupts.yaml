@@ -1,0 +1,61 @@
+appId: ${APP_ID}
+tags: [helper]
+---
+# Defensive prelude: silently dismiss any system / app modals that can pop
+# nondeterministically on first launch (notification permission prompts,
+# App Tracking Transparency, location prompts, "Rate this app", "What's new",
+# Google Play services updates, etc.). Each block only runs when the matching
+# element is visible — no-op otherwise. Safe to chain into every flow.
+
+# iOS notifications permission
+- runFlow:
+    when:
+      visible: "Allow"
+    commands:
+      - tapOn: "Allow"
+
+# iOS notifications permission (negative button — for tests that want to
+# decline; pick whichever is appropriate per flow. Default keep.)
+# (intentionally not auto-tapping "Don't Allow")
+
+# iOS App Tracking Transparency
+- runFlow:
+    when:
+      visible: "Ask App Not to Track"
+    commands:
+      - tapOn: "Ask App Not to Track"
+
+# iOS location prompt
+- runFlow:
+    when:
+      visible: "Allow While Using App"
+    commands:
+      - tapOn: "Allow While Using App"
+
+# iOS photo library prompt
+- runFlow:
+    when:
+      visible: "Allow Access to All Photos"
+    commands:
+      - tapOn: "Allow Access to All Photos"
+
+# Android 13+ notifications permission (POST_NOTIFICATIONS runtime grant)
+- runFlow:
+    when:
+      visible: { id: "com.android.permissioncontroller:id/permission_allow_button" }
+    commands:
+      - tapOn: { id: "com.android.permissioncontroller:id/permission_allow_button" }
+
+# Android system "Allow" button (generic — different OEMs use different ids)
+- runFlow:
+    when:
+      visible: "Allow"
+    commands:
+      - tapOn: "Allow"
+
+# Android Play services update prompt
+- runFlow:
+    when:
+      visible: "Update"
+    commands:
+      - tapOn: "Not now"

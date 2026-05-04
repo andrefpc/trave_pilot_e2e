@@ -5,3 +5,7 @@ tags: [helper]
     clearState: true
     clearKeychain: true
     stopApp: true
+# Swallow any system/app modal that can appear on first launch (notification
+# permission prompt, ATT, location prompt, "Rate this app", etc.). No-op when
+# no modal is visible.
+- runFlow: _dismiss_interrupts.yaml
