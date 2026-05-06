@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: ITE-14
-tags: [edit, p1]
+tags: [edit, p1, ios-only]
 ---
 # >>> dashboard-meta
 # ITE-14 — On a hotel stop, tapping the hotel option opens hotel selection and switches the day's hotel on save

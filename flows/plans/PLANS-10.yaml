@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: PLANS-10
-tags: [plans, p1]
+tags: [plans, p1, ios-only]
 ---
 # >>> dashboard-meta
 # PLANS-10 — Granting Calendar permission then exporting writes events for each day or stop into the chosen calendar

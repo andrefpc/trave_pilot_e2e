@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: RD-02
-tags: [reorder, p0]
+tags: [reorder, p0, ios-only]
 ---
 # >>> dashboard-meta
 # RD-02 — A premium user tapping Reorder Days opens the screen and dragging reorders days; saving sends PUT /reorder-days

@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: PLANS-07
-tags: [plans, p1]
+tags: [plans, p1, ios-only]
 ---
 # >>> dashboard-meta
 # PLANS-07 — Long-press → Duplicate creates a Draft copy of the plan and starts a new generation

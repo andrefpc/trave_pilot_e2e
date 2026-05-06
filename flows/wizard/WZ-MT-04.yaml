@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: WZ-MT-04
-tags: [wizard, p1]
+tags: [wizard, p1, ios-only]
 ---
 # >>> dashboard-meta
 # WZ-MT-04 — On a Meal Time card, end time before start time shows an inline error

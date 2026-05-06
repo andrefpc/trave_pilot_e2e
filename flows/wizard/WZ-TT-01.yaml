@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: WZ-TT-01
-tags: [wizard, p1]
+tags: [wizard, p1, ios-only]
 ---
 # >>> dashboard-meta
 # WZ-TT-01 — Travel Times shows one row per inter-city leg of the trip

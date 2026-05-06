@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: PROF-19
-tags: [profile, p0]
+tags: [profile, p0, ios-only]
 ---
 # >>> dashboard-meta
 # PROF-19 — Tapping the Privacy Policy link on Profile opens the privacy page

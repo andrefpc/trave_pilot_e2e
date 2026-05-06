@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: PLANS-15
-tags: [plans, p2]
+tags: [plans, p2, ios-only]
 ---
 # >>> dashboard-meta
 # PLANS-15 — On Travel Plans, the sort control (if present) reorders by created_at or departure_date

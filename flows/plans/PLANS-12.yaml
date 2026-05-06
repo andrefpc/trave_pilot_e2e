@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: PLANS-12
-tags: [plans, p1]
+tags: [plans, p1, ios-only]
 ---
 # >>> dashboard-meta
 # PLANS-12 — The "+ Create a new Plan" button on Travel Plans opens the Destination wizard step

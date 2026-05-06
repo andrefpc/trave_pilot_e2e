@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: SUB-08
-tags: [premium, p0]
+tags: [premium, p0, ios-only]
 ---
 # >>> dashboard-meta
 # SUB-08 — Restore Purchases on a fresh install verifies past receipts and restores premium

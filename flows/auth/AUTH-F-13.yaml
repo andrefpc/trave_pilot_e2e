@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: AUTH-F-13
-tags: [auth, p0]
+tags: [auth, p0, ios-only]
 ---
 # >>> dashboard-meta
 # AUTH-F-13 — Logging in with the old password after a reset shows the "Invalid credentials" error

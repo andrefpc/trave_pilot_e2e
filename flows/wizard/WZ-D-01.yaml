@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: WZ-D-01
-tags: [wizard, p0]
+tags: [wizard, p0, ios-only]
 ---
 # >>> dashboard-meta
 # WZ-D-01 — Typing 2+ characters into the Origin field shows a city dropdown with country flags

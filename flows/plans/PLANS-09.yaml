@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: PLANS-09
-tags: [plans, p0]
+tags: [plans, p0, ios-only]
 ---
 # >>> dashboard-meta
 # PLANS-09 — Long-press → Export to Calendar prompts for READ_CALENDAR/WRITE_CALENDAR permission if not granted

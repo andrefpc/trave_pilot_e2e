@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: AUTH-L-12
-tags: [auth, p0]
+tags: [auth, p0, ios-only]
 ---
 # >>> dashboard-meta
 # AUTH-L-12 — Opening the app via a share deep link, then logging in, lands on the Share Invite preview (not Home)

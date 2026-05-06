@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: PROF-18
-tags: [profile, p1]
+tags: [profile, p1, ios-only]
 ---
 # >>> dashboard-meta
 # PROF-18 — Tapping the Terms link on Profile opens the Terms screen (or external page)

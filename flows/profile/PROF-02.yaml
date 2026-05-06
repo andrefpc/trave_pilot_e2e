@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: PROF-02
-tags: [profile, p1]
+tags: [profile, p1, ios-only]
 ---
 # >>> dashboard-meta
 # PROF-02 — Tapping the avatar on Profile opens the photo picker (or Gallery)

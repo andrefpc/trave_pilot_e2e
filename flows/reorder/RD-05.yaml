@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: RD-05
-tags: [reorder, p2]
+tags: [reorder, p2, ios-only]
 ---
 # >>> dashboard-meta
 # RD-05 — For a single-day plan, Reorder Days is disabled or hidden because there is nothing to reorder

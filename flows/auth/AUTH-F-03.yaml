@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: AUTH-F-03
-tags: [auth, p1]
+tags: [auth, p1, ios-only]
 ---
 # >>> dashboard-meta
 # AUTH-F-03 — On Forgot Password, "xxx" in the email field shows "Invalid email address" inline; no email is sent

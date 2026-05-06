@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: WZ-WTS-04
-tags: [wizard, p2]
+tags: [wizard, p2, ios-only]
 ---
 # >>> dashboard-meta
 # WZ-WTS-04 — Each Where to Stay hotel card shows a star rating that matches its rating value

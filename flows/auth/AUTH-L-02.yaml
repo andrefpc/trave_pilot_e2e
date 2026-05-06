@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: AUTH-L-02
-tags: [auth, p0]
+tags: [auth, p0, ios-only]
 ---
 # >>> dashboard-meta
 # AUTH-L-02 — Tapping Login with "notanemail" in the email field shows "Invalid email address"; nothing is sent

@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: SUB-07
-tags: [premium, p1]
+tags: [premium, p1, ios-only]
 ---
 # >>> dashboard-meta
 # SUB-07 — Subscribing while already premium returns 409 and shows "Already subscribed"

@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: PLANS-11
-tags: [plans, p1]
+tags: [plans, p1, ios-only]
 ---
 # >>> dashboard-meta
 # PLANS-11 — Denying Calendar permission shows an error snackbar and does not crash

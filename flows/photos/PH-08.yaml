@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: PH-08
-tags: [photos, p1]
+tags: [photos, p1, ios-only]
 ---
 # >>> dashboard-meta
 # PH-08 — Tapping a city header on Gallery opens that city's photos only

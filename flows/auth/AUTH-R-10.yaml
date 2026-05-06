@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: AUTH-R-10
-tags: [auth, p0]
+tags: [auth, p0, ios-only]
 ---
 # >>> dashboard-meta
 # AUTH-R-10 — Registering with an email that already has an account shows an "Email already exists" dialog with Retry

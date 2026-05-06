@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: WZ-DS-06
-tags: [wizard, p2]
+tags: [wizard, p2, ios-only]
 ---
 # >>> dashboard-meta
 # WZ-DS-06 — If the "Apply same times to all days" option exists, using it copies start/end to every day card

@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: RD-01
-tags: [reorder, p0]
+tags: [reorder, p0, ios-only]
 ---
 # >>> dashboard-meta
 # RD-01 — A free user tapping Reorder Days opens the Premium bottom sheet (Reorder screen does not open)

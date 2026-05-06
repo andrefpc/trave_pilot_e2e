@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: WZ-CO-06
-tags: [wizard, p1]
+tags: [wizard, p1, ios-only]
 ---
 # >>> dashboard-meta
 # WZ-CO-06 — Tapping Back on Complete Onboarding returns to Travel Times with the draft intact

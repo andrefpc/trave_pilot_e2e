@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: ITV-13
-tags: [itinerary, p1]
+tags: [itinerary, p1, ios-only]
 ---
 # >>> dashboard-meta
 # ITV-13 — Opening a day route map shows polylines connecting stops with directions

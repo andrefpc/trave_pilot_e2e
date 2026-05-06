@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: AUTH-F-07
-tags: [auth, p1]
+tags: [auth, p1, ios-only]
 ---
 # >>> dashboard-meta
 # AUTH-F-07 — A recovery code older than 15 minutes is rejected with "Invalid reset token" on the Reset step

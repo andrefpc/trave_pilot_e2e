@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: SMK-09
-tags: [smk, p0]
+tags: [smk, p0, ios-only]
 ---
 # >>> dashboard-meta
 # SMK-09 — Tapping a https://www.travelpilotapp.com/share/<token> link from another app opens Share Invite

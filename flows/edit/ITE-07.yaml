@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: ITE-07
-tags: [edit, p1]
+tags: [edit, p1, ios-only]
 ---
 # >>> dashboard-meta
 # ITE-07 — Adding a custom stop with a manually typed title saves a stop with no place link

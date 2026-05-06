@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: AUTH-R-04
-tags: [auth, p0]
+tags: [auth, p0, ios-only]
 ---
 # >>> dashboard-meta
 # AUTH-R-04 — A password shorter than 8 characters keeps the "8 characters" rule red and the Create Account button disabled

@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: GEN-04
-tags: [generation, p0]
+tags: [generation, p0, ios-only]
 ---
 # >>> dashboard-meta
 # GEN-04 — Plan Generation polls GET /travel-plans/:id/generation-status every ~2 seconds

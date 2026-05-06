@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: ITV-06
-tags: [itinerary, p1]
+tags: [itinerary, p1, ios-only]
 ---
 # >>> dashboard-meta
 # ITV-06 — Place photos in the detail sheet load through /proxy/google-photo (not direct Google URLs)

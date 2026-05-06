@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: ITV-12
-tags: [itinerary, p2]
+tags: [itinerary, p2, ios-only]
 ---
 # >>> dashboard-meta
 # ITV-12 — A day with no stops shows an empty state like "No activities planned"

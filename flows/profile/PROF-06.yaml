@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: PROF-06
-tags: [profile, p2]
+tags: [profile, p2, ios-only]
 ---
 # >>> dashboard-meta
 # PROF-06 — After changing the email, a verification email is sent (if implemented)

@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: WZ-WTS-08
-tags: [wizard, p2]
+tags: [wizard, p2, ios-only]
 ---
 # >>> dashboard-meta
 # WZ-WTS-08 — When the photo proxy is unreachable, hotel cards show a placeholder image with no crash

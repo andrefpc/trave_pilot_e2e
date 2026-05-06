@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: WZ-WTS-06
-tags: [wizard, p1]
+tags: [wizard, p1, ios-only]
 ---
 # >>> dashboard-meta
 # WZ-WTS-06 — Tapping Next on Where to Stay without picking a hotel for each city shows "must select hotel for each city"

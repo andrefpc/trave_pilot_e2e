@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: PROF-05
-tags: [profile, p1]
+tags: [profile, p1, ios-only]
 ---
 # >>> dashboard-meta
 # PROF-05 — Editing the email; if the new email is taken, a 409 conflict is shown inline

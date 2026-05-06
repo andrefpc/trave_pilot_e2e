@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: WZ-WTS-07
-tags: [wizard, p2]
+tags: [wizard, p2, ios-only]
 ---
 # >>> dashboard-meta
 # WZ-WTS-07 — Where to Stay hotel images load through /proxy/google-photo (not direct Google URLs)

@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: ITE-12
-tags: [edit, p0]
+tags: [edit, p0, ios-only]
 ---
 # >>> dashboard-meta
 # ITE-12 — Tapping "Find a good Restaurant" on a meal stop opens search; picking one swaps the meal

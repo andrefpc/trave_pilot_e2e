@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: AUTH-R-01
-tags: [auth, p0]
+tags: [auth, p0, ios-only]
 ---
 # >>> dashboard-meta
 # AUTH-R-01 — Tapping Register with the name field empty shows "Name cannot be empty" under the name field

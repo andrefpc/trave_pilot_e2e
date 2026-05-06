@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: WZ-POI-02
-tags: [wizard, p1]
+tags: [wizard, p1, ios-only]
 ---
 # >>> dashboard-meta
 # WZ-POI-02 — Tapping Next on Places of Interest with no selections is blocked or shows "select at least one place"

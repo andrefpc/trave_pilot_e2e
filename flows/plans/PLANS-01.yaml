@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: PLANS-01
-tags: [plans, p0]
+tags: [plans, p0, ios-only]
 ---
 # >>> dashboard-meta
 # PLANS-01 — Travel Plans loads the first ~20 plans; scrolling to the bottom triggers pagination

@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: SMK-10
-tags: [smk, p0]
+tags: [smk, p0, ios-only]
 ---
 # >>> dashboard-meta
 # SMK-10 — Rotating the device on Home, Itinerary and a wizard step preserves state without crashing

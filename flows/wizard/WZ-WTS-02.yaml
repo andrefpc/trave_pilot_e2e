@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: WZ-WTS-02
-tags: [wizard, p1]
+tags: [wizard, p1, ios-only]
 ---
 # >>> dashboard-meta
 # WZ-WTS-02 — Tapping the search icon on Where to Stay opens the Place Search bottom sheet

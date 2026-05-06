@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: GEN-12
-tags: [generation, p1]
+tags: [generation, p1, ios-only]
 ---
 # >>> dashboard-meta
 # GEN-12 — Backgrounding the app during Plan Generation and returning resumes polling and shows the latest progress

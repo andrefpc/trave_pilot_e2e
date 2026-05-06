@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: GEN-07
-tags: [generation, p0]
+tags: [generation, p0, ios-only]
 ---
 # >>> dashboard-meta
 # GEN-07 — When the server reports status=failed, an error message and a Retry button appear on Plan Generation

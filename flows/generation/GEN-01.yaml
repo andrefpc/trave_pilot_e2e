@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: GEN-01
-tags: [generation, p1]
+tags: [generation, p1, ios-only]
 ---
 # >>> dashboard-meta
 # GEN-01 — Plan Generation shows a compass that breathes (scales 0.95–1.05) and a progress bar that grows

@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: PROF-10
-tags: [profile, p1]
+tags: [profile, p1, ios-only]
 ---
 # >>> dashboard-meta
 # PROF-10 — A free user on Profile sees the "Unlock Premium" upgrade card

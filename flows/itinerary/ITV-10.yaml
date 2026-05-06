@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: ITV-10
-tags: [itinerary, p0]
+tags: [itinerary, p0, ios-only]
 ---
 # >>> dashboard-meta
 # ITV-10 — A free user can replace a free-time slot with a place via "Add Stop" without seeing the paywall

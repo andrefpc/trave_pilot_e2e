@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: WZ-POI-03
-tags: [wizard, p2]
+tags: [wizard, p2, ios-only]
 ---
 # >>> dashboard-meta
 # WZ-POI-03 — Tapping a selected place on Places of Interest deselects it

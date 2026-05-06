@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: ITV-05
-tags: [itinerary, p0]
+tags: [itinerary, p0, ios-only]
 ---
 # >>> dashboard-meta
 # ITV-05 — Tapping a stop with a place id opens the Place Detail bottom sheet with photos, description and hours

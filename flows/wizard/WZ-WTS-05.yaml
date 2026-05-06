@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: WZ-WTS-05
-tags: [wizard, p1]
+tags: [wizard, p1, ios-only]
 ---
 # >>> dashboard-meta
 # WZ-WTS-05 — Tapping "View details" on a Where to Stay hotel card opens its website in a Custom Tab

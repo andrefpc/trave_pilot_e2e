@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: PLANS-13
-tags: [plans, p1]
+tags: [plans, p1, ios-only]
 ---
 # >>> dashboard-meta
 # PLANS-13 — A free user with no plans on Travel Plans sees the empty state and a "Create a new Plan" CTA

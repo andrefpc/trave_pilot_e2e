@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: GEN-13
-tags: [generation, p1]
+tags: [generation, p1, ios-only]
 ---
 # >>> dashboard-meta
 # GEN-13 — Losing network during Plan Generation triggers retries; after recovery the screen continues normally

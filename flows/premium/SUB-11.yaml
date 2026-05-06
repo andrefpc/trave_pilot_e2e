@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: SUB-11
-tags: [premium, p1]
+tags: [premium, p1, ios-only]
 ---
 # >>> dashboard-meta
 # SUB-11 — A Google Play renewal webhook updates the server, then GET /subscriptions/me returns the new expiry

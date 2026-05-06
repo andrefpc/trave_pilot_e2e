@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: ITV-07
-tags: [itinerary, p1]
+tags: [itinerary, p1, ios-only]
 ---
 # >>> dashboard-meta
 # ITV-07 — On a stop card, the edit/ticket/restaurant action buttons let the user manage the stop

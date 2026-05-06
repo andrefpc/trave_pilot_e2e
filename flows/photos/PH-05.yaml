@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: PH-05
-tags: [photos, p1]
+tags: [photos, p1, ios-only]
 ---
 # >>> dashboard-meta
 # PH-05 — Long-press → Share on a Gallery photo opens the system share chooser via FileProvider

@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: RD-03
-tags: [reorder, p0]
+tags: [reorder, p0, ios-only]
 ---
 # >>> dashboard-meta
 # RD-03 — Reordering days and saving persists across navigation: reopening the plan shows the new order

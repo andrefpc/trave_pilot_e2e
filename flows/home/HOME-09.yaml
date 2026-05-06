@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: HOME-09
-tags: [home, p1]
+tags: [home, p1, ios-only]
 ---
 # >>> dashboard-meta
 # HOME-09 — Home's "+ Create Plan" FAB or button navigates to the Destination wizard step

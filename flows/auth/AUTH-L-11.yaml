@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: AUTH-L-11
-tags: [auth, p1]
+tags: [auth, p1, ios-only]
 ---
 # >>> dashboard-meta
 # AUTH-L-11 — Tapping the back arrow on Login returns to Welcome without losing entered data

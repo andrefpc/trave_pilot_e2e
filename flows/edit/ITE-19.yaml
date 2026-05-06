@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: ITE-19
-tags: [edit, p1]
+tags: [edit, p1, ios-only]
 ---
 # >>> dashboard-meta
 # ITE-19 — Long-pressing a stop and tapping "Add Ticket" opens a file picker; the chosen PDF/image is attached

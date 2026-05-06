@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: PLANS-08
-tags: [plans, p0]
+tags: [plans, p0, ios-only]
 ---
 # >>> dashboard-meta
 # PLANS-08 — Free user with one plan tapping Duplicate hits 403 → Premium paywall

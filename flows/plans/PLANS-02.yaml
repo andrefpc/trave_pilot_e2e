@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: PLANS-02
-tags: [plans, p1]
+tags: [plans, p1, ios-only]
 ---
 # >>> dashboard-meta
 # PLANS-02 — Each Travel Plans card shows destinations, dates and a current/non-current indicator

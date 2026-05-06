@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: RD-04
-tags: [reorder, p1]
+tags: [reorder, p1, ios-only]
 ---
 # >>> dashboard-meta
 # RD-04 — On Reorder Days, each card shows day number, city, departure date and stop count

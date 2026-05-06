@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: PH-06
-tags: [photos, p0]
+tags: [photos, p0, ios-only]
 ---
 # >>> dashboard-meta
 # PH-06 — Long-press → Delete on a Gallery photo confirms then deletes via DELETE /milestones/:id

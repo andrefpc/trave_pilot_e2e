@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: PLANS-04
-tags: [plans, p1]
+tags: [plans, p1, ios-only]
 ---
 # >>> dashboard-meta
 # PLANS-04 — Long-pressing a plan card on Travel Plans opens a context menu with Delete, Duplicate, Export to Calendar

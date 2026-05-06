@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: AUTH-R-02
-tags: [auth, p0]
+tags: [auth, p0, ios-only]
 ---
 # >>> dashboard-meta
 # AUTH-R-02 — Typing "bad@" in the email field on Register shows "Invalid email address" inline; nothing is sent

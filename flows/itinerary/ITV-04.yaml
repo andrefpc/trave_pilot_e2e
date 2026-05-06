@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: ITV-04
-tags: [itinerary, p1]
+tags: [itinerary, p1, ios-only]
 ---
 # >>> dashboard-meta
 # ITV-04 — Each Itinerary day shows a weather badge with the day's forecast (icon + temperature)

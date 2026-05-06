@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: PROF-11
-tags: [profile, p1]
+tags: [profile, p1, ios-only]
 ---
 # >>> dashboard-meta
 # PROF-11 — A premium user on Profile sees a "You are Premium" badge instead of the upgrade card

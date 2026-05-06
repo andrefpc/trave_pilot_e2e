@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: ITV-14
-tags: [itinerary, p2]
+tags: [itinerary, p2, ios-only]
 ---
 # >>> dashboard-meta
 # ITV-14 — A long place description in the detail sheet scrolls smoothly inside the sheet

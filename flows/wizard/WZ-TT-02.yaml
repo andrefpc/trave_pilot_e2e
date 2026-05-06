@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: WZ-TT-02
-tags: [wizard, p1]
+tags: [wizard, p1, ios-only]
 ---
 # >>> dashboard-meta
 # WZ-TT-02 — On Travel Times, picking a time preference (e.g. Morning) for a leg saves it on Next

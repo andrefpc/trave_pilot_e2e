@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: ITV-03
-tags: [itinerary, p1]
+tags: [itinerary, p1, ios-only]
 ---
 # >>> dashboard-meta
 # ITV-03 — Each stop type has a distinct icon (attraction, restaurant, hotel, transport, free time)

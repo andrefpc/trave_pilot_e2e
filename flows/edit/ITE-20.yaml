@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: ITE-20
-tags: [edit, p1]
+tags: [edit, p1, ios-only]
 ---
 # >>> dashboard-meta
 # ITE-20 — On a Place Detail, "Add Photo" opens the picker and the chosen image becomes a milestone for that place

@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: PROF-03
-tags: [profile, p1]
+tags: [profile, p1, ios-only]
 ---
 # >>> dashboard-meta
 # PROF-03 — Picking a new avatar uploads it via POST /users/me/avatar and the avatar updates

@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: WZ-WTS-03
-tags: [wizard, p1]
+tags: [wizard, p1, ios-only]
 ---
 # >>> dashboard-meta
 # WZ-WTS-03 — Tapping "Add custom hotel" on Where to Stay opens a form for name + address

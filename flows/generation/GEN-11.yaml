@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: GEN-11
-tags: [generation, p1]
+tags: [generation, p1, ios-only]
 ---
 # >>> dashboard-meta
 # GEN-11 — Plan Generation that runs longer than 10 minutes shows a timeout error and offers Retry

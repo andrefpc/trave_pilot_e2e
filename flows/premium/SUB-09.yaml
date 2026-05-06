@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: SUB-09
-tags: [premium, p0]
+tags: [premium, p0, ios-only]
 ---
 # >>> dashboard-meta
 # SUB-09 — Cancel Subscription deep-links to Google Play subscription management

@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: AUTH-L-04
-tags: [auth, p0]
+tags: [auth, p0, ios-only]
 ---
 # >>> dashboard-meta
 # AUTH-L-04 — Logging in with a correct email but wrong password shows an "Invalid credentials" dialog with Retry

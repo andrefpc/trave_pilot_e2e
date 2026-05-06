@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: AUTH-R-15
-tags: [auth, p1]
+tags: [auth, p1, ios-only]
 ---
 # >>> dashboard-meta
 # AUTH-R-15 — Tapping the "Terms of Service" link on Register opens the terms page in a browser/Custom Tab

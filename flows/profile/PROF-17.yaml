@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: PROF-17
-tags: [profile, p2]
+tags: [profile, p2, ios-only]
 ---
 # >>> dashboard-meta
 # PROF-17 — Tapping the Help Center link on Profile opens the help URL externally

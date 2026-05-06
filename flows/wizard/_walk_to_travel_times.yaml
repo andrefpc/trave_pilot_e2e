@@ -1,5 +1,5 @@
 appId: ${APP_ID}
-tags: [helper]
+tags: [helper, ios-only]
 ---
 # Reusable: assumes wizard.destination.title is visible. Walks all the way
 # to Travel Times via two destination cities so a leg row exists. Lands with

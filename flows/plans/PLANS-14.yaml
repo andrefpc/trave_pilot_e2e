@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: PLANS-14
-tags: [plans, p2]
+tags: [plans, p2, ios-only]
 ---
 # >>> dashboard-meta
 # PLANS-14 — On Travel Plans, the status filter (if present) restricts the list to draft / active / completed / archived

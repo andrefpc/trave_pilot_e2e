@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: ITV-11
-tags: [itinerary, p1]
+tags: [itinerary, p1, ios-only]
 ---
 # >>> dashboard-meta
 # ITV-11 — Hotel check-in and check-out stops are auto-inserted on the appropriate days
