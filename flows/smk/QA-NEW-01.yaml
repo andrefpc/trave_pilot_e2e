@@ -16,4 +16,5 @@ tags: [smk, p0]
     clearState: true
     clearKeychain: true
     stopApp: true
+- runFlow: ../common/_dismiss_interrupts.yaml
 - assertVisible: { id: "welcome.title" }

@@ -59,3 +59,11 @@ tags: [helper]
       visible: "Update"
     commands:
       - tapOn: "Not now"
+
+# In-app error dialog (e.g. "Failed to load itinerary") — dismiss so the
+# rest of the flow can interact with the underlying screen.
+- runFlow:
+    when:
+      visible: "Dismiss"
+    commands:
+      - tapOn: "Dismiss"

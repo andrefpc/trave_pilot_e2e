@@ -1,0 +1,21 @@
+appId: ${APP_ID}
+tags: [helper]
+---
+# Robust keyboard-dismiss helper. Maestro's built-in `hideKeyboard` is best-
+# effort: on iOS it occasionally throws
+#   "Couldn't hide the keyboard. This can happen if the app uses a custom
+#    input or doesn't expose a standard dismiss action."
+# when the focused field is a custom TextField or the keyboard toolbar lacks
+# a recognized dismiss control. The whole flow then aborts even though the
+# next step doesn't really need the keyboard down.
+#
+# Strategy: tap a point near the top of the screen (above any text field)
+# which causes both platforms to drop focus and hide the keyboard without
+# triggering any visible button. 50%/6% lands in the status-bar / title area
+# on every screen we test against today.
+#
+# `retryTapIfNoChange: false` keeps this from looping when the tap happens
+# to land on a non-interactive element (which is the desired outcome).
+- tapOn:
+    point: 50%, 6%
+    retryTapIfNoChange: false

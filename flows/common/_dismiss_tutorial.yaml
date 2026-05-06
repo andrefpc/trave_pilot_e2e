@@ -1,0 +1,36 @@
+appId: ${APP_ID}
+tags: [helper]
+---
+# Dismiss any in-app tutorial overlay (Home tutorial, Itinerary tutorial, etc.).
+# After clearState the DataStore/UserDefaults are wiped, so the tutorial fires
+# on first visit to Home / first visit to Itinerary / etc., overlaying the UI
+# and preventing assertions on underlying elements.
+#
+# Buttons render localized text (English seed: "Skip" / "Next" / "Got it").
+# Each runFlow only fires when the matching text is visible — no-op otherwise.
+# Tap Skip first (single tap clears the whole walkthrough); fall back to
+# walking the steps with Next/Got it if Skip isn't shown (last step has no
+# skip button — only "Got it").
+
+# The tutorial fires ~600ms after the screen finishes loading, on top of the
+# auth round-trip. Wait long enough for both before checking — if we look
+# too early, the overlay isn't mounted yet and the runFlow when-block
+# becomes a silent no-op, leaving the overlay to break later assertions.
+- waitForAnimationToEnd:
+    timeout: 5000
+
+# Skip dismisses the entire walkthrough. iOS TravelPilotLink doesn't expose
+# its label as a tappable text element, so use the stable id wired up on
+# the tooltip itself. The id falls back to the next-button id on the last
+# tutorial step (where no skip is available).
+- runFlow:
+    when:
+      visible: { id: "tutorial.skip-button" }
+    commands:
+      - tapOn: { id: "tutorial.skip-button" }
+
+- runFlow:
+    when:
+      visible: { id: "tutorial.next-button" }
+    commands:
+      - tapOn: { id: "tutorial.next-button" }

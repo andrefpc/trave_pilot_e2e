@@ -27,7 +27,7 @@ tags: [profile, p1]
 - tapOn: { id: "profile.edit.email-field" }
 - eraseText
 - inputText: ${TEST_PREMIUM_EMAIL}
-- hideKeyboard
+- runFlow: ../common/_hide_keyboard.yaml
 - tapOn: { id: "profile.edit.save-button" }
 - waitForAnimationToEnd:
     timeout: 5000

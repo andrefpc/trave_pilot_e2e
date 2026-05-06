@@ -26,6 +26,6 @@ tags: [wizard, p1]
 - inputText: "My Boutique Hotel"
 - tapOn: { id: "wizard.where-to-stay.custom-form.address-field" }
 - inputText: "123 Via Roma"
-- hideKeyboard
+- runFlow: ../common/_hide_keyboard.yaml
 - tapOn: { id: "wizard.where-to-stay.custom-form.confirm-button" }
 - assertVisible: { id: "wizard.where-to-stay.city-section.0.custom-chip.0" }

@@ -16,7 +16,10 @@ tags: [smk, p0]
     clearState: true
     clearKeychain: true
     stopApp: true
+# Splash flashes for ~2 s — assert it BEFORE dismissing any system prompts
+# (the prompts only appear once Welcome mounts).
 - assertVisible: { id: "splash.compass-logo" }
 - waitForAnimationToEnd:
     timeout: 5000
+- runFlow: ../common/_dismiss_interrupts.yaml
 - assertVisible: { id: "welcome.title" }

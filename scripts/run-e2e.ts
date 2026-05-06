@@ -32,9 +32,32 @@ const ROOT = path.resolve(__dirname, '..');
 const APP_ID_ANDROID = process.env.APP_ID_ANDROID || 'com.travelpilotapp';
 const APP_ID_IOS = process.env.APP_ID_IOS || 'com.travelpilotapp';
 const API_BASE_URL = process.env.API_BASE_URL || 'https://api.travelpilotapp.com';
-const TEST_FREE_EMAIL = process.env.TEST_FREE_EMAIL || 'e2e+freeuser@travelpilotapp.com';
-const TEST_FREE_PASSWORD = process.env.TEST_FREE_PASSWORD || 'E2eFreeUser!1';
 const TEST_RESET_TOKEN = process.env.TEST_RESET_TOKEN || '';
+
+// Per-platform credentials so Android and iOS runs don't contend over the
+// same user (lockout, refresh-token churn, share state).
+const TEST_CREDS = {
+  android: {
+    free: {
+      email: process.env.TEST_ANDROID_FREE_EMAIL || 'e2e+android-free@travelpilotapp.com',
+      password: process.env.TEST_ANDROID_FREE_PASSWORD || 'E2eAndroidFree!1',
+    },
+    premium: {
+      email: process.env.TEST_ANDROID_PREMIUM_EMAIL || 'e2e+android-premium@travelpilotapp.com',
+      password: process.env.TEST_ANDROID_PREMIUM_PASSWORD || 'E2eAndroidPremium!1',
+    },
+  },
+  ios: {
+    free: {
+      email: process.env.TEST_IOS_FREE_EMAIL || 'e2e+ios-free@travelpilotapp.com',
+      password: process.env.TEST_IOS_FREE_PASSWORD || 'E2eIosFree!1',
+    },
+    premium: {
+      email: process.env.TEST_IOS_PREMIUM_EMAIL || 'e2e+ios-premium@travelpilotapp.com',
+      password: process.env.TEST_IOS_PREMIUM_PASSWORD || 'E2eIosPremium!1',
+    },
+  },
+} as const;
 
 interface Args {
   section: string | null;
@@ -110,12 +133,22 @@ function flowsPath(section: string | null): string {
 
 type RunOutcome = 'pass' | 'fail' | 'no-flows';
 
-function maestroArgsFor(target: Target, flowsDir: string, junitPath: string): string[] {
+function maestroArgsFor(target: Target, flowsDir: string, junitPath: string, shareToken: string): string[] {
+  const free = TEST_CREDS[target.platform].free;
+  const premium = TEST_CREDS[target.platform].premium;
   const args = [
     'test',
     '--env', `APP_ID=${target.appId}`,
-    '--env', `TEST_EMAIL=${TEST_FREE_EMAIL}`,
-    '--env', `TEST_PASSWORD=${TEST_FREE_PASSWORD}`,
+    '--env', `TEST_EMAIL=${free.email}`,
+    '--env', `TEST_PASSWORD=${free.password}`,
+    '--env', `TEST_FREE_EMAIL=${free.email}`,
+    '--env', `TEST_FREE_PASSWORD=${free.password}`,
+    '--env', `TEST_PREMIUM_EMAIL=${premium.email}`,
+    '--env', `TEST_PREMIUM_PASSWORD=${premium.password}`,
+    '--env', `TEST_NEW_NAME=E2E Smoke User`,
+    '--env', `TEST_NEW_EMAIL=e2e+smoke-${Date.now()}@travelpilotapp.com`,
+    '--env', `TEST_NEW_PASSWORD=E2eSmoke!1`,
+    '--env', `TEST_SHARE_TOKEN=${shareToken}`,
     '--env', `MAESTRO_API_BASE_URL=${API_BASE_URL}`,
     '--env', `MAESTRO_TEST_RESET_TOKEN=${TEST_RESET_TOKEN}`,
     '--format', 'junit',
@@ -123,7 +156,10 @@ function maestroArgsFor(target: Target, flowsDir: string, junitPath: string): st
     // --debug-output omitted: Maestro 2.5.1 crashes serializing JS runScript
     // results via GraalVM (CompilerDirectives$ShouldNotReachHere). When that
     // upstream bug is fixed, re-add: '--debug-output', debugDir,
-    '--exclude-tags=needs-implementation,archived,helper',
+    // Per-platform exclusions: a flow tagged `ios-only` is skipped on Android
+    // and vice versa. Keeps platform-divergent UX (e.g. Apple Sign-In on iOS,
+    // Google Sign-In on Android) from polluting the cross-platform matrix.
+    `--exclude-tags=needs-implementation,archived,helper,${target.platform === 'ios' ? 'android-only' : 'ios-only'}`,
     '--continuous=false',
     flowsDir,
   ];
@@ -172,7 +208,7 @@ function preGrantPermissions(target: Target): void {
  * prefixes each line with the platform tag so two concurrent runs interleave
  * cleanly in a single terminal.
  */
-function runMaestroAsync(target: Target, flowsDir: string): Promise<{ target: Target; outcome: RunOutcome; junitPath: string }> {
+function runMaestroAsync(target: Target, flowsDir: string, shareToken: string): Promise<{ target: Target; outcome: RunOutcome; junitPath: string }> {
   const reportDir = path.join(ROOT, 'results', target.platform);
   fs.mkdirSync(reportDir, { recursive: true });
   const junitPath = path.join(reportDir, 'report.xml');
@@ -183,7 +219,28 @@ function runMaestroAsync(target: Target, flowsDir: string): Promise<{ target: Ta
   preGrantPermissions(target);
 
   return new Promise((resolve) => {
-    const child = spawn('maestro', maestroArgsFor(target, flowsDir, junitPath), { cwd: ROOT });
+    const child = spawn('maestro', maestroArgsFor(target, flowsDir, junitPath, shareToken), { cwd: ROOT });
+
+    // iOS xcuitest driver occasionally hangs after the suite finishes (last
+    // log line is the housekeeping `deleteOldFiles` and the process never
+    // exits). Once the JUnit report is on disk every test has reported, so we
+    // can safely tear down. Watch for the file to appear, then give maestro a
+    // short grace window to exit cleanly; SIGKILL anything still alive.
+    const POST_REPORT_GRACE_MS = 30_000;
+    let reportSeenAt: number | null = null;
+    const reportWatcher = setInterval(() => {
+      if (reportSeenAt === null) {
+        if (fs.existsSync(junitPath)) {
+          reportSeenAt = Date.now();
+        }
+      } else if (Date.now() - reportSeenAt > POST_REPORT_GRACE_MS) {
+        process.stdout.write(
+          `${tag} report on disk but maestro hasn't exited after ${POST_REPORT_GRACE_MS / 1000}s — force-killing (likely the iOS xcuitest hang).\n`,
+        );
+        try { child.kill('SIGKILL'); } catch { /* ignore */ }
+        clearInterval(reportWatcher);
+      }
+    }, 1000);
 
     const pipe = (stream: NodeJS.ReadableStream): void => {
       let buf = '';
@@ -204,6 +261,7 @@ function runMaestroAsync(target: Target, flowsDir: string): Promise<{ target: Ta
     pipe(child.stderr);
 
     child.on('close', (code) => {
+      clearInterval(reportWatcher);
       const exists = fs.existsSync(junitPath);
       const outcome: RunOutcome = !exists ? 'no-flows' : code === 0 ? 'pass' : 'fail';
       console.log(`${tag} finished (${outcome}, exit=${code})`);
@@ -256,9 +314,13 @@ async function main(): Promise<void> {
   const { token } = await mintAdminToken(API_BASE_URL);
   console.log(`✓ minted admin token (${token.length} chars)`);
 
-  // Pre-unlock the seeded e2e users so any prior AUTH-L-05 / SEC-13 lockout
+  // Pre-unlock all seeded e2e users so any prior AUTH-L-05 / SEC-13 lockout
   // doesn't leak into this run. Production-safe (admin-authed endpoint).
-  for (const email of [TEST_FREE_EMAIL, process.env.TEST_PREMIUM_EMAIL || 'e2e+premium@travelpilotapp.com']) {
+  const allEmails = [
+    TEST_CREDS.android.free.email, TEST_CREDS.android.premium.email,
+    TEST_CREDS.ios.free.email, TEST_CREDS.ios.premium.email,
+  ];
+  for (const email of allEmails) {
     try {
       const res = await fetch(`${API_BASE_URL}/api/v1/admin/actions/unlock-account`, {
         method: 'POST',
@@ -276,10 +338,33 @@ async function main(): Promise<void> {
     }
   }
 
+  // Mint a fresh share token from the seeded premium plan owner so SMK-09
+  // and any other deep-link share flow has a valid token to expand.
+  // Soft-fail: if the test endpoint is unreachable, leave it empty — flows
+  // that need it will fail with a clear maestro error.
+  const ownerEmail = TEST_CREDS.android.premium.email;
+  let shareToken = '';
+  try {
+    const res = await fetch(`${API_BASE_URL}/api/v1/test/seed-share-token`, {
+      method: 'POST',
+      headers: { 'X-Test-Reset-Token': TEST_RESET_TOKEN, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: ownerEmail }),
+    });
+    if (res.ok) {
+      const body = (await res.json()) as { share_token?: string };
+      shareToken = body.share_token ?? '';
+      console.log(`✓ minted share token (${shareToken.length} chars)`);
+    } else {
+      console.warn(`! seed-share-token → ${res.status} (continuing; SMK-09 will fail to expand the link)`);
+    }
+  } catch (err) {
+    console.warn(`! seed-share-token threw (continuing): ${err instanceof Error ? err.message : String(err)}`);
+  }
+
   // Fire all platform runs in parallel — each maestro process drives a
   // different device, so they don't contend.
   console.log(`\nrunning ${targets.length} platform(s) in parallel\n`);
-  const completed = await Promise.all(targets.map((t) => runMaestroAsync(t, flowsDir)));
+  const completed = await Promise.all(targets.map((t) => runMaestroAsync(t, flowsDir, shareToken)));
 
   // Then report each platform's results sequentially so the matrix posts
   // don't stomp each other under concurrent admin token use.

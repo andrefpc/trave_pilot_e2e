@@ -1,22 +1,37 @@
 appId: ${APP_ID}
 tags: [helper]
 ---
-# Reusable: assumes wizard.destination.title is visible. Fills a minimal valid
-# Destination (Origin Paris, default departure/return, one destination Rome)
-# and taps Next so the next wizard step opens.
+# Reusable: assumes wizard.destination.title is visible. Picks origin Paris,
+# then adds one destination card (Rome) with a default arrival date, then
+# taps Next so the next wizard step opens.
+#
+# Aligns with the actual app UI: there is no separate trip-level
+# departure/return date — each destination card carries its own arrival
+# date, set inside the destination search sheet via arrive-on-field +
+# date-picker.ok-button. Dropping the legacy `departure-field` /
+# `return-field` references that referenced UI never built on iOS or Android.
+
 - assertVisible: { id: "wizard.destination.title" }
+
+# Origin city
 - tapOn: { id: "wizard.destination.origin-field" }
 - inputText: "Paris"
 - waitForAnimationToEnd:
     timeout: 5000
 - tapOn: { id: "wizard.destination.origin-suggestion.0" }
-- tapOn: { id: "wizard.destination.departure-field" }
+- waitForAnimationToEnd:
+    timeout: 2000
+
+# First destination: open add-destination sheet, pick default date, search city
+- tapOn: { id: "wizard.destination.add-destination-button" }
+- tapOn: { id: "wizard.destination.arrive-on-field" }
 - tapOn: { id: "wizard.destination.date-picker.ok-button" }
-- tapOn: { id: "wizard.destination.return-field" }
-- tapOn: { id: "wizard.destination.date-picker.ok-button" }
-- tapOn: { id: "wizard.destination.card.0.city-field" }
 - inputText: "Rome"
 - waitForAnimationToEnd:
     timeout: 5000
 - tapOn: { id: "wizard.destination.card.0.city-suggestion.0" }
+- waitForAnimationToEnd:
+    timeout: 2000
+
+# Continue to next wizard step
 - tapOn: { id: "wizard.destination.next-button" }

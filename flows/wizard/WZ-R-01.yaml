@@ -23,7 +23,7 @@ tags: [wizard, p1]
 - waitForAnimationToEnd:
     timeout: 5000
 - tapOn: { id: "wizard.restaurants.search-result.0" }
-- hideKeyboard
+- runFlow: ../common/_hide_keyboard.yaml
 - scrollUntilVisible:
     element: { id: "wizard.restaurants.next-button" }
     direction: DOWN

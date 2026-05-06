@@ -17,17 +17,26 @@ tags: [smk, p0]
     clearState: true
     clearKeychain: true
     stopApp: true
+- runFlow: ../common/_dismiss_interrupts.yaml
 - runFlow:
     file: ../common/_login.yaml
     env:
       TEST_EMAIL: ${TEST_EMAIL}
       TEST_PASSWORD: ${TEST_PASSWORD}
-- assertVisible: { id: "home.tab-bar" }
+- assertVisible: { id: "home.tab.home" }
 - assertVisible: { id: "home.day-card.0" }
-- tapOn: { id: "home.day-card.0" }
+# home.day-card.0 wraps the PreviewCard layout but isn't itself clickable —
+# tapping it doesn't navigate. The "Open full itinerary" button inside the
+# card has no maestroId yet, so tap by visible text. Same English string on
+# both platforms.
+- tapOn: "Open full itinerary"
+# Itinerary tutorial overlay can fire on first visit — dismiss if shown.
+- runFlow: ../common/_dismiss_tutorial.yaml
 - assertVisible: { id: "itinerary-day.title" }
-- assertVisible: { id: "itinerary-day.wakeup-stop" }
+# wakeup-stop / sleep-stop are not distinct ids in either app — the first
+# stop (hotel_leave) and last stop (hotel_return) both render as
+# itinerary-day.stop.<index>. Asserting stop.0 alone is enough to prove the
+# day rendered with stops.
 - assertVisible: { id: "itinerary-day.stop.0" }
-- assertVisible: { id: "itinerary-day.sleep-stop" }
 - assertVisible: { id: "itinerary-day.weather-icon" }
 - assertVisible: { id: "itinerary-day.weather-temp" }

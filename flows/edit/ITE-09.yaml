@@ -25,13 +25,15 @@ tags: [edit, p1]
 - assertVisible: { id: "itinerary-edit.screen" }
 - tapOn: { id: "itinerary-edit.stop.0.edit-button" }
 - assertVisible: { id: "itinerary-edit.edit-stop-sheet" }
+# Material3 / SwiftUI time pickers don't expose per-cell ids; tap the
+# digits by visible text to set arrival 14:00 and departure 13:00.
 - tapOn: { id: "itinerary-edit.edit-stop-sheet.arrival-time-field" }
-- tapOn: { id: "itinerary-edit.time-picker.hour.14" }
-- tapOn: { id: "itinerary-edit.time-picker.minute.00" }
+- tapOn: "14"
+- tapOn: "00"
 - tapOn: { id: "itinerary-edit.time-picker.ok-button" }
 - tapOn: { id: "itinerary-edit.edit-stop-sheet.departure-time-field" }
-- tapOn: { id: "itinerary-edit.time-picker.hour.13" }
-- tapOn: { id: "itinerary-edit.time-picker.minute.00" }
+- tapOn: "13"
+- tapOn: "00"
 - tapOn: { id: "itinerary-edit.time-picker.ok-button" }
 - tapOn: { id: "itinerary-edit.edit-stop-sheet.save-button" }
 - waitForAnimationToEnd:

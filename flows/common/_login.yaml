@@ -4,6 +4,9 @@ tags: [helper]
 # Reusable: open the password sign-in sheet from Welcome and sign in as the
 # default free-tier e2e user. Override TEST_EMAIL / TEST_PASSWORD via --env to
 # log in as a different seeded user (e.g. premium).
+# Dismiss any system / app modal that re-fires after a fresh launch
+# (App Tracking Transparency, notification permission, location prompt, etc.).
+- runFlow: _dismiss_interrupts.yaml
 - assertVisible: { id: "welcome.title" }
 - tapOn: { id: "welcome.have-account-login" }
 - tapOn: { id: "auth-sheet.signin-with-password" }
@@ -12,4 +15,15 @@ tags: [helper]
 - tapOn: { id: "login.password-field" }
 - inputText: ${TEST_PASSWORD}
 - tapOn: { id: "login.submit-button" }
-- assertVisible: { id: "home.tab-bar" }
+# After a fresh install (clearState wipes DataStore/UserDefaults), the Home
+# tutorial fires ~600ms after Home loads. The spotlight overlay sits on top
+# of every other element, so a direct assertVisible on home.tab.home would
+# race the overlay and fail. Dismiss the tutorial first (no-op if absent),
+# then assert we're on Home.
+- runFlow: _dismiss_tutorial.yaml
+# Asserting the NavigationBar container's id (home.tab-bar) is flaky on
+# Android — the Compose Material3 NavigationBar's testTag races with AdMob
+# loading and sometimes never propagates as a resource-id. The individual
+# tab items (home.tab.home etc.) are reliable, so we wait on one of those
+# as the "logged-in & on Home" signal.
+- assertVisible: { id: "home.tab.home" }

@@ -1,31 +1,50 @@
 appId: ${APP_ID}
 tags: [helper]
 ---
-# Reusable: assumes wizard.destination.title is visible. Fills a valid
-# multi-city Destination (Origin Paris, two destination cities Rome + Madrid)
-# and taps Next.
+# Reusable: assumes wizard.destination.title is visible. Picks origin Paris,
+# adds two destination cards (Rome + Madrid) each with a default arrival
+# date, then taps Next.
+#
+# Aligns with the actual app UI: there is no separate trip-level
+# departure/return date — each destination card has its own arrival date
+# set inside the destination search sheet (arrive-on-field +
+# date-picker.ok-button).
+
 - assertVisible: { id: "wizard.destination.title" }
+
+# Origin city
 - tapOn: { id: "wizard.destination.origin-field" }
 - inputText: "Paris"
 - waitForAnimationToEnd:
     timeout: 5000
 - tapOn: { id: "wizard.destination.origin-suggestion.0" }
-- tapOn: { id: "wizard.destination.departure-field" }
+- waitForAnimationToEnd:
+    timeout: 2000
+
+# First destination: Rome
+- tapOn: { id: "wizard.destination.add-destination-button" }
+- tapOn: { id: "wizard.destination.arrive-on-field" }
 - tapOn: { id: "wizard.destination.date-picker.ok-button" }
-- tapOn: { id: "wizard.destination.return-field" }
-- tapOn: { id: "wizard.destination.date-picker.ok-button" }
-- tapOn: { id: "wizard.destination.card.0.city-field" }
 - inputText: "Rome"
 - waitForAnimationToEnd:
     timeout: 5000
 - tapOn: { id: "wizard.destination.card.0.city-suggestion.0" }
+- waitForAnimationToEnd:
+    timeout: 2000
+
+# Second destination: Madrid
 - scrollUntilVisible:
     element: { id: "wizard.destination.add-destination-button" }
     direction: DOWN
 - tapOn: { id: "wizard.destination.add-destination-button" }
-- tapOn: { id: "wizard.destination.card.1.city-field" }
+- tapOn: { id: "wizard.destination.arrive-on-field" }
+- tapOn: { id: "wizard.destination.date-picker.ok-button" }
 - inputText: "Madrid"
 - waitForAnimationToEnd:
     timeout: 5000
 - tapOn: { id: "wizard.destination.card.1.city-suggestion.0" }
+- waitForAnimationToEnd:
+    timeout: 2000
+
+# Continue to next wizard step
 - tapOn: { id: "wizard.destination.next-button" }

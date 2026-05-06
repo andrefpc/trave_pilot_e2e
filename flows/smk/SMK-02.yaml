@@ -18,6 +18,7 @@ tags: [smk, p0]
     clearState: true
     clearKeychain: true
     stopApp: true
+- runFlow: ../common/_dismiss_interrupts.yaml
 - assertVisible: { id: "welcome.title" }
 - tapOn: { id: "welcome.create-plan-button" }
 # Walk all 11 wizard steps with the seeded WZ defaults — each `next-button`
@@ -43,6 +44,11 @@ tags: [smk, p0]
 - assertVisible: { id: "wizard.travel-times.title" }
 - tapOn: { id: "wizard.travel-times.next-button" }
 - assertVisible: { id: "wizard.complete-onboarding.title" }
+# A logged-out user tapping the primary "Generate Plan" CTA opens the
+# Sign-Up bottom sheet (which carries the Google + email-signup +
+# Already-have-account-Login buttons). Tap the email-signup button
+# (id: wizard.complete-onboarding.create-account-button) to land on Register.
+- tapOn: { id: "wizard.complete-onboarding.generate-plan-button" }
 - tapOn: { id: "wizard.complete-onboarding.create-account-button" }
 - assertVisible: { id: "register.title" }
 - tapOn: { id: "register.name-field" }
@@ -53,7 +59,7 @@ tags: [smk, p0]
 - inputText: ${TEST_NEW_PASSWORD}
 - tapOn: { id: "register.confirm-password-field" }
 - inputText: ${TEST_NEW_PASSWORD}
-- hideKeyboard
+- runFlow: ../common/_hide_keyboard.yaml
 - tapOn: { id: "register.create-account-button" }
 - assertVisible: { id: "plan-generation.progress" }
 - assertNotVisible: { id: "welcome.title" }

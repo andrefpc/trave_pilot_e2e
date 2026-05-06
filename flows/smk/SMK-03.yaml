@@ -17,6 +17,7 @@ tags: [smk, p0]
     clearState: true
     clearKeychain: true
     stopApp: true
+- runFlow: ../common/_dismiss_interrupts.yaml
 - assertVisible: { id: "welcome.title" }
 - tapOn: { id: "welcome.have-account-login" }
 - assertVisible: { id: "auth-sheet.title" }
@@ -26,6 +27,9 @@ tags: [smk, p0]
 - inputText: ${TEST_EMAIL}
 - tapOn: { id: "login.password-field" }
 - inputText: ${TEST_PASSWORD}
-- hideKeyboard
+# Tapping the title dismisses the keyboard on both platforms; hideKeyboard
+# is unreliable on iOS with custom inputs.
+- tapOn: { id: "login.title" }
 - tapOn: { id: "login.submit-button" }
-- assertVisible: { id: "home.tab-bar" }
+- runFlow: ../common/_dismiss_tutorial.yaml
+- assertVisible: { id: "home.tab.home" }

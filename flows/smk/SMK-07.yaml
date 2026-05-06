@@ -17,6 +17,7 @@ tags: [smk, p0]
     clearState: true
     clearKeychain: true
     stopApp: true
+- runFlow: ../common/_dismiss_interrupts.yaml
 - runFlow:
     file: ../common/_login.yaml
     env:
@@ -31,4 +32,4 @@ tags: [smk, p0]
 - assertVisible: { id: "profile.logout-sheet.title" }
 - tapOn: { id: "profile.logout-sheet.confirm-button" }
 - assertVisible: { id: "welcome.title" }
-- assertNotVisible: { id: "home.tab-bar" }
+- assertNotVisible: { id: "home.tab.home" }

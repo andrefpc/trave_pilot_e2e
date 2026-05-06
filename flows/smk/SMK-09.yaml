@@ -16,6 +16,7 @@ tags: [smk, p0]
     clearState: true
     clearKeychain: true
     stopApp: true
+- runFlow: ../common/_dismiss_interrupts.yaml
 - openLink: https://www.travelpilotapp.com/share/${TEST_SHARE_TOKEN}
 - assertVisible: { id: "share-invite.title" }
 - assertVisible: { id: "share-invite.plan-preview" }

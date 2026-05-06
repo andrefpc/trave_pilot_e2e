@@ -16,15 +16,20 @@ tags: [smk, p0]
     clearState: true
     clearKeychain: true
     stopApp: true
+- runFlow: ../common/_dismiss_interrupts.yaml
 - runFlow:
     file: ../common/_login.yaml
     env:
       TEST_EMAIL: ${TEST_EMAIL}
       TEST_PASSWORD: ${TEST_PASSWORD}
-- assertVisible: { id: "home.tab-bar" }
-- tapOn: { id: "home.day-card.0" }
+- assertVisible: { id: "home.tab.home" }
+# Tap the button inside the preview card by text — see SMK-06 for context.
+- tapOn: "Open full itinerary"
+- runFlow: ../common/_dismiss_tutorial.yaml
 - assertVisible: { id: "itinerary-day.title" }
 - tapOn: { id: "itinerary-day.edit-button" }
 - assertVisible: { id: "premium.bottom-sheet.title" }
-- assertVisible: { id: "premium.bottom-sheet.plan-card" }
-- assertVisible: { id: "premium.bottom-sheet.subscribe-button" }
+# The bottom sheet shows two plan cards (monthly + annual). The CTA button on
+# each card has the id premium.bottom-sheet.cta — assert at least one is
+# visible to prove the subscribe path is reachable.
+- assertVisible: { id: "premium.bottom-sheet.cta" }
