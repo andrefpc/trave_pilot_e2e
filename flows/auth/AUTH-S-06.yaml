@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: AUTH-S-06
-tags: [auth, p0]
+tags: [auth, p0, android-only]
 ---
 # >>> dashboard-meta
 # AUTH-S-06 — Signing up with Google at the end of the trip wizard lands on Plan Generation for that draft (not Home)

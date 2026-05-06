@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: AUTH-S-05
-tags: [auth, p2]
+tags: [auth, p2, android-only]
 ---
 # >>> dashboard-meta
 # AUTH-S-05 — When Google sign-in is not configured on the server, an explanatory error dialog explains why it's unavailable

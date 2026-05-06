@@ -25,7 +25,7 @@ tags: [auth, p1]
 - inputText: "draft@example.com"
 - tapOn: { id: "login.password-field" }
 - inputText: "Password1!"
-- hideKeyboard
+- runFlow: ../common/_hide_keyboard.yaml
 - tapOn: { id: "login.back-button" }
 - assertVisible: { id: "welcome.title" }
 # Re-entering Login should start fresh (no draft email retained).

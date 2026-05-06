@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: AUTH-S-03
-tags: [auth, p1]
+tags: [auth, p1, android-only]
 ---
 # >>> dashboard-meta
 # AUTH-S-03 — An expired Google ID token is rejected by the server and an "Invalid/expired token" dialog is shown

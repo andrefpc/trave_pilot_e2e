@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: AUTH-W-04
-tags: [auth, p0]
+tags: [auth, p0, android-only]
 ---
 # >>> dashboard-meta
 # AUTH-W-04 — Tapping "Sign in with Google" on Welcome opens the Credential Manager picker; choosing an account lands on Home

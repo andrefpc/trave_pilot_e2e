@@ -24,7 +24,7 @@ tags: [auth, p1]
 - assertVisible: { id: "forgot-password.title" }
 - tapOn: { id: "forgot-password.email-field" }
 - inputText: "xxx"
-- hideKeyboard
+- runFlow: ../common/_hide_keyboard.yaml
 - tapOn: { id: "forgot-password.send-code-button" }
 - assertVisible: { id: "forgot-password.email-field.error" }
 - assertNotVisible: { id: "recovery-code.title" }

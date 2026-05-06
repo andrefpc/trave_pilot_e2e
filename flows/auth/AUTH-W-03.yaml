@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: AUTH-W-03
-tags: [auth, p1]
+tags: [auth, p1, android-only]
 ---
 # >>> dashboard-meta
 # AUTH-W-03 — Tapping "Have an account, Login" opens a bottom sheet with Google and password sign-in options

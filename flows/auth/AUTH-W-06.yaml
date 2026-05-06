@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: AUTH-W-06
-tags: [auth, p2]
+tags: [auth, p2, android-only]
 ---
 # >>> dashboard-meta
 # AUTH-W-06 — When Google sign-in fails (e.g. Play Services disabled) a "Google sign-in failed" dialog appears with Retry

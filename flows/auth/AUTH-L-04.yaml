@@ -24,7 +24,7 @@ tags: [auth, p0]
 - inputText: ${TEST_EMAIL}
 - tapOn: { id: "login.password-field" }
 - inputText: "wrong-password-xyz"
-- hideKeyboard
+- runFlow: ../common/_hide_keyboard.yaml
 - tapOn: { id: "login.submit-button" }
 - assertVisible: { id: "login.error-dialog.title" }
 - assertVisible: { id: "login.error-dialog.retry-button" }

@@ -28,7 +28,7 @@ tags: [auth, p0]
 - tapOn: { id: "login.forgot-password-link" }
 - tapOn: { id: "forgot-password.email-field" }
 - inputText: ${TEST_EMAIL}
-- hideKeyboard
+- runFlow: ../common/_hide_keyboard.yaml
 - tapOn: { id: "forgot-password.send-code-button" }
 - assertVisible: { id: "recovery-code.title" }
 - extendedWaitUntil:

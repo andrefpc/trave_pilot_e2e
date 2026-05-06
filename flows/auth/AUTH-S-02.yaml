@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: AUTH-S-02
-tags: [auth, p0]
+tags: [auth, p0, android-only]
 ---
 # >>> dashboard-meta
 # AUTH-S-02 — Signing in with Google using the same email you registered with via password links them as one account

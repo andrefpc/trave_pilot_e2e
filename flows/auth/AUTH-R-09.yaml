@@ -26,12 +26,12 @@ tags: [auth, p0]
 - inputText: "Password1!"
 - tapOn: { id: "register.confirm-password-field" }
 - inputText: "Password2!"
-- hideKeyboard
+- runFlow: ../common/_hide_keyboard.yaml
 - assertVisible: { id: "register.rule.match.unmet-marker" }
 - assertVisible: { id: "register.create-account-button.disabled-marker" }
 - tapOn: { id: "register.confirm-password-field" }
 - eraseText
 - inputText: "Password1!"
-- hideKeyboard
+- runFlow: ../common/_hide_keyboard.yaml
 - assertVisible: { id: "register.rule.match.met-marker" }
 - assertVisible: { id: "register.create-account-button.enabled-marker" }

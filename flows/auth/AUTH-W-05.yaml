@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: AUTH-W-05
-tags: [auth, p1]
+tags: [auth, p1, android-only]
 ---
 # >>> dashboard-meta
 # AUTH-W-05 — Dismissing the Google account picker on Welcome closes it with no crash and no error toast

@@ -24,7 +24,7 @@ tags: [auth, p0]
 - inputText: "qa-locked@travelpilotapp.com"
 - tapOn: { id: "login.password-field" }
 - inputText: "wrong-password-xyz"
-- hideKeyboard
+- runFlow: ../common/_hide_keyboard.yaml
 - repeat:
     times: 4
     commands:

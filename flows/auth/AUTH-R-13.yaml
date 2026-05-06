@@ -28,7 +28,7 @@ tags: [auth, p2]
 - inputText: "Password1!"
 - tapOn: { id: "register.confirm-password-field" }
 - inputText: "Password1!"
-- hideKeyboard
+- runFlow: ../common/_hide_keyboard.yaml
 - tapOn: { id: "register.create-account-button" }
 - assertVisible: { id: "home.tab-bar" }
 # Sign out and re-register with 256 chars (over the boundary).
@@ -48,6 +48,6 @@ tags: [auth, p2]
 - inputText: "Password1!"
 - tapOn: { id: "register.confirm-password-field" }
 - inputText: "Password1!"
-- hideKeyboard
+- runFlow: ../common/_hide_keyboard.yaml
 - tapOn: { id: "register.create-account-button" }
 - assertVisible: { id: "register.name-field.error" }

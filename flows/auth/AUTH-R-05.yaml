@@ -26,6 +26,6 @@ tags: [auth, p0]
 - inputText: "password1!"
 - tapOn: { id: "register.confirm-password-field" }
 - inputText: "password1!"
-- hideKeyboard
+- runFlow: ../common/_hide_keyboard.yaml
 - assertVisible: { id: "register.rule.uppercase.unmet-marker" }
 - assertVisible: { id: "register.create-account-button.disabled-marker" }

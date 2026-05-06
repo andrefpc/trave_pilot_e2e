@@ -23,7 +23,7 @@ tags: [auth, p0]
 - assertVisible: { id: "login.title" }
 - tapOn: { id: "login.password-field" }
 - inputText: "Password1!"
-- hideKeyboard
+- runFlow: ../common/_hide_keyboard.yaml
 - tapOn: { id: "login.submit-button" }
 - assertVisible: { id: "login.email-field.error" }
 - assertNotVisible: { id: "login.loading-overlay" }
