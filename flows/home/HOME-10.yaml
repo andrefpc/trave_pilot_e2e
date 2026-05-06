@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: HOME-10
-tags: [home, p1]
+tags: [home, p1, ios-only]
 ---
 # >>> dashboard-meta
 # HOME-10 — In dark mode, the weather icon on Home renders with proper contrast (no white box)
@@ -23,7 +23,7 @@ tags: [home, p1]
 - tapOn: { id: "profile.theme-row" }
 - tapOn: { id: "profile.theme.dark-option" }
 - tapOn: { id: "home.tab.home" }
-- assertVisible: { id: "home.theme.dark-mode" }
+- assertVisible: { id: "home.theme.dark-marker" }
 - assertVisible: { id: "home.day-card.0.weather-icon" }
 - assertVisible: { id: "home.day-card.0.weather-icon.themed" }
 - assertVisible: { id: "home.day-card.0.temperature-label" }
