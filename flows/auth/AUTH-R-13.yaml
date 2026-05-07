@@ -33,11 +33,10 @@ tags: [auth, p2]
 - assertVisible: { id: "home.tab-bar" }
 # Sign out and re-register with 256 chars (over the boundary).
 - tapOn: { id: "home.tab.profile" }
-- scrollUntilVisible:
-    element: { id: "profile.logout-button" }
-    direction: DOWN
-- tapOn: { id: "profile.logout-button" }
-- tapOn: { id: "profile.logout-sheet.confirm-button" }
+- tapOn: { id: "profile.settings-button" }
+- assertVisible: { id: "settings.logout-button" }
+- tapOn: { id: "settings.logout-button" }
+- tapOn: { id: "settings.logout-sheet.confirm-button" }
 - assertVisible: { id: "welcome.title" }
 - openLink: travelpilot://register
 - tapOn: { id: "register.name-field" }

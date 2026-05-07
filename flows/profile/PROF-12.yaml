@@ -20,12 +20,11 @@ tags: [profile, p0]
       TEST_EMAIL: ${TEST_FREE_EMAIL}
       TEST_PASSWORD: ${TEST_FREE_PASSWORD}
 - tapOn: { id: "home.tab.profile" }
-- scrollUntilVisible:
-    element: { id: "profile.logout-button" }
-    direction: DOWN
-- tapOn: { id: "profile.logout-button" }
-- assertVisible: { id: "profile.logout-sheet.title" }
-- tapOn: { id: "profile.logout-sheet.confirm-button" }
+- tapOn: { id: "profile.settings-button" }
+- assertVisible: { id: "settings.logout-button" }
+- tapOn: { id: "settings.logout-button" }
+- assertVisible: { id: "settings.logout-sheet.title" }
+- tapOn: { id: "settings.logout-sheet.confirm-button" }
 - assertVisible: { id: "welcome.title" }
 - launchApp:
     stopApp: true
