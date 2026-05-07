@@ -29,4 +29,4 @@ tags: [premium, p0, ios-only]
     timeout: 10000
 - assertVisible: { id: "subscription.restore-success-snackbar" }
 - assertVisible: { id: "profile.premium-badge" }
-- assertNotVisible: { id: "profile.unlock-premium-button" }
+- assertNotVisible: { id: "profile.upgrade-to-premium-button" }

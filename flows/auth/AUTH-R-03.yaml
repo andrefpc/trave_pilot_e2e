@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: AUTH-R-03
-tags: [auth, p1, ios-only]
+tags: [auth, p1]
 ---
 # >>> dashboard-meta
 # AUTH-R-03 — On Register, six password rule check boxes turn green in real time as your password meets each rule

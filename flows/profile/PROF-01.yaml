@@ -22,7 +22,7 @@ tags: [profile, p0]
 - tapOn: { id: "home.tab.profile" }
 - assertVisible: { id: "profile.title" }
 - assertVisible: { id: "profile.avatar" }
-- assertVisible: { id: "profile.name" }
+- assertVisible: { id: "profile.user-name" }
 - assertVisible:
     id: "profile.email"
     text: ${TEST_FREE_EMAIL}

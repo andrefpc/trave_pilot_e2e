@@ -24,11 +24,11 @@ tags: [premium, p0, ios-only]
       TEST_EMAIL: ${TEST_FREE_EMAIL}
       TEST_PASSWORD: ${TEST_FREE_PASSWORD}
 - tapOn: { id: "home.tab.profile" }
-- tapOn: { id: "profile.unlock-premium-button" }
+- tapOn: { id: "profile.upgrade-to-premium-button" }
 - assertVisible: { id: "premium.bottom-sheet.title" }
 - tapOn: { id: "subscription.devtools.simulate-pending-receipt" }
 - tapOn: { id: "premium.bottom-sheet.close-button" }
-- assertVisible: { id: "profile.unlock-premium-button" }
+- assertVisible: { id: "profile.upgrade-to-premium-button" }
 - tapOn: { id: "profile.restore-purchases-button" }
 - waitForAnimationToEnd:
     timeout: 10000

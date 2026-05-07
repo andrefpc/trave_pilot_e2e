@@ -22,7 +22,7 @@ tags: [premium, p0]
       TEST_EMAIL: ${TEST_FREE_EMAIL}
       TEST_PASSWORD: ${TEST_FREE_PASSWORD}
 - tapOn: { id: "home.tab.profile" }
-- tapOn: { id: "profile.unlock-premium-button" }
+- tapOn: { id: "profile.upgrade-to-premium-button" }
 - assertVisible: { id: "premium.bottom-sheet.title" }
 - tapOn: { id: "subscription.plan.monthly" }
 - tapOn: { id: "subscription.purchase-button" }

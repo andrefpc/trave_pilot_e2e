@@ -23,7 +23,7 @@ tags: [premium, p1]
       TEST_EMAIL: ${TEST_FREE_EMAIL}
       TEST_PASSWORD: ${TEST_FREE_PASSWORD}
 - tapOn: { id: "home.tab.profile" }
-- tapOn: { id: "profile.unlock-premium-button" }
+- tapOn: { id: "profile.upgrade-to-premium-button" }
 - assertVisible: { id: "premium.bottom-sheet.title" }
 - tapOn: { id: "subscription.devtools.simulate-pending-receipt" }
 - launchApp:
@@ -32,4 +32,4 @@ tags: [premium, p1]
     timeout: 10000
 - tapOn: { id: "home.tab.profile" }
 - assertVisible: { id: "profile.premium-badge" }
-- assertNotVisible: { id: "profile.unlock-premium-button" }
+- assertNotVisible: { id: "profile.upgrade-to-premium-button" }

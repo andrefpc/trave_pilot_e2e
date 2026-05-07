@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: AUTH-R-13
-tags: [auth, p2, ios-only]
+tags: [auth, p2]
 ---
 # >>> dashboard-meta
 # AUTH-R-13 — A 255-character name is accepted on Register; longer names are rejected by the server

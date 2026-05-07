@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: WZ-DS-04
-tags: [wizard, p1, ios-only]
+tags: [wizard, p1]
 ---
 # >>> dashboard-meta
 # WZ-DS-04 — On Day Schedule, setting end time before start time shows an inline error

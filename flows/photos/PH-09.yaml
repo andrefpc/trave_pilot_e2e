@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: PH-09
-tags: [photos, p2, ios-only]
+tags: [photos, p2]
 ---
 # >>> dashboard-meta
 # PH-09 — A user with no photos on Gallery sees an empty illustration and an "Add Photo" CTA

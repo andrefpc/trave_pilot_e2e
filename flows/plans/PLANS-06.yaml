@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: PLANS-06
-tags: [plans, p1, ios-only]
+tags: [plans, p1]
 ---
 # >>> dashboard-meta
 # PLANS-06 — Long-press → Delete → Cancel keeps the plan untouched in the list

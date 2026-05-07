@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: AUTH-R-05
-tags: [auth, p0, ios-only]
+tags: [auth, p0]
 ---
 # >>> dashboard-meta
 # AUTH-R-05 — A password without an uppercase letter keeps the "Uppercase" rule red and Create Account disabled

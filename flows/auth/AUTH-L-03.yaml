@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: AUTH-L-03
-tags: [auth, p0, ios-only]
+tags: [auth, p0]
 ---
 # >>> dashboard-meta
 # AUTH-L-03 — Tapping Login with the password field empty shows "Password cannot be empty" under the field; nothing is sent

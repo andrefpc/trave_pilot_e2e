@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: AUTH-R-14
-tags: [auth, p2, ios-only]
+tags: [auth, p2]
 ---
 # >>> dashboard-meta
 # AUTH-R-14 — A name with accents, apostrophe and hyphen (e.g. "José O'Connor-Müller") is accepted on Register

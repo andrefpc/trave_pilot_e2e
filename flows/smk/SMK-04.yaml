@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: SMK-04
-tags: [smk, p0, ios-only]
+tags: [smk, p0]
 ---
 # >>> dashboard-meta
 # SMK-04 — A logged-in user can complete the trip wizard end-to-end and reach Plan Generation

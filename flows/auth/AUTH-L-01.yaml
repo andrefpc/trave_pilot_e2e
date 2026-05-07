@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: AUTH-L-01
-tags: [auth, p0, ios-only]
+tags: [auth, p0]
 ---
 # >>> dashboard-meta
 # AUTH-L-01 — Tapping Login with the email field empty shows "Invalid email address" under the field; nothing is sent

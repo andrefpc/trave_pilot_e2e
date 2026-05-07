@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: AUTH-L-13
-tags: [auth, p1, ios-only]
+tags: [auth, p1]
 ---
 # >>> dashboard-meta
 # AUTH-L-13 — Right after a premium user logs in, the Profile screen shows the Premium badge

@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: AUTH-F-06
-tags: [auth, p0, ios-only]
+tags: [auth, p0]
 ---
 # >>> dashboard-meta
 # AUTH-F-06 — Entering "00000" or any wrong code triggers an "Invalid reset token" error when you try to reset the password

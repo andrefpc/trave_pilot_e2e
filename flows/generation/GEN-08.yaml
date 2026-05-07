@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: GEN-08
-tags: [generation, p1, ios-only]
+tags: [generation, p1]
 ---
 # >>> dashboard-meta
 # GEN-08 — Tapping Retry after a Plan Generation failure restarts the generation flow

@@ -25,7 +25,7 @@ tags: [premium, p0]
 - tapOn: { id: "subscription.devtools.force-expire" }
 - waitForAnimationToEnd:
     timeout: 3000
-- assertVisible: { id: "profile.unlock-premium-button" }
+- assertVisible: { id: "profile.upgrade-to-premium-button" }
 - tapOn: { id: "home.tab.travel-plans" }
 - tapOn: { id: "plans.plan-card.0" }
 - tapOn: { id: "itinerary.toolbar.rearrange-button" }

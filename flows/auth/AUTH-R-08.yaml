@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: AUTH-R-08
-tags: [auth, p0, ios-only]
+tags: [auth, p0]
 ---
 # >>> dashboard-meta
 # AUTH-R-08 — A password without a special character keeps the "Special character" rule red and Create Account disabled

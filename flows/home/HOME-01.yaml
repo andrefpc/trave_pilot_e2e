@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: HOME-01
-tags: [home, p0, ios-only]
+tags: [home, p0]
 ---
 # >>> dashboard-meta
 # HOME-01 — Home shows the current plan header with the next day label, dates and destination

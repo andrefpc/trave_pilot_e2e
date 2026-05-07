@@ -24,4 +24,4 @@ tags: [premium, p0]
       TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
 - tapOn: { id: "home.tab.profile" }
 - assertVisible: { id: "profile.premium-badge" }
-- assertNotVisible: { id: "profile.unlock-premium-button" }
+- assertNotVisible: { id: "profile.upgrade-to-premium-button" }

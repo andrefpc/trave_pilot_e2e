@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: HOME-02
-tags: [home, p1, ios-only]
+tags: [home, p1]
 ---
 # >>> dashboard-meta
 # HOME-02 — A free user with no plans on Home sees an empty state with a "Create a new Plan" CTA

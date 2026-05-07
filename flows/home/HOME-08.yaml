@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: HOME-08
-tags: [home, p1, ios-only]
+tags: [home, p1]
 ---
 # >>> dashboard-meta
 # HOME-08 — Pulling down on Home triggers a refresh that re-fetches plan, weather and milestones

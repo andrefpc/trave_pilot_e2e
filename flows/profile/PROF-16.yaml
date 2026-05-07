@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: PROF-16
-tags: [profile, p0, ios-only]
+tags: [profile, p0]
 ---
 # >>> dashboard-meta
 # PROF-16 — After Delete Account, attempting to log in with that email fails with "Invalid credentials"

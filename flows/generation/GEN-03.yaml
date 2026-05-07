@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: GEN-03
-tags: [generation, p2, ios-only]
+tags: [generation, p2]
 ---
 # >>> dashboard-meta
 # GEN-03 — On Plan Generation, tapping a quick link card (Flights, Hotels, Activities) opens the partner site in a browser

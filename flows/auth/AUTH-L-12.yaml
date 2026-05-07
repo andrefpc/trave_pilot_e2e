@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: AUTH-L-12
-tags: [auth, p0, ios-only]
+tags: [auth, p0]
 ---
 # >>> dashboard-meta
 # AUTH-L-12 — Opening the app via a share deep link, then logging in, lands on the Share Invite preview (not Home)
@@ -30,5 +30,5 @@ tags: [auth, p0, ios-only]
 - runFlow: ../common/_hide_keyboard.yaml
 - tapOn: { id: "login.submit-button" }
 - assertVisible: { id: "share-invite.title" }
-- assertVisible: { id: "share-invite.plan-preview" }
+- assertVisible: { id: "share-invite.compass" }
 - assertNotVisible: { id: "home.tab-bar" }

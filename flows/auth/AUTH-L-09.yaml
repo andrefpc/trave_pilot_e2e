@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: AUTH-L-09
-tags: [auth, p1, ios-only]
+tags: [auth, p1]
 ---
 # >>> dashboard-meta
 # AUTH-L-09 — While the login request is running, the Login button is disabled so it cannot be tapped twice

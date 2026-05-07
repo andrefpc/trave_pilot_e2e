@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: WZ-POI-01
-tags: [wizard, p1, ios-only]
+tags: [wizard, p1]
 ---
 # >>> dashboard-meta
 # WZ-POI-01 — On Places of Interest you can multi-select several places and they all stay highlighted

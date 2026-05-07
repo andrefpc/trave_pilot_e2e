@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: AUTH-R-07
-tags: [auth, p0, ios-only]
+tags: [auth, p0]
 ---
 # >>> dashboard-meta
 # AUTH-R-07 — A password without a digit keeps the "Number" rule red and Create Account disabled

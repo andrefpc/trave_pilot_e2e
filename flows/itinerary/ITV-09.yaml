@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: ITV-09
-tags: [itinerary, p1, ios-only]
+tags: [itinerary, p1]
 ---
 # >>> dashboard-meta
 # ITV-09 — A free time slot displays its time range and an "Add Stop" button

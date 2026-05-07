@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: PROF-04
-tags: [profile, p1, ios-only]
+tags: [profile, p1]
 ---
 # >>> dashboard-meta
 # PROF-04 — Editing the user's name on Profile (or Settings) sends PATCH /users/me and the name updates immediately
@@ -31,5 +31,5 @@ tags: [profile, p1, ios-only]
     timeout: 5000
 - assertVisible: { id: "profile.title" }
 - assertVisible:
-    id: "profile.name"
+    id: "profile.user-name"
     text: "Maestro QA"

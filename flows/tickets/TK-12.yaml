@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: TK-12
-tags: [tickets, p2, ios-only]
+tags: [tickets, p2]
 ---
 # >>> dashboard-meta
 # TK-12 — A user with no tickets sees an empty state with an "Add Ticket" button
