@@ -1,6 +1,7 @@
 appId: ${APP_ID}
 name: MAP-zoom-01
-tags: [map, p2, needs-implementation]
+tags: [map, p2, needs-implementation, archived]
+# Archived 2026-05-06 — feature removed. Email is read-only on Profile Edit; map zoom buttons removed.
 ---
 # >>> dashboard-meta
 # MAP-zoom-01 — Travel Map zoom-in / zoom-out / recenter cycle the world / country / continent zoom-level markers

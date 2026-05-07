@@ -1,6 +1,7 @@
 appId: ${APP_ID}
 name: PROF-05
-tags: [profile, p1]
+tags: [profile, p1, archived]
+# Archived 2026-05-06 — feature removed. Email is read-only on Profile Edit; map zoom buttons removed.
 ---
 # >>> dashboard-meta
 # PROF-05 — Editing the email; if the new email is taken, a 409 conflict is shown inline

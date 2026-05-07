@@ -1,6 +1,7 @@
 appId: ${APP_ID}
 name: PROF-06
-tags: [profile, p2]
+tags: [profile, p2, archived]
+# Archived 2026-05-06 — feature removed. Email is read-only on Profile Edit; map zoom buttons removed.
 ---
 # >>> dashboard-meta
 # PROF-06 — After changing the email, a verification email is sent (if implemented)
