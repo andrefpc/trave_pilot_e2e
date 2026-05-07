@@ -37,8 +37,16 @@ tags: [helper, ios-only]
     direction: DOWN
 - tapOn: { id: "wizard.restaurants.next-button" }
 - assertVisible: { id: "wizard.where-to-stay.title" }
-- tapOn: { id: "wizard.where-to-stay.city-section.0.hotel-card.0" }
-- tapOn: { id: "wizard.where-to-stay.city-section.1.hotel-card.0" }
+# New Where to Stay design shows one city at a time; tap recommended place,
+# then Next advances to the next city until both are selected.
+- assertVisible: { id: "wizard.where-to-stay.city-chip" }
+- tapOn: { id: "wizard.where-to-stay.recommended-place-card" }
+- scrollUntilVisible:
+    element: { id: "wizard.where-to-stay.next-button" }
+    direction: DOWN
+- tapOn: { id: "wizard.where-to-stay.next-button" }
+- assertVisible: { id: "wizard.where-to-stay.city-chip" }
+- tapOn: { id: "wizard.where-to-stay.recommended-place-card" }
 - scrollUntilVisible:
     element: { id: "wizard.where-to-stay.next-button" }
     direction: DOWN

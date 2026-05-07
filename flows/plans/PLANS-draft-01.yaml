@@ -1,0 +1,36 @@
+appId: ${APP_ID}
+name: PLANS-draft-01
+tags: [plans, p2, needs-implementation]
+---
+# >>> dashboard-meta
+# PLANS-draft-01 — Draft plan card renders date label + draft badge; Generate transitions into plan generation
+# Section: Travel Plans List & Plan Management
+# Priority: P2
+# Repro:
+# 1. Sign in as a user with at least one draft plan (no itinerary generated yet).
+# 2. Open Travel Plans and locate the draft card.
+# 3. Verify the draft-card shows a date label and a `draft-badge`.
+# 4. Tap Generate — verify the screen transitions away from the plan list (into plan-generation).
+# <<< dashboard-meta
+
+# `needs-implementation` because the default ${TEST_PREMIUM_EMAIL} fixture
+# doesn't guarantee a draft (un-generated) plan in the list. Once a seeded
+# user with a deterministic draft exists, replace the cancel/generate optional
+# tap with a hard assertion against the post-tap surface.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.travel-plans" }
+- assertVisible: { id: "plans.list" }
+- assertVisible: { id: "plans.draft-card" }
+- assertVisible: { id: "plans.draft-card.date-label" }
+- assertVisible: { id: "plans.draft-card.draft-badge" }
+- assertVisible: { id: "plans.draft-card.generate-button" }
+- assertVisible: { id: "plans.draft-card.cancel-button" }
+- tapOn: { id: "plans.draft-card.generate-button" }
+- waitForAnimationToEnd:
+    timeout: 5000

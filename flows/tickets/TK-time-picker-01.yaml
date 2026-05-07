@@ -1,0 +1,46 @@
+appId: ${APP_ID}
+name: TK-time-picker-01
+tags: [tickets, p2, needs-implementation]
+---
+# >>> dashboard-meta
+# TK-time-picker-01 — Upload-sheet time picker exposes Cancel / OK; Cancel preserves prior value, OK commits selection
+# Section: Tickets
+# Priority: P2
+# Repro:
+# 1. Open Tickets, tap Add to launch the upload sheet.
+# 2. Tap the time field — verify a time picker appears.
+# 3. Tap Cancel — verify the picker closes and the time field is unchanged.
+# 4. Re-open the picker, change the time, tap OK — verify the picker closes and the new time appears in the field.
+# <<< dashboard-meta
+
+# `needs-implementation` because driving the native iOS UIDatePicker (wheel)
+# vs Android's Compose TimePicker requires platform-specific gestures Maestro
+# can't yet author cross-platform. The Cancel / OK button taps themselves will
+# work on both, but asserting the resulting time text needs platform-specific
+# step variants.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.tickets" }
+- assertVisible: { id: "tickets.tab-content" }
+- tapOn: { id: "tickets.add-button" }
+- waitForAnimationToEnd:
+    timeout: 5000
+- assertVisible: { id: "tickets.upload-sheet.title" }
+- tapOn: { id: "tickets.upload-sheet.time-field" }
+- assertVisible: { id: "tickets.upload-sheet.time-picker.cancel-button" }
+- assertVisible: { id: "tickets.upload-sheet.time-picker.ok-button" }
+- tapOn: { id: "tickets.upload-sheet.time-picker.cancel-button" }
+- waitForAnimationToEnd:
+    timeout: 2000
+- assertVisible: { id: "tickets.upload-sheet.time-field" }
+- tapOn: { id: "tickets.upload-sheet.time-field" }
+- assertVisible: { id: "tickets.upload-sheet.time-picker.ok-button" }
+- tapOn: { id: "tickets.upload-sheet.time-picker.ok-button" }
+- waitForAnimationToEnd:
+    timeout: 2000
+- assertVisible: { id: "tickets.upload-sheet.time-field" }

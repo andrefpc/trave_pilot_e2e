@@ -1,0 +1,31 @@
+appId: ${APP_ID}
+name: ITV-route-button-01
+tags: [itinerary, p2, needs-implementation]
+---
+# >>> dashboard-meta
+# ITV-route-button-01 — Itinerary toolbar route button opens the day route in the configured map provider
+# Section: Itinerary Viewing
+# Priority: P2
+# Repro:
+# 1. Open a generated plan with multiple stops on the active day.
+# 2. Tap the toolbar route button.
+# 3. Verify the device transitions to an external map provider with directions across the day's stops.
+# <<< dashboard-meta
+
+# `needs-implementation` because the post-tap surface is an external app
+# (Google Maps / Apple Maps) — Maestro can navigate back, but asserting the
+# external app deterministically across iOS / Android needs a stub provider
+# (or a `launchApp arguments:` hook) which doesn't exist yet.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.travel-plans" }
+- tapOn: { id: "plans.plan-card.0" }
+- assertVisible: { id: "itinerary.toolbar.route-button" }
+- tapOn: { id: "itinerary.toolbar.route-button" }
+- waitForAnimationToEnd:
+    timeout: 5000

@@ -1,6 +1,8 @@
+# Archived 2026-05-06 — references obsolete `where-to-stay.city-section.*.hotel-card.*.photo.*-marker`
+# ids; the screen was redesigned around `recommended-place-card` / `other-place-card` / `city-chip`.
 appId: ${APP_ID}
 name: WZ-WTS-07
-tags: [wizard, p2, ios-only]
+tags: [wizard, p2, ios-only, archived]
 ---
 # >>> dashboard-meta
 # WZ-WTS-07 — Where to Stay hotel images load through /proxy/google-photo (not direct Google URLs)

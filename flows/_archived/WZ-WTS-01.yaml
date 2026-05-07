@@ -1,6 +1,8 @@
+# Archived 2026-05-06 — references obsolete `where-to-stay.city-section.*` ids; the screen was
+# redesigned around `recommended-place-card` / `other-place-card` / `city-chip`. Kept for traceability.
 appId: ${APP_ID}
 name: WZ-WTS-01
-tags: [wizard, p0, ios-only]
+tags: [wizard, p0, ios-only, archived]
 ---
 # >>> dashboard-meta
 # WZ-WTS-01 — Where to Stay shows one section per destination city with 5+ hotel cards each

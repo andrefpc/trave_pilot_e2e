@@ -1,0 +1,40 @@
+appId: ${APP_ID}
+name: PH-delete-01
+tags: [photos, p1, needs-implementation]
+---
+# >>> dashboard-meta
+# PH-delete-01 — Photo viewer Delete opens a confirm dialog; confirming removes the photo from the gallery
+# Section: Photos & Gallery
+# Priority: P1
+# Repro:
+# 1. Open Gallery on a user with at least one photo and tap a photo to open the viewer.
+# 2. Tap the Delete button — verify the delete-dialog appears.
+# 3. Tap Confirm — verify the dialog closes, the viewer dismisses and the gallery no longer contains the deleted photo.
+# <<< dashboard-meta
+
+# `needs-implementation` because the flow needs a seeded user with a known
+# photo at index 0 that's safe to destroy; the shared premium fixture would
+# accumulate state across runs. Re-tag once a per-flow photo seed exists.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.profile" }
+- tapOn: { id: "profile.gallery-link" }
+- assertVisible: { id: "photos.gallery" }
+- tapOn: { id: "photos.image.0" }
+- assertVisible: { id: "photos.viewer" }
+- assertVisible: { id: "photos.viewer.delete-button" }
+- tapOn: { id: "photos.viewer.delete-button" }
+- waitForAnimationToEnd:
+    timeout: 3000
+- assertVisible: { id: "photos.delete-dialog" }
+- assertVisible: { id: "photos.delete-dialog.title" }
+- assertVisible: { id: "photos.delete-dialog.confirm-button" }
+- tapOn: { id: "photos.delete-dialog.confirm-button" }
+- waitForAnimationToEnd:
+    timeout: 5000
+- assertVisible: { id: "photos.gallery" }

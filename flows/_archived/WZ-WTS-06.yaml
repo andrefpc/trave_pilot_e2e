@@ -1,6 +1,8 @@
+# Archived 2026-05-06 — references obsolete `where-to-stay.city-section.*` ids; the screen was
+# redesigned around `recommended-place-card` / `other-place-card` / `city-chip`.
 appId: ${APP_ID}
 name: WZ-WTS-06
-tags: [wizard, p1, ios-only]
+tags: [wizard, p1, ios-only, archived]
 ---
 # >>> dashboard-meta
 # WZ-WTS-06 — Tapping Next on Where to Stay without picking a hotel for each city shows "must select hotel for each city"

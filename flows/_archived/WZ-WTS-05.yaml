@@ -1,6 +1,8 @@
+# Archived 2026-05-06 — references obsolete `where-to-stay.city-section.*.hotel-card.*.view-details-button`
+# id; the screen was redesigned around `recommended-place-card` / `other-place-card` / `city-chip`.
 appId: ${APP_ID}
 name: WZ-WTS-05
-tags: [wizard, p1, ios-only]
+tags: [wizard, p1, ios-only, archived]
 ---
 # >>> dashboard-meta
 # WZ-WTS-05 — Tapping "View details" on a Where to Stay hotel card opens its website in a Custom Tab

@@ -1,0 +1,34 @@
+appId: ${APP_ID}
+name: PH-permission-01
+tags: [photos, p2, needs-implementation]
+---
+# >>> dashboard-meta
+# PH-permission-01 — First-time photo add shows a permission-education dialog; allow proceeds to the picker
+# Section: Photos & Gallery
+# Priority: P2
+# Repro:
+# 1. With the OS photo permission still undetermined, open Gallery and tap Add.
+# 2. Verify `photos.permission-dialog` appears explaining the permission.
+# 3. Tap Allow — verify the dialog dismisses and the OS permission prompt or photo picker appears.
+# <<< dashboard-meta
+
+# `needs-implementation` because the OS permission state can't be re-set from
+# Maestro between runs without device-specific tooling (`adb pm grant/revoke`
+# or `xcrun simctl privacy ... reset photos`), so the dialog only shows once.
+# Wire to a launchApp `arguments:` fault-injection hook once we expose one.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.profile" }
+- tapOn: { id: "profile.gallery-link" }
+- assertVisible: { id: "photos.empty-state.add-button" }
+- tapOn: { id: "photos.empty-state.add-button" }
+- waitForAnimationToEnd:
+    timeout: 3000
+- assertVisible: { id: "photos.permission-dialog" }
+- assertVisible: { id: "photos.permission-dialog.allow-button" }
+- tapOn: { id: "photos.permission-dialog.allow-button" }

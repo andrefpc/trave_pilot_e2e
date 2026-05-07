@@ -1,6 +1,8 @@
+# Archived 2026-05-06 — references obsolete `where-to-stay.city-section.*` ids; the screen was
+# redesigned around `recommended-place-card` / `other-place-card` / `city-chip`.
 appId: ${APP_ID}
 name: WZ-WTS-04
-tags: [wizard, p2, ios-only]
+tags: [wizard, p2, ios-only, archived]
 ---
 # >>> dashboard-meta
 # WZ-WTS-04 — Each Where to Stay hotel card shows a star rating that matches its rating value

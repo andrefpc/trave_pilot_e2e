@@ -1,0 +1,38 @@
+appId: ${APP_ID}
+name: ITV-stop-detail-extras-01
+tags: [itinerary, p2, needs-implementation]
+---
+# >>> dashboard-meta
+# ITV-stop-detail-extras-01 — Stop Detail exposes back-button, schedule-reminder-button; scheduling renders reminder-badge
+# Section: Itinerary Viewing
+# Priority: P2
+# Repro:
+# 1. Open a generated plan and tap a stop with a place id.
+# 2. Verify Stop Detail title + back-button + schedule-reminder-button are visible.
+# 3. Tap Schedule Reminder, accept the OS notification permission if asked.
+# 4. Verify `itinerary.stop-detail.reminder-badge` appears for the stop.
+# <<< dashboard-meta
+
+# `needs-implementation` because the schedule-reminder flow chains the OS
+# notification-permission prompt on the first run — Maestro can't auto-allow
+# it cross-platform without device-specific hooks. The flow body documents
+# the assertions to enable once permission is pre-granted.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.travel-plans" }
+- tapOn: { id: "plans.plan-card.0" }
+- assertVisible: { id: "itinerary-day.stop.0" }
+- tapOn: { id: "itinerary-day.stop.0" }
+- assertVisible: { id: "itinerary.stop-detail.title" }
+- assertVisible: { id: "itinerary.stop-detail.back-button" }
+- assertVisible: { id: "itinerary.stop-detail.schedule-reminder-button" }
+- tapOn: { id: "itinerary.stop-detail.schedule-reminder-button" }
+- waitForAnimationToEnd:
+    timeout: 5000
+- assertVisible: { id: "itinerary.stop-detail.reminder-badge" }
+- tapOn: { id: "itinerary.stop-detail.back-button" }

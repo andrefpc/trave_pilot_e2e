@@ -1,0 +1,38 @@
+appId: ${APP_ID}
+name: PH-add-photo-01
+tags: [photos, p1, needs-implementation]
+---
+# >>> dashboard-meta
+# PH-add-photo-01 — Empty-state Add opens the add-photo-sheet with the city selector
+# Section: Photos & Gallery
+# Priority: P1
+# Repro:
+# 1. Sign in as a user with no photos and open Gallery.
+# 2. Verify the empty state with an Add button is shown.
+# 3. Tap Add — verify the add-photo-sheet appears with a title and at least one selectable city.
+# 4. Tap Skip to dismiss without picking a city.
+# <<< dashboard-meta
+
+# `needs-implementation` because the empty-state path requires a fresh user
+# with zero photos AND a plan that has cities the photo-sheet can offer; the
+# default ${TEST_PREMIUM_EMAIL} fixture doesn't guarantee that combination.
+# Wire to a dedicated seeded user once available.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.profile" }
+- tapOn: { id: "profile.gallery-link" }
+- assertVisible: { id: "photos.empty-state" }
+- assertVisible: { id: "photos.empty-state.add-button" }
+- tapOn: { id: "photos.empty-state.add-button" }
+- waitForAnimationToEnd:
+    timeout: 5000
+- assertVisible: { id: "photos.add-photo-sheet" }
+- assertVisible: { id: "photos.add-photo-sheet.title" }
+- assertVisible: { id: "photos.add-photo-sheet.city.0" }
+- assertVisible: { id: "photos.add-photo-sheet.skip-button" }
+- tapOn: { id: "photos.add-photo-sheet.skip-button" }

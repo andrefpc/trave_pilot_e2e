@@ -1,0 +1,31 @@
+appId: ${APP_ID}
+name: NET-01
+tags: [network, p1, needs-implementation]
+---
+# >>> dashboard-meta
+# NET-01 — Home no-internet banner appears when offline and shows a retry button
+# Section: Network, Offline & Error Handling
+# Priority: P1
+# Repro:
+# 1. Sign in and land on Home.
+# 2. Disable network (airplane mode or device-state hook).
+# 3. Verify `home.no-internet-banner` appears with a localized message and a Retry button.
+# 4. Re-enable network, tap Retry, verify the banner dismisses.
+# <<< dashboard-meta
+
+# `needs-implementation` because Maestro can't toggle device network without
+# platform-specific hooks (adb cmd connectivity / xcrun simctl). The flow body
+# documents the assertions to make once a network-state fixture is wired in.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_EMAIL}
+      TEST_PASSWORD: ${TEST_PASSWORD}
+- tapOn: { id: "home.tab.home" }
+# TODO(network-fixture): toggle device offline before this assertion.
+- assertVisible: { id: "home.no-internet-banner" }
+- assertVisible: { id: "home.no-internet-banner.localized-message" }
+- assertVisible: { id: "home.no-internet-banner.retry-button" }
+- tapOn: { id: "home.no-internet-banner.retry-button" }

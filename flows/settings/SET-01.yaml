@@ -1,0 +1,33 @@
+appId: ${APP_ID}
+name: SET-01
+tags: [settings, p2, needs-implementation]
+---
+# >>> dashboard-meta
+# SET-01 — Profile → Settings exposes a delete-account button that opens the confirmation flow
+# Section: Settings & Preferences
+# Priority: P2
+# Repro:
+# 1. Sign in and go to Profile.
+# 2. Tap the Settings entry-point.
+# 3. Verify Settings opens with a Delete Account button.
+# 4. Tap Delete Account and verify the confirmation prompt appears (Android: in-place dialog with password field; iOS: bottom-sheet password confirmation).
+# <<< dashboard-meta
+
+# `needs-implementation` because the post-tap confirmation surface uses different
+# components on iOS vs Android and only `settings.delete-account-button` is
+# tagged in the catalog today. Drop the tag once cross-platform confirmation
+# ids ship.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_EMAIL}
+      TEST_PASSWORD: ${TEST_PASSWORD}
+- tapOn: { id: "home.tab.profile" }
+- assertVisible: { id: "profile.settings-button" }
+- tapOn: { id: "profile.settings-button" }
+- assertVisible: { id: "settings.delete-account-button" }
+- tapOn: { id: "settings.delete-account-button" }
+- waitForAnimationToEnd:
+    timeout: 5000

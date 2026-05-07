@@ -1,6 +1,8 @@
+# Archived 2026-05-06 — references obsolete `where-to-stay.custom-form.*` ids; the screen was
+# redesigned around `recommended-place-card` / `other-place-card` / `city-chip` (no inline form).
 appId: ${APP_ID}
 name: WZ-WTS-03
-tags: [wizard, p1, ios-only]
+tags: [wizard, p1, ios-only, archived]
 ---
 # >>> dashboard-meta
 # WZ-WTS-03 — Tapping "Add custom hotel" on Where to Stay opens a form for name + address

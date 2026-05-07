@@ -1,0 +1,44 @@
+appId: ${APP_ID}
+name: MAP-zoom-01
+tags: [map, p2, needs-implementation]
+---
+# >>> dashboard-meta
+# MAP-zoom-01 — Travel Map zoom-in / zoom-out / recenter cycle the world / country / continent zoom-level markers
+# Section: Travel Map
+# Priority: P2
+# Repro:
+# 1. Open Travel Map (Profile → Travel Map).
+# 2. Verify the world-zoom marker is visible.
+# 3. Tap zoom-in until the country marker appears.
+# 4. Tap zoom-out twice; verify continent then world markers appear.
+# 5. Tap recenter; verify the world marker is restored.
+# <<< dashboard-meta
+
+# `needs-implementation` because the world↔country↔continent transitions in
+# the production map are camera-based and a single zoom tap may not deterministically
+# advance one tier on all devices. Tighten the asserts once camera-step parity
+# is confirmed across iOS / Android.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_EMAIL}
+      TEST_PASSWORD: ${TEST_PASSWORD}
+- tapOn: { id: "home.tab.profile" }
+- tapOn: { id: "profile.travel-map-link" }
+- assertVisible: { id: "travel-map.screen-root" }
+- assertVisible: { id: "map.world-view" }
+- assertVisible: { id: "map.zoom-level.world-marker" }
+- tapOn: { id: "map.zoom-in-button" }
+- waitForAnimationToEnd:
+    timeout: 3000
+- assertVisible: { id: "map.zoom-level.country-marker" }
+- tapOn: { id: "map.zoom-out-button" }
+- waitForAnimationToEnd:
+    timeout: 3000
+- assertVisible: { id: "map.zoom-level.continent-marker" }
+- tapOn: { id: "map.recenter-button" }
+- waitForAnimationToEnd:
+    timeout: 3000
+- assertVisible: { id: "map.zoom-level.world-marker" }

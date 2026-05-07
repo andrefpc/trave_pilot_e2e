@@ -1,0 +1,37 @@
+appId: ${APP_ID}
+name: PD-action-01
+tags: [itinerary, p2, needs-implementation]
+---
+# >>> dashboard-meta
+# PD-action-01 — Place Detail surfaces the right action button per stop type (add-ticket / edit / find-restaurant)
+# Section: Itinerary Viewing
+# Priority: P2
+# Repro:
+# 1. Open a generated plan and tap a non-restaurant attraction stop.
+# 2. Verify Place Detail shows `place-detail.action.add-ticket` (no ticket yet) or `.edit` (ticket already attached).
+# 3. Close the sheet and tap a restaurant stop.
+# 4. Verify Place Detail shows `place-detail.action.find-restaurant`.
+# <<< dashboard-meta
+
+# `needs-implementation` because the test data set under ${TEST_PREMIUM_EMAIL}
+# doesn't deterministically expose both an attraction AND a restaurant stop
+# at known indices. Once a fixture plan with a known shape exists, wire
+# `itinerary.stop.<idx>` taps to specific stops and assert the exact action id.
+# Until then the body just guarantees the screen sequence works.
+- runFlow: ../common/_reset_data.yaml
+- runFlow: ../common/_open_app.yaml
+- runFlow:
+    file: ../common/_login.yaml
+    env:
+      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
+      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+- tapOn: { id: "home.tab.travel-plans" }
+- tapOn: { id: "plans.plan-card.0" }
+- assertVisible: { id: "itinerary-day.stop.0" }
+- tapOn: { id: "itinerary-day.stop.0" }
+- assertVisible: { id: "place-detail.title" }
+# Once a fixture exposes a known attraction at index 0, pick ONE of the
+# following lines to enable based on stop type:
+#   - assertVisible: { id: "place-detail.action.add-ticket" }
+#   - assertVisible: { id: "place-detail.action.edit" }
+#   - assertVisible: { id: "place-detail.action.find-restaurant" }
