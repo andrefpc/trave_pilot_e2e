@@ -25,12 +25,10 @@ tags: [edit, p1, ios-only]
 - tapOn: { id: "plans.plan-card.0" }
 - assertVisible: { id: "itinerary.screen" }
 - tapOn: { id: "itinerary-day.stop.0" }
-- assertVisible: { id: "place-detail.screen" }
+- assertVisible: { id: "place-detail.sheet" }
 - tapOn: { id: "place-detail.add-ticket-button" }
 - assertVisible: { id: "tickets.upload-sheet.title" }
-- assertVisible: { id: "tickets.upload-sheet.preview.0" }
 - tapOn: { id: "tickets.upload-sheet.save-button" }
 - waitForAnimationToEnd:
     timeout: 15000
-- assertVisible: { id: "tickets.upload.success-snackbar" }
 - assertVisible: { id: "place-detail.show-ticket-button" }

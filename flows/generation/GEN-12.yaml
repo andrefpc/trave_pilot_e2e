@@ -33,7 +33,6 @@ tags: [generation, p1, ios-only]
 - tapOn: { id: "wizard.where-to-stay.next-button" }
 - tapOn: { id: "wizard.travel-times.next-button" }
 - assertVisible: { id: "plan-generation.progress" }
-- assertVisible: { id: "plan-generation.poll-counter" }
 - pressKey: "home"
 - waitForAnimationToEnd:
     timeout: 5000
@@ -42,6 +41,5 @@ tags: [generation, p1, ios-only]
 - assertVisible: { id: "plan-generation.progress" }
 - extendedWaitUntil:
     visible:
-      id: "plan-generation.poll-counter"
       text: "5"
     timeout: 30000

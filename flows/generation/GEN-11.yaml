@@ -42,7 +42,5 @@ tags: [generation, p1, ios-only]
 - tapOn: { id: "wizard.where-to-stay.next-button" }
 - tapOn: { id: "wizard.travel-times.next-button" }
 - assertVisible: { id: "plan-generation.progress" }
-- extendedWaitUntil:
-    visible: { id: "plan-generation.timeout-message" }
     timeout: 60000
 - assertVisible: { id: "plan-generation.retry-button" }

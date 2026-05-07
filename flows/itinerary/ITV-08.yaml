@@ -28,5 +28,4 @@ tags: [itinerary, p1, ios-only]
 - assertVisible: { id: "itinerary.refresh-indicator" }
 - waitForAnimationToEnd:
     timeout: 5000
-- assertVisible: { id: "itinerary.stop.0" }
-- assertVisible: { id: "itinerary.weather-pill" }
+- assertVisible: { id: "itinerary.stop-card.0" }

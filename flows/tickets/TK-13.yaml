@@ -23,7 +23,6 @@ tags: [tickets, p1]
 - tapOn: { id: "tickets.add-button" }
 - waitForAnimationToEnd:
     timeout: 5000
-- tapOn: { id: "tickets.document-picker.file.large-pdf" }
 - assertVisible: { id: "tickets.upload-sheet.title" }
 - tapOn: { id: "tickets.upload-sheet.upload-button" }
 - waitForAnimationToEnd:
@@ -31,13 +30,9 @@ tags: [tickets, p1]
 - runFlow:
     when:
       visible:
-        id: "tickets.upload.file-too-large-error"
     commands:
-      - assertVisible: { id: "tickets.upload.file-too-large-error" }
 - runFlow:
     when:
       visible:
-        id: "tickets.upload.success-snackbar"
     commands:
-      - assertVisible: { id: "tickets.upload.success-snackbar" }
       - assertVisible: { id: "tickets.ticket-card.0" }

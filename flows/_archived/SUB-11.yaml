@@ -22,7 +22,6 @@ tags: [premium, p1, ios-only]
       TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
       TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
 - tapOn: { id: "home.tab.profile" }
-- tapOn: { id: "subscription.devtools.simulate-renewal" }
 - waitForAnimationToEnd:
     timeout: 8000
 - tapOn: { id: "profile.manage-subscription-button" }

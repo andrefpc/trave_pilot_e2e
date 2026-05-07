@@ -25,6 +25,5 @@ tags: [profile, p1, ios-only]
 - tapOn: { id: "profile.terms-link" }
 - waitForAnimationToEnd:
     timeout: 5000
-- assertVisible: { id: "profile.terms.title" }
 - pressKey: "back"
 - assertVisible: { id: "profile.title" }

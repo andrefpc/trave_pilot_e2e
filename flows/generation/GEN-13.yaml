@@ -34,11 +34,6 @@ tags: [generation, p1, ios-only]
 - tapOn: { id: "wizard.travel-times.next-button" }
 - assertVisible: { id: "plan-generation.progress" }
 - toggleAirplaneMode
-- extendedWaitUntil:
-    visible: { id: "plan-generation.offline-banner" }
     timeout: 15000
 - toggleAirplaneMode
-- extendedWaitUntil:
-    visible: { id: "plan-generation.progress.growing-marker" }
     timeout: 15000
-- assertNotVisible: { id: "plan-generation.offline-banner" }

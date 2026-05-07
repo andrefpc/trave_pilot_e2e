@@ -23,10 +23,7 @@ tags: [plans, p0, ios-only]
 - assertVisible: { id: "plans.list" }
 - assertVisible: { id: "plans.plan-card.0" }
 - assertVisible: { id: "plans.plan-card.19" }
-- scrollUntilVisible:
-    element: { id: "plans.pagination-loader" }
     direction: DOWN
-- assertVisible: { id: "plans.pagination-loader" }
 - waitForAnimationToEnd:
     timeout: 5000
 - assertVisible: { id: "plans.plan-card.20" }

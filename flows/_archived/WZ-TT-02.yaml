@@ -1,14 +1,15 @@
 appId: ${APP_ID}
-name: WZ-CO-06
+name: WZ-TT-02
 tags: [wizard, p1, ios-only]
 ---
 # >>> dashboard-meta
-# WZ-CO-06 — Tapping Back on Complete Onboarding returns to Travel Times with the draft intact
+# WZ-TT-02 — On Travel Times, picking a time preference (e.g. Morning) for a leg saves it on Next
 # Section: Plan Creation Wizard
 # Priority: P1
 # Repro:
-# 1. On Complete Onboarding, tap the back arrow.
-# 2. Verify Travel Times reopens with all previously selected time preferences still chosen.
+# 1. On Travel Times for the first leg, tap "Morning".
+# 2. Verify the Morning chip is highlighted.
+# 3. Tap Next — verify the preference is persisted (a PATCH fires).
 # <<< dashboard-meta
 
 - runFlow: ../common/_reset_data.yaml
@@ -18,8 +19,8 @@ tags: [wizard, p1, ios-only]
 - runFlow: ./_walk_to_travel_times.yaml
 - assertVisible: { id: "wizard.travel-times.title" }
 - tapOn: { id: "wizard.travel-times.leg.0.option.morning" }
+- assertVisible: { id: "wizard.travel-times.leg.0.option.morning.selected-marker" }
 - tapOn: { id: "wizard.travel-times.next-button" }
 - assertVisible: { id: "wizard.complete-onboarding.title" }
-- tapOn: { id: "wizard.back-button" }
 - assertVisible: { id: "wizard.travel-times.title" }
-- assertVisible: { id: "wizard.travel-times.leg.0.option.morning" }
+- assertVisible: { id: "wizard.travel-times.leg.0.option.morning.selected-marker" }

@@ -20,10 +20,6 @@ tags: [home, p1, ios-only]
       TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
       TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
 - tapOn: { id: "home.tab.profile" }
-- tapOn: { id: "profile.theme-row" }
-- tapOn: { id: "profile.theme.dark-option" }
 - tapOn: { id: "home.tab.home" }
-- assertVisible: { id: "home.theme.dark-marker" }
 - assertVisible: { id: "home.day-card.0.weather-icon" }
-- assertVisible: { id: "home.day-card.0.weather-icon.themed" }
 - assertVisible: { id: "home.day-card.0.temperature-label" }

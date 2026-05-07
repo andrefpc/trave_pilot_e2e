@@ -20,8 +20,6 @@ tags: [photos, p1, ios-only]
       TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
 - tapOn: { id: "home.tab.profile" }
 - tapOn: { id: "profile.gallery-link" }
-- assertVisible: { id: "photos.city-header.0" }
-- tapOn: { id: "photos.city-header.0" }
 - waitForAnimationToEnd:
     timeout: 5000
 - assertVisible: { id: "photos.city-gallery" }

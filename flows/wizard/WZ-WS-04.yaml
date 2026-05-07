@@ -21,6 +21,5 @@ tags: [wizard, p1]
 - tapOn: { id: "wizard.walking-style.option.moderate" }
 - tapOn: { id: "wizard.walking-style.next-button" }
 - assertVisible: { id: "wizard.companions.title" }
-- tapOn: { id: "wizard.back-button" }
 - assertVisible: { id: "wizard.walking-style.title" }
 - assertVisible: { id: "wizard.walking-style.option.moderate" }

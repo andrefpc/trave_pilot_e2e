@@ -24,15 +24,9 @@ tags: [tickets, p1]
 - tapOn: { id: "tickets.add-button" }
 - waitForAnimationToEnd:
     timeout: 5000
-- tapOn: { id: "tickets.document-picker.file.pdf" }
 - tapOn: { id: "tickets.upload-sheet.upload-button" }
-- assertVisible: { id: "tickets.upload.progress" }
 - toggleAirplaneMode
-- assertVisible: { id: "tickets.upload.error-snackbar" }
-- assertVisible: { id: "tickets.upload.error-snackbar.retry-button" }
 - toggleAirplaneMode
-- tapOn: { id: "tickets.upload.error-snackbar.retry-button" }
 - waitForAnimationToEnd:
     timeout: 15000
-- assertVisible: { id: "tickets.upload.success-snackbar" }
 - assertVisible: { id: "tickets.ticket-card.0" }

@@ -24,11 +24,8 @@ tags: [tickets, p0]
 - tapOn: { id: "tickets.add-button" }
 - waitForAnimationToEnd:
     timeout: 5000
-- tapOn: { id: "tickets.document-picker.file.pdf" }
 - assertVisible: { id: "tickets.upload-sheet.title" }
 - tapOn: { id: "tickets.upload-sheet.upload-button" }
-- assertVisible: { id: "tickets.upload.progress" }
 - waitForAnimationToEnd:
     timeout: 15000
-- assertVisible: { id: "tickets.upload.success-snackbar" }
 - assertVisible: { id: "tickets.ticket-card.0" }

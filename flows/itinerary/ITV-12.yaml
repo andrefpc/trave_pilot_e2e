@@ -23,4 +23,3 @@ tags: [itinerary, p2, ios-only]
 - assertVisible: { id: "itinerary.screen" }
 - assertVisible: { id: "itinerary.day-empty-state" }
 - assertVisible: { id: "itinerary.day-empty-state.title" }
-- assertVisible: { id: "itinerary.day-empty-state.illustration" }

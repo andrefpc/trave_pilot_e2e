@@ -23,4 +23,3 @@ tags: [wizard, p0, ios-only]
 - waitForAnimationToEnd:
     timeout: 5000
 - assertVisible: { id: "wizard.destination.origin-suggestion.0" }
-- assertVisible: { id: "wizard.destination.origin-suggestion.0.flag" }

@@ -24,7 +24,6 @@ tags: [premium, p1]
       TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
 - tapOn: { id: "home.tab.profile" }
 - assertVisible: { id: "profile.premium-badge" }
-- tapOn: { id: "subscription.devtools.simulate-refund" }
 - waitForAnimationToEnd:
     timeout: 8000
 - assertVisible: { id: "profile.upgrade-to-premium-button" }

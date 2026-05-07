@@ -23,4 +23,4 @@ tags: [home, p0]
 - tapOn: { id: "home.day-card.0" }
 - assertVisible: { id: "itinerary.screen" }
 - assertVisible: { id: "itinerary.day-tab.0" }
-- assertVisible: { id: "itinerary.stop.0" }
+- assertVisible: { id: "itinerary.stop-card.0" }

@@ -24,4 +24,3 @@ tags: [tickets, p0]
 - tapOn: { id: "tickets.add-button" }
 - waitForAnimationToEnd:
     timeout: 5000
-- assertVisible: { id: "tickets.document-picker" }

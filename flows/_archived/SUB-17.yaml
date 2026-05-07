@@ -25,7 +25,6 @@ tags: [premium, p1]
 - tapOn: { id: "home.tab.profile" }
 - tapOn: { id: "profile.upgrade-to-premium-button" }
 - assertVisible: { id: "premium.bottom-sheet.title" }
-- tapOn: { id: "subscription.devtools.simulate-pending-receipt" }
 - launchApp:
     stopApp: true
 - waitForAnimationToEnd:

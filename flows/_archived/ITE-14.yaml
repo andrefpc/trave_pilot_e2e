@@ -23,7 +23,7 @@ tags: [edit, p1, ios-only]
 - tapOn: { id: "plans.plan-card.0" }
 - assertVisible: { id: "itinerary.screen" }
 - tapOn: { id: "itinerary-day.hotel-stop" }
-- assertVisible: { id: "place-detail.screen" }
+- assertVisible: { id: "place-detail.sheet" }
 - tapOn: { id: "place-detail.change-hotel-button" }
 - assertVisible: { id: "hotel-search.sheet" }
 - tapOn: { id: "hotel-search.result.1" }

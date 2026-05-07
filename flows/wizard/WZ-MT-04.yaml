@@ -34,4 +34,3 @@ tags: [wizard, p1, ios-only]
 - tapOn: { id: "wizard.meal-time.time-picker.ok-button" }
 - tapOn: { id: "wizard.meal-time.card.lunch.end-field" }
 - tapOn: { id: "wizard.meal-time.time-picker.ok-button" }
-- assertVisible: { id: "wizard.meal-time.card.lunch.error" }

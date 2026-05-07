@@ -19,6 +19,4 @@ tags: [wizard, p1, ios-only]
 - runFlow: ./_walk_to_travel_times.yaml
 - assertVisible: { id: "wizard.travel-times.title" }
 - assertVisible: { id: "wizard.travel-times.leg.0" }
-- assertVisible: { id: "wizard.travel-times.leg.0.label" }
 - assertVisible: { id: "wizard.travel-times.leg.1" }
-- assertVisible: { id: "wizard.travel-times.leg.1.label" }

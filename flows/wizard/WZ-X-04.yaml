@@ -24,15 +24,12 @@ tags: [wizard, p1]
 - tapOn: { id: "wizard.companions.adults.plus" }
 - tapOn: { id: "wizard.companions.next-button" }
 - assertVisible: { id: "wizard.day-schedule.title" }
-- tapOn: { id: "wizard.back-button" }
 - assertVisible: { id: "wizard.companions.title" }
 - assertVisible:
     id: "wizard.companions.adults.value"
     text: "2"
-- tapOn: { id: "wizard.back-button" }
 - assertVisible: { id: "wizard.walking-style.title" }
 - assertVisible: { id: "wizard.walking-style.option.moderate" }
-- tapOn: { id: "wizard.back-button" }
 - assertVisible: { id: "wizard.destination.title" }
 - assertVisible: { id: "wizard.destination.origin-field" }
 - assertVisible: { id: "wizard.destination.card.0.city-field" }

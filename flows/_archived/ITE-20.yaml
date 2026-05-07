@@ -25,7 +25,7 @@ tags: [edit, p1, ios-only]
 - tapOn: { id: "plans.plan-card.0" }
 - assertVisible: { id: "itinerary.screen" }
 - tapOn: { id: "itinerary-day.stop.0" }
-- assertVisible: { id: "place-detail.screen" }
+- assertVisible: { id: "place-detail.sheet" }
 - tapOn: { id: "place-detail.add-photo-button" }
 - assertVisible: { id: "place-detail.photo-picker.sheet" }
 - tapOn: { id: "place-detail.photo-picker.confirm-button" }

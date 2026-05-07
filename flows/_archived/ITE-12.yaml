@@ -23,7 +23,7 @@ tags: [edit, p0, ios-only]
 - tapOn: { id: "plans.plan-card.0" }
 - assertVisible: { id: "itinerary.screen" }
 - tapOn: { id: "itinerary-day.meal-stop.lunch" }
-- assertVisible: { id: "place-detail.screen" }
+- assertVisible: { id: "place-detail.sheet" }
 - tapOn: { id: "place-detail.find-restaurant-button" }
 - assertVisible: { id: "place-search.sheet" }
 - tapOn: { id: "place-search.input" }

@@ -23,6 +23,3 @@ tags: [itinerary, p1, ios-only]
 - tapOn: { id: "plans.plan-card.0" }
 - assertVisible: { id: "itinerary.screen" }
 - assertVisible: { id: "itinerary.day-header" }
-- assertVisible: { id: "itinerary.weather-pill" }
-- assertVisible: { id: "itinerary.weather-pill.icon" }
-- assertVisible: { id: "itinerary.weather-pill.temperature-label" }

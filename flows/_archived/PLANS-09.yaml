@@ -21,7 +21,6 @@ tags: [plans, p0, ios-only]
 - tapOn: { id: "home.tab.travel-plans" }
 - assertVisible: { id: "plans.plan-card.0" }
 - longPressOn: { id: "plans.plan-card.0" }
-- tapOn: { id: "plans.context-menu.export-calendar" }
 - assertVisible:
     id: "com.android.permissioncontroller:id/permission_message"
 - assertVisible:

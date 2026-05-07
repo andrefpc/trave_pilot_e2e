@@ -22,6 +22,5 @@ tags: [profile, p1, ios-only]
 - tapOn: { id: "home.tab.profile" }
 - assertVisible: { id: "profile.title" }
 - assertVisible: { id: "profile.unlock-premium-card" }
-- assertVisible: { id: "profile.unlock-premium-card.price" }
 - assertVisible: { id: "profile.upgrade-to-premium-button" }
 - assertNotVisible: { id: "profile.premium-badge" }

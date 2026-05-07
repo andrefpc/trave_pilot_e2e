@@ -21,7 +21,7 @@ tags: [itinerary, p2, ios-only]
       TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
 - tapOn: { id: "home.tab.travel-plans" }
 - tapOn: { id: "plans.plan-card.0" }
-- tapOn: { id: "itinerary.stop.0" }
+- tapOn: { id: "itinerary.stop-card.0" }
 - assertVisible: { id: "place-detail.sheet" }
 - assertVisible: { id: "place-detail.description" }
 - scrollUntilVisible:

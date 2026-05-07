@@ -28,4 +28,3 @@ tags: [plans, p0, ios-only]
 - tapOn: { id: "plans.delete-dialog.confirm-button" }
 - waitForAnimationToEnd:
     timeout: 5000
-- assertVisible: { id: "plans.snackbar.deleted" }

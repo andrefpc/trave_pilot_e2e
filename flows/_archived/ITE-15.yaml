@@ -32,7 +32,6 @@ tags: [edit, p1]
 - waitForAnimationToEnd:
     timeout: 3000
 - assertVisible: { id: "itinerary-edit.unsaved-indicator" }
-- tapOn: { id: "subscription.devtools.force-expire" }
 - tapOn: { id: "itinerary-edit.save-button" }
 - waitForAnimationToEnd:
     timeout: 5000

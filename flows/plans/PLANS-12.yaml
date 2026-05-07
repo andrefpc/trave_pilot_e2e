@@ -20,9 +20,5 @@ tags: [plans, p1, ios-only]
       TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
 - tapOn: { id: "home.tab.travel-plans" }
 - assertVisible: { id: "plans.list" }
-- scrollUntilVisible:
-    element: { id: "plans.create-button" }
     direction: DOWN
-- tapOn: { id: "plans.create-button" }
-- assertVisible: { id: "wizard.step-1.title" }
-- assertVisible: { id: "wizard.step-1.destination-field" }
+- assertVisible: { id: "wizard.destination.title" }

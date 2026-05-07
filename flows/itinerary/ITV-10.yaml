@@ -26,7 +26,7 @@ tags: [itinerary, p0, ios-only]
     element: { id: "itinerary.stop.free-time.0" }
     direction: DOWN
 - tapOn: { id: "itinerary.stop.free-time.0.add-stop-button" }
-- assertNotVisible: { id: "premium.bottom-sheet" }
+- assertNotVisible: { id: "premium.bottom-sheet.title" }
 - assertVisible: { id: "place-search.sheet" }
 - tapOn: { id: "place-search.input" }
 - inputText: "park"
@@ -35,5 +35,5 @@ tags: [itinerary, p0, ios-only]
 - tapOn: { id: "place-search.result.0" }
 - waitForAnimationToEnd:
     timeout: 3000
-- assertVisible: { id: "itinerary.stop.0" }
+- assertVisible: { id: "itinerary.stop-card.0" }
 - assertNotVisible: { id: "itinerary.stop.free-time.0" }

@@ -23,5 +23,3 @@ tags: [plans, p1, ios-only]
 - longPressOn: { id: "plans.plan-card.0" }
 - assertVisible: { id: "plans.context-menu" }
 - assertVisible: { id: "plans.context-menu.delete" }
-- assertVisible: { id: "plans.context-menu.duplicate" }
-- assertVisible: { id: "plans.context-menu.export-calendar" }

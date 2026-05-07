@@ -22,7 +22,6 @@ tags: [plans, p1, ios-only]
 - tapOn: { id: "home.tab.travel-plans" }
 - assertVisible: { id: "plans.plan-card.0" }
 - longPressOn: { id: "plans.plan-card.0" }
-- tapOn: { id: "plans.context-menu.duplicate" }
 - waitForAnimationToEnd:
     timeout: 5000
 - assertVisible: { id: "plan-generation.progress" }

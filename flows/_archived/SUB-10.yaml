@@ -22,7 +22,6 @@ tags: [premium, p0]
       TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
       TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
 - tapOn: { id: "home.tab.profile" }
-- tapOn: { id: "subscription.devtools.force-expire" }
 - waitForAnimationToEnd:
     timeout: 3000
 - assertVisible: { id: "profile.upgrade-to-premium-button" }

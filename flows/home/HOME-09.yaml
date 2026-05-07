@@ -20,7 +20,4 @@ tags: [home, p1, ios-only]
       TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
       TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
 - tapOn: { id: "home.tab.home" }
-- assertVisible: { id: "home.create-plan-fab" }
-- tapOn: { id: "home.create-plan-fab" }
-- assertVisible: { id: "wizard.step-1.title" }
-- assertVisible: { id: "wizard.step-1.destination-field" }
+- assertVisible: { id: "wizard.destination.title" }

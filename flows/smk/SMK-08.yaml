@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: SMK-08
-tags: [smk, p0]
+tags: [smk, p0, ios-only]
 ---
 # >>> dashboard-meta
 # SMK-08 — A free-tier user tapping a premium-only feature opens the Premium bottom sheet

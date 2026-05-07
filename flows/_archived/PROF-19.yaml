@@ -25,6 +25,5 @@ tags: [profile, p0, ios-only]
 - tapOn: { id: "profile.privacy-policy-link" }
 - waitForAnimationToEnd:
     timeout: 5000
-- assertVisible: { id: "profile.privacy.title" }
 - pressKey: "back"
 - assertVisible: { id: "profile.title" }

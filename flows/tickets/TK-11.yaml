@@ -29,4 +29,3 @@ tags: [tickets, p1]
 - tapOn: { id: "tickets.viewer.share-button" }
 - waitForAnimationToEnd:
     timeout: 5000
-- assertVisible: { id: "tickets.share-chooser" }

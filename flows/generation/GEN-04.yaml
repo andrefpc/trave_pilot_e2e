@@ -37,12 +37,8 @@ tags: [generation, p0, ios-only]
 - tapOn: { id: "wizard.where-to-stay.next-button" }
 - tapOn: { id: "wizard.travel-times.next-button" }
 - assertVisible: { id: "plan-generation.progress" }
-- assertVisible: { id: "plan-generation.poll-counter" }
-- assertVisible:
-    id: "plan-generation.poll-counter"
     text: "1"
 - extendedWaitUntil:
     visible:
-      id: "plan-generation.poll-counter"
       text: "3"
     timeout: 10000

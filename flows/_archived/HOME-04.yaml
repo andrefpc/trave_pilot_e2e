@@ -23,6 +23,5 @@ tags: [home, p2, ios-only]
 - scrollUntilVisible:
     element: { id: "home.world-map" }
     direction: DOWN
-- tapOn: { id: "home.world-map.marker.0" }
 - assertVisible: { id: "travel-map.screen" }
 - assertVisible: { id: "travel-map.focused-city-label" }

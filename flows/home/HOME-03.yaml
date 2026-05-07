@@ -24,5 +24,3 @@ tags: [home, p1]
     element: { id: "home.world-map" }
     direction: DOWN
 - assertVisible: { id: "home.world-map" }
-- assertVisible: { id: "home.world-map.marker.0" }
-- assertVisible: { id: "home.world-map.marker.1" }

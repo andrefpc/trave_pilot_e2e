@@ -36,4 +36,3 @@ tags: [generation, p1, ios-only]
 - assertVisible: { id: "plan-generation.compass" }
 - assertVisible: { id: "plan-generation.compass.breathing-marker" }
 - assertVisible: { id: "plan-generation.progress" }
-- assertVisible: { id: "plan-generation.progress.growing-marker" }

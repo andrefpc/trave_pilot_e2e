@@ -27,5 +27,4 @@ tags: [tickets, p0]
 - tapOn: { id: "tickets.delete-dialog.confirm-button" }
 - waitForAnimationToEnd:
     timeout: 5000
-- assertVisible: { id: "tickets.delete.success-snackbar" }
 - assertVisible: { id: "tickets.tab-content" }

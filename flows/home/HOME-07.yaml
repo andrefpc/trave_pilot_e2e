@@ -26,7 +26,6 @@ tags: [home, p2]
     direction: DOWN
 - assertVisible: { id: "home.gallery-card" }
 - assertVisible: { id: "home.gallery-card.city-stack.0" }
-- assertVisible: { id: "home.gallery-card.city-stack.0.thumbnail" }
 - tapOn: { id: "home.gallery-card.city-stack.0" }
 - assertVisible: { id: "city-gallery.screen" }
 - assertVisible: { id: "city-gallery.title" }

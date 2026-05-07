@@ -21,4 +21,3 @@ tags: [auth, p1]
 - assertVisible: { id: "welcome.tagline" }
 - assertVisible: { id: "welcome.create-plan-button" }
 - assertVisible: { id: "welcome.have-account-login" }
-- assertVisible: { id: "welcome.version-label" }

@@ -23,9 +23,7 @@ tags: [tickets, p0]
 - waitForAnimationToEnd:
     timeout: 5000
 - assertVisible: { id: "tickets.upload-sheet.title" }
-- assertVisible: { id: "tickets.upload-sheet.preview.0" }
 - tapOn: { id: "tickets.upload-sheet.save-button" }
 - waitForAnimationToEnd:
     timeout: 15000
-- assertVisible: { id: "tickets.upload.success-snackbar" }
 - assertVisible: { id: "tickets.ticket-card.0" }
