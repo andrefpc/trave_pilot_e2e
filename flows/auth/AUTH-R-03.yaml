@@ -34,17 +34,46 @@ tags: [auth, p1]
 - assertVisible: { id: "register.rule.match",     text: "ic_unchecked" }
 - tapOn: { id: "register.password-field" }
 - runFlow: ../common/_dismiss_save_password.yaml
+# After typing in the password field, the soft keyboard hides the lower
+# password rules on Android (Compose's auto-scroll anchors the focused
+# TextField, not the rules below it). `scrollUntilVisible` is a no-op if
+# the element is already in view (iOS), and scrolls within the form
+# scroll-view to surface the rule before each `assertVisible` (Android).
 - inputText: "P"
+- scrollUntilVisible:
+    element: { id: "register.rule.uppercase" }
+    direction: DOWN
+    timeout: 5000
 - assertVisible: { id: "register.rule.uppercase", text: "ic_checked" }
 - inputText: "a"
+- scrollUntilVisible:
+    element: { id: "register.rule.lowercase" }
+    direction: DOWN
+    timeout: 5000
 - assertVisible: { id: "register.rule.lowercase", text: "ic_checked" }
 - inputText: "ssword"
+- scrollUntilVisible:
+    element: { id: "register.rule.length" }
+    direction: UP
+    timeout: 5000
 - assertVisible: { id: "register.rule.length",    text: "ic_checked" }
 - inputText: "1"
+- scrollUntilVisible:
+    element: { id: "register.rule.number" }
+    direction: DOWN
+    timeout: 5000
 - assertVisible: { id: "register.rule.number",    text: "ic_checked" }
 - inputText: "!"
+- scrollUntilVisible:
+    element: { id: "register.rule.special" }
+    direction: DOWN
+    timeout: 5000
 - assertVisible: { id: "register.rule.special",   text: "ic_checked" }
 - tapOn: { id: "register.confirm-password-field" }
 - runFlow: ../common/_dismiss_save_password.yaml
 - inputText: "Password1!"
+- scrollUntilVisible:
+    element: { id: "register.rule.match" }
+    direction: DOWN
+    timeout: 5000
 - assertVisible: { id: "register.rule.match",     text: "ic_checked" }
