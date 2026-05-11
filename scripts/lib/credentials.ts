@@ -3,6 +3,32 @@ import os from 'node:os';
 import path from 'node:path';
 import { execFileSync } from 'node:child_process';
 
+const USER_ENV_PATH = path.join(os.homedir(), '.config', 'trave-pilot-e2e', '.env');
+
+/**
+ * Merge KEY=value lines from ~/.config/trave-pilot-e2e/.env into process.env.
+ * Existing process.env entries take precedence (so a one-off
+ * `TEST_RESET_TOKEN=… npm run e2e:per-section` still wins). Lines starting
+ * with `#` are skipped. Quote-stripping mirrors getAdminPassword().
+ *
+ * Idempotent — safe to call from every entrypoint.
+ */
+export function loadUserEnv(): void {
+  if (!fs.existsSync(USER_ENV_PATH)) return;
+  const text = fs.readFileSync(USER_ENV_PATH, 'utf8');
+  for (const rawLine of text.split('\n')) {
+    const line = rawLine.trim();
+    if (!line || line.startsWith('#')) continue;
+    const eqIdx = line.indexOf('=');
+    if (eqIdx < 1) continue;
+    const key = line.slice(0, eqIdx).trim();
+    if (!key || process.env[key] !== undefined) continue;
+    let value = line.slice(eqIdx + 1).trim();
+    value = value.replace(/^['"]|['"]$/g, '');
+    process.env[key] = value;
+  }
+}
+
 /**
  * Resolve the admin password without storing it in this repo.
  *

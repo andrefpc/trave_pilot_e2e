@@ -28,36 +28,9 @@ tags: [smk, p0]
       TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
 - tapOn: { id: "home.tab.travel-plans" }
 - tapOn: { id: "travel-plans.add-button" }
-- assertVisible: { id: "wizard.destination.title" }
-# Wizard destination step starts empty — fill: pick origin, add a city, pick date.
-- tapOn: { id: "wizard.destination.origin-field" }
-- inputText: "New York"
-- waitForAnimationToEnd:
-    timeout: 3000
-- tapOn: { id: "wizard.destination.search-result.0" }
-- waitForAnimationToEnd:
-    timeout: 1500
-- tapOn: { id: "wizard.destination.add-destination-button" }
-- inputText: "Orlando"
-- waitForAnimationToEnd:
-    timeout: 3000
-- tapOn: { id: "wizard.destination.search-result.0" }
-- waitForAnimationToEnd:
-    timeout: 2500
-# Android pops a Material3 DatePicker dialog after the destination is
-# selected (forces the user to pick + confirm an arrival date). iOS
-# auto-assigns a default and closes the sheet. If the dialog is up, pick a
-# day in the future then OK; no-op otherwise.
-- runFlow:
-    when:
-      visible: "OK"
-    commands:
-      # The picker now opens with a pre-selected default date, so OK alone
-      # commits and dismisses the dialog.
-      - tapOn: "OK"
-- waitForAnimationToEnd:
-    timeout: 1500
-- tapOn: { id: "wizard.destination.next-button" }
+# See SMK-04 — the shared helper uses the testIDs the live UI exposes;
+# the legacy `wizard.destination.search-result.0` id never renders.
+- runFlow: ../common/_wizard_fill_destination.yaml
 # Walking-style next-button is disabled until an option is picked.
 - tapOn: "All Day"
 - tapOn: { id: "wizard.walking-style.next-button" }

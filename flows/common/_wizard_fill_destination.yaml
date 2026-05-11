@@ -22,16 +22,35 @@ tags: [helper]
 - waitForAnimationToEnd:
     timeout: 2000
 
-# First destination: open add-destination sheet, pick default date, search city
+# First destination: open add-destination sheet, pick default date, search city.
+# The arrive-on-field + date-picker is Android-only — iOS auto-assigns a default
+# date and closes the sheet without a separate field. Make the date-picking
+# steps conditional so the same helper works on both platforms.
 - tapOn: { id: "wizard.destination.add-destination-button" }
-- tapOn: { id: "wizard.destination.arrive-on-field" }
-- tapOn: { id: "wizard.destination.date-picker.ok-button" }
+- runFlow:
+    when:
+      visible: { id: "wizard.destination.arrive-on-field" }
+    commands:
+      - tapOn: { id: "wizard.destination.arrive-on-field" }
+      - tapOn: { id: "wizard.destination.date-picker.ok-button" }
 - inputText: "Rome"
 - waitForAnimationToEnd:
     timeout: 5000
 - tapOn: { id: "wizard.destination.card.0.city-suggestion.0" }
 - waitForAnimationToEnd:
     timeout: 2000
+
+# On Android, picking the city auto-reopens the Material3 DatePicker (the
+# UI assumes the user might want to revise the arrival date now that the
+# destination is set). iOS doesn't do this. Dismiss the dialog if it's
+# back up — no-op on iOS where it never reappears.
+- runFlow:
+    when:
+      visible: { id: "wizard.destination.date-picker.ok-button" }
+    commands:
+      - tapOn: { id: "wizard.destination.date-picker.ok-button" }
+      - waitForAnimationToEnd:
+          timeout: 1500
 
 # Continue to next wizard step
 - tapOn: { id: "wizard.destination.next-button" }

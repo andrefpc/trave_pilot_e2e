@@ -12,22 +12,30 @@ tags: [auth, p0]
 # 3. Tap "Create Account" and verify Home appears.
 # <<< dashboard-meta
 
-- runFlow: ../common/_reset_data.yaml
 - launchApp:
     clearState: true
     clearKeychain: true
     stopApp: true
+# Cold-start the app via the deeplink so MainActivity.onCreate (not
+# onNewIntent) processes the URL. Same pattern as the SMK-09 fix.
+- stopApp: ${APP_ID}
 - openLink: travelpilot://register
 - assertVisible: { id: "register.title" }
 - tapOn: { id: "register.name-field" }
 - inputText: ${TEST_NEW_NAME}
 - tapOn: { id: "register.email-field" }
-- inputText: ${TEST_NEW_EMAIL}
+- inputText: "e2e+r11-${TEST_RUN_ID}@travelpilotapp.com"
 - tapOn: { id: "register.password-field" }
 - inputText: ${TEST_NEW_PASSWORD}
 - tapOn: { id: "register.confirm-password-field" }
 - inputText: ${TEST_NEW_PASSWORD}
 - runFlow: ../common/_hide_keyboard.yaml
 - tapOn: { id: "register.create-account-button" }
-- assertVisible: { id: "home.tab-bar" }
+- runFlow: ../common/_dismiss_save_password.yaml
+- runFlow: ../common/_dismiss_tutorial.yaml
+# Verify we landed on Home, not Plan Generation. home.screen-root is a
+# higher-in-viewport anchor than home.tab.home (the latter has a flaky
+# Maestro detection race on iOS post-register).
+- assertVisible: { id: "home.screen-root" }
 - assertNotVisible: { id: "plan-generation.progress" }
+- assertNotVisible: { id: "register.title" }

@@ -26,12 +26,18 @@ tags: [auth, p1]
 - inputText: ${TEST_PASSWORD}
 - runFlow: ../common/_hide_keyboard.yaml
 - tapOn: { id: "login.submit-button" }
-# Submit button immediately swaps in a disabled/loading variant.
-- assertVisible: { id: "login.submit-button.loading-marker" }
+# Submit button immediately swaps to a disabled state during the login
+# request. iOS doesn't expose `login.submit-button.loading-marker` as a
+# separate testID — the disabled state is communicated via the AX
+# `enabled: false` flag on the button itself. The 500 ms min-display
+# duration the iOS team added pins it for Maestro to observe.
+- assertVisible: { id: "login.submit-button", enabled: false }
 - repeat:
     times: 5
     commands:
       - tapOn:
           id: "login.submit-button"
           optional: true
-- assertVisible: { id: "home.tab-bar" }
+- runFlow: ../common/_dismiss_save_password.yaml
+- runFlow: ../common/_dismiss_tutorial.yaml
+- assertVisible: { id: "home.screen-root" }

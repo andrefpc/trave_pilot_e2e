@@ -31,5 +31,8 @@ tags: [smk, p0]
 # is unreliable on iOS with custom inputs.
 - tapOn: { id: "login.title" }
 - tapOn: { id: "login.submit-button" }
+# iOS pops "Save Password" right after a successful sign-in; dismiss it
+# (narrow helper) before checking for Home.
+- runFlow: ../common/_dismiss_save_password.yaml
 - runFlow: ../common/_dismiss_tutorial.yaml
 - assertVisible: { id: "home.tab.home" }

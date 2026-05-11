@@ -24,10 +24,11 @@ tags: [auth, p0]
 - tapOn: { id: "auth-sheet.signin-with-password" }
 - assertVisible: { id: "login.title" }
 - tapOn: { id: "login.email-field" }
-- inputText: ${TEST_EMAIL}
+- inputText: ${TEST_RESET_EMAIL}
 - tapOn: { id: "login.password-field" }
-- inputText: ${TEST_PASSWORD}
+- inputText: ${TEST_RESET_OLD_PASSWORD}
 - runFlow: ../common/_hide_keyboard.yaml
 - tapOn: { id: "login.submit-button" }
+- runFlow: ../common/_dismiss_save_password.yaml
 - assertVisible: { id: "login.error-dialog.title" }
 - assertVisible: { id: "login.error-dialog.retry-button" }

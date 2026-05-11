@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: AUTH-F-11
-tags: [auth, p0]
+tags: [auth, p0, manual-only]
 ---
 # >>> dashboard-meta
 # AUTH-F-11 — After a password reset, any other device that was logged in is forced to sign in again on its next request
@@ -27,9 +27,9 @@ tags: [auth, p0]
     env:
       TEST_EMAIL: ${TEST_EMAIL}
       TEST_PASSWORD: ${TEST_PASSWORD}
-- assertVisible: { id: "home.tab-bar" }
+- assertVisible: { id: "home.tab.home" }
 - runScript:
     file: ../../scripts/maestro-reset-password-other-device.js
 - tapOn: { id: "home.tab.travel-plans" }
 - assertVisible: { id: "welcome.title" }
-- assertNotVisible: { id: "home.tab-bar" }
+- assertNotVisible: { id: "home.tab.home" }

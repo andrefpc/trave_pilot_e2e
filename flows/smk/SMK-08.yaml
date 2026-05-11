@@ -26,8 +26,20 @@ tags: [smk, p0, ios-only]
 # Tap the button inside the preview card by text — see SMK-06 for context.
 - tapOn: "Open full itinerary"
 - runFlow: ../common/_dismiss_tutorial.yaml
+# iOS now auto-scrolls Itinerary Day to current time on open, which can push
+# the day header (and `itinerary-day.title`) above the visible viewport.
+# Scroll up until the header re-enters view before asserting.
+- scrollUntilVisible:
+    element:
+      id: "itinerary-day.title"
+    direction: UP
 - assertVisible: { id: "itinerary-day.title" }
-- tapOn: { id: "itinerary-day.edit-button" }
+- tapOn: { id: "itinerary.toolbar.rearrange-button" }
+# Tapping a premium-gated control opens PremiumGateBottomSheet first (the
+# watch-ad / go-premium chooser). The actual subscribe upsell is one tap
+# behind premium-gate.go-premium-button.
+- assertVisible: { id: "premium-gate.title" }
+- tapOn: { id: "premium-gate.go-premium-button" }
 - assertVisible: { id: "premium.bottom-sheet.title" }
 # The bottom sheet shows two plan cards (monthly + annual). The CTA button on
 # each card has the id premium.bottom-sheet.cta — assert at least one is

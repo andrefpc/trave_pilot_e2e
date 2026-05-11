@@ -1,5 +1,15 @@
 appId: ${APP_ID}
 tags: [helper]
 ---
-- runScript:
-    file: ../../scripts/maestro-reset.js
+# No-op. The actual reset (POST /api/v1/test/reset) is now performed by
+# scripts/run-e2e-per-section.ts at orchestrator startup, before any flow
+# runs. This avoids Maestro 2.5.1's GraalVM serialization crash on
+# `runScript` results, which caused every flow including this helper to
+# fail with "Unknown error".
+#
+# Kept as a runFlow-able stub (not deleted) so flows that already
+# reference `runFlow: ../common/_reset_data.yaml` continue parsing — the
+# semantics are identical (state was already reset before the flow
+# started).
+- waitForAnimationToEnd:
+    timeout: 1

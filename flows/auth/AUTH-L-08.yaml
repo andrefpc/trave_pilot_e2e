@@ -26,4 +26,11 @@ tags: [auth, p0]
 - inputText: ${TEST_PASSWORD}
 - runFlow: ../common/_hide_keyboard.yaml
 - tapOn: { id: "login.submit-button" }
-- assertVisible: { id: "home.tab-bar" }
+- runFlow: ../common/_dismiss_save_password.yaml
+# Android shows a first-login tutorial overlay that blocks Home assertions.
+# iOS doesn't show the same overlay post-login, but the helper is a no-op
+# when no tutorial is on screen.
+- runFlow: ../common/_dismiss_tutorial.yaml
+# home.tab.home assertion has a flaky Maestro detection race on iOS;
+# home.screen-root is a more reliable "we're on Home" anchor.
+- assertVisible: { id: "home.screen-root" }

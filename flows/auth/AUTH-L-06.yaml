@@ -24,9 +24,12 @@ tags: [auth, p1]
 - tapOn: { id: "auth-sheet.signin-with-password" }
 - assertVisible: { id: "login.title" }
 - tapOn: { id: "login.email-field" }
-- inputText: "qa-locked@travelpilotapp.com"
+- inputText: ${TEST_LOCKED_EMAIL}
 - tapOn: { id: "login.password-field" }
 - inputText: ${TEST_LOCKED_PASSWORD}
 - runFlow: ../common/_hide_keyboard.yaml
 - tapOn: { id: "login.submit-button" }
-- assertVisible: { id: "home.tab-bar" }
+- runFlow: ../common/_dismiss_save_password.yaml
+# home.tab.home assertion has a flaky Maestro detection race on iOS;
+# home.screen-root is a more reliable "we're on Home" anchor.
+- assertVisible: { id: "home.screen-root" }

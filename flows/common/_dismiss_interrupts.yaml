@@ -7,6 +7,33 @@ tags: [helper]
 # Google Play services updates, etc.). Each block only runs when the matching
 # element is visible — no-op otherwise. Safe to chain into every flow.
 
+# Reset orientation to portrait. Rotation flows like SMK-10 try to set
+# PORTRAIT at the tail, but if any assertion mid-rotation fails the cleanup
+# never fires and the emulator stays in landscape, breaking every subsequent
+# flow that assumes portrait layout. Idempotent + cheap to call.
+- setOrientation: PORTRAIT
+
+# iOS Save Password sheet ("Not Now" / "Don't Save") + Strong Password
+# suggestion ("Choose My Own Password"). Both fire on SecureField focus or
+# after a login/signup submit. If the prior flow left them on screen, they
+# block the next flow's launchApp/welcome.title assertion. Narrow matchers
+# don't collide with normal screen UI.
+- runFlow:
+    when:
+      visible: "Not Now"
+    commands:
+      - tapOn: "Not Now"
+- runFlow:
+    when:
+      visible: "Don't Save"
+    commands:
+      - tapOn: "Don't Save"
+- runFlow:
+    when:
+      visible: "Choose My Own Password"
+    commands:
+      - tapOn: "Choose My Own Password"
+
 # iOS notifications permission
 - runFlow:
     when:
@@ -18,12 +45,22 @@ tags: [helper]
 # decline; pick whichever is appropriate per flow. Default keep.)
 # (intentionally not auto-tapping "Don't Allow")
 
-# iOS App Tracking Transparency
-- runFlow:
-    when:
-      visible: "Ask App Not to Track"
+# iOS App Tracking Transparency — fires async ~2-4s after cold launch
+# (when an analytics SDK initializes), so a single conditional check at
+# flow start is too early. Poll for ~4s so a late-appearing dialog gets
+# dismissed before subsequent assertions. simctl privacy grant
+# user-tracking returns "Operation not permitted" on Xcode 15+, so
+# pre-grant isn't an option — polling is.
+- repeat:
+    times: 8
     commands:
-      - tapOn: "Ask App Not to Track"
+      - runFlow:
+          when:
+            visible: "Ask App Not to Track"
+          commands:
+            - tapOn: "Ask App Not to Track"
+      - waitForAnimationToEnd:
+          timeout: 500
 
 # iOS location prompt
 - runFlow:

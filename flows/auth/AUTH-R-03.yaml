@@ -16,25 +16,35 @@ tags: [auth, p1]
     clearState: true
     clearKeychain: true
     stopApp: true
+# Cold-start the app via the deeplink so MainActivity.onCreate (not
+# onNewIntent) processes the URL. Same pattern as the SMK-09 fix.
+- stopApp: ${APP_ID}
 - openLink: travelpilot://register
 - assertVisible: { id: "register.title" }
-- assertVisible: { id: "register.rule.length.unmet-marker" }
-- assertVisible: { id: "register.rule.uppercase.unmet-marker" }
-- assertVisible: { id: "register.rule.lowercase.unmet-marker" }
-- assertVisible: { id: "register.rule.number.unmet-marker" }
-- assertVisible: { id: "register.rule.special.unmet-marker" }
-- assertVisible: { id: "register.rule.match.unmet-marker" }
+# Each rule row has one testID `register.rule.<name>` containing the icon.
+# State is communicated via the icon's accessibilityText: "ic_unchecked"
+# (rule unmet) or "ic_checked" (rule met). iOS doesn't expose separate
+# `*.met-marker` / `*.unmet-marker` accessibility ids — assert on the icon
+# text directly.
+- assertVisible: { id: "register.rule.length",    text: "ic_unchecked" }
+- assertVisible: { id: "register.rule.uppercase", text: "ic_unchecked" }
+- assertVisible: { id: "register.rule.lowercase", text: "ic_unchecked" }
+- assertVisible: { id: "register.rule.number",    text: "ic_unchecked" }
+- assertVisible: { id: "register.rule.special",   text: "ic_unchecked" }
+- assertVisible: { id: "register.rule.match",     text: "ic_unchecked" }
 - tapOn: { id: "register.password-field" }
+- runFlow: ../common/_dismiss_save_password.yaml
 - inputText: "P"
-- assertVisible: { id: "register.rule.uppercase.met-marker" }
+- assertVisible: { id: "register.rule.uppercase", text: "ic_checked" }
 - inputText: "a"
-- assertVisible: { id: "register.rule.lowercase.met-marker" }
+- assertVisible: { id: "register.rule.lowercase", text: "ic_checked" }
 - inputText: "ssword"
-- assertVisible: { id: "register.rule.length.met-marker" }
+- assertVisible: { id: "register.rule.length",    text: "ic_checked" }
 - inputText: "1"
-- assertVisible: { id: "register.rule.number.met-marker" }
+- assertVisible: { id: "register.rule.number",    text: "ic_checked" }
 - inputText: "!"
-- assertVisible: { id: "register.rule.special.met-marker" }
+- assertVisible: { id: "register.rule.special",   text: "ic_checked" }
 - tapOn: { id: "register.confirm-password-field" }
+- runFlow: ../common/_dismiss_save_password.yaml
 - inputText: "Password1!"
-- assertVisible: { id: "register.rule.match.met-marker" }
+- assertVisible: { id: "register.rule.match",     text: "ic_checked" }

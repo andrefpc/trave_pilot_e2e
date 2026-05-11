@@ -34,9 +34,25 @@ tags: [smk, p0]
 # Tap by text — see SMK-06 for context on home.day-card.0.
 - tapOn: "Open full itinerary"
 - runFlow: ../common/_dismiss_tutorial.yaml
+# iOS auto-scrolls Itinerary Day to current time on open; scroll back to
+# the day header before asserting.
+- scrollUntilVisible:
+    element:
+      id: "itinerary-day.title"
+    direction: UP
 - assertVisible: { id: "itinerary-day.title" }
+# Same auto-scroll situation for stop.0 — scroll up to surface it before
+# asserting, both in portrait and after the rotation flip.
+- scrollUntilVisible:
+    element:
+      id: "itinerary-day.stop.0"
+    direction: UP
 - assertVisible: { id: "itinerary-day.stop.0" }
 - setOrientation: LANDSCAPE_LEFT
+- scrollUntilVisible:
+    element:
+      id: "itinerary-day.stop.0"
+    direction: UP
 - assertVisible: { id: "itinerary-day.stop.0" }
 - setOrientation: PORTRAIT
 # Wizard rotation tail removed — opening the wizard from an existing user

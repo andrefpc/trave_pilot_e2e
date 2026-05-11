@@ -15,7 +15,12 @@ import path from 'node:path';
 import fs from 'node:fs';
 import { spawn, spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
-import { mintAdminToken } from './lib/credentials.ts';
+import { mintAdminToken, loadUserEnv } from './lib/credentials.ts';
+
+// Pull TEST_RESET_TOKEN, ADMIN_EMAIL, etc. from ~/.config/trave-pilot-e2e/.env
+// before any module-level `process.env.X || default` lookups run. Process-env
+// values still win, so one-off overrides on the command line keep working.
+loadUserEnv();
 import {
   listAndroidDevices,
   listBootedIosSimulators,
@@ -62,18 +67,20 @@ const TEST_CREDS = {
 interface Args {
   section: string | null;
   onlyPlatform: Platform | null;
+  serial: string | null;
   dryRun: boolean;
 }
 
 function parseArgs(argv: string[]): Args {
-  const out: Args = { section: null, onlyPlatform: null, dryRun: false };
+  const out: Args = { section: null, onlyPlatform: null, serial: null, dryRun: false };
   for (const a of argv.slice(2)) {
     if (a.startsWith('--section=')) out.section = a.slice('--section='.length);
     else if (a.startsWith('--platform=')) {
       const v = a.slice('--platform='.length);
       if (v !== 'android' && v !== 'ios') throw new Error(`platform must be android|ios, got: ${v}`);
       out.onlyPlatform = v;
-    } else if (a === '--dry-run') out.dryRun = true;
+    } else if (a.startsWith('--serial=')) out.serial = a.slice('--serial='.length);
+    else if (a === '--dry-run') out.dryRun = true;
     else throw new Error(`unknown arg: ${a}`);
   }
   return out;
@@ -86,7 +93,7 @@ interface Target {
   appVersion: string;
 }
 
-function discoverTargets(only: Platform | null): { targets: Target[]; warnings: string[] } {
+function discoverTargets(only: Platform | null, serial: string | null): { targets: Target[]; warnings: string[] } {
   const targets: Target[] = [];
   const warnings: string[] = [];
 
@@ -96,6 +103,7 @@ function discoverTargets(only: Platform | null): { targets: Target[]; warnings: 
       warnings.push('No Android device detected. Boot an emulator or plug in a device, then re-run.');
     }
     for (const d of androids) {
+      if (serial !== null && d.serial !== serial) continue;
       if (!isAppInstalledAndroid(d.serial, APP_ID_ANDROID)) {
         warnings.push(`Android ${d.serial}: ${APP_ID_ANDROID} is not installed.`);
         continue;
@@ -111,6 +119,7 @@ function discoverTargets(only: Platform | null): { targets: Target[]; warnings: 
       warnings.push('No booted iOS simulator detected. Boot one with `xcrun simctl boot "iPhone 15"` and re-run.');
     }
     for (const d of ios) {
+      if (serial !== null && d.udid !== serial) continue;
       if (!isAppInstalledIos(d.udid, APP_ID_IOS)) {
         warnings.push(`iOS ${d.name} (${d.udid}): ${APP_ID_IOS} is not installed.`);
         continue;
@@ -147,7 +156,36 @@ function maestroArgsFor(target: Target, flowsDir: string, junitPath: string, sha
     '--env', `TEST_PREMIUM_PASSWORD=${premium.password}`,
     '--env', `TEST_NEW_NAME=E2E Smoke User`,
     '--env', `TEST_NEW_EMAIL=e2e+smoke-${Date.now()}@travelpilotapp.com`,
-    '--env', `TEST_NEW_PASSWORD=E2eSmoke!1`,
+    // Some flows register two distinct users in one session (AUTH-R-13 boundary
+    // test) and need a second TEST_NEW_EMAIL slot.
+    '--env', `TEST_NEW_EMAIL_2=e2e+smoke2-${Date.now()}@travelpilotapp.com`,
+    // Used by flows that produce a per-test unique email (e.g. AUTH-R-13's
+    // 255-char path interpolates `e2e+r13-${TEST_RUN_ID}@…`).
+    '--env', `TEST_RUN_ID=${Date.now()}`,
+    // Boundary names for AUTH-R-13 (255-char accepted, 256-char rejected).
+    '--env', `TEST_NAME_255=${'a'.repeat(255)}`,
+    '--env', `TEST_NAME_256=${'a'.repeat(256)}`,
+    // Dedicated lockout user for AUTH-L-05 / L-06. Orchestrator unlocks this
+    // user at section start; the test then triggers lockout via 5 wrong-
+    // password attempts and asserts the lockout dialog.
+    '--env', `TEST_LOCKED_EMAIL=e2e+locked@travelpilotapp.com`,
+    '--env', `TEST_LOCKED_PASSWORD=E2eLocked!1`,
+    // Dedicated reset user for AUTH-F-12 / F-13. Orchestrator changes this
+    // user's password to TEST_NEW_PASSWORD before the section runs; the OLD
+    // password is the seed value (which then becomes "stale").
+    '--env', `TEST_RESET_EMAIL=e2e+reset@travelpilotapp.com`,
+    '--env', `TEST_RESET_OLD_PASSWORD=E2eReset!1`,
+    // TEST_EXPIRED_RECOVERY_CODE is filled in at runtime after the
+    // orchestrator's setup step (resetE2eState helper) calls the
+    // seed-expired-recovery-code endpoint.
+    '--env', `TEST_EXPIRED_RECOVERY_CODE=${process.env.TEST_EXPIRED_RECOVERY_CODE ?? ''}`,
+    // Password uses ONLY first-symbol-page characters on the iOS keyboard
+    // (avoids `#` and `%` on the second symbol page). Maestro's `inputText`
+    // appears unreliable when the iOS keyboard has to switch symbol pages
+    // mid-string — the resulting field value loses everything after the
+    // page-switch. Strict validators are still satisfied: 13 chars, multiple
+    // upper + lower, multiple digits, special.
+    '--env', `TEST_NEW_PASSWORD=Password!1234`,
     '--env', `TEST_SHARE_TOKEN=${shareToken}`,
     '--env', `MAESTRO_API_BASE_URL=${API_BASE_URL}`,
     '--env', `MAESTRO_TEST_RESET_TOKEN=${TEST_RESET_TOKEN}`,
@@ -159,7 +197,7 @@ function maestroArgsFor(target: Target, flowsDir: string, junitPath: string, sha
     // Per-platform exclusions: a flow tagged `ios-only` is skipped on Android
     // and vice versa. Keeps platform-divergent UX (e.g. Apple Sign-In on iOS,
     // Google Sign-In on Android) from polluting the cross-platform matrix.
-    `--exclude-tags=needs-implementation,archived,helper,${target.platform === 'ios' ? 'android-only' : 'ios-only'}`,
+    `--exclude-tags=needs-implementation,archived,helper,manual-only,${target.platform === 'ios' ? 'android-only' : 'ios-only'}`,
     '--continuous=false',
     flowsDir,
   ];
@@ -296,7 +334,7 @@ async function main(): Promise<void> {
   const flowsDir = flowsPath(args.section);
   console.log(`flows dir: ${path.relative(ROOT, flowsDir) || '.'}`);
 
-  const { targets, warnings } = discoverTargets(args.onlyPlatform);
+  const { targets, warnings } = discoverTargets(args.onlyPlatform, args.serial);
   for (const w of warnings) console.warn(`! ${w}`);
   if (targets.length === 0) {
     console.error('No runnable targets. Aborting.');
@@ -316,9 +354,14 @@ async function main(): Promise<void> {
 
   // Pre-unlock all seeded e2e users so any prior AUTH-L-05 / SEC-13 lockout
   // doesn't leak into this run. Production-safe (admin-authed endpoint).
+  // Includes the dedicated lockout / reset users targeted by AUTH-L-05/L-06
+  // and AUTH-F-12/F-13 — without unlocking, those flows trip the lockout
+  // ceiling on attempt 1 and fail on `login.error-dialog.title`.
   const allEmails = [
     TEST_CREDS.android.free.email, TEST_CREDS.android.premium.email,
     TEST_CREDS.ios.free.email, TEST_CREDS.ios.premium.email,
+    'e2e+locked@travelpilotapp.com',
+    'e2e+reset@travelpilotapp.com',
   ];
   for (const email of allEmails) {
     try {
@@ -335,6 +378,66 @@ async function main(): Promise<void> {
       }
     } catch (err) {
       console.warn(`! unlock ${email} threw (continuing): ${err instanceof Error ? err.message : String(err)}`);
+    }
+  }
+
+  // Reset seeded e2e users' travel plans / refresh tokens / notifications
+  // so a stale state from a previous run doesn't bleed into this one.
+  // Replaces the legacy `_reset_data.yaml` runFlow which crashed on Maestro
+  // 2.5.1's GraalVM serializer bug.
+  if (TEST_RESET_TOKEN) {
+    try {
+      const res = await fetch(`${API_BASE_URL}/api/v1/test/reset`, {
+        method: 'POST',
+        headers: { 'X-Test-Reset-Token': TEST_RESET_TOKEN, 'Content-Type': 'application/json' },
+        body: '{}',
+      });
+      if (res.ok) {
+        const body = (await res.json()) as { reset_users?: unknown[] };
+        console.log(`✓ reset e2e state (${body.reset_users?.length ?? 0} users)`);
+      } else {
+        console.warn(`! reset → ${res.status} (continuing)`);
+      }
+    } catch (err) {
+      console.warn(`! reset threw (continuing): ${err instanceof Error ? err.message : String(err)}`);
+    }
+
+    // AUTH-F-12 / F-13: seed the reset user with a known new password so
+    // F-12 can sign in with it and F-13 can prove the OLD seed password is
+    // now stale. Soft-fail if the test route is gated off — the affected
+    // flows will keep failing in their current shape.
+    try {
+      const res = await fetch(`${API_BASE_URL}/api/v1/test/set-password`, {
+        method: 'POST',
+        headers: { 'X-Test-Reset-Token': TEST_RESET_TOKEN, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: 'e2e+reset@travelpilotapp.com', password: 'Password!1234' }),
+      });
+      if (res.ok) console.log(`✓ set password for e2e+reset@ (AUTH-F-12/F-13 setup)`);
+      else console.warn(`! set-password → ${res.status} (continuing)`);
+    } catch (err) {
+      console.warn(`! set-password threw (continuing): ${err instanceof Error ? err.message : String(err)}`);
+    }
+
+    // AUTH-F-07: seed an expired recovery code for the reset user so the
+    // flow can input it and assert the "Invalid reset token" dialog
+    // without waiting 15+ minutes.
+    try {
+      const res = await fetch(`${API_BASE_URL}/api/v1/test/seed-expired-recovery-code`, {
+        method: 'POST',
+        headers: { 'X-Test-Reset-Token': TEST_RESET_TOKEN, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: 'e2e+reset@travelpilotapp.com' }),
+      });
+      if (res.ok) {
+        const body = (await res.json()) as { code?: string };
+        if (body.code) {
+          process.env.TEST_EXPIRED_RECOVERY_CODE = body.code;
+          console.log(`✓ seeded expired recovery code (AUTH-F-07 setup)`);
+        }
+      } else {
+        console.warn(`! seed-expired-recovery-code → ${res.status} (continuing)`);
+      }
+    } catch (err) {
+      console.warn(`! seed-expired-recovery-code threw (continuing): ${err instanceof Error ? err.message : String(err)}`);
     }
   }
 

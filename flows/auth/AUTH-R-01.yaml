@@ -16,15 +16,25 @@ tags: [auth, p0]
     clearState: true
     clearKeychain: true
     stopApp: true
+# Cold-start the app via the deeplink so MainActivity.onCreate (not
+# onNewIntent) processes the URL. Same pattern as the SMK-09 fix.
+- stopApp: ${APP_ID}
 - openLink: travelpilot://register
 - assertVisible: { id: "register.title" }
 - tapOn: { id: "register.email-field" }
 - inputText: ${TEST_NEW_EMAIL}
 - tapOn: { id: "register.password-field" }
+- runFlow: ../common/_dismiss_save_password.yaml
 - inputText: "Password1!"
 - tapOn: { id: "register.confirm-password-field" }
+- runFlow: ../common/_dismiss_save_password.yaml
 - inputText: "Password1!"
 - runFlow: ../common/_hide_keyboard.yaml
-- tapOn: { id: "register.create-account-button" }
-- assertVisible: { id: "register.name-field.error" }
+# iOS doesn't expose a `register.name-field.error` testID for the empty-
+# name validation message. What it DOES expose is the create-account
+# button's enabled state — `enabled: false` while name is empty proves
+# the form blocks submission (the test's intent: "no request fires").
+- assertVisible:
+    id: "register.create-account-button"
+    enabled: false
 - assertNotVisible: { id: "register.loading-overlay" }

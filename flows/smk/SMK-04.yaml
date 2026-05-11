@@ -29,37 +29,12 @@ tags: [smk, p0]
 - tapOn: { id: "home.tab.travel-plans" }
 - assertVisible: { id: "travel-plans.title" }
 - tapOn: { id: "travel-plans.add-button" }
-- assertVisible: { id: "wizard.destination.title" }
-# Wizard destination step starts empty — fill it in: pick origin, add a
-# destination city, pick an arrival date, then proceed.
-- tapOn: { id: "wizard.destination.origin-field" }
-- inputText: "New York"
-- waitForAnimationToEnd:
-    timeout: 3000
-- tapOn: { id: "wizard.destination.search-result.0" }
-- waitForAnimationToEnd:
-    timeout: 1500
-- tapOn: { id: "wizard.destination.add-destination-button" }
-- inputText: "Orlando"
-- waitForAnimationToEnd:
-    timeout: 3000
-- tapOn: { id: "wizard.destination.search-result.0" }
-- waitForAnimationToEnd:
-    timeout: 2500
-# Android pops a Material3 DatePicker dialog after the destination is
-# selected (forces the user to pick + confirm an arrival date). iOS
-# auto-assigns a default and closes the sheet. If the dialog is up, pick a
-# day in the future then OK; no-op otherwise.
-- runFlow:
-    when:
-      visible: "OK"
-    commands:
-      # The picker now opens with a pre-selected default date, so OK alone
-      # commits and dismisses the dialog.
-      - tapOn: "OK"
-- waitForAnimationToEnd:
-    timeout: 1500
-- tapOn: { id: "wizard.destination.next-button" }
+# Use the shared helper — its testIDs (origin-suggestion.0,
+# card.0.city-suggestion.0, arrive-on-field + date-picker.ok-button) are
+# the ones the live Android (and iOS) UI actually exposes. The legacy
+# `wizard.destination.search-result.0` id is a fallback that never renders
+# in the running app.
+- runFlow: ../common/_wizard_fill_destination.yaml
 - assertVisible: { id: "wizard.walking-style.title" }
 # Walking-style next-button is disabled until an option is picked. "All Day"
 # is the first card and works on both platforms.

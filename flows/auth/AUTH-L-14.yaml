@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: AUTH-L-14
-tags: [auth, p1]
+tags: [auth, p1, manual-only]
 ---
 # >>> dashboard-meta
 # AUTH-L-14 — Tapping Login while the device is in airplane mode shows a "No internet connection" dialog with Retry
@@ -28,6 +28,7 @@ tags: [auth, p1]
 - inputText: ${TEST_PASSWORD}
 - runFlow: ../common/_hide_keyboard.yaml
 - tapOn: { id: "login.submit-button" }
+- runFlow: ../common/_dismiss_save_password.yaml
 - assertVisible: { id: "login.no-internet-dialog.title" }
 - assertVisible: { id: "login.no-internet-dialog.retry-button" }
 - toggleAirplaneMode

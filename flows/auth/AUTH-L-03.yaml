@@ -25,5 +25,6 @@ tags: [auth, p0]
 - inputText: "qa-free@travelpilotapp.com"
 - runFlow: ../common/_hide_keyboard.yaml
 - tapOn: { id: "login.submit-button" }
+- runFlow: ../common/_dismiss_save_password.yaml
 - assertVisible: { id: "login.password-field.error" }
 - assertNotVisible: { id: "login.loading-overlay" }

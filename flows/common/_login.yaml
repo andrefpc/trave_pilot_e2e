@@ -15,6 +15,11 @@ tags: [helper]
 - tapOn: { id: "login.password-field" }
 - inputText: ${TEST_PASSWORD}
 - tapOn: { id: "login.submit-button" }
+# iOS pops a "Save Password" sheet right after a successful sign-in.
+# Use the narrow helper (matches only "Not Now" / "Don't Save"); the full
+# _dismiss_interrupts.yaml would also tap "Allow" / "Update" / "Dismiss"
+# which can collide with Home-screen banner text and break the flow.
+- runFlow: _dismiss_save_password.yaml
 # After a fresh install (clearState wipes DataStore/UserDefaults), the Home
 # tutorial fires ~600ms after Home loads. The spotlight overlay sits on top
 # of every other element, so a direct assertVisible on home.tab.home would

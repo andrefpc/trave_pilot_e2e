@@ -27,5 +27,6 @@ tags: [auth, p0]
 - inputText: "Password1!"
 - runFlow: ../common/_hide_keyboard.yaml
 - tapOn: { id: "login.submit-button" }
+- runFlow: ../common/_dismiss_save_password.yaml
 - assertVisible: { id: "login.email-field.error" }
 - assertNotVisible: { id: "login.loading-overlay" }

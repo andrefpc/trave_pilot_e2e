@@ -13,25 +13,43 @@ tags: [auth, p0]
 # 4. Verify Plan Generation opens for the draft you just built, not Home.
 # <<< dashboard-meta
 
-- runFlow: ../common/_reset_data.yaml
 - launchApp:
     clearState: true
     clearKeychain: true
     stopApp: true
 - assertVisible: { id: "welcome.title" }
 - tapOn: { id: "welcome.create-plan-button" }
-- assertVisible: { id: "wizard.destination.title" }
-- tapOn: { id: "wizard.destination.next-button" }
+# Same wizard-walk shape as SMK-02 — helper for destination, then minimum
+# fills for the gated steps (walking-style, budget, places-of-interest).
+- runFlow: ../common/_wizard_fill_destination.yaml
+- assertVisible: { id: "wizard.walking-style.title" }
+- tapOn: "All Day"
 - tapOn: { id: "wizard.walking-style.next-button" }
+- assertVisible: { id: "wizard.companions.title" }
 - tapOn: { id: "wizard.companions.next-button" }
+- assertVisible: { id: "wizard.day-schedule.title" }
 - tapOn: { id: "wizard.day-schedule.next-button" }
+- assertVisible: { id: "wizard.meal-time.title" }
 - tapOn: { id: "wizard.meal-time.next-button" }
+- assertVisible: { id: "wizard.budget.title" }
+- tapOn: { id: "wizard.budget.card.attractions.medium" }
+- tapOn: { id: "wizard.budget.card.transportation.medium" }
 - tapOn: { id: "wizard.budget.next-button" }
+- assertVisible: { id: "wizard.places-of-interest.title" }
+- waitForAnimationToEnd:
+    timeout: 8000
+- tapOn: { id: "wizard.places-of-interest.recommended.0.check" }
 - tapOn: { id: "wizard.places-of-interest.next-button" }
+- assertVisible: { id: "wizard.restaurants.title" }
 - tapOn: { id: "wizard.restaurants.next-button" }
+- assertVisible: { id: "wizard.where-to-stay.title" }
+- waitForAnimationToEnd:
+    timeout: 8000
 - tapOn: { id: "wizard.where-to-stay.next-button" }
+- assertVisible: { id: "wizard.travel-times.title" }
 - tapOn: { id: "wizard.travel-times.next-button" }
 - assertVisible: { id: "wizard.complete-onboarding.title" }
+- tapOn: { id: "wizard.complete-onboarding.generate-plan-button" }
 - tapOn: { id: "wizard.complete-onboarding.create-account-button" }
 - assertVisible: { id: "register.title" }
 - tapOn: { id: "register.name-field" }
@@ -44,5 +62,6 @@ tags: [auth, p0]
 - inputText: ${TEST_NEW_PASSWORD}
 - runFlow: ../common/_hide_keyboard.yaml
 - tapOn: { id: "register.create-account-button" }
+- runFlow: ../common/_dismiss_save_password.yaml
 - assertVisible: { id: "plan-generation.progress" }
-- assertNotVisible: { id: "home.tab-bar" }
+- assertNotVisible: { id: "home.tab.home" }

@@ -21,16 +21,21 @@ tags: [auth, p0]
 - tapOn: { id: "auth-sheet.signin-with-password" }
 - assertVisible: { id: "login.title" }
 - tapOn: { id: "login.email-field" }
-- inputText: "qa-locked@travelpilotapp.com"
+- inputText: ${TEST_LOCKED_EMAIL}
 - tapOn: { id: "login.password-field" }
 - inputText: "wrong-password-xyz"
 - runFlow: ../common/_hide_keyboard.yaml
+# API contract (auth.service.ts): 5 wrong attempts increment counter,
+# the 6th attempt is when the lockout check trips and account_locked is
+# returned. So the test does 5 invalid_credentials roundtrips, then a
+# 6th submit that triggers the lockout dialog.
 - repeat:
-    times: 4
+    times: 5
     commands:
       - tapOn: { id: "login.submit-button" }
       - assertVisible: { id: "login.error-dialog.title" }
       - tapOn: { id: "login.error-dialog.retry-button" }
 - tapOn: { id: "login.submit-button" }
+- runFlow: ../common/_dismiss_save_password.yaml
 - assertVisible: { id: "login.lockout-dialog.title" }
 - assertVisible: { id: "login.lockout-dialog.retry-button" }

@@ -32,6 +32,13 @@ tags: [smk, p0]
 - tapOn: "Open full itinerary"
 # Itinerary tutorial overlay can fire on first visit — dismiss if shown.
 - runFlow: ../common/_dismiss_tutorial.yaml
+# iOS auto-scrolls Itinerary Day to current time on open; scroll back to
+# the day header before asserting (otherwise itinerary-day.title can be
+# above the viewport).
+- scrollUntilVisible:
+    element:
+      id: "itinerary-day.title"
+    direction: UP
 - assertVisible: { id: "itinerary-day.title" }
 # wakeup-stop / sleep-stop are not distinct ids in either app — the first
 # stop (hotel_leave) and last stop (hotel_return) both render as

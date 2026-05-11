@@ -16,6 +16,9 @@ tags: [auth, p0]
     clearState: true
     clearKeychain: true
     stopApp: true
+# Cold-start the app via the deeplink so MainActivity.onCreate (not
+# onNewIntent) processes the URL. Same pattern as the SMK-09 fix.
+- stopApp: ${APP_ID}
 - openLink: travelpilot://register
 - assertVisible: { id: "register.title" }
 - tapOn: { id: "register.name-field" }
@@ -27,11 +30,11 @@ tags: [auth, p0]
 - tapOn: { id: "register.confirm-password-field" }
 - inputText: "Password2!"
 - runFlow: ../common/_hide_keyboard.yaml
-- assertVisible: { id: "register.rule.match.unmet-marker" }
-- assertVisible: { id: "register.create-account-button.disabled-marker" }
+- assertVisible: { id: "register.rule.match", text: "ic_unchecked" }
+- assertVisible: { id: "register.create-account-button", enabled: false }
 - tapOn: { id: "register.confirm-password-field" }
 - eraseText
 - inputText: "Password1!"
 - runFlow: ../common/_hide_keyboard.yaml
-- assertVisible: { id: "register.rule.match.met-marker" }
-- assertVisible: { id: "register.create-account-button.enabled-marker" }
+- assertVisible: { id: "register.rule.match", text: "ic_checked" }
+- assertVisible: { id: "register.create-account-button", enabled: true }

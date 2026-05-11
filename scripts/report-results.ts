@@ -26,10 +26,11 @@ interface Args {
   junit: string;
   register: boolean;
   dryRun: boolean;
+  runId: string | null;
 }
 
 function parseArgs(argv: string[]): Args {
-  const out: Partial<Args> = { register: false, dryRun: false };
+  const out: Partial<Args> = { register: false, dryRun: false, runId: null };
   for (const a of argv.slice(2)) {
     if (a.startsWith('--platform=')) {
       const v = a.slice('--platform='.length);
@@ -37,6 +38,8 @@ function parseArgs(argv: string[]): Args {
       out.platform = v;
     } else if (a.startsWith('--junit=')) {
       out.junit = a.slice('--junit='.length);
+    } else if (a.startsWith('--run-id=')) {
+      out.runId = a.slice('--run-id='.length);
     } else if (a === '--register') {
       out.register = true;
     } else if (a === '--dry-run') {
@@ -63,12 +66,26 @@ function classifyTestcase(tc: any): Status {
   return 'pass';
 }
 
+function failureMessage(node: unknown): string | null {
+  if (node == null) return null;
+  // Maestro JUnit emits `<failure>text</failure>` which fast-xml-parser
+  // returns as a bare string; other JUnit producers use `<failure message="...">`
+  // or `<failure><![CDATA[...]]></failure>` (the `#text` shape).
+  if (typeof node === 'string') return node.trim() || null;
+  if (typeof node === 'object') {
+    const obj = node as Record<string, unknown>;
+    const msg = obj['@_message'] ?? obj['#text'];
+    if (typeof msg === 'string') return msg.trim() || null;
+  }
+  return null;
+}
+
 function notesFor(tc: any): string | null {
   const ciUrl = process.env.CI_RUN_URL;
-  const failMsg = tc.failure?.['@_message'] ?? tc.failure?.['#text'] ?? tc.error?.['@_message'] ?? tc.error?.['#text'];
+  const failMsg = failureMessage(tc.failure) ?? failureMessage(tc.error);
   const parts: string[] = [];
   if (ciUrl) parts.push(`CI: ${ciUrl}`);
-  if (failMsg) parts.push(String(failMsg).slice(0, 1500));
+  if (failMsg) parts.push(failMsg.slice(0, 1500));
   return parts.length ? parts.join('\n') : null;
 }
 
@@ -106,30 +123,66 @@ const TestCaseListResponse = z.object({
 
 async function fetchCodeMap(baseUrl: string, token: string): Promise<Map<string, string>> {
   const map = new Map<string, string>();
-  const perPage = 200;
+  // Server-side pagination caps at 100 even when the schema accepts higher.
+  // Drive the loop off `total` rather than `items.length < perPage`, since the
+  // first page can return < perPage and still have more rows behind it.
+  const perPage = 100;
   let page = 1;
-  while (true) {
+  let total = Infinity;
+  while (map.size < total) {
     const url = new URL(`${baseUrl}/api/v1/admin/test-cases`);
     url.searchParams.set('page', String(page));
     url.searchParams.set('per_page', String(perPage));
     const res = await fetch(url, { headers: { Authorization: `Bearer ${token}` } });
     if (!res.ok) throw new Error(`GET test-cases failed: ${res.status}`);
     const parsed = TestCaseListResponse.parse(await res.json());
+    total = parsed.total;
     for (const it of parsed.items) map.set(it.code.toUpperCase(), it.id);
-    if (parsed.items.length < perPage) break;
+    if (parsed.items.length === 0) break;
     page += 1;
   }
   return map;
 }
 
+// The admin /app-versions endpoint groups by major.minor and returns one row
+// per group, so a row's `version` looks like "1.0.x" while the underlying
+// version strings live in `versions.android[]` / `versions.ios[]`.
 const AppVersionRow = z.object({
   id: z.string().uuid(),
   version: z.string(),
+  group_key: z.string().optional(),
+  versions: z
+    .object({
+      android: z.array(z.string()).optional(),
+      ios: z.array(z.string()).optional(),
+    })
+    .optional(),
 });
 const AppVersionListResponse = z.object({
   items: z.array(AppVersionRow.passthrough()),
   total: z.number(),
 });
+
+function matchAppVersion(
+  items: z.infer<typeof AppVersionRow>[],
+  platform: Platform,
+  version: string,
+): z.infer<typeof AppVersionRow> | undefined {
+  // Three acceptable matches, in priority order:
+  //   1. The platform-scoped underlying version array contains exactly `version`.
+  //   2. group_key === version (e.g. "1.0" group key, version "1.0").
+  //   3. Legacy: row.version === version (pre-grouping API).
+  for (const row of items) {
+    if (row.versions?.[platform]?.includes(version)) return row;
+  }
+  for (const row of items) {
+    if (row.group_key === version) return row;
+  }
+  for (const row of items) {
+    if (row.version === version) return row;
+  }
+  return undefined;
+}
 
 async function findOrRegisterAppVersion(
   baseUrl: string,
@@ -146,7 +199,7 @@ async function findOrRegisterAppVersion(
   const res = await fetch(url, { headers: { Authorization: `Bearer ${token}` } });
   if (!res.ok) throw new Error(`GET app-versions failed: ${res.status}`);
   const parsed = AppVersionListResponse.parse(await res.json());
-  const exact = parsed.items.find((v) => v.version === version);
+  const exact = matchAppVersion(parsed.items, platform, version);
   if (exact) return exact.id;
   if (!register) {
     throw new Error(
@@ -184,14 +237,17 @@ async function postBatch(
   token: string,
   appVersionId: string,
   results: Array<{ test_case_id: string; platform: Platform; status: Status; notes: string | null }>,
+  runId: string | null,
 ): Promise<{ run_id: string; written: number }> {
+  const body: Record<string, unknown> = { results };
+  if (runId) body.run_id = runId;
   const res = await fetch(`${baseUrl}/api/v1/admin/app-versions/${appVersionId}/test-runs/batch`, {
     method: 'POST',
     headers: {
       Authorization: `Bearer ${token}`,
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ results }),
+    body: JSON.stringify(body),
   });
   if (!res.ok) {
     const text = await res.text().catch(() => '');
@@ -266,7 +322,7 @@ async function main(): Promise<void> {
   for (let i = 0; i < batch.length; i += CHUNK) {
     const slice = batch.slice(i, i + CHUNK);
     try {
-      const reply = await postBatch(baseUrl, token, appVersionId, slice);
+      const reply = await postBatch(baseUrl, token, appVersionId, slice, args.runId);
       posted += reply.written;
       runId = reply.run_id;
     } catch (err) {

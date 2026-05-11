@@ -17,7 +17,21 @@ tags: [smk, p0]
     clearKeychain: true
     stopApp: true
 - runFlow: ../common/_dismiss_interrupts.yaml
+# The Android deep-link handler runs in MainActivity.onCreate, NOT in
+# onNewIntent. If openLink fires while the app is alive (which it is after
+# launchApp), the intent reaches onNewIntent and the share token is never
+# extracted — app stays on Welcome. Stop the app first so openLink causes
+# a cold launch and onCreate processes the deep link. iOS doesn't need
+# this (its handler runs in scene-restoration), but it's a no-op there.
+- stopApp: ${APP_ID}
 - openLink: https://www.travelpilotapp.com/share/${TEST_SHARE_TOKEN}
 - assertVisible: { id: "share-invite.title" }
 - assertVisible: { id: "share-invite.compass" }
-- assertVisible: { id: "share-invite.add-plan-button" }
+# Flow launches with clearKeychain: true so the user is logged out — Share
+# Invite then renders login + create-account CTAs (the add-plan-button only
+# shows when state.isLoggedIn). Asserting both proves the deeplink, the
+# Universal Link plumbing, and TEST_RESET_TOKEN-gated seed token are all
+# wired up. To exercise the logged-in add-plan-button path, use
+# `runFlow: ../common/_login.yaml` before openLink.
+- assertVisible: { id: "share-invite.login-button" }
+- assertVisible: { id: "share-invite.create-account-button" }

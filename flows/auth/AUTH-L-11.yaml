@@ -27,9 +27,16 @@ tags: [auth, p1]
 - inputText: "Password1!"
 - runFlow: ../common/_hide_keyboard.yaml
 - tapOn: { id: "login.back-button" }
+# iOS pops Save Password after typing into the password field; dismiss it
+# before checking we're back on Welcome.
+- runFlow: ../common/_dismiss_save_password.yaml
 - assertVisible: { id: "welcome.title" }
-# Re-entering Login should start fresh (no draft email retained).
+# Re-entering Login should start fresh (no draft email retained). iOS
+# doesn't expose `login.email-field.empty-marker` — assert the field's text
+# is empty instead.
 - tapOn: { id: "welcome.have-account-login" }
 - tapOn: { id: "auth-sheet.signin-with-password" }
 - assertVisible: { id: "login.title" }
-- assertVisible: { id: "login.email-field.empty-marker" }
+- assertVisible:
+    id: "login.email-field"
+    text: ""

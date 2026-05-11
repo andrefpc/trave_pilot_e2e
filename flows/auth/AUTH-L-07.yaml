@@ -22,9 +22,19 @@ tags: [auth, p1]
 - tapOn: { id: "auth-sheet.signin-with-password" }
 - assertVisible: { id: "login.title" }
 - tapOn: { id: "login.password-field" }
+- runFlow: ../common/_dismiss_save_password.yaml
 - inputText: "Password1!"
-- assertVisible: { id: "login.password-field.masked-marker" }
+# iOS doesn't expose `*.masked-marker` / `*.visible-marker` testIDs; the
+# field's `text` attribute IS the signal — bullets when masked, plaintext
+# when visible.
+- assertVisible:
+    id: "login.password-field"
+    text: "••••••••••"
 - tapOn: { id: "login.password-toggle" }
-- assertVisible: { id: "login.password-field.visible-marker" }
+- assertVisible:
+    id: "login.password-field"
+    text: "Password1!"
 - tapOn: { id: "login.password-toggle" }
-- assertVisible: { id: "login.password-field.masked-marker" }
+- assertVisible:
+    id: "login.password-field"
+    text: "••••••••••"
