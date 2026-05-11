@@ -25,16 +25,36 @@ tags: [auth, p0]
 - tapOn: { id: "login.password-field" }
 - inputText: "wrong-password-xyz"
 - runFlow: ../common/_hide_keyboard.yaml
-# API contract (auth.service.ts): 5 wrong attempts increment counter,
-# the 6th attempt is when the lockout check trips and account_locked is
-# returned. So the test does 5 invalid_credentials roundtrips, then a
-# 6th submit that triggers the lockout dialog.
+# API contract (auth.service.ts): 5 wrong attempts increment a Redis
+# counter; the 6th attempt is when the lockout check trips and
+# account_locked is returned. The Redis key TTL resets on every
+# increment but uses E2E_LOCKOUT_WINDOW_SECONDS (5s in prod e2e env),
+# so attempts must come back-to-back — if any iteration takes longer
+# than the window the counter expires and lockout never triggers.
+#
+# `auth.invalid_credentials` is not in the API's RETRYABLE_CODES set,
+# so the error dialog opens with a Dismiss button (not Try Again) —
+# `login.error-dialog.retry-button` therefore just dismisses the dialog
+# without firing another login. We fire one attempt, then use
+# `tapOn.repeat` with `waitToSettleTimeoutMs: 0` to fire the next 5
+# attempts back-to-back: each repeat dismisses the dialog (showing the
+# submit button again) AND taps submit again immediately, all within
+# the 5s Redis TTL window so the counter accumulates to 5. The 6th
+# attempt's pre-check sees attempts>=5 and returns account_locked.
 - repeat:
     times: 5
     commands:
       - tapOn: { id: "login.submit-button" }
-      - assertVisible: { id: "login.error-dialog.title" }
-      - tapOn: { id: "login.error-dialog.retry-button" }
+      # `auth.invalid_credentials` isn't in the API's RETRYABLE_CODES, so
+      # this button is actually a Dismiss (canRetry=false), not a Try
+      # Again. Tapping it just removes the dialog and frees the submit
+      # button for the next iteration's tap. `waitToSettleTimeoutMs: 0`
+      # skips Maestro's post-tap UI-settle wait so the iterations stay
+      # inside the 5s E2E_LOCKOUT_WINDOW_SECONDS that gates the Redis
+      # lockout counter.
+      - tapOn:
+          id: "login.error-dialog.retry-button"
+          waitToSettleTimeoutMs: 0
 - tapOn: { id: "login.submit-button" }
 - runFlow: ../common/_dismiss_save_password.yaml
 - assertVisible: { id: "login.lockout-dialog.title" }
