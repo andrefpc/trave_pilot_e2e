@@ -5,7 +5,14 @@ tags: [helper]
 # (POI → tap one POI → Next). Lands with wizard.restaurants.title visible.
 - runFlow: _walk_to_poi.yaml
 - assertVisible: { id: "wizard.places-of-interest.title" }
-- tapOn: { id: "wizard.places-of-interest.place.0" }
+# Tap the recommendation's `.check` icon to select it (tapping the card
+# body opens the place-detail sheet on Android). After selection, the
+# recommendation moves to the "selected places" list and the next
+# recommendation slides into `recommended.0`, satisfying POI.next's
+# "at least one selected" gate. Same pattern as SMK-02/04/05.
+- tapOn:
+    id: "wizard.places-of-interest.recommended.0.check"
+    optional: true
 - scrollUntilVisible:
     element: { id: "wizard.places-of-interest.next-button" }
     direction: DOWN

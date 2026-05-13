@@ -18,9 +18,38 @@ tags: [wizard, p1]
 - tapOn: { id: "welcome.create-plan-button" }
 - runFlow: ./_walk_to_poi.yaml
 - assertVisible: { id: "wizard.places-of-interest.title" }
-- tapOn: { id: "wizard.places-of-interest.place.0" }
-- tapOn: { id: "wizard.places-of-interest.place.1" }
-- tapOn: { id: "wizard.places-of-interest.place.2" }
+# On the POI screen the card body opens the place-detail sheet; the
+# `.check` icon on the right is what toggles selection. The
+# recommendations list reuses index 0 each time a selection is made
+# (selected place moves to the top "selected" list), so tap
+# `recommended.0.check` three times to select the first three
+# recommendations. Same pattern as SMK-02/04/05 and AUTH-R-12.
+# After each selection the screen runs animateScrollToItem(selectedCount-1)
+# to bring the just-selected card into view, which pushes the
+# recommendations list off-screen. Scroll back to the recommendations
+# section between taps so the next `recommended.0.check` (which now
+# refers to a different item, since selected items move to the top
+# list and disappear from recommendations) is in view and tappable.
+- tapOn: { id: "wizard.places-of-interest.recommended.0.check" }
+- waitForAnimationToEnd:
+    timeout: 2000
+- scrollUntilVisible:
+    element: { id: "wizard.places-of-interest.recommended.0.check" }
+    direction: DOWN
+- tapOn: { id: "wizard.places-of-interest.recommended.0.check" }
+- waitForAnimationToEnd:
+    timeout: 2000
+- scrollUntilVisible:
+    element: { id: "wizard.places-of-interest.recommended.0.check" }
+    direction: DOWN
+- tapOn: { id: "wizard.places-of-interest.recommended.0.check" }
+- waitForAnimationToEnd:
+    timeout: 2500
+# Selected items live in the top list, so scroll back up so all three
+# `place.<i>.selected-marker` markers are in view before asserting.
+- scrollUntilVisible:
+    element: { id: "wizard.places-of-interest.place.0" }
+    direction: UP
 - assertVisible: { id: "wizard.places-of-interest.place.0.selected-marker" }
 - assertVisible: { id: "wizard.places-of-interest.place.1.selected-marker" }
 - assertVisible: { id: "wizard.places-of-interest.place.2.selected-marker" }

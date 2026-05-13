@@ -16,6 +16,28 @@ tags: [wizard, p1]
 - assertVisible: { id: "welcome.title" }
 - tapOn: { id: "welcome.create-plan-button" }
 - runFlow: _walk_to_budget.yaml
+# Budget.next is gated on a level being selected for every rendered
+# category. Android renders Attractions + Transportation; iOS renders the
+# full 6 (Accommodation, Food, Transportation, Attractions, Shopping,
+# Night Life). Optional taps so unrendered categories are no-ops.
+- tapOn:
+    id: "wizard.budget.card.accommodation.medium"
+    optional: true
+- tapOn:
+    id: "wizard.budget.card.food.medium"
+    optional: true
+- tapOn:
+    id: "wizard.budget.card.transportation.medium"
+    optional: true
+- tapOn:
+    id: "wizard.budget.card.attractions.medium"
+    optional: true
+- tapOn:
+    id: "wizard.budget.card.shopping.medium"
+    optional: true
+- tapOn:
+    id: "wizard.budget.card.nightlife.medium"
+    optional: true
 - scrollUntilVisible:
     element: { id: "wizard.budget.next-button" }
     direction: DOWN

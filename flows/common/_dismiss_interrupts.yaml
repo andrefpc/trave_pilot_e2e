@@ -13,92 +13,101 @@ tags: [helper]
 # flow that assumes portrait layout. Idempotent + cheap to call.
 - setOrientation: PORTRAIT
 
-# iOS Save Password sheet ("Not Now" / "Don't Save") + Strong Password
-# suggestion ("Choose My Own Password"). Both fire on SecureField focus or
-# after a login/signup submit. If the prior flow left them on screen, they
-# block the next flow's launchApp/welcome.title assertion. Narrow matchers
-# don't collide with normal screen UI.
+# iOS-only modals. Wrapped in a `when: platform: iOS` so Android runs
+# skip the entire iOS-specific block — each `visible:` check costs a
+# UI Automator dump (~1–2s on a warm emulator), and the ATT loop's
+# `repeat: 8` previously burnt ~20s per Android flow.
 - runFlow:
     when:
-      visible: "Not Now"
+      platform: iOS
     commands:
-      - tapOn: "Not Now"
-- runFlow:
-    when:
-      visible: "Don't Save"
-    commands:
-      - tapOn: "Don't Save"
-- runFlow:
-    when:
-      visible: "Choose My Own Password"
-    commands:
-      - tapOn: "Choose My Own Password"
-
-# iOS notifications permission
-- runFlow:
-    when:
-      visible: "Allow"
-    commands:
-      - tapOn: "Allow"
-
-# iOS notifications permission (negative button — for tests that want to
-# decline; pick whichever is appropriate per flow. Default keep.)
-# (intentionally not auto-tapping "Don't Allow")
-
-# iOS App Tracking Transparency — fires async ~2-4s after cold launch
-# (when an analytics SDK initializes), so a single conditional check at
-# flow start is too early. Poll for ~4s so a late-appearing dialog gets
-# dismissed before subsequent assertions. simctl privacy grant
-# user-tracking returns "Operation not permitted" on Xcode 15+, so
-# pre-grant isn't an option — polling is.
-- repeat:
-    times: 8
-    commands:
+      # iOS Save Password sheet ("Not Now" / "Don't Save") + Strong Password
+      # suggestion ("Choose My Own Password"). Both fire on SecureField
+      # focus or after a login/signup submit. If the prior flow left them
+      # on screen, they block the next flow's launchApp/welcome.title
+      # assertion. Narrow matchers don't collide with normal screen UI.
       - runFlow:
           when:
-            visible: "Ask App Not to Track"
+            visible: "Not Now"
           commands:
-            - tapOn: "Ask App Not to Track"
-      - waitForAnimationToEnd:
-          timeout: 500
+            - tapOn: "Not Now"
+      - runFlow:
+          when:
+            visible: "Don't Save"
+          commands:
+            - tapOn: "Don't Save"
+      - runFlow:
+          when:
+            visible: "Choose My Own Password"
+          commands:
+            - tapOn: "Choose My Own Password"
 
-# iOS location prompt
+      # iOS notifications permission
+      - runFlow:
+          when:
+            visible: "Allow"
+          commands:
+            - tapOn: "Allow"
+
+      # iOS App Tracking Transparency — fires async ~2-4s after cold launch
+      # (when an analytics SDK initializes), so a single conditional check
+      # at flow start is too early. Poll for ~4s so a late-appearing dialog
+      # gets dismissed before subsequent assertions. simctl privacy grant
+      # user-tracking returns "Operation not permitted" on Xcode 15+, so
+      # pre-grant isn't an option — polling is.
+      - repeat:
+          times: 8
+          commands:
+            - runFlow:
+                when:
+                  visible: "Ask App Not to Track"
+                commands:
+                  - tapOn: "Ask App Not to Track"
+            - waitForAnimationToEnd:
+                timeout: 500
+
+      # iOS location prompt
+      - runFlow:
+          when:
+            visible: "Allow While Using App"
+          commands:
+            - tapOn: "Allow While Using App"
+
+      # iOS photo library prompt
+      - runFlow:
+          when:
+            visible: "Allow Access to All Photos"
+          commands:
+            - tapOn: "Allow Access to All Photos"
+
+# Android-only modals.
 - runFlow:
     when:
-      visible: "Allow While Using App"
+      platform: Android
     commands:
-      - tapOn: "Allow While Using App"
+      # Android 13+ notifications permission (POST_NOTIFICATIONS runtime grant)
+      - runFlow:
+          when:
+            visible: { id: "com.android.permissioncontroller:id/permission_allow_button" }
+          commands:
+            - tapOn: { id: "com.android.permissioncontroller:id/permission_allow_button" }
 
-# iOS photo library prompt
-- runFlow:
-    when:
-      visible: "Allow Access to All Photos"
-    commands:
-      - tapOn: "Allow Access to All Photos"
+      # Android system "Allow" button (generic — different OEMs use different ids)
+      - runFlow:
+          when:
+            visible: "Allow"
+          commands:
+            - tapOn: "Allow"
 
-# Android 13+ notifications permission (POST_NOTIFICATIONS runtime grant)
-- runFlow:
-    when:
-      visible: { id: "com.android.permissioncontroller:id/permission_allow_button" }
-    commands:
-      - tapOn: { id: "com.android.permissioncontroller:id/permission_allow_button" }
+      # Android Play services update prompt
+      - runFlow:
+          when:
+            visible: "Update"
+          commands:
+            - tapOn: "Not now"
 
-# Android system "Allow" button (generic — different OEMs use different ids)
-- runFlow:
-    when:
-      visible: "Allow"
-    commands:
-      - tapOn: "Allow"
-
-# Android Play services update prompt
-- runFlow:
-    when:
-      visible: "Update"
-    commands:
-      - tapOn: "Not now"
-
-# In-app error dialog (e.g. "Failed to load itinerary") — dismiss so the
-# rest of the flow can interact with the underlying screen.
+# In-app error dialog (e.g. "Failed to load itinerary") — cross-platform,
+# dismiss so the rest of the flow can interact with the underlying screen.
 - runFlow:
     when:
       visible: "Dismiss"

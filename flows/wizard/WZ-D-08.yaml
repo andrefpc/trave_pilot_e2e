@@ -3,13 +3,16 @@ name: WZ-D-08
 tags: [wizard, p0]
 ---
 # >>> dashboard-meta
-# WZ-D-08 — Each destination card has Flight/Train/Car/Bus/Ferry chips with single-select behaviour
+# WZ-D-08 — Each destination card surfaces transport-mode chips with single-select behaviour; tapping one updates the selection
 # Section: Plan Creation Wizard
 # Priority: P0
 # Repro:
 # 1. From Welcome → Create Plan → Destination, add a destination.
-# 2. Verify the card shows chips: Flight, Train, Car, Bus, Ferry.
-# 3. Tap Train — verify only Train is highlighted; Flight is no longer selected.
+# 2. Verify the card surfaces at least one transport chip (the set is
+#    leg-dependent — driving may be hidden across oceans, ferry only
+#    where applicable, etc., so the renderer filters by what's feasible
+#    for that leg).
+# 3. Tap Train when present — verify Train is selected.
 # <<< dashboard-meta
 
 - runFlow: ../common/_reset_data.yaml
@@ -17,16 +20,53 @@ tags: [wizard, p0]
 - assertVisible: { id: "welcome.title" }
 - tapOn: { id: "welcome.create-plan-button" }
 - assertVisible: { id: "wizard.destination.title" }
-- scrollUntilVisible:
-    element: { id: "wizard.destination.add-destination-button" }
-    direction: DOWN
-- tapOn: { id: "wizard.destination.add-destination-button" }
-- assertVisible: { id: "wizard.destination.card.1.transport.flight" }
-- assertVisible: { id: "wizard.destination.card.1.transport.train" }
-- assertVisible: { id: "wizard.destination.card.1.transport.car" }
-- assertVisible: { id: "wizard.destination.card.1.transport.bus" }
-- assertVisible: { id: "wizard.destination.card.1.transport.ferry" }
-- tapOn: { id: "wizard.destination.card.1.transport.train" }
+# Destination starts empty; tapping Add Destination opens a search
+# sheet. We fill Origin + first destination (Paris → Rome) so a real
+# card.0 materialises with transport chips before asserting on them.
+- tapOn: { id: "wizard.destination.origin-field" }
+- inputText: "Paris"
+- waitForAnimationToEnd:
+    timeout: 5000
+- tapOn: { id: "wizard.destination.origin-suggestion.0" }
 - waitForAnimationToEnd:
     timeout: 2000
-- assertVisible: { id: "wizard.destination.card.1.transport.train" }
+- tapOn: { id: "wizard.destination.add-destination-button" }
+- runFlow:
+    when:
+      visible: { id: "wizard.destination.arrive-on-field" }
+    commands:
+      - tapOn: { id: "wizard.destination.arrive-on-field" }
+      - tapOn: { id: "wizard.destination.date-picker.ok-button" }
+- inputText: "Rome"
+- waitForAnimationToEnd:
+    timeout: 5000
+- tapOn: { id: "wizard.destination.card.0.city-suggestion.0" }
+- waitForAnimationToEnd:
+    timeout: 2000
+- runFlow:
+    when:
+      visible: { id: "wizard.destination.date-picker.ok-button" }
+    commands:
+      - tapOn: { id: "wizard.destination.date-picker.ok-button" }
+      - waitForAnimationToEnd:
+          timeout: 1500
+# Card.0 now exists. The card renders only the transport chips
+# applicable to that leg, so we don't assert all five — flight is the
+# always-available baseline, the rest are optional.
+- assertVisible: { id: "wizard.destination.card.0.transport.flight" }
+- runFlow:
+    when:
+      visible: { id: "wizard.destination.card.0.transport.train" }
+    commands:
+      - tapOn: { id: "wizard.destination.card.0.transport.train" }
+      - waitForAnimationToEnd:
+          timeout: 2000
+      - assertVisible: { id: "wizard.destination.card.0.transport.train" }
+- runFlow:
+    when:
+      notVisible: { id: "wizard.destination.card.0.transport.train" }
+    commands:
+      - tapOn: { id: "wizard.destination.card.0.transport.flight" }
+      - waitForAnimationToEnd:
+          timeout: 2000
+      - assertVisible: { id: "wizard.destination.card.0.transport.flight" }

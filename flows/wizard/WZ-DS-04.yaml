@@ -23,8 +23,13 @@ tags: [wizard, p1]
 - assertVisible: { id: "wizard.companions.title" }
 - tapOn: { id: "wizard.companions.next-button" }
 - assertVisible: { id: "wizard.day-schedule.title" }
+# Material3 TimePicker dial has no addressable hour/minute sub-nodes,
+# so the screen embeds invisible `time-picker.preset.HH-MM` markers
+# that call `onTimeSelected(hour, minute)` directly. Pick 08:00 for
+# start and 06:00 for end so end < start triggers the validation
+# error on the End card (cardIndex=1, fieldDayIndex=0).
 - tapOn: { id: "wizard.day-schedule.day-card.0.start-field" }
-- tapOn: { id: "wizard.day-schedule.time-picker.ok-button" }
+- tapOn: { id: "wizard.day-schedule.time-picker.preset.08-00" }
 - tapOn: { id: "wizard.day-schedule.day-card.0.end-field" }
-- tapOn: { id: "wizard.day-schedule.time-picker.ok-button" }
+- tapOn: { id: "wizard.day-schedule.time-picker.preset.06-00" }
 - assertVisible: { id: "wizard.day-schedule.day-card.0.error" }

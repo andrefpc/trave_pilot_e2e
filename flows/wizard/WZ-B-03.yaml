@@ -16,9 +16,14 @@ tags: [wizard, p1]
 - assertVisible: { id: "welcome.title" }
 - tapOn: { id: "welcome.create-plan-button" }
 - runFlow: _walk_to_budget.yaml
-- assertVisible: { id: "wizard.budget.card.accommodation" }
-- tapOn: { id: "wizard.budget.card.accommodation.low" }
+# Android Budget renders Attractions + Transportation. Tap Low on the
+# first card (Attractions) and verify the selection moves to Low without
+# affecting the second card.
+- assertVisible: { id: "wizard.budget.card.attractions" }
+- tapOn: { id: "wizard.budget.card.attractions.medium" }
+- tapOn: { id: "wizard.budget.card.transportation.medium" }
+- tapOn: { id: "wizard.budget.card.attractions.low" }
 - waitForAnimationToEnd:
     timeout: 2000
-- assertVisible: { id: "wizard.budget.card.accommodation.low" }
-- assertVisible: { id: "wizard.budget.card.food.medium" }
+- assertVisible: { id: "wizard.budget.card.attractions.low" }
+- assertVisible: { id: "wizard.budget.card.transportation.medium" }

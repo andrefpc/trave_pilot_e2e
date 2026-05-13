@@ -22,8 +22,17 @@ tags: [wizard, p1]
 - inputText: "Trattoria"
 - waitForAnimationToEnd:
     timeout: 5000
-- tapOn: { id: "wizard.restaurants.search-result.0" }
 - runFlow: ../common/_hide_keyboard.yaml
+# Tapping the card body is a no-op on Android — the `.add-button` icon
+# is the actual selection control. `onRestaurantSelected` flips
+# isSearchSheetVisible=false so the sheet auto-dismisses (no system
+# back needed; that would pop the wizard nav stack back to POI).
+- tapOn: { id: "wizard.restaurants.search-result.0.add-button" }
+- waitForAnimationToEnd:
+    timeout: 2000
+- extendedWaitUntil:
+    notVisible: { id: "common.loading-overlay" }
+    timeout: 12000
 - scrollUntilVisible:
     element: { id: "wizard.restaurants.next-button" }
     direction: DOWN

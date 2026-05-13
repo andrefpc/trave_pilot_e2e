@@ -16,21 +16,11 @@ tags: [wizard, p1]
 - assertVisible: { id: "welcome.title" }
 - tapOn: { id: "welcome.create-plan-button" }
 - runFlow: _walk_to_budget.yaml
-- assertVisible: { id: "wizard.budget.card.accommodation" }
-- assertVisible: { id: "wizard.budget.card.food" }
+# Budget intentionally trimmed to two user-facing categories on Android
+# (Attractions + Transportation) — the historical four (Accommodation /
+# Food / Shopping / Night Life) were removed to reduce wizard friction.
+- assertVisible: { id: "wizard.budget.card.attractions" }
 - scrollUntilVisible:
     element: { id: "wizard.budget.card.transportation" }
     direction: DOWN
 - assertVisible: { id: "wizard.budget.card.transportation" }
-- scrollUntilVisible:
-    element: { id: "wizard.budget.card.attractions" }
-    direction: DOWN
-- assertVisible: { id: "wizard.budget.card.attractions" }
-- scrollUntilVisible:
-    element: { id: "wizard.budget.card.shopping" }
-    direction: DOWN
-- assertVisible: { id: "wizard.budget.card.shopping" }
-- scrollUntilVisible:
-    element: { id: "wizard.budget.card.nightlife" }
-    direction: DOWN
-- assertVisible: { id: "wizard.budget.card.nightlife" }

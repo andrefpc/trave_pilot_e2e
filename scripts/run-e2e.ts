@@ -441,6 +441,29 @@ async function main(): Promise<void> {
     }
   }
 
+  // WZ-X-05: free user must own exactly one plan so tapping
+  // Travel Plans → Add triggers the premium paywall up-front rather
+  // than opening a fresh wizard. Run for both platforms' free users.
+  for (const freeEmail of [
+    TEST_CREDS.android.free.email,
+    TEST_CREDS.ios.free.email,
+  ]) {
+    try {
+      const res = await fetch(`${API_BASE_URL}/api/v1/test/seed-plan-cap`, {
+        method: 'POST',
+        headers: { 'X-Test-Reset-Token': TEST_RESET_TOKEN, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: freeEmail }),
+      });
+      if (res.ok) {
+        console.log(`✓ seeded plan-cap filler for ${freeEmail} (WZ-X-05 setup)`);
+      } else {
+        console.warn(`! seed-plan-cap for ${freeEmail} → ${res.status} (continuing)`);
+      }
+    } catch (err) {
+      console.warn(`! seed-plan-cap threw for ${freeEmail} (continuing): ${err instanceof Error ? err.message : String(err)}`);
+    }
+  }
+
   // Mint a fresh share token from the seeded premium plan owner so SMK-09
   // and any other deep-link share flow has a valid token to expand.
   // Soft-fail: if the test endpoint is unreachable, leave it empty — flows

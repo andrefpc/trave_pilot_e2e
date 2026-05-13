@@ -24,12 +24,24 @@ tags: [wizard, p1]
 - tapOn: { id: "wizard.companions.adults.plus" }
 - tapOn: { id: "wizard.companions.next-button" }
 - assertVisible: { id: "wizard.day-schedule.title" }
+# Step back through each prior wizard step and confirm the data we
+# entered is still there. Toolbar back arrow has no maestro id yet on
+# either platform; system back fires the same NavigateBack effect.
+- back
+- waitForAnimationToEnd:
+    timeout: 1500
 - assertVisible: { id: "wizard.companions.title" }
 - assertVisible:
     id: "wizard.companions.adults.value"
     text: "2"
+- back
+- waitForAnimationToEnd:
+    timeout: 1500
 - assertVisible: { id: "wizard.walking-style.title" }
 - assertVisible: { id: "wizard.walking-style.option.moderate" }
+- back
+- waitForAnimationToEnd:
+    timeout: 1500
 - assertVisible: { id: "wizard.destination.title" }
 - assertVisible: { id: "wizard.destination.origin-field" }
 - assertVisible: { id: "wizard.destination.card.0.city-field" }

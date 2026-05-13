@@ -18,7 +18,17 @@ tags: [wizard, p2]
 - tapOn: { id: "welcome.create-plan-button" }
 - runFlow: ./_walk_to_poi.yaml
 - assertVisible: { id: "wizard.places-of-interest.title" }
-- tapOn: { id: "wizard.places-of-interest.place.0" }
+# POI starts empty in the top selected-places list. Tap the first
+# recommendation's check icon to move it into the selected list at
+# index 0 (the `place.<i>` slot only renders for already-selected
+# places). Then tap the selected card's check icon (the `.check`
+# sub-id) to deselect it — tapping the card body opens the detail
+# sheet, not the toggle.
+- tapOn: { id: "wizard.places-of-interest.recommended.0.check" }
+- waitForAnimationToEnd:
+    timeout: 1500
 - assertVisible: { id: "wizard.places-of-interest.place.0.selected-marker" }
-- tapOn: { id: "wizard.places-of-interest.place.0" }
+- tapOn: { id: "wizard.places-of-interest.place.0.check" }
+- waitForAnimationToEnd:
+    timeout: 1500
 - assertNotVisible: { id: "wizard.places-of-interest.place.0.selected-marker" }

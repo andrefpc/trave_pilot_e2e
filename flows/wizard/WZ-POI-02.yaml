@@ -20,6 +20,12 @@ tags: [wizard, p1]
 - scrollUntilVisible:
     element: { id: "wizard.places-of-interest.next-button" }
     direction: DOWN
-- tapOn: { id: "wizard.places-of-interest.next-button" }
-- assertVisible: { id: "wizard.places-of-interest.error" }
+# On Android the Next button is `enabled = state.isNextEnabled`, which
+# is false until at least one place is selected. The disabled-state
+# button never fires its onClick (so no error is ever set) — verify
+# the gate via the `.next-button.disabled-marker` MaestroMarker that
+# renders only while Next is disabled. (Dashboard meta accepts either
+# disabled-button or inline-error.)
+- assertVisible: { id: "wizard.places-of-interest.next-button" }
+- assertVisible: { id: "wizard.places-of-interest.next-button.disabled-marker" }
 - assertVisible: { id: "wizard.places-of-interest.title" }

@@ -21,30 +21,60 @@ tags: [helper]
 - waitForAnimationToEnd:
     timeout: 2000
 
-# First destination: Rome
+# First destination: Rome. The arrive-on-field + date-picker is Android-
+# only — iOS auto-assigns a default date and closes the sheet without a
+# separate field — so the date-picking steps are conditional.
 - tapOn: { id: "wizard.destination.add-destination-button" }
-- tapOn: { id: "wizard.destination.arrive-on-field" }
-- tapOn: { id: "wizard.destination.date-picker.ok-button" }
+- runFlow:
+    when:
+      visible: { id: "wizard.destination.arrive-on-field" }
+    commands:
+      - tapOn: { id: "wizard.destination.arrive-on-field" }
+      - tapOn: { id: "wizard.destination.date-picker.ok-button" }
 - inputText: "Rome"
 - waitForAnimationToEnd:
     timeout: 5000
 - tapOn: { id: "wizard.destination.card.0.city-suggestion.0" }
 - waitForAnimationToEnd:
     timeout: 2000
+# Android re-opens the Material3 DatePicker after picking the city. iOS
+# doesn't. Dismiss if it's back.
+- runFlow:
+    when:
+      visible: { id: "wizard.destination.date-picker.ok-button" }
+    commands:
+      - tapOn: { id: "wizard.destination.date-picker.ok-button" }
+      - waitForAnimationToEnd:
+          timeout: 1500
 
-# Second destination: Madrid
+# Second destination: Madrid (same Android-vs-iOS divergence as above).
 - scrollUntilVisible:
     element: { id: "wizard.destination.add-destination-button" }
     direction: DOWN
 - tapOn: { id: "wizard.destination.add-destination-button" }
-- tapOn: { id: "wizard.destination.arrive-on-field" }
-- tapOn: { id: "wizard.destination.date-picker.ok-button" }
+- runFlow:
+    when:
+      visible: { id: "wizard.destination.arrive-on-field" }
+    commands:
+      - tapOn: { id: "wizard.destination.arrive-on-field" }
+      - tapOn: { id: "wizard.destination.date-picker.ok-button" }
 - inputText: "Madrid"
 - waitForAnimationToEnd:
     timeout: 5000
-- tapOn: { id: "wizard.destination.card.1.city-suggestion.0" }
+# `editingDestinationIndex` is null while adding a new (not-yet-committed)
+# destination, so suggestionMaestroId on the search sheet falls back to
+# cardIndex=0 for both the first AND second destination. Tap card.0
+# here even though the resulting card will land at index 1.
+- tapOn: { id: "wizard.destination.card.0.city-suggestion.0" }
 - waitForAnimationToEnd:
     timeout: 2000
+- runFlow:
+    when:
+      visible: { id: "wizard.destination.date-picker.ok-button" }
+    commands:
+      - tapOn: { id: "wizard.destination.date-picker.ok-button" }
+      - waitForAnimationToEnd:
+          timeout: 1500
 
 # Continue to next wizard step
 - tapOn: { id: "wizard.destination.next-button" }

@@ -27,11 +27,14 @@ tags: [wizard, p2]
 - tapOn: { id: "wizard.day-schedule.time-picker.ok-button" }
 - tapOn: { id: "wizard.day-schedule.day-card.0.end-field" }
 - tapOn: { id: "wizard.day-schedule.time-picker.ok-button" }
-- runFlow:
-    when:
-      visible:
-        id: "wizard.day-schedule.apply-to-all-button"
-    commands:
-      - tapOn: { id: "wizard.day-schedule.apply-to-all-button" }
-      - assertVisible: { id: "wizard.day-schedule.day-card.1.start-field" }
-      - assertVisible: { id: "wizard.day-schedule.day-card.1.end-field" }
+# Android (and iOS post-redesign) collapses per-day scheduling into a
+# single global Start/End — what looks like two cards on screen are the
+# Start card (cardIndex=0) and the End card (cardIndex=1 with
+# fieldDayIndex=0), and the entered times are applied to every day in
+# the trip automatically. The `apply-to-all-button` is exposed as a
+# MaestroMarker beside the Next button rather than a tappable button,
+# so we just assert the marker is present — there is no separate
+# "card.1" day for the assertion to land on.
+- assertVisible: { id: "wizard.day-schedule.apply-to-all-button" }
+- assertVisible: { id: "wizard.day-schedule.day-card.0.start-field" }
+- assertVisible: { id: "wizard.day-schedule.day-card.0.end-field" }

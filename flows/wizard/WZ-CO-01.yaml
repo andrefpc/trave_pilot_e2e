@@ -22,16 +22,14 @@ tags: [wizard, p0]
 - assertVisible: { id: "home.tab-bar" }
 - tapOn: { id: "home.tab.travel-plans" }
 - tapOn: { id: "travel-plans.add-button" }
-- assertVisible: { id: "wizard.destination.title" }
-- tapOn: { id: "wizard.destination.next-button" }
-- tapOn: { id: "wizard.walking-style.next-button" }
-- tapOn: { id: "wizard.companions.next-button" }
-- tapOn: { id: "wizard.day-schedule.next-button" }
-- tapOn: { id: "wizard.meal-time.next-button" }
-- tapOn: { id: "wizard.budget.next-button" }
-- tapOn: { id: "wizard.places-of-interest.next-button" }
-- tapOn: { id: "wizard.restaurants.next-button" }
-- tapOn: { id: "wizard.where-to-stay.next-button" }
-- tapOn: { id: "wizard.travel-times.next-button" }
-- assertVisible: { id: "plan-generation.progress" }
-- assertNotVisible: { id: "wizard.complete-onboarding.title" }
+- runFlow: _walk_to_complete_onboarding.yaml
+# Android renders the Complete Onboarding "We are ready" screen for
+# signed-in users too. The auth-gate skip the dashboard meta talks
+# about is: tapping Generate Plan goes straight to plan-generation
+# without opening the SignUpBottomSheet (which signed-out users see).
+- assertVisible: { id: "wizard.complete-onboarding.generate-plan-button" }
+- tapOn: { id: "wizard.complete-onboarding.generate-plan-button" }
+- extendedWaitUntil:
+    visible: { id: "plan-generation.progress" }
+    timeout: 10000
+- assertNotVisible: { id: "wizard.complete-onboarding.create-account-button" }

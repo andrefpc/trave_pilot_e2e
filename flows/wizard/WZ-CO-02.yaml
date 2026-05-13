@@ -15,18 +15,17 @@ tags: [wizard, p0]
 - runFlow: ../common/_open_app.yaml
 - assertVisible: { id: "welcome.title" }
 - tapOn: { id: "welcome.create-plan-button" }
-- assertVisible: { id: "wizard.destination.title" }
-- tapOn: { id: "wizard.destination.next-button" }
-- tapOn: { id: "wizard.walking-style.next-button" }
-- tapOn: { id: "wizard.companions.next-button" }
-- tapOn: { id: "wizard.day-schedule.next-button" }
-- tapOn: { id: "wizard.meal-time.next-button" }
-- tapOn: { id: "wizard.budget.next-button" }
-- tapOn: { id: "wizard.places-of-interest.next-button" }
-- tapOn: { id: "wizard.restaurants.next-button" }
-- tapOn: { id: "wizard.where-to-stay.next-button" }
-- tapOn: { id: "wizard.travel-times.next-button" }
+- runFlow: _walk_to_complete_onboarding.yaml
 - assertVisible: { id: "wizard.complete-onboarding.title" }
-- assertVisible: { id: "wizard.complete-onboarding.create-account-button" }
+# Android (and iOS post-redesign) shows a single "Generate Plan" CTA
+# here. Tapping it raises the SignUpBottomSheet which hosts the three
+# auth options (Create Account / Login / Google) — those buttons keep
+# their `wizard.complete-onboarding.*` ids so the test still asserts on
+# the same labels, just after one extra tap.
+- assertVisible: { id: "wizard.complete-onboarding.generate-plan-button" }
+- tapOn: { id: "wizard.complete-onboarding.generate-plan-button" }
+- extendedWaitUntil:
+    visible: { id: "wizard.complete-onboarding.create-account-button" }
+    timeout: 5000
 - assertVisible: { id: "wizard.complete-onboarding.login-button" }
 - assertVisible: { id: "wizard.complete-onboarding.google-button" }

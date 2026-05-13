@@ -4,6 +4,29 @@ tags: [helper]
 # Reusable: assumes wizard.destination.title is visible. Walks all the way
 # to Places of Interest and lands with wizard.places-of-interest.title visible.
 - runFlow: _walk_to_budget.yaml
+# Budget.next is gated on a level being selected for every category.
+# Android currently renders Attractions + Transportation; iOS renders the
+# full 6 (Accommodation, Food, Transportation, Attractions, Shopping,
+# Night Life). Use optional taps so the helper works on both platforms —
+# any category that isn't rendered is a no-op.
+- tapOn:
+    id: "wizard.budget.card.accommodation.medium"
+    optional: true
+- tapOn:
+    id: "wizard.budget.card.food.medium"
+    optional: true
+- tapOn:
+    id: "wizard.budget.card.transportation.medium"
+    optional: true
+- tapOn:
+    id: "wizard.budget.card.attractions.medium"
+    optional: true
+- tapOn:
+    id: "wizard.budget.card.shopping.medium"
+    optional: true
+- tapOn:
+    id: "wizard.budget.card.nightlife.medium"
+    optional: true
 - scrollUntilVisible:
     element: { id: "wizard.budget.next-button" }
     direction: DOWN

@@ -3,12 +3,15 @@ name: WZ-B-02
 tags: [wizard, p2]
 ---
 # >>> dashboard-meta
-# WZ-B-02 — Each Budget category defaults to Medium pre-selected on first visit
+# WZ-B-02 — Each Budget category renders Low / Medium / High options the user can choose between
 # Section: Plan Creation Wizard
 # Priority: P2
 # Repro:
 # 1. Walk the wizard to Budget for the first time on a fresh draft.
-# 2. Verify each card shows Medium highlighted and Low/High not selected.
+# 2. Verify each rendered card shows Low / Medium / High choice rows
+#    (no default pre-selection — both platforms removed the auto-Medium
+#    default along with the Accommodation / Food / Shopping / Night Life
+#    categories that were trimmed to reduce wizard friction).
 # <<< dashboard-meta
 
 - runFlow: ../common/_reset_data.yaml
@@ -16,21 +19,15 @@ tags: [wizard, p2]
 - assertVisible: { id: "welcome.title" }
 - tapOn: { id: "welcome.create-plan-button" }
 - runFlow: _walk_to_budget.yaml
-- assertVisible: { id: "wizard.budget.card.accommodation.medium" }
-- assertVisible: { id: "wizard.budget.card.food.medium" }
-- scrollUntilVisible:
-    element: { id: "wizard.budget.card.transportation.medium" }
-    direction: DOWN
-- assertVisible: { id: "wizard.budget.card.transportation.medium" }
-- scrollUntilVisible:
-    element: { id: "wizard.budget.card.attractions.medium" }
-    direction: DOWN
+# Two user-facing categories on the trimmed Budget screen: Attractions
+# (top) and Transportation (below). Verify each renders all three
+# choice rows.
+- assertVisible: { id: "wizard.budget.card.attractions.low" }
 - assertVisible: { id: "wizard.budget.card.attractions.medium" }
+- assertVisible: { id: "wizard.budget.card.attractions.high" }
 - scrollUntilVisible:
-    element: { id: "wizard.budget.card.shopping.medium" }
+    element: { id: "wizard.budget.card.transportation" }
     direction: DOWN
-- assertVisible: { id: "wizard.budget.card.shopping.medium" }
-- scrollUntilVisible:
-    element: { id: "wizard.budget.card.nightlife.medium" }
-    direction: DOWN
-- assertVisible: { id: "wizard.budget.card.nightlife.medium" }
+- assertVisible: { id: "wizard.budget.card.transportation.low" }
+- assertVisible: { id: "wizard.budget.card.transportation.medium" }
+- assertVisible: { id: "wizard.budget.card.transportation.high" }

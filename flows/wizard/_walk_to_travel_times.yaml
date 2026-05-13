@@ -26,7 +26,11 @@ tags: [helper, ios-only]
     direction: DOWN
 - tapOn: { id: "wizard.budget.next-button" }
 - assertVisible: { id: "wizard.places-of-interest.title" }
-- tapOn: { id: "wizard.places-of-interest.place.0" }
+# `.check` toggles selection on Android (the card body opens the
+# detail sheet). Same pattern as SMK-02/04/05.
+- tapOn:
+    id: "wizard.places-of-interest.recommended.0.check"
+    optional: true
 - scrollUntilVisible:
     element: { id: "wizard.places-of-interest.next-button" }
     direction: DOWN
