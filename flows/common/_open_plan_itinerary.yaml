@@ -1,0 +1,21 @@
+appId: ${APP_ID}
+tags: [helper]
+---
+# Reusable: tap a plan card in the Plans list, then drill into its
+# itinerary. On iOS, tapping a plan card on the Plans tab swaps the
+# active plan and returns the user to Home (showing the selected plan's
+# preview card). The full itinerary screen is reached from there via
+# `home.open-itinerary-button`. Android collapses these into a single
+# tap → itinerary navigation, so the second tap is iOS-only.
+#
+# Caller is responsible for tapping the specific `plans.plan-card.<i>`
+# beforehand. This helper just bridges Home → Itinerary on iOS.
+
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - extendedWaitUntil:
+          visible: { id: "home.open-itinerary-button" }
+          timeout: 8000
+      - tapOn: { id: "home.open-itinerary-button" }

@@ -22,10 +22,15 @@ tags: [itinerary, p0, ios-only]
       TEST_PASSWORD: ${TEST_FREE_PASSWORD}
 - tapOn: { id: "home.tab.travel-plans" }
 - tapOn: { id: "plans.plan-card.0" }
+- runFlow: ../common/_open_plan_itinerary.yaml
 - scrollUntilVisible:
     element: { id: "itinerary.stop.free-time.0" }
     direction: DOWN
-- tapOn: { id: "itinerary.stop.free-time.0.add-stop-button" }
+# The visible button hosting the addStopClicked action uses the
+# top-level `itinerary-edit.add-stop-button` id; the per-slot id
+# below it is just a marker so flows can `scrollUntilVisible` to a
+# specific slot. Tap the real button to fire the action.
+- tapOn: { id: "itinerary-edit.add-stop-button" }
 - assertNotVisible: { id: "premium.bottom-sheet.title" }
 - assertVisible: { id: "place-search.sheet" }
 - tapOn: { id: "place-search.input" }

@@ -26,6 +26,12 @@ tags: [helper]
 # race the overlay and fail. Dismiss the tutorial first (no-op if absent),
 # then assert we're on Home.
 - runFlow: _dismiss_tutorial.yaml
+# Re-run the interrupt dismiss helper: HomeViewModel.loadPreview kicks off
+# asynchronously after the screen mounts, so a "Failed to load itinerary"
+# dialog (or any other late-arriving modal) can land between login and the
+# next assertion. The helper is a snapshot check — no-op when nothing is
+# visible — so running it twice is cheap insurance.
+- runFlow: _dismiss_interrupts.yaml
 # Asserting the NavigationBar container's id (home.tab-bar) is flaky on
 # Android — the Compose Material3 NavigationBar's testTag races with AdMob
 # loading and sometimes never propagates as a resource-id. The individual

@@ -21,6 +21,7 @@ tags: [itinerary, p1, ios-only]
       TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
 - tapOn: { id: "home.tab.travel-plans" }
 - tapOn: { id: "plans.plan-card.0" }
+- runFlow: ../common/_open_plan_itinerary.yaml
 - assertVisible: { id: "itinerary.scroll-view" }
 - swipe:
     from: { id: "itinerary.scroll-view" }

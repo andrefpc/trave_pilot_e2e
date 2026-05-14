@@ -20,8 +20,12 @@ tags: [itinerary, p0, ios-only]
       TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
 - tapOn: { id: "home.tab.travel-plans" }
 - tapOn: { id: "plans.plan-card.0" }
-- assertVisible: { id: "itinerary.stop-card.0" }
-- tapOn: { id: "itinerary.stop-card.0" }
+- runFlow: ../common/_open_plan_itinerary.yaml
+# Day 1 of the seeded rich plan starts with a hotel check-in (stop-card.0)
+# which has no place id and is intentionally non-tappable. Stop-card.1 is
+# an attraction with a real place id — that's the type this test wants.
+- assertVisible: { id: "itinerary.stop-card.1" }
+- tapOn: { id: "itinerary.stop-card.1" }
 - assertVisible: { id: "place-detail.sheet" }
 - assertVisible: { id: "place-detail.title" }
 - assertVisible: { id: "place-detail.description" }

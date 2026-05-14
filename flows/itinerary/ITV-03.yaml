@@ -21,6 +21,7 @@ tags: [itinerary, p1]
       TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
 - tapOn: { id: "home.tab.travel-plans" }
 - tapOn: { id: "plans.plan-card.0" }
+- runFlow: ../common/_open_plan_itinerary.yaml
 - assertVisible: { id: "itinerary.screen" }
 - assertVisible: { id: "itinerary.stop.icon.attraction" }
 - assertVisible: { id: "itinerary.stop.icon.restaurant" }

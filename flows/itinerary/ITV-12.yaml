@@ -19,7 +19,12 @@ tags: [itinerary, p2, ios-only]
       TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
       TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
 - tapOn: { id: "home.tab.travel-plans" }
-- tapOn: { id: "plans.plan-card.empty-day" }
+# The premium user has two seeded active plans: a rich plan at index 0
+# (current/active, has full itinerary) and the empty-day plan at index 1
+# whose day 1 has zero stops. Tap the second card so the screen opens
+# directly on an empty day and the empty-state UI is visible.
+- tapOn: { id: "plans.plan-card.1" }
+- runFlow: ../common/_open_plan_itinerary.yaml
 - assertVisible: { id: "itinerary.screen" }
 - assertVisible: { id: "itinerary.day-empty-state" }
 - assertVisible: { id: "itinerary.day-empty-state.title" }

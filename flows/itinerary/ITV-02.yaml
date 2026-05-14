@@ -20,6 +20,7 @@ tags: [itinerary, p0, ios-only]
       TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
 - tapOn: { id: "home.tab.travel-plans" }
 - tapOn: { id: "plans.plan-card.0" }
+- runFlow: ../common/_open_plan_itinerary.yaml
 - assertVisible: { id: "itinerary.screen" }
 - tapOn: { id: "itinerary.day-tab.0" }
 - assertVisible: { id: "itinerary.stop-card.0" }

@@ -21,7 +21,11 @@ tags: [itinerary, p2, ios-only]
       TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
 - tapOn: { id: "home.tab.travel-plans" }
 - tapOn: { id: "plans.plan-card.0" }
-- tapOn: { id: "itinerary.stop-card.0" }
+- runFlow: ../common/_open_plan_itinerary.yaml
+# stop-card.0 of the seeded rich plan is a hotel check-in (no place id,
+# non-tappable). stop-card.1 is an attraction with a long description —
+# the surface this scroll-inside-sheet test actually needs.
+- tapOn: { id: "itinerary.stop-card.1" }
 - assertVisible: { id: "place-detail.sheet" }
 - assertVisible: { id: "place-detail.description" }
 - scrollUntilVisible:

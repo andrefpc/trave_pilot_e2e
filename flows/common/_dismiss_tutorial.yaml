@@ -12,23 +12,50 @@ tags: [helper]
 # walking the steps with Next/Got it if Skip isn't shown (last step has no
 # skip button — only "Got it").
 
-# The tutorial fires ~600ms after the screen finishes loading, on top of the
-# auth round-trip. Wait long enough for both before checking — if we look
-# too early, the overlay isn't mounted yet and the runFlow when-block
-# becomes a silent no-op, leaving the overlay to break later assertions.
+# The tutorial fires ~600ms after the screen finishes loading, which on
+# iOS includes: getCurrentTravelPlan → /travel-plans → autoSelectLatest
+# → /travel-plans/:id (detail) → /itinerary → /itinerary/days/:id →
+# weather. That chain can take 3–6s on a cold launch, so checking after
+# a single waitForAnimationToEnd often loses the race with the tutorial
+# mounting. Poll several times to give the overlay a chance to appear
+# and be dismissed; each runFlow with `when` is a snapshot check, so we
+# repeat to widen the visibility window without holding up flows where
+# the tutorial never fires (free users with no plan).
 - waitForAnimationToEnd:
-    timeout: 5000
+    timeout: 3000
 
-# Skip dismisses the entire walkthrough. iOS TravelPilotLink doesn't expose
-# its label as a tappable text element, so use the stable id wired up on
-# the tooltip itself. The id falls back to the next-button id on the last
-# tutorial step (where no skip is available).
+# First attempt — tutorial may already be visible.
 - runFlow:
     when:
       visible: { id: "tutorial.skip-button" }
     commands:
       - tapOn: { id: "tutorial.skip-button" }
 
+# Second attempt after a short delay — tutorial may have mounted while
+# we were checking. waitForAnimationToEnd returns early when nothing is
+# animating, so we use it as a "give the system a second" beat.
+- waitForAnimationToEnd:
+    timeout: 3000
+- runFlow:
+    when:
+      visible: { id: "tutorial.skip-button" }
+    commands:
+      - tapOn: { id: "tutorial.skip-button" }
+
+# Third attempt — last chance, longer wait. The home tutorial fires
+# after the initial preview load completes; for premium users with a
+# seeded plan that chain is the slowest path on a cold launch.
+- waitForAnimationToEnd:
+    timeout: 4000
+- runFlow:
+    when:
+      visible: { id: "tutorial.skip-button" }
+    commands:
+      - tapOn: { id: "tutorial.skip-button" }
+
+# Skip dismisses the entire walkthrough; next-button advances one step.
+# If skip wasn't available (last tutorial step), walk to the end with
+# Next/Got it.
 - runFlow:
     when:
       visible: { id: "tutorial.next-button" }

@@ -441,26 +441,54 @@ async function main(): Promise<void> {
     }
   }
 
-  // WZ-X-05: free user must own exactly one plan so tapping
-  // Travel Plans → Add triggers the premium paywall up-front rather
-  // than opening a fresh wizard. Run for both platforms' free users.
+  // ITV-*: premium users need a fully-formed active plan so the
+  // itinerary suite has stops / days / hotels / free-time slots to assert
+  // against. The seed wipes prior plans and inserts a rich plan + an
+  // empty-day plan, exposing them as `plans.plan-card.0` / `.1`. Run for
+  // both platforms' premium users.
+  for (const premiumEmail of [
+    TEST_CREDS.android.premium.email,
+    TEST_CREDS.ios.premium.email,
+  ]) {
+    try {
+      const res = await fetch(`${API_BASE_URL}/api/v1/test/seed-generated-plan`, {
+        method: 'POST',
+        headers: { 'X-Test-Reset-Token': TEST_RESET_TOKEN, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: premiumEmail }),
+      });
+      if (res.ok) {
+        console.log(`✓ seeded generated plan + empty-day plan for ${premiumEmail} (ITV-* setup)`);
+      } else {
+        console.warn(`! seed-generated-plan for ${premiumEmail} → ${res.status} (continuing)`);
+      }
+    } catch (err) {
+      console.warn(`! seed-generated-plan threw for ${premiumEmail} (continuing): ${err instanceof Error ? err.message : String(err)}`);
+    }
+  }
+
+  // WZ-X-05 + ITV-10: free user must own at least one plan so tapping
+  // Travel Plans → Add triggers the premium paywall (WZ-X-05) AND so
+  // ITV-10 (free user adds a stop to a free-time slot) has a real
+  // generated plan to open. We seed the rich plan only — no empty-day
+  // plan — so the free-tier cap (1 plan) isn't exceeded. Run for both
+  // platforms' free users.
   for (const freeEmail of [
     TEST_CREDS.android.free.email,
     TEST_CREDS.ios.free.email,
   ]) {
     try {
-      const res = await fetch(`${API_BASE_URL}/api/v1/test/seed-plan-cap`, {
+      const res = await fetch(`${API_BASE_URL}/api/v1/test/seed-generated-plan`, {
         method: 'POST',
         headers: { 'X-Test-Reset-Token': TEST_RESET_TOKEN, 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: freeEmail }),
+        body: JSON.stringify({ email: freeEmail, include_empty_day_plan: false }),
       });
       if (res.ok) {
-        console.log(`✓ seeded plan-cap filler for ${freeEmail} (WZ-X-05 setup)`);
+        console.log(`✓ seeded generated plan for ${freeEmail} (WZ-X-05 + ITV-10 setup)`);
       } else {
-        console.warn(`! seed-plan-cap for ${freeEmail} → ${res.status} (continuing)`);
+        console.warn(`! seed-generated-plan for ${freeEmail} → ${res.status} (continuing)`);
       }
     } catch (err) {
-      console.warn(`! seed-plan-cap threw for ${freeEmail} (continuing): ${err instanceof Error ? err.message : String(err)}`);
+      console.warn(`! seed-generated-plan threw for ${freeEmail} (continuing): ${err instanceof Error ? err.message : String(err)}`);
     }
   }
 
