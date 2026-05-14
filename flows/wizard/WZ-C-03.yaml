@@ -20,6 +20,9 @@ tags: [wizard, p1]
 - tapOn: { id: "wizard.walking-style.option.moderate" }
 - tapOn: { id: "wizard.walking-style.next-button" }
 - assertVisible: { id: "wizard.companions.title" }
+- scrollUntilVisible:
+    element: { id: "wizard.companions.adults.plus" }
+    direction: DOWN
 - repeat:
     times: 25
     commands:

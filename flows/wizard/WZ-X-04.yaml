@@ -21,25 +21,55 @@ tags: [wizard, p1]
 - tapOn: { id: "wizard.walking-style.option.moderate" }
 - tapOn: { id: "wizard.walking-style.next-button" }
 - assertVisible: { id: "wizard.companions.title" }
+- scrollUntilVisible:
+    element: { id: "wizard.companions.adults.plus" }
+    direction: DOWN
 - tapOn: { id: "wizard.companions.adults.plus" }
 - tapOn: { id: "wizard.companions.next-button" }
 - assertVisible: { id: "wizard.day-schedule.title" }
 # Step back through each prior wizard step and confirm the data we
 # entered is still there. Toolbar back arrow has no maestro id yet on
 # either platform; system back fires the same NavigateBack effect.
-- back
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - tapOn: { id: "common.toolbar.back-button" }
 - waitForAnimationToEnd:
     timeout: 1500
 - assertVisible: { id: "wizard.companions.title" }
 - assertVisible:
     id: "wizard.companions.adults.value"
     text: "2"
-- back
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - tapOn: { id: "common.toolbar.back-button" }
 - waitForAnimationToEnd:
     timeout: 1500
 - assertVisible: { id: "wizard.walking-style.title" }
 - assertVisible: { id: "wizard.walking-style.option.moderate" }
-- back
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - tapOn: { id: "common.toolbar.back-button" }
 - waitForAnimationToEnd:
     timeout: 1500
 - assertVisible: { id: "wizard.destination.title" }

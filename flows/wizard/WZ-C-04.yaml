@@ -20,6 +20,12 @@ tags: [wizard, p2]
 - tapOn: { id: "wizard.walking-style.option.moderate" }
 - tapOn: { id: "wizard.walking-style.next-button" }
 - assertVisible: { id: "wizard.companions.title" }
+# Children card is below the fold on iOS (narrower viewport). Scroll
+# it into view before the tap-25 loop; on Android it's already on
+# screen so the scroll is a no-op.
+- scrollUntilVisible:
+    element: { id: "wizard.companions.children.plus" }
+    direction: DOWN
 - repeat:
     times: 25
     commands:

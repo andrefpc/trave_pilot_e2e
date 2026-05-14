@@ -41,4 +41,24 @@ tags: [wizard, p2]
     element: { id: "wizard.meal-time.next-button" }
     direction: DOWN
 - tapOn: { id: "wizard.meal-time.next-button" }
+# iOS gates "all four skipped" client-side with a "At least one meal
+# must be active" dialog; Android lets the request through and relies
+# on the server to enforce. Accept either outcome: if the gate shows,
+# dismiss + unskip Breakfast and retry; otherwise we're already on
+# Budget.
+- runFlow:
+    when:
+      visible:
+        text: "At least one meal must be active"
+    commands:
+      - tapOn:
+          text: "Dismiss"
+      - scrollUntilVisible:
+          element: { id: "wizard.meal-time.card.breakfast.skip" }
+          direction: UP
+      - tapOn: { id: "wizard.meal-time.card.breakfast.skip" }
+      - scrollUntilVisible:
+          element: { id: "wizard.meal-time.next-button" }
+          direction: DOWN
+      - tapOn: { id: "wizard.meal-time.next-button" }
 - assertVisible: { id: "wizard.budget.title" }

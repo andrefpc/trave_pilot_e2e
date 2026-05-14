@@ -21,25 +21,80 @@ tags: [helper, ios-only]
     direction: DOWN
 - tapOn: { id: "wizard.meal-time.next-button" }
 - assertVisible: { id: "wizard.budget.title" }
+# Budget.next is gated on every visible category having a level
+# selected. Tap medium on each — trimmed Budget has 2 categories on
+# both platforms (Attractions + Transportation); legacy categories
+# stay as `optional: true` no-ops in case a platform still ships them.
+- tapOn:
+    id: "wizard.budget.card.accommodation.medium"
+    optional: true
+- tapOn:
+    id: "wizard.budget.card.food.medium"
+    optional: true
+- tapOn:
+    id: "wizard.budget.card.transportation.medium"
+    optional: true
+- tapOn:
+    id: "wizard.budget.card.attractions.medium"
+    optional: true
+- tapOn:
+    id: "wizard.budget.card.shopping.medium"
+    optional: true
+- tapOn:
+    id: "wizard.budget.card.nightlife.medium"
+    optional: true
 - scrollUntilVisible:
     element: { id: "wizard.budget.next-button" }
     direction: DOWN
 - tapOn: { id: "wizard.budget.next-button" }
 - assertVisible: { id: "wizard.places-of-interest.title" }
-# `.check` toggles selection on Android (the card body opens the
-# detail sheet). Same pattern as SMK-02/04/05.
-- tapOn:
-    id: "wizard.places-of-interest.recommended.0.check"
-    optional: true
+# POI is per-destination: each city must have at least one selected
+# place before Next advances. The two-city helper means we need to
+# select on city 0, tap Next (→ city 1), select on city 1, tap Next
+# (→ Restaurants). `.check` toggles selection (the card body opens
+# the detail sheet on both platforms).
+- extendedWaitUntil:
+    visible: { id: "wizard.places-of-interest.recommended.0.check" }
+    timeout: 15000
+- tapOn: { id: "wizard.places-of-interest.recommended.0.check" }
+- waitForAnimationToEnd:
+    timeout: 1500
 - scrollUntilVisible:
     element: { id: "wizard.places-of-interest.next-button" }
     direction: DOWN
 - tapOn: { id: "wizard.places-of-interest.next-button" }
+- runFlow:
+    when:
+      visible: { id: "wizard.places-of-interest.title" }
+    commands:
+      - extendedWaitUntil:
+          visible: { id: "wizard.places-of-interest.recommended.0.check" }
+          timeout: 15000
+      - tapOn: { id: "wizard.places-of-interest.recommended.0.check" }
+      - waitForAnimationToEnd:
+          timeout: 1500
+      - scrollUntilVisible:
+          element: { id: "wizard.places-of-interest.next-button" }
+          direction: DOWN
+      - tapOn: { id: "wizard.places-of-interest.next-button" }
 - assertVisible: { id: "wizard.restaurants.title" }
+# Restaurants is per-destination on iOS too: Next advances city-by-
+# city until the last destination. Loop the Next tap so a 2-city
+# itinerary fully traverses Restaurants before landing on
+# Where-to-Stay. Selection is optional (no client-side gate yet on
+# either platform), so the loop body just scrolls + taps Next.
 - scrollUntilVisible:
     element: { id: "wizard.restaurants.next-button" }
     direction: DOWN
 - tapOn: { id: "wizard.restaurants.next-button" }
+- runFlow:
+    when:
+      visible: { id: "wizard.restaurants.title" }
+    commands:
+      - scrollUntilVisible:
+          element: { id: "wizard.restaurants.next-button" }
+          direction: DOWN
+      - tapOn: { id: "wizard.restaurants.next-button" }
 - assertVisible: { id: "wizard.where-to-stay.title" }
 # New Where to Stay design shows one city at a time; tap recommended place,
 # then Next advances to the next city until both are selected.

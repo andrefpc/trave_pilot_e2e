@@ -24,7 +24,22 @@ tags: [wizard, p1]
 # Use system back to return to Walking Style (toolbar back arrow has no
 # maestro id yet on either platform; system back hits the same
 # `NavigateBack` side-effect path).
-- back
+# `back` on iOS doesn't pop the NavigationStack because the wizard
+# screens use `.navigationBarHidden(true)` (so the system bar's back
+# arrow + swipe-from-edge gesture are both unavailable). Tap the
+# custom toolbar's back arrow instead — TravelPilotToolbar defaults
+# its back button's accessibilityIdentifier to
+# `common.toolbar.back-button` so every wizard screen has it.
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - tapOn: { id: "common.toolbar.back-button" }
 - waitForAnimationToEnd:
     timeout: 1500
 - assertVisible: { id: "wizard.walking-style.title" }
