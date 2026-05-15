@@ -22,15 +22,17 @@ tags: [itinerary, p1]
 - tapOn: { id: "home.tab.travel-plans" }
 - tapOn: { id: "plans.plan-card.0" }
 - runFlow: ../common/_open_plan_itinerary.yaml
-- assertVisible: { id: "itinerary.screen" }
+# Day 1 of the seeded rich plan has the attraction / restaurant /
+# hotel / free-time icon types but no transport — that's only on day
+# 2 (the inter-city Paris→Rome flight). Verify the day-1 icons,
+# switch to day 2 to pick up transport, then come back to assert the
+# free-time icon on day 1 once more.
 - assertVisible: { id: "itinerary.stop.icon.attraction" }
 - assertVisible: { id: "itinerary.stop.icon.restaurant" }
 - assertVisible: { id: "itinerary.stop.icon.hotel" }
 - scrollUntilVisible:
-    element: { id: "itinerary.stop.icon.transport" }
-    direction: DOWN
-- assertVisible: { id: "itinerary.stop.icon.transport" }
-- scrollUntilVisible:
     element: { id: "itinerary.stop.icon.free-time" }
     direction: DOWN
 - assertVisible: { id: "itinerary.stop.icon.free-time" }
+- tapOn: { id: "itinerary.day-tab.1" }
+- assertVisible: { id: "itinerary.stop.icon.transport" }

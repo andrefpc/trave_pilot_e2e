@@ -21,10 +21,18 @@ tags: [itinerary, p0, ios-only]
 - tapOn: { id: "home.tab.travel-plans" }
 - tapOn: { id: "plans.plan-card.0" }
 - runFlow: ../common/_open_plan_itinerary.yaml
-- assertVisible: { id: "itinerary.screen" }
 - tapOn: { id: "itinerary.day-tab.0" }
 - assertVisible: { id: "itinerary.stop-card.0" }
 - assertVisible: { id: "itinerary.stop.0.type.hotel-checkin" }
+# The seeded rich plan spans 3 days with the hotel check-in on day 1
+# and the matching check-out on day 3 — iOS doesn't auto-insert
+# wake-up / sleep markers for intermediate days, so the same-day
+# checkout assertion only holds on the last day of the stay. Switch
+# to it before asserting the last-stop marker.
+- scrollUntilVisible:
+    element: { id: "itinerary.day-tab.last" }
+    direction: RIGHT
+- tapOn: { id: "itinerary.day-tab.last" }
 - scrollUntilVisible:
     element: { id: "itinerary.stop.last" }
     direction: DOWN

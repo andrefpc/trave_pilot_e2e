@@ -9,7 +9,8 @@ tags: [helper]
 # tap → itinerary navigation, so the second tap is iOS-only.
 #
 # Caller is responsible for tapping the specific `plans.plan-card.<i>`
-# beforehand. This helper just bridges Home → Itinerary on iOS.
+# beforehand. This helper just bridges Home → Itinerary on iOS and
+# clears the itinerary-tutorial overlay that fires on first open.
 
 - runFlow:
     when:
@@ -18,4 +19,30 @@ tags: [helper]
       - extendedWaitUntil:
           visible: { id: "home.open-itinerary-button" }
           timeout: 8000
+      # Settle the home preview load before tapping — the button can
+      # become accessible before its tap handler is fully wired,
+      # making the first tap a no-op on a cold simulator.
+      - waitForAnimationToEnd:
+          timeout: 1500
       - tapOn: { id: "home.open-itinerary-button" }
+      - waitForAnimationToEnd:
+          timeout: 2000
+      # Defensive retry — on cold simulator boots the first tap on
+      # the home preview button occasionally lands before the
+      # navigation handler is fully wired and the screen stays on
+      # Home. If the open-itinerary button is still visible after
+      # the first tap, fire it again. The conditional makes this a
+      # no-op when navigation already succeeded (button is gone).
+      - runFlow:
+          when:
+            visible: { id: "home.open-itinerary-button" }
+          commands:
+            - tapOn: { id: "home.open-itinerary-button" }
+            - waitForAnimationToEnd:
+                timeout: 2000
+      # Itinerary screen has its own tutorial walkthrough that runs
+      # against mock data the first time the user opens it. Dismiss it
+      # so the real plan UI surfaces (and so `itinerary.screen`
+      # assertions resolve against actual plan data, not the spotlighted
+      # tooltip).
+      - runFlow: _dismiss_tutorial.yaml

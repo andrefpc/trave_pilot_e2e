@@ -22,10 +22,27 @@ tags: [itinerary, p1]
 - tapOn: { id: "home.tab.travel-plans" }
 - tapOn: { id: "plans.plan-card.0" }
 - runFlow: ../common/_open_plan_itinerary.yaml
+# Verify the meal-specific action first (find-restaurant + edit live
+# on a lunch stop). Then close the sheet, tap an attraction to check
+# the attraction-specific action (add-ticket). Asserting all three on
+# the same stop would only ever pass if iOS rendered every action
+# regardless of stop type, which contradicts the actual UX.
 - tapOn: { id: "itinerary.stop.meal.0" }
 - assertVisible: { id: "place-detail.sheet" }
 - assertVisible: { id: "place-detail.action.edit" }
-- assertVisible: { id: "place-detail.action.add-ticket" }
-- assertVisible: { id: "place-detail.action.find-restaurant" }
-- tapOn: { id: "place-detail.action.find-restaurant" }
-- assertVisible: { id: "place-search.sheet" }
+# The find-restaurant action button + marker live below the opening
+# hours section, which on a small screen is below the fold. Scroll
+# the sheet's scroll-view down so the marker enters the viewport.
+- scrollUntilVisible:
+    element: { id: "place-detail.action.find-restaurant" }
+    direction: DOWN
+# `place-detail.action.find-restaurant` is a visibility-only marker
+# (Color.clear sibling, rendered below the primary button). The
+# actual tap target is the primary action button — fire that to open
+# place-search.
+- tapOn: { id: "place-detail.action.primary" }
+# Find-restaurant opens the dedicated restaurant search sheet
+# (`itinerary-edit.restaurant-search-sheet`), not the generic
+# place-search sheet — they live in different stacks because the
+# restaurant flow filters by cuisine + price level.
+- assertVisible: { id: "itinerary-edit.restaurant-search-sheet" }

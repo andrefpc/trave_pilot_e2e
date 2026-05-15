@@ -37,7 +37,10 @@ tags: [itinerary, p0, ios-only]
 - inputText: "park"
 - waitForAnimationToEnd:
     timeout: 3000
-- tapOn: { id: "place-search.result.0" }
+# The whole row carries `place-search.result.<i>` for visibility, but
+# only the "+" button (`place-search.result.<i>.add-button`) actually
+# fires the place-selected event — tap the button to commit.
+- tapOn: { id: "place-search.result.0.add-button" }
 - waitForAnimationToEnd:
     timeout: 3000
 - assertVisible: { id: "itinerary.stop-card.0" }

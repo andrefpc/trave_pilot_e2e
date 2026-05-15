@@ -25,6 +25,10 @@ tags: [itinerary, p2, ios-only]
 # directly on an empty day and the empty-state UI is visible.
 - tapOn: { id: "plans.plan-card.1" }
 - runFlow: ../common/_open_plan_itinerary.yaml
-- assertVisible: { id: "itinerary.screen" }
+# Asserting the screen container directly is flaky on iOS — the parent
+# VStack uses `accessibilityElement(children: .contain)` which sometimes
+# trips XCUITest's "visible" check. The day-empty-state markers below
+# only render inside the itinerary screen body, so their visibility is
+# proof enough that the screen is open.
 - assertVisible: { id: "itinerary.day-empty-state" }
 - assertVisible: { id: "itinerary.day-empty-state.title" }
