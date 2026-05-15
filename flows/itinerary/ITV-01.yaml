@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: ITV-01
-tags: [itinerary, p0, ios-only]
+tags: [itinerary, p0]
 ---
 # >>> dashboard-meta
 # ITV-01 — Opening a plan loads every day with all stops and times in chronological order

@@ -29,7 +29,11 @@ tags: [itinerary, p1]
 # regardless of stop type, which contradicts the actual UX.
 - tapOn: { id: "itinerary.stop.meal.0" }
 - assertVisible: { id: "place-detail.sheet" }
-- assertVisible: { id: "place-detail.action.edit" }
+# `place-detail.edit-icon` is the always-present pencil. The
+# `place-detail.action.edit` marker is only emitted when EDIT is the
+# primary action variant (which it isn't on a meal stop — that slot
+# is FIND_RESTAURANT on both platforms).
+- assertVisible: { id: "place-detail.edit-icon" }
 # The find-restaurant action button + marker live below the opening
 # hours section, which on a small screen is below the fold. Scroll
 # the sheet's scroll-view down so the marker enters the viewport.

@@ -12,37 +12,37 @@ tags: [helper]
 # beforehand. This helper just bridges Home → Itinerary on iOS and
 # clears the itinerary-tutorial overlay that fires on first open.
 
+# Both iOS and Android treat tapping a plan card on the Plans tab
+# as "switch active plan", returning the user to Home with the
+# selected plan's preview card. The full itinerary screen is reached
+# from there via `home.open-itinerary-button`. Caller is responsible
+# for tapping the specific `plans.plan-card.<i>` beforehand; this
+# helper bridges Home → Itinerary and clears the itinerary tutorial
+# overlay that fires on first open.
+
+- extendedWaitUntil:
+    visible: { id: "home.open-itinerary-button" }
+    timeout: 8000
+# Settle the home preview load before tapping — the button can
+# become accessible before its tap handler is fully wired, making
+# the first tap a no-op on a cold device.
+- waitForAnimationToEnd:
+    timeout: 1500
+- tapOn: { id: "home.open-itinerary-button" }
+- waitForAnimationToEnd:
+    timeout: 2000
+# Defensive retry — on cold sim/emulator boots the first tap on
+# the home preview button occasionally lands before the navigation
+# handler is fully wired and the screen stays on Home. If the
+# button is still visible after the first tap, fire it again.
 - runFlow:
     when:
-      platform: iOS
+      visible: { id: "home.open-itinerary-button" }
     commands:
-      - extendedWaitUntil:
-          visible: { id: "home.open-itinerary-button" }
-          timeout: 8000
-      # Settle the home preview load before tapping — the button can
-      # become accessible before its tap handler is fully wired,
-      # making the first tap a no-op on a cold simulator.
-      - waitForAnimationToEnd:
-          timeout: 1500
       - tapOn: { id: "home.open-itinerary-button" }
       - waitForAnimationToEnd:
           timeout: 2000
-      # Defensive retry — on cold simulator boots the first tap on
-      # the home preview button occasionally lands before the
-      # navigation handler is fully wired and the screen stays on
-      # Home. If the open-itinerary button is still visible after
-      # the first tap, fire it again. The conditional makes this a
-      # no-op when navigation already succeeded (button is gone).
-      - runFlow:
-          when:
-            visible: { id: "home.open-itinerary-button" }
-          commands:
-            - tapOn: { id: "home.open-itinerary-button" }
-            - waitForAnimationToEnd:
-                timeout: 2000
-      # Itinerary screen has its own tutorial walkthrough that runs
-      # against mock data the first time the user opens it. Dismiss it
-      # so the real plan UI surfaces (and so `itinerary.screen`
-      # assertions resolve against actual plan data, not the spotlighted
-      # tooltip).
-      - runFlow: _dismiss_tutorial.yaml
+# Itinerary screen has its own tutorial walkthrough that runs
+# against mock data the first time the user opens it. Dismiss it so
+# the real plan UI surfaces.
+- runFlow: _dismiss_tutorial.yaml

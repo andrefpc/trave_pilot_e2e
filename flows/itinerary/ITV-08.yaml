@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: ITV-08
-tags: [itinerary, p1, ios-only]
+tags: [itinerary, p1]
 ---
 # >>> dashboard-meta
 # ITV-08 — Pulling down on the Itinerary refetches the itinerary and weather

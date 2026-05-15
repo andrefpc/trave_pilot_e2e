@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: ITV-02
-tags: [itinerary, p0, ios-only]
+tags: [itinerary, p0]
 ---
 # >>> dashboard-meta
 # ITV-02 — Within a day, stops are ordered earliest-arrival first, with hotel check-in on top and check-out at the bottom
