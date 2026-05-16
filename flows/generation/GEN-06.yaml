@@ -20,21 +20,14 @@ tags: [generation, p1]
       TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
 - tapOn: { id: "home.tab.travel-plans" }
 - tapOn: { id: "travel-plans.add-button" }
-- assertVisible: { id: "wizard.destination.title" }
-- tapOn: { id: "wizard.destination.next-button" }
-- tapOn: { id: "wizard.walking-style.next-button" }
-- tapOn: { id: "wizard.companions.next-button" }
-- tapOn: { id: "wizard.day-schedule.next-button" }
-- tapOn: { id: "wizard.meal-time.next-button" }
-- tapOn: { id: "wizard.budget.next-button" }
-- tapOn: { id: "wizard.places-of-interest.next-button" }
-- tapOn: { id: "wizard.restaurants.next-button" }
-- tapOn: { id: "wizard.where-to-stay.next-button" }
-- tapOn: { id: "wizard.travel-times.next-button" }
+- runFlow: ../wizard/_walk_to_complete_onboarding.yaml
+- tapOn: { id: "wizard.complete-onboarding.generate-plan-button" }
 - assertVisible: { id: "plan-generation.progress" }
-- assertNotVisible: { id: "plan-generation.lets-go-button" }
 - pressKey: "back"
-- assertVisible: { id: "plan-generation.progress" }
+# Back press must keep us on plan-generation. We don't gate on
+# whether the let's-go button is visible — on slower runners the
+# generation may have completed by the time the back press fires,
+# and the test is about back-press routing, not progress state.
 - assertVisible: { id: "plan-generation.title" }
 - assertNotVisible: { id: "wizard.travel-times.title" }
 - assertNotVisible: { id: "home.tab-bar" }

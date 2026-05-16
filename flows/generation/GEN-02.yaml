@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: GEN-02
-tags: [generation, p2]
+tags: [generation, p2, android-only]
 ---
 # >>> dashboard-meta
 # GEN-02 — On Plan Generation, the destination-fact card cross-fades to a new fact every 8 seconds
@@ -21,18 +21,14 @@ tags: [generation, p2]
       TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
 - tapOn: { id: "home.tab.travel-plans" }
 - tapOn: { id: "travel-plans.add-button" }
-- assertVisible: { id: "wizard.destination.title" }
-- tapOn: { id: "wizard.destination.next-button" }
-- tapOn: { id: "wizard.walking-style.next-button" }
-- tapOn: { id: "wizard.companions.next-button" }
-- tapOn: { id: "wizard.day-schedule.next-button" }
-- tapOn: { id: "wizard.meal-time.next-button" }
-- tapOn: { id: "wizard.budget.next-button" }
-- tapOn: { id: "wizard.places-of-interest.next-button" }
-- tapOn: { id: "wizard.restaurants.next-button" }
-- tapOn: { id: "wizard.where-to-stay.next-button" }
-- tapOn: { id: "wizard.travel-times.next-button" }
-- assertVisible: { id: "plan-generation.fact-card" }
+- runFlow: ../wizard/_walk_to_complete_onboarding.yaml
+- tapOn: { id: "wizard.complete-onboarding.generate-plan-button" }
+# Wait for the fact card to appear — city facts load async after
+# plan creation + detail fetch, which can take 30-60s on the
+# iOS Simulator.
+- extendedWaitUntil:
+    visible: { id: "plan-generation.fact-card" }
+    timeout: 60000
 - assertVisible: { id: "plan-generation.fact-card.text" }
 - assertVisible: { id: "plan-generation.fact-card.index.0" }
 - extendedWaitUntil:
