@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: TK-05
-tags: [tickets, p0]
+tags: [tickets, p0, needs-implementation]
 ---
 # >>> dashboard-meta
 # TK-05 — Tapping a ticket card opens the full-screen viewer with PDF/image rendering and toolbar

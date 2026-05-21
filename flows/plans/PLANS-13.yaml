@@ -17,8 +17,11 @@ tags: [plans, p1]
 - runFlow:
     file: ../common/_login.yaml
     env:
-      TEST_EMAIL: ${TEST_FREE_EMAIL}
-      TEST_PASSWORD: ${TEST_FREE_PASSWORD}
+      # The platform free-user (TEST_FREE_EMAIL) gets a plan seeded
+      # via run-e2e.ts for WZ-X-05 / ITV-10. Use the un-seeded
+      # `e2e+freeuser@` so Travel Plans renders the no-plan empty state.
+      TEST_EMAIL: "e2e+freeuser@travelpilotapp.com"
+      TEST_PASSWORD: "E2eFreeUser!1"
 - tapOn: { id: "home.tab.travel-plans" }
 - assertVisible: { id: "plans.empty-state" }
 - assertVisible: { id: "plans.empty-state.title" }

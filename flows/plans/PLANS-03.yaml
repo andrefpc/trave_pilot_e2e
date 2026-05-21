@@ -21,6 +21,11 @@ tags: [plans, p0]
 - tapOn: { id: "home.tab.travel-plans" }
 - assertVisible: { id: "plans.plan-card.0" }
 - tapOn: { id: "plans.plan-card.0" }
+# Tapping a plan card switches the active plan and routes back to
+# Home with the selected plan's preview. The shared helper bridges
+# Home → Itinerary with the tap-settle-retry-tutorial sequence so
+# the assertions below land on a stable itinerary screen.
+- runFlow: ../common/_open_plan_itinerary.yaml
 - assertVisible: { id: "itinerary.screen" }
 - assertVisible: { id: "itinerary.day-tab.0" }
 - assertVisible: { id: "itinerary.stop-card.0" }

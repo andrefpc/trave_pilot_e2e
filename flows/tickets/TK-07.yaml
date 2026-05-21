@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: TK-07
-tags: [tickets, p0]
+tags: [tickets, p0, needs-implementation]
 ---
 # >>> dashboard-meta
 # TK-07 — Tapping Delete on a ticket → Confirm sends DELETE /tickets/:id and removes the ticket

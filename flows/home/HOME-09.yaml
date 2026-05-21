@@ -17,7 +17,12 @@ tags: [home, p1, ios-only]
 - runFlow:
     file: ../common/_login.yaml
     env:
-      TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
-      TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
+      # Use the un-seeded free user so Home renders the no-plan
+      # empty state with the "Create a new Plan" CTA. Premium gets
+      # a seeded plan and the FAB does not surface there.
+      TEST_EMAIL: "e2e+freeuser@travelpilotapp.com"
+      TEST_PASSWORD: "E2eFreeUser!1"
 - tapOn: { id: "home.tab.home" }
+- assertVisible: { id: "home.empty-state" }
+- tapOn: { id: "home.empty-state.create-plan-button" }
 - assertVisible: { id: "wizard.destination.title" }

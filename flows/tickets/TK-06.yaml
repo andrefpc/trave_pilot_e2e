@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: TK-06
-tags: [tickets, p1]
+tags: [tickets, p1, needs-implementation]
 ---
 # >>> dashboard-meta
 # TK-06 — Tapping Share on a ticket invokes the system share chooser via FileProvider

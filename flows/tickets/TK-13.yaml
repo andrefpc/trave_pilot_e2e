@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: TK-13
-tags: [tickets, p1]
+tags: [tickets, p1, needs-implementation]
 ---
 # >>> dashboard-meta
 # TK-13 — Uploading a >10 MB PDF either uploads (with a warning) or shows a clear "File too large" error
@@ -27,12 +27,8 @@ tags: [tickets, p1]
 - tapOn: { id: "tickets.upload-sheet.upload-button" }
 - waitForAnimationToEnd:
     timeout: 30000
-- runFlow:
-    when:
-      visible:
-    commands:
-- runFlow:
-    when:
-      visible:
-    commands:
-      - assertVisible: { id: "tickets.ticket-card.0" }
+# Needs implementation: validating the >10 MB PDF path requires a real
+# large file picked through the system OpenDocument picker, which Maestro
+# cannot drive. Either either ticket-card.0 (upload succeeded) or
+# tickets.upload-sheet.error (size limit hit) should appear — wire up
+# once a file-picker shim or test-only upload endpoint exists.

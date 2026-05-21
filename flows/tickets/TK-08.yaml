@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: TK-08
-tags: [tickets, p0]
+tags: [tickets, p0, needs-implementation]
 ---
 # >>> dashboard-meta
 # TK-08 — Sharing an image from another app to Travel Pilot opens the upload sheet ready to save

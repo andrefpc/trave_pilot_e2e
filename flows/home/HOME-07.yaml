@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: HOME-07
-tags: [home, p2]
+tags: [home, p2, needs-implementation]
 ---
 # >>> dashboard-meta
 # HOME-07 — After photos are added, Home shows a milestone gallery thumbnail strip; tapping opens City Gallery

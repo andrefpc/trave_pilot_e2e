@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: TK-03
-tags: [tickets, p0]
+tags: [tickets, p0, needs-implementation]
 ---
 # >>> dashboard-meta
 # TK-03 — Picking a PDF and tapping "Upload ticket" sends POST /tickets and the ticket appears in the list

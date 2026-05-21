@@ -20,7 +20,12 @@ tags: [home, p0]
       TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
 - tapOn: { id: "home.tab.home" }
 - assertVisible: { id: "home.day-card.0" }
-- tapOn: { id: "home.day-card.0" }
+# The day card itself has no onClick on either platform — the
+# explicit "Open full itinerary" button below the preview is the
+# documented entry point into the itinerary day. Use the shared
+# helper so the tap → settle → defensive-retry → tutorial-dismiss
+# sequence stays consistent with every other itinerary entry.
+- runFlow: ../common/_open_plan_itinerary.yaml
 - assertVisible: { id: "itinerary.screen" }
 - assertVisible: { id: "itinerary.day-tab.0" }
 - assertVisible: { id: "itinerary.stop-card.0" }

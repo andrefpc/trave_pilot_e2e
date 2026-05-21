@@ -20,7 +20,15 @@ tags: [home, p1]
       TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
       TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
 - tapOn: { id: "home.tab.home" }
-- scrollUntilVisible:
-    element: { id: "home.world-map" }
-    direction: DOWN
+- assertVisible: { id: "home.scroll-view" }
+# Two short swipes get past the preview card on every screen size.
+# `scrollUntilVisible` on iOS struggles to discover the world-map
+# inside a tall ScrollView with the inner-content-only
+# `.allowsHitTesting(false)`, so just scroll a fixed amount.
+- swipe:
+    from: { id: "home.scroll-view" }
+    direction: UP
+- swipe:
+    from: { id: "home.scroll-view" }
+    direction: UP
 - assertVisible: { id: "home.world-map" }
