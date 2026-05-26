@@ -362,6 +362,12 @@ async function main(): Promise<void> {
     TEST_CREDS.ios.free.email, TEST_CREDS.ios.premium.email,
     'e2e+locked@travelpilotapp.com',
     'e2e+reset@travelpilotapp.com',
+    // PROF-16 attempts login with this email on every run. The backend
+    // tracks failed-login counts by email even when the account does
+    // not exist, so the lockout ceiling trips after ~5 runs and the
+    // flow starts hitting the "account locked" dialog instead of the
+    // "invalid credentials" dialog it asserts. Pre-clear the lockout.
+    'e2e+deleted@travelpilotapp.com',
   ];
   for (const email of allEmails) {
     try {

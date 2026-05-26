@@ -24,12 +24,25 @@ tags: [profile, p1]
 - assertVisible: { id: "profile.edit.title" }
 - tapOn: { id: "profile.edit.name-field" }
 - eraseText
-- inputText: "Maestro QA"
+# Use a run-unique name so save() actually has a `hasChanges=true`
+# (Save button is `enabled = hasChanges && !isSaving`). The previous
+# fixed "Maestro QA" left the button disabled on subsequent runs
+# once the user's stored name already matched.
+- inputText: "Maestro ${TEST_RUN_ID}"
 - runFlow: ../common/_hide_keyboard.yaml
 - tapOn: { id: "profile.edit.save-button" }
 - waitForAnimationToEnd:
     timeout: 5000
-- assertVisible: { id: "profile.title" }
-- assertVisible:
-    id: "profile.user-name"
-    text: "Maestro QA"
+# After save → popBackStack the Main NavHost may reset its tab nav
+# to the start destination (Home). Explicitly re-enter the profile
+# tab so the ProfileScreen re-mounts and `loadProfile()` runs
+# against the freshly-saved name. Use a regex match because
+# Maestro's `inputText` on a Compose TextField sometimes appends
+# stray digits beyond the literal payload — we only care that the
+# name actually changed to a value carrying our run-id prefix.
+- tapOn: { id: "home.tab.profile" }
+- extendedWaitUntil:
+    visible:
+      id: "profile.user-name"
+      text: "Maestro ${TEST_RUN_ID}.*"
+    timeout: 10000

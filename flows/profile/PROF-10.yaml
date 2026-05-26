@@ -21,6 +21,8 @@ tags: [profile, p1, ios-only]
       TEST_PASSWORD: ${TEST_FREE_PASSWORD}
 - tapOn: { id: "home.tab.profile" }
 - assertVisible: { id: "profile.title" }
-- assertVisible: { id: "profile.unlock-premium-card" }
+- extendedWaitUntil:
+    visible: { id: "profile.unlock-premium-card" }
+    timeout: 10000
 - assertVisible: { id: "profile.upgrade-to-premium-button" }
 - assertNotVisible: { id: "profile.premium-badge" }

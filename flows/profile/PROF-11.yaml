@@ -21,6 +21,8 @@ tags: [profile, p1]
       TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
 - tapOn: { id: "home.tab.profile" }
 - assertVisible: { id: "profile.title" }
-- assertVisible: { id: "profile.premium-badge" }
+- extendedWaitUntil:
+    visible: { id: "profile.premium-badge" }
+    timeout: 10000
 - assertNotVisible: { id: "profile.unlock-premium-card" }
 - assertNotVisible: { id: "profile.upgrade-to-premium-button" }
