@@ -17,8 +17,13 @@ tags: [photos, p2]
 - runFlow:
     file: ../common/_login.yaml
     env:
-      TEST_EMAIL: ${TEST_FREE_EMAIL}
-      TEST_PASSWORD: ${TEST_FREE_PASSWORD}
+      # The platform free-user has a plan seeded for WZ-X-05 / ITV-10
+      # which populates `cities`, so `isEmpty` stays false and the
+      # gallery shows the upload-button id instead of the
+      # empty-state.add-button id. Use the un-seeded `e2e+freeuser@`
+      # so the gallery genuinely renders the empty state.
+      TEST_EMAIL: "e2e+freeuser@travelpilotapp.com"
+      TEST_PASSWORD: "E2eFreeUser!1"
 - tapOn: { id: "home.tab.profile" }
 - tapOn: { id: "profile.gallery-link" }
 - assertVisible: { id: "photos.empty-state" }

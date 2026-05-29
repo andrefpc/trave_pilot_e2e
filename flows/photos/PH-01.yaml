@@ -1,6 +1,6 @@
 appId: ${APP_ID}
 name: PH-01
-tags: [photos, p1, ios-only]
+tags: [photos, p1, ios-only, needs-implementation]
 ---
 # >>> dashboard-meta
 # PH-01 — Tapping Gallery shows a grid of milestone photos grouped per city
