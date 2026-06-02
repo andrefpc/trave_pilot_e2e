@@ -20,6 +20,12 @@ tags: [itinerary, p1]
       TEST_EMAIL: ${TEST_PREMIUM_EMAIL}
       TEST_PASSWORD: ${TEST_PREMIUM_PASSWORD}
 - tapOn: { id: "home.tab.travel-plans" }
+# On full-suite runs the plans tab can land before the list has
+# finished hydrating after login — `plans.plan-card.0` is briefly
+# absent. Wait for the first card before tapping.
+- extendedWaitUntil:
+    visible: { id: "plans.plan-card.0" }
+    timeout: 10000
 - tapOn: { id: "plans.plan-card.0" }
 - runFlow: ../common/_open_plan_itinerary.yaml
 - assertVisible: { id: "itinerary.scroll-view" }
