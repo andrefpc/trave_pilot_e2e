@@ -550,6 +550,43 @@ async function resetE2eState(): Promise<void> {
   }
 }
 
+/**
+ * Re-seed generated plans for every premium / free e2e user. Wipes
+ * existing plans first (server-side `prisma.travelPlan.deleteMany`)
+ * so wizard- / generation-section pollution doesn't leak forward
+ * into sections that expect a known plan list at fixed indices
+ * (`plans.plan-card.0/1`, `home.day-card.0`, etc).
+ *
+ * Premium users get rich + empty-day plans; free users get only the
+ * rich plan to match the WZ-X-05 / ITV-10 expectations from the
+ * one-shot orchestrator.
+ */
+async function seedGeneratedPlansForAll(): Promise<void> {
+  const token = process.env.TEST_RESET_TOKEN;
+  if (!token) return;
+  const headers = { 'X-Test-Reset-Token': token, 'Content-Type': 'application/json' };
+  const requests: { email: string; includeEmpty: boolean }[] = [
+    { email: TEST_CREDS.android.premium.email, includeEmpty: true },
+    { email: TEST_CREDS.ios.premium.email, includeEmpty: true },
+    { email: TEST_CREDS.android.free.email, includeEmpty: false },
+    { email: TEST_CREDS.ios.free.email, includeEmpty: false },
+  ];
+  for (const r of requests) {
+    try {
+      const res = await fetch(`${API_BASE_URL}/api/v1/test/seed-generated-plan`, {
+        method: 'POST',
+        headers,
+        body: JSON.stringify({ email: r.email, include_empty_day_plan: r.includeEmpty }),
+      });
+      if (!res.ok) {
+        console.warn(`! seed-generated-plan ${r.email} → ${res.status}`);
+      }
+    } catch (err) {
+      console.warn(`! seed-generated-plan ${r.email} threw: ${err instanceof Error ? err.message : String(err)}`);
+    }
+  }
+}
+
 async function unlockAccounts(token: string): Promise<void> {
   const allEmails = [
     TEST_CREDS.android.free.email, TEST_CREDS.android.premium.email,
@@ -628,10 +665,22 @@ async function main(): Promise<void> {
   const running = new Map<Platform, { passed: number; failed: number; blocked: number; pending: number; total: number }>();
   for (const t of targets) running.set(t.platform, { passed: 0, failed: 0, blocked: 0, pending: 0, total: 0 });
 
+  // Sections that depend on a known plan list (specific cards at
+  // fixed indices, premium plan attractions, etc). Re-seed before
+  // each of these so prior sections — especially wizard /
+  // generation, which create plans as a side effect — can't shift
+  // `plans.plan-card.N` out from under the assertions.
+  const SECTIONS_REQUIRING_PLAN_RESEED = new Set([
+    'home', 'plans', 'itinerary', 'tickets', 'profile',
+  ]);
+
   let sectionIdx = 0;
   for (const section of sections) {
     sectionIdx += 1;
     console.log(`\n=== section ${sectionIdx}/${sections.length}: ${section} ===`);
+    if (SECTIONS_REQUIRING_PLAN_RESEED.has(section)) {
+      await seedGeneratedPlansForAll();
+    }
     const outcomes = await Promise.all(targets.map((t) => runMaestroSection(t, section, shareToken)));
 
     // Post per-platform results sequentially (single shared admin token).

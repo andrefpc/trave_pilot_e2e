@@ -17,8 +17,13 @@ tags: [tickets, p2]
 - runFlow:
     file: ../common/_login.yaml
     env:
-      TEST_EMAIL: ${TEST_FREE_EMAIL}
-      TEST_PASSWORD: ${TEST_FREE_PASSWORD}
+      # The platform free-user has a seeded plan whose attractions
+      # are tagged `requires_ticket=true`, so the tickets tab shows
+      # those place cards instead of the empty state. Use the
+      # un-seeded `e2e+freeuser@` so the empty state genuinely
+      # renders.
+      TEST_EMAIL: "e2e+freeuser@travelpilotapp.com"
+      TEST_PASSWORD: "E2eFreeUser!1"
 - tapOn: { id: "home.tab.tickets" }
 - assertVisible: { id: "tickets.empty-state" }
 - assertVisible: { id: "tickets.empty-state.title" }
