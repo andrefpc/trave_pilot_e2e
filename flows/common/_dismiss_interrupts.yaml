@@ -21,6 +21,18 @@ tags: [helper]
     when:
       platform: iOS
     commands:
+      # iOS deep-link confirmation: when a flow uses `openLink:` (e.g.
+      # universal links, share links, custom URL schemes), iOS shows an
+      # "Open in 'Travel Pilot'?" system dialog with Cancel / Open
+      # buttons. Tapping Open dismisses it and routes the deep link into
+      # the app; if left up it covers Welcome and every assertion at the
+      # top of the next flow trips.
+      - runFlow:
+          when:
+            visible: "Open in"
+          commands:
+            - tapOn: "Open"
+
       # iOS Save Password sheet ("Not Now" / "Don't Save") + Strong Password
       # suggestion ("Choose My Own Password"). Both fire on SecureField
       # focus or after a login/signup submit. If the prior flow left them

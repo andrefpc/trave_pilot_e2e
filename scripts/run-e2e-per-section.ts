@@ -587,6 +587,39 @@ async function seedGeneratedPlansForAll(): Promise<void> {
   }
 }
 
+/**
+ * Kill any leftover Maestro xcuitest / WebDriverAgent processes on the
+ * iOS simulator (and any host-side `maestro` java process bound to
+ * its xcuitest port 7001) before the next iOS section starts. Maestro
+ * 2.5.1's iOS driver occasionally wedges mid-section — every
+ * subsequent flow then fails in ~2s with
+ * `Failed to connect to /127.0.0.1:7001`. Recycling between sections
+ * keeps that wedge from poisoning the rest of the run.
+ *
+ * Best-effort + idempotent: each `killall` is silenced and runs even
+ * if the target process is absent. Adds ~1s per iOS section.
+ */
+function recycleIosMaestroDriver(udid: string): void {
+  const killOnSim = (proc: string) => {
+    spawnSync('xcrun', ['simctl', 'spawn', udid, 'killall', '-9', proc], {
+      stdio: ['ignore', 'ignore', 'ignore'],
+    });
+  };
+  const killOnHost = (pattern: string) => {
+    spawnSync('pkill', ['-9', '-f', pattern], {
+      stdio: ['ignore', 'ignore', 'ignore'],
+    });
+  };
+  killOnSim('XCTRunner');
+  killOnSim('maestro-driver-iosUITests-Runner');
+  killOnSim('WebDriverAgentRunner-Runner');
+  killOnSim('com.apple.test.maestro-driver-iosUITests-Runner');
+  killOnHost('maestro-driver-ios');
+  killOnHost('xcodebuild.*maestro');
+  // Brief settle so the next maestro test command sees a clean slate.
+  spawnSync('sleep', ['1'], { stdio: 'ignore' });
+}
+
 async function unlockAccounts(token: string): Promise<void> {
   const allEmails = [
     TEST_CREDS.android.free.email, TEST_CREDS.android.premium.email,
@@ -680,6 +713,12 @@ async function main(): Promise<void> {
     console.log(`\n=== section ${sectionIdx}/${sections.length}: ${section} ===`);
     if (SECTIONS_REQUIRING_PLAN_RESEED.has(section)) {
       await seedGeneratedPlansForAll();
+    }
+    // Recycle iOS Maestro / xcuitest driver between sections so a
+    // mid-section driver wedge doesn't cascade through everything
+    // after it. No-op on Android targets.
+    for (const t of targets) {
+      if (t.platform === 'ios') recycleIosMaestroDriver(t.device);
     }
     const outcomes = await Promise.all(targets.map((t) => runMaestroSection(t, section, shareToken)));
 
